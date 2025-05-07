@@ -22,7 +22,7 @@ const HeroContent: React.FC<HeroContentProps> = ({ isLoaded }) => {
       {/* Main heading */}
       <h1 className="font-heebo text-4xl md:text-5xl lg:text-6xl mb-4 leading-tight text-offwhite">
         עיצוב שיער מדויק <br className="hidden md:block" />
-        <span className="text-gold">לג'נטלמן המודרני</span>
+        <span className="text-gold">לג&apos;נטלמן המודרני</span>
       </h1>
       
       {/* Subheading */}

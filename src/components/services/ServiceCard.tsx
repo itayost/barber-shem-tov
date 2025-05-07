@@ -7,7 +7,7 @@ type ServiceCardProps = {
 };
 
 const ServiceCard = ({ service, showDetails = false }: ServiceCardProps) => {
-  const { id, name, name_he, description, description_he, price, duration, duration_he, category, featured } = service;
+  const {name_he, description_he, price, duration_he, category, featured } = service;
   
   // Smart text truncation that doesn't cut words in the middle
   const truncateText = (text: string, maxLength: number) => {

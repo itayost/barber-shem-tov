@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { businessInfo } from '@/lib/data';
 import Button from '../common/Button';
 

@@ -24,7 +24,7 @@ export default function ServicesPage() {
         <div className="container mx-auto px-6 text-center">
           <h1 className="font-heebo text-h2 md:text-h1 mb-6">השירותים שלנו</h1>
           <p className="max-w-2xl mx-auto text-lightgrey mb-10">
-            תפריט השירותים שלנו מעוצב סביב הצרכים של הג'נטלמן המודרני. כל טיפול משלב
+            תפריט השירותים שלנו מעוצב סביב הצרכים של הג&apos;נטלמן המודרני. כל טיפול משלב
             טכניקות מסורתיות עם סגנון עכשווי. תיהנו ממשקה חינם עם כל
             שירות בזמן שאתם מתרגעים במרחב המעוצב שלנו.
           </p>

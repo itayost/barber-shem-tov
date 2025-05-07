@@ -1,7 +1,6 @@
 // components/gallery/GalleryGrid.tsx
 import React from 'react';
 import GalleryItem from './GalleryItem';
-import Button from '@/components/common/Button';
 
 interface GalleryImage {
   id: string;

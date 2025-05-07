@@ -280,6 +280,7 @@ const BookingForm: React.FC<BookingFormProps> = ({
       </button>
     )
   );
+  CustomDateInput.displayName = 'CustomDateInput';
 
   // Custom time picker input component for styling
   const CustomTimeInput = React.forwardRef<HTMLInputElement, { value?: string; onClick?: () => void }>(
@@ -295,6 +296,7 @@ const BookingForm: React.FC<BookingFormProps> = ({
       </button>
     )
   );
+  CustomTimeInput.displayName = 'CustomTimeInput';
 
   if (isSubmitted) {
     return (

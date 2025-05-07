@@ -15,11 +15,13 @@ export const metadata = {
   title: 'The Fader | ספר מודרני ויוקרתי בטירת הכרמל',
   description: 'חווית הספרות המובילה של הצפון, שבה אומנות מסורתית פוגשת סגנון עכשווי. הזמינו תור עוד היום.',
   metadataBase: new URL('https://barber-shem-tov.vercel.app'),
+  
+  // Enhanced Open Graph metadata
   openGraph: {
     title: 'The Fader | ספר מודרני ויוקרתי בטירת הכרמל',
     description: 'חווית הספרות המובילה של הצפון, שבה אומנות מסורתית פוגשת סגנון עכשווי.',
     url: 'https://barber-shem-tov.vercel.app',
-    siteName: 'The Fader',
+    siteName: 'The Fader Barbershop',
     locale: 'he_IL',
     type: 'website',
     images: [
@@ -31,26 +33,72 @@ export const metadata = {
       },
     ],
   },
+  
+  // Enhanced Twitter Card metadata
   twitter: {
     card: 'summary_large_image',
     title: 'The Fader | ספר מודרני ויוקרתי בטירת הכרמל',
     description: 'חווית הספרות המובילה של הצפון. הזמינו תור עוד היום.',
     images: ['/images/hero-barbershop.jpg'],
+    creator: '@TheFaderBarber', // Add your Twitter handle if available
+    site: '@TheFaderBarber',    // Add your Twitter handle if available
   },
+  
+  // Enhanced robots metadata
   robots: {
     index: true,
     follow: true,
+    nocache: false,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+      'max-video-preview': -1,
+    },
   },
+  
+  // Alternate and canonical URLs
   alternates: {
     canonical: 'https://barber-shem-tov.vercel.app',
+    languages: {
+      'he-IL': 'https://barber-shem-tov.vercel.app',
+      // Add additional language URLs if you have them
+    },
   },
+  
+  // App icons
   icons: {
     icon: '/favicon.ico',
     apple: '/apple-icon.png',
     shortcut: '/shortcut-icon.png'
   },
+  
+  // Web app manifest
   manifest: '/site.webmanifest',
-  themeColor: '#212121',
+  
+  // Theme color
+  themeColor: '#1A1A1A', // Using your deep charcoal color from the style guide
+  
+  // Additional verification (uncomment and fill in if you have these)
+  // verification: {
+  //   google: 'your-google-verification-id',
+  //   yandex: 'your-yandex-verification-id',
+  // },
+  
+  // App info (if applicable)
+  // appleWebApp: {
+  //   title: 'The Fader Barbershop',
+  //   statusBarStyle: 'black-translucent',
+  //   capable: true,
+  // },
+  
+  // Format detection (disable automatic phone/email detection if you prefer)
+  formatDetection: {
+    telephone: true,
+    email: true,
+    address: true,
+  },
 }
 
 export default function RootLayout({

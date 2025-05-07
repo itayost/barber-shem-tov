@@ -1,16 +1,7 @@
-import { Metadata } from 'next';
+import { generateMetadata } from '@/utils/openGraphUtils';
 
-export const metadata: Metadata = {
-  title: 'גלריה | The Fader מספרה בטירת הכרמל',
-  description: 'צפו בחלל המספרה המעוצב שלנו, חוויות הלקוחות, ועבודות הספרים שלנו',
-  openGraph: {
-    title: 'גלריה | The Fader מספרה בטירת הכרמל',
-    description: 'צפו בחלל המספרה המעוצב שלנו, חוויות הלקוחות, ועבודות הספרים שלנו',
-    images: [{
-      url: '/images/gallery/work/מקצועיות.jpg',
-      width: 1200,
-      height: 630,
-      alt: 'עבודות מספרת The Fader',
-    }],
-  }
-};
+export const metadata = generateMetadata(
+  'gallery',
+  'גלריה | The Fader מספרה בטירת הכרמל',
+  'צפו בחלל המספרה המעוצב שלנו, חוויות הלקוחות, ועבודות הספרים שלנו'
+);

@@ -6,7 +6,6 @@ export interface BusinessHours {
 
 export interface BusinessSocial {
   instagram: string;
-  facebook: string;
   tiktok: string;
 }
 
@@ -16,7 +15,9 @@ export interface BusinessInfo {
   phone: string;
   email?: string;
   hours: BusinessHours[];
-  social?: BusinessSocial;
+  social: BusinessSocial;
+  isClosedDay: (dayNumber: number) => boolean;
+  getHoursForDay: (dayNumber: number) => { isOpen: boolean, open: string, close: string };
 }
 
 export interface Service {

@@ -4,17 +4,17 @@ import { Metadata } from 'next';
 export function getPageOgImage(pageName: string): string {
   switch(pageName) {
     case 'home':
-      return '/images/hero-barbershop.jpg';
+      return '/images/og/home-og.jpg';
     case 'services':
-      return '/images/gallery/work/מקצועיות.jpg';
+      return '/images/og/services-og.jpg';
     case 'about':
-      return '/images/team/bar.jpg';
+      return '/images/og/about-og.jpg';
     case 'gallery':
-      return '/images/gallery/work/מקצועיות.jpg';
+      return '/images/og/gallery-og.jpg';
     case 'contact':
-      return '/images/barbershop-interior.jpg';
+      return '/images/og/contact-og.jpg';
     default:
-      return '/images/hero-barbershop.jpg';
+      return '/images/og/home-og.jpg';
   }
 }
 

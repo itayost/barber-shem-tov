@@ -9,6 +9,14 @@ import ContactPageHeader from '@/components/contact/ContactPageHeader';
 import ContactInfo from '@/components/contact/ContactInfo';
 import BookingForm from '@/components/contact/BookingForm';
 
+export const metadata = {
+  title: 'צור קשר | The Fader מספרה בטירת הכרמל',
+  description: 'צרו קשר למידע נוסף או להזמנת תור במספרה המודרנית שלנו. מיקום, שעות פעילות וטופס יצירת קשר.',
+  openGraph: {
+    images: ['/images/barbershop-interior.jpg'],
+  }
+};
+
 // Client component that uses useSearchParams
 function ContactPageContent() {
   const searchParams = useSearchParams();

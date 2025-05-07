@@ -5,6 +5,14 @@ import { services } from '@/lib/data';
 import ServiceCard from '@/components/services/ServiceCard';
 import Button from '@/components/common/Button';
 
+export const metadata = {
+  title: 'שירותים | The Fader מספרה בטירת הכרמל',
+  description: 'מגוון שירותי עיצוב שיער, טיפוח זקן, תספורות ילדים וטיפולי יופי לגברים במספרה המודרנית שלנו.',
+  openGraph: {
+    images: ['/images/gallery/work/מקצועיות.jpg'],
+  }
+};
+
 export default function ServicesPage() {
   // State for category filter
   const [activeCategory, setActiveCategory] = useState<string | null>(null);

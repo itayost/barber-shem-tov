@@ -8,7 +8,7 @@ interface GalleryPageHeaderProps {
 
 const GalleryPageHeader: React.FC<GalleryPageHeaderProps> = ({
   title = 'גלריה',
-  description = 'הציצו למרחב המעוצב שלנו בשדרות רוטשילד. יצרנו סביבה שבה אלמנטים מסורתיים של מספרה פוגשים עיצוב מודרני, המספקים גם נוחות וגם תחכום במהלך הביקור שלכם.'
+  description = 'הציצו למרחב המעוצב שלנו. יצרנו סביבה שבה אלמנטים מסורתיים של מספרה פוגשים עיצוב מודרני, המספקים גם נוחות וגם תחכום במהלך הביקור שלכם.'
 }) => {
   return (
     <section className="pt-32 pb-16 bg-charcoal">

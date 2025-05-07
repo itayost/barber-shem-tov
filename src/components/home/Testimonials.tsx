@@ -64,7 +64,7 @@ const Testimonials = () => {
       <div className="container mx-auto px-6 text-center relative z-10">
         <h2 className="font-playfair text-h3 md:text-h2 mb-6">חוויות לקוחות</h2>
         <p className="text-lightgrey max-w-xl mx-auto mb-16">
-          מה הלקוחות שלנו אומרים על החוויה במספרה ברוטשילד
+          מה הלקוחות שלנו אומרים על החוויה במספרה שלנו
         </p>
         
         <div className="max-w-3xl mx-auto relative">

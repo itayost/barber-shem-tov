@@ -1,5 +1,4 @@
 // app/gallery/page.tsx
-import { Metadata } from 'next';
 import fs from 'fs';
 import path from 'path';
 import GalleryClientWrapper from '@/components/gallery/GalleryClientWrapper';

@@ -19,7 +19,7 @@ const Testimonials = () => {
   }, [isAnimating]);
 
   // Navigation functions
-  const goToSlide = useCallback((index) => {
+  const goToSlide = useCallback((index: number) => {
     setIsAnimating(true);
     setCurrentIndex(index);
     setTimeout(() => setIsAnimating(false), 500); // Match duration with CSS transition
@@ -36,7 +36,7 @@ const Testimonials = () => {
   }, [currentIndex, goToSlide]);
 
   // Render stars based on rating
-  const renderStars = (rating) => {
+  const renderStars = (rating: number) => {
     const stars = [];
     for (let i = 1; i <= 5; i++) {
       stars.push(

@@ -44,6 +44,13 @@ export const metadata = {
   alternates: {
     canonical: 'https://barber-shem-tov.vercel.app',
   },
+  icons: {
+    icon: '/favicon.ico',
+    apple: '/apple-icon.png',
+    shortcut: '/shortcut-icon.png'
+  },
+  manifest: '/site.webmanifest',
+  themeColor: '#212121',
 }
 
 export default function RootLayout({

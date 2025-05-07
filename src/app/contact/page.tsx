@@ -1,7 +1,7 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { businessInfo, services } from '@/lib/data';
 
 // Import components
@@ -9,7 +9,8 @@ import ContactPageHeader from '@/components/contact/ContactPageHeader';
 import ContactInfo from '@/components/contact/ContactInfo';
 import BookingForm from '@/components/contact/BookingForm';
 
-export default function ContactPage() {
+// Client component that uses useSearchParams
+function ContactPageContent() {
   const searchParams = useSearchParams();
   const [initialService, setInitialService] = useState<string>('');
 
@@ -40,5 +41,17 @@ export default function ContactPage() {
         </div>
       </section>
     </>
+  );
+}
+
+export default function ContactPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-pulse text-gold">טוען...</div>
+      </div>
+    }>
+      <ContactPageContent />
+    </Suspense>
   );
 }

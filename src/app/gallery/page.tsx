@@ -6,15 +6,6 @@ import GalleryClientWrapper from '@/components/gallery/GalleryClientWrapper';
 import { galleryCategories } from '@/lib/data';
 import { GalleryImage } from '@/utils/galleryTypes';
 
-export const metadata: Metadata = {
-  title: 'גלריה | The Fader מספרה בטירת הכרמל',
-  description: 'צפו בחלל המספרה המעוצב שלנו, חוויות הלקוחות, ועבודות הספרים שלנו',
-  openGraph: {
-    title: 'גלריה | The Fader מספרה בטירת הכרמל',
-    description: 'צפו בחלל המספרה המעוצב שלנו, חוויות הלקוחות, ועבודות הספרים שלנו',
-    images: ['/images/gallery/work/מקצועיות.jpg'],
-  }
-};
 
 // Function to get image title from filename
 function getImageTitle(filename: string): string {

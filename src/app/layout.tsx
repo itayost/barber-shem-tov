@@ -13,7 +13,7 @@ const heebo = Heebo({
 
 export const metadata = {
   title: 'The Fader | ספר מודרני ויוקרתי בטירת הכרמל',
-  description: 'חווית הספרות המובילה של בצפון, שבה אומנות מסורתית פוגשת סגנון עכשווי. הזמינו תור עוד היום.',
+  description: 'חווית הספרות המובילה של הצפון, שבה אומנות מסורתית פוגשת סגנון עכשווי. הזמינו תור עוד היום.',
 }
 
 export default function RootLayout({

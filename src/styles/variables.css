@@ -1,0 +1,19 @@
+/* CSS Variables for Hebrew-only site */
+:root {
+  /* Colors */
+  --color-charcoal: #1A1A1A;
+  --color-brown: #704214;
+  --color-gold: #C9A66B;
+  --color-offwhite: #F5F5F5;
+  --color-lightgrey: #E0E0E0;
+  --color-burgundy: #5C0511;
+  
+  /* Hebrew typography */
+  --font-main: var(--font-heebo);
+  --hebrew-heading-spacing: -0.02em;
+  --hebrew-body-spacing: -0.01em;
+  
+  /* Spacing */
+  --space-section: 5rem;
+  --space-section-mobile: 3rem;
+}

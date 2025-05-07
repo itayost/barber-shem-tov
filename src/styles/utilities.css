@@ -1,0 +1,176 @@
+/* Utility classes that extend Tailwind functionality */
+
+/* Text styles */
+.text-gold-gradient {
+  background: linear-gradient(to right, var(--color-gold), #E3C897);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.text-shadow-sm {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.text-shadow-md {
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.text-shadow-lg {
+  text-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Overlay styles */
+.overlay-dark {
+  position: relative;
+}
+
+.overlay-dark::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+.overlay-dark > * {
+  position: relative;
+  z-index: 2;
+}
+
+.overlay-gradient {
+  position: relative;
+}
+
+.overlay-gradient::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent, rgba(26, 26, 26, 0.8));
+  z-index: 1;
+}
+
+.overlay-gradient > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* Container styles */
+.container-narrow {
+  max-width: 960px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+/* Section styles */
+.section-spacing {
+  padding-top: var(--space-section, 5rem);
+  padding-bottom: var(--space-section, 5rem);
+}
+
+@media (max-width: 768px) {
+  .section-spacing {
+    padding-top: calc(var(--space-section, 5rem) * 0.6);
+    padding-bottom: calc(var(--space-section, 5rem) * 0.6);
+  }
+}
+
+.section-divider {
+  position: relative;
+  padding-bottom: 3rem;
+}
+
+.section-divider::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 1px;
+  background-color: var(--color-gold, #C9A66B);
+  opacity: 0.6;
+}
+
+/* Grid utilities */
+.grid-auto-fit {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+/* Aspect ratio utilities */
+.aspect-portrait {
+  aspect-ratio: 3/4;
+}
+
+.aspect-square {
+  aspect-ratio: 1/1;
+}
+
+.aspect-video {
+  aspect-ratio: 16/9;
+}
+
+/* Enhanced focus styles */
+.focus-visible {
+  outline: 2px solid var(--color-gold, #C9A66B);
+  outline-offset: 2px;
+}
+
+/* Visual decorators */
+.gold-line {
+  position: relative;
+}
+
+.gold-line::before {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 40px;
+  height: 2px;
+  background-color: var(--color-gold, #C9A66B);
+}
+
+.gold-line--centered::before {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Flex utilities */
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Scroll utilities */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Visually hidden (accessibility) */
+.visually-hidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}

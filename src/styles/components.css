@@ -1,0 +1,151 @@
+/* Component-specific styles that extend Tailwind */
+
+/* Cards */
+.luxury-card {
+  @apply bg-charcoal border border-lightgrey border-opacity-10 p-6 transition-all duration-300;
+}
+
+.luxury-card:hover {
+  @apply border-gold border-opacity-30;
+}
+
+.luxury-card__title {
+  @apply font-playfair text-h4 mb-3 transition-colors duration-200;
+}
+
+.luxury-card:hover .luxury-card__title {
+  @apply text-gold;
+}
+
+.luxury-card__content {
+  @apply text-lightgrey mb-6;
+}
+
+.luxury-card__footer {
+  @apply pt-4 border-t border-lightgrey border-opacity-20 flex items-center justify-between;
+}
+
+/* Buttons */
+.btn {
+  @apply inline-block font-medium transition-all duration-200 text-center;
+}
+
+.btn-primary {
+  @apply bg-gold text-charcoal hover:bg-opacity-90 py-3 px-6;
+}
+
+.btn-secondary {
+  @apply bg-transparent text-gold border border-gold hover:bg-gold hover:bg-opacity-10 py-3 px-6;
+}
+
+.btn-tertiary {
+  @apply bg-transparent text-gold hover:underline py-2 px-0;
+}
+
+/* Form elements */
+.form-label {
+  @apply block mb-2 text-lightgrey;
+}
+
+.form-input {
+  @apply w-full px-4 py-3 bg-transparent border border-lightgrey border-opacity-30 focus:border-gold focus:outline-none transition-colors duration-200;
+}
+
+.form-input.error {
+  @apply border-burgundy;
+}
+
+.form-error {
+  @apply mt-1 text-burgundy text-small;
+}
+
+/* Section titles */
+.section-title {
+  @apply font-playfair text-h3 md:text-h2 mb-6;
+}
+
+.section-title--centered {
+  @apply text-center;
+}
+
+.section-title--gold {
+  @apply text-gold;
+}
+
+/* Page headers */
+.page-header {
+  @apply pt-32 pb-16 bg-charcoal;
+}
+
+.page-header__title {
+  @apply font-playfair text-h2 md:text-h1 mb-6;
+}
+
+.page-header__subtitle {
+  @apply max-w-2xl mx-auto text-lightgrey;
+}
+
+/* Navigation styles */
+.nav-link {
+  @apply text-offwhite hover:text-gold transition-colors duration-200 relative;
+}
+
+.nav-link::after {
+  @apply absolute bottom-0 left-0 w-0 h-0.5 bg-gold transition-all duration-300;
+  content: '';
+}
+
+.nav-link:hover::after {
+  @apply w-full;
+}
+
+.nav-link.active::after {
+  @apply w-full;
+}
+
+/* Testimonial styles */
+.testimonial-card {
+  @apply min-w-full px-6;
+}
+
+.testimonial-card__quote {
+  @apply text-lg md:text-xl mb-6 text-offwhite;
+}
+
+.testimonial-card__author {
+  @apply font-medium mb-3;
+}
+
+/* Gallery item */
+.gallery-item {
+  @apply aspect-[4/3] bg-brown bg-opacity-20 relative group cursor-pointer;
+}
+
+.gallery-item__overlay {
+  @apply absolute inset-0 bg-charcoal bg-opacity-0 group-hover:bg-opacity-70 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100;
+}
+
+.gallery-item__title {
+  @apply text-offwhite font-playfair text-h4;
+}
+
+/* Team member card */
+.team-card {
+  @apply bg-charcoal border border-lightgrey border-opacity-10 p-6;
+}
+
+.team-card__image {
+  @apply aspect-[4/5] bg-brown bg-opacity-20 mb-6;
+}
+
+.team-card__name {
+  @apply font-playfair text-h4 mb-2;
+}
+
+.team-card__title {
+  @apply text-gold mb-4;
+}
+
+.team-card__bio {
+  @apply text-lightgrey mb-6;
+}

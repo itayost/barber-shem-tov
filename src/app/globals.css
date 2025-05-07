@@ -1,26 +1,317 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --color-charcoal: #1A1A1A;
+  --color-brown: #704214;
+  --color-gold: #C9A66B;
+  --color-offwhite: #F5F5F5;
+  --color-lightgrey: #E0E0E0;
+  --color-burgundy: #5C0511;
+  
+  /* Hebrew typography settings */
+  --hebrew-line-height: 1.5;
+  --hebrew-letter-spacing: -0.01em;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* Base styles with Hebrew optimizations */
+body {
+  color: var(--color-offwhite);
+  background-color: var(--color-charcoal);
+  font-family: var(--font-heebo);
+  line-height: var(--hebrew-line-height);
+  letter-spacing: var(--hebrew-letter-spacing);
+  text-align: right;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heebo);
+  line-height: 1.2;
+}
+
+/* RTL-specific styles */
+input,
+textarea,
+select {
+  text-align: right;
+}
+
+/* Custom icon flipping for RTL layout */
+.icon-flip {
+  transform: scaleX(-1);
+}
+
+/* For standard tags inside your components */
+ul, ol {
+  padding-right: 1.5rem;
+  padding-left: 0;
+}
+
+/* Improve Hebrew numbers display */
+.hebrew-nums {
+  font-feature-settings: "tnum" 1;
+}
+
+/* Text direction for specific needs */
+.force-ltr {
+  direction: ltr;
+  unicode-bidi: bidi-override;
+}
+
+/* Word spacing for better Hebrew readability */
+p, li, span, div {
+  word-spacing: 0.05em;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Tailwind component classes */
+@layer components {
+  .btn-primary {
+    @apply bg-gold text-charcoal py-3 px-6 inline-block font-medium transition-all duration-200 hover:bg-opacity-90;
+  }
+  
+  .btn-secondary {
+    @apply bg-transparent text-gold border border-gold py-3 px-6 inline-block font-medium transition-all duration-200 hover:bg-gold hover:bg-opacity-10;
+  }
+  
+  .btn-tertiary {
+    @apply bg-transparent text-gold py-2 px-0 inline-block font-medium transition-all duration-200 hover:underline;
+  }
+  
+  .section-title {
+    @apply font-heebo text-h3 md:text-h2 mb-6;
+  }
+  
+  .page-header {
+    @apply pt-32 pb-16;
+  }
+  
+  .container-custom {
+    @apply container mx-auto px-6;
+  }
+  
+  .luxury-card {
+    @apply bg-charcoal border border-lightgrey border-opacity-10 p-6 transition-all duration-300 hover:border-gold hover:border-opacity-30;
+  }
+  
+  .form-input {
+    @apply w-full px-4 py-3 bg-transparent border border-lightgrey border-opacity-30 focus:border-gold focus:outline-none transition-colors duration-200;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* DatePicker Custom Styling for Modern Luxury Barbershop */
+.rtl-datepicker {
+  direction: rtl;
+  font-family: var(--font-heebo);
+  background-color: var(--color-charcoal) !important;
+  border: 1px solid var(--color-gold) !important;
+  border-radius: 0 !important; /* Square corners for modern look */
+  color: var(--color-offwhite) !important;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5) !important;
+  padding: 12px !important;
+}
+
+/* Calendar container */
+.rtl-datepicker .react-datepicker__month-container {
+  float: right;
+  background-color: var(--color-charcoal);
+}
+
+/* Header styling */
+.rtl-datepicker .react-datepicker__header {
+  background-color: var(--color-charcoal) !important;
+  border-bottom: 1px solid var(--color-gold) !important;
+  border-bottom-opacity: 0.3;
+  padding-top: 12px;
+  padding-bottom: 8px;
+}
+
+/* Day names in header */
+.rtl-datepicker .react-datepicker__day-name {
+  color: var(--color-gold) !important;
+  font-weight: 500;
+  margin: 0.4rem;
+  width: 1.9rem;
+  line-height: 1.9rem;
+}
+
+/* Normal days */
+.rtl-datepicker .react-datepicker__day {
+  color: var(--color-offwhite) !important;
+  margin: 0.4rem;
+  width: 1.9rem;
+  line-height: 1.9rem;
+  border-radius: 0 !important; /* Square corners for modern look */
+  transition: all 0.2s ease;
+}
+
+/* Month text */
+.rtl-datepicker .react-datepicker__current-month {
+  color: var(--color-gold) !important;
+  font-weight: 500;
+  font-size: 1rem;
+  margin-bottom: 5px;
+}
+
+/* Selected date */
+.rtl-datepicker .react-datepicker__day--selected {
+  background-color: var(--color-gold) !important;
+  color: var(--color-charcoal) !important;
+  font-weight: bold;
+}
+
+/* Disabled days (past dates and closed days) */
+.rtl-datepicker .react-datepicker__day--disabled {
+  color: var(--color-lightgrey) !important;
+  opacity: 0.3;
+}
+
+/* Hover effect on days */
+.rtl-datepicker .react-datepicker__day:hover {
+  background-color: var(--color-brown) !important;
+  color: var(--color-offwhite) !important;
+  opacity: 0.8;
+}
+
+/* Today's date */
+.rtl-datepicker .react-datepicker__day--today {
+  border: 1px solid var(--color-gold) !important;
+  color: var(--color-gold) !important;
+}
+
+/* Navigation arrows */
+.rtl-datepicker .react-datepicker__navigation {
+  top: 12px;
+}
+
+.rtl-datepicker .react-datepicker__navigation--previous {
+  right: 10px;
+  left: auto;
+  border-right-color: var(--color-gold) !important;
+}
+
+.rtl-datepicker .react-datepicker__navigation--next {
+  left: 10px;
+  right: auto;
+  border-left-color: var(--color-gold) !important;
+}
+
+/* Hide the default triangle pointer */
+.rtl-datepicker .react-datepicker__triangle {
+  display: none;
+}
+
+/* Time container styling */
+.rtl-datepicker .react-datepicker__time-container {
+  border-left: 1px solid var(--color-gold) !important;
+  border-left-opacity: 0.3;
+  width: 100px !important;
+}
+
+/* Time header */
+.rtl-datepicker .react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list {
+  background-color: var(--color-charcoal) !important;
+  color: var(--color-offwhite) !important;
+}
+
+/* Time only picker */
+.rtl-datepicker.time-only .react-datepicker__time-container {
+  border-right: 0;
+  width: 120px !important;
+}
+
+/* Time header */
+.rtl-datepicker .react-datepicker-time__header {
+  color: var(--color-gold) !important;
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+/* Time slots */
+.rtl-datepicker .react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list li.react-datepicker__time-list-item {
+  color: var(--color-offwhite) !important;
+  height: auto !important;
+  padding: 8px 10px !important;
+  border-radius: 0 !important;
+  transition: all 0.2s ease;
+}
+
+/* Selected time slot */
+.rtl-datepicker .react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list li.react-datepicker__time-list-item--selected {
+  background-color: var(--color-gold) !important;
+  color: var(--color-charcoal) !important;
+  font-weight: bold;
+}
+
+/* Disabled time slots */
+.rtl-datepicker .react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list li.react-datepicker__time-list-item--disabled {
+  color: var(--color-lightgrey) !important;
+  opacity: 0.3;
+}
+
+/* Hover effect on time slots */
+.rtl-datepicker .react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list li.react-datepicker__time-list-item:hover {
+  background-color: var(--color-brown) !important;
+  color: var(--color-offwhite) !important;
+  opacity: 0.8;
+}
+
+/* Time list scrollbar */
+.rtl-datepicker .react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.rtl-datepicker .react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list::-webkit-scrollbar-track {
+  background: var(--color-charcoal);
+}
+
+.rtl-datepicker .react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list::-webkit-scrollbar-thumb {
+  background-color: var(--color-gold);
+  border-radius: 3px;
+}
+
+/* Custom input buttons styling */
+.date-picker-button,
+.time-picker-button {
+  width: 100%;
+  padding: 12px 16px;
+  background-color: transparent;
+  border: 1px solid var(--color-lightgrey);
+  border-opacity: 0.3;
+  color: var(--color-offwhite);
+  text-align: right;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.date-picker-button:hover,
+.time-picker-button:hover {
+  border-color: var(--color-gold);
+}
+
+.date-picker-button:focus,
+.time-picker-button:focus {
+  outline: none;
+  border-color: var(--color-gold);
+}
+
+.date-picker-button.error,
+.time-picker-button.error {
+  border-color: var(--color-burgundy);
+}
+
+.date-picker-button:disabled,
+.time-picker-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Fix datepicker popper positioning */
+.datepicker-popper {
+  z-index: 9999 !important;
 }

@@ -1,6 +1,6 @@
 // File: src/components/home/AcademyPromoSection.tsx
 import React from 'react';
-import { motion } from 'framer-motion';
+// Removed unused motion import
 import Button from '../common/Button';
 import { academyTestimonials } from '@/lib/data';
 
@@ -85,7 +85,7 @@ const AcademyPromoSection = () => {
                       </svg>
                     ))}
                   </div>
-                  <p className="text-lightgrey italic mb-4">"{testimonial.text}"</p>
+                  <p className="text-lightgrey italic mb-4">&ldquo;{testimonial.text}&rdquo;</p>
                   <p className="text-gold font-medium mb-1">{testimonial.name}</p>
                   <p className="text-sm text-lightgrey">{testimonial.course}</p>
                 </div>

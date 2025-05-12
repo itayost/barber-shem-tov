@@ -9,6 +9,7 @@ export type Service = {
   duration_he: string;
   category: 'haircut' | 'shave' | 'beard' | 'package' | 'special' | 'color' | 'academy';
   featured?: boolean;
+  instructor?: string; // Added instructor field for academy courses
 };
 
 export const services: Service[] = [
@@ -47,6 +48,7 @@ export const services: Service[] = [
     duration_he: '4 שבועות',
     category: 'academy',
     featured: true,
+    instructor: 'bar', // Bar is the instructor for this course
   },
   {
     id: 'advanced-styling-masterclass',
@@ -59,6 +61,7 @@ export const services: Service[] = [
     duration_he: 'יומיים',
     category: 'academy',
     featured: true,
+    instructor: 'bar', // Bar is the instructor for this course
   },
   {
     id: 'mens-haircut',
@@ -82,6 +85,7 @@ export const services: Service[] = [
     duration: '1 day',
     duration_he: 'יום אחד',
     category: 'academy',
+    instructor: 'itzik', // Itzik is the instructor for this course
   },
   {
     id: 'business-of-barbering',
@@ -93,6 +97,7 @@ export const services: Service[] = [
     duration: '2 weeks',
     duration_he: 'שבועיים',
     category: 'academy',
+    instructor: 'bar', // Bar is the instructor for this course
   },
   {
     id: 'chalakah',
@@ -153,6 +158,7 @@ export const academyTestimonials = [
     text: 'אחרי שבועיים בקורס המתקדם, שיפרתי משמעותית את הטכניקות שלי. המדריכים מקצועיים וסבלניים, והאווירה באקדמיה מעודדת יצירתיות וחדשנות.',
     rating: 5,
     course: 'קורס ספרות מתקדם',
+    instructor: 'בר שם טוב', // Added instructor name
     image: '/images/testimonials/amit.jpg'
   },
   {
@@ -161,6 +167,7 @@ export const academyTestimonials = [
     text: 'סדנת עיצוב הזקן נתנה לי את הביטחון והכלים להציע שירותים נוספים ללקוחות שלי. ההשקעה השתלמה כבר אחרי חודש!',
     rating: 5,
     course: 'סדנת עיצוב זקן',
+    instructor: 'איציק', // Added instructor name
     image: '/images/testimonials/shira.jpg'
   },
   {
@@ -169,6 +176,7 @@ export const academyTestimonials = [
     text: 'הקורס "עסקי הספרות" עזר לי להבין איך לנהל את העסק שלי ביעילות, להגדיל רווחים ולשמור על לקוחות מרוצים. עכשיו המספרה שלי משגשגת.',
     rating: 5,
     course: 'עסקי הספרות',
+    instructor: 'בר שם טוב', // Added instructor name
     image: '/images/testimonials/dor.jpg'
   }
 ];
@@ -177,9 +185,11 @@ export const teamMembers = [
   {
     id: 'bar',
     name: 'בר שם טוב',
-    title: 'המייסד והבעלים',
-    bio: 'בר שם טוב הוא המייסד והבעלים של המספרה. עם אהבה עמוקה למסורת הספרות וחזון לחוויית לקוח יוצאת דופן, בר יצר מרחב שמשלב בין אומנות הספרות המסורתית לבין סגנון ואווירה מודרניים.',
+    title: 'המייסד, הבעלים ומנהל האקדמיה', // Updated title to include academy
+    bio: 'בר שם טוב הוא המייסד והבעלים של המספרה והאקדמיה. עם אהבה עמוקה למסורת הספרות וחזון לחוויית לקוח יוצאת דופן, בר יצר מרחב שמשלב בין אומנות הספרות המסורתית לבין סגנון ואווירה מודרניים. כמנהל האקדמיה, בר מוביל תכניות לימוד לקריירות חדשות בספרות, ומנחה את הקורסים המתקדמים ואת קורס ניהול עסקי הספרות.', // Updated bio
     image: '/images/team/bar.jpg',
+    isAcademyInstructor: true, // Added flag for academy instructor
+    academyRole: 'מנהל האקדמיה ומדריך ראשי', // Added academy role
   },
   {
     id: 'yarin',
@@ -187,6 +197,8 @@ export const teamMembers = [
     title: 'ספר מקצועי ומדריך באקדמיה',
     bio: 'ירין, הידוע גם בכינויו "בזוקי", מביא אנרגיה ייחודית וסגנון אישי לצוות שלנו. עם עין חדה לטרנדים עכשוויים וטכניקה מדויקת, הוא מתמחה ביצירת מראה שמשלב עדכניות עם קלאסיות ומלמד באקדמיה שלנו.',
     image: '/images/team/yarin.jpg',
+    isAcademyInstructor: true, // Added flag for academy instructor
+    academyRole: 'מדריך טכניקות מתקדמות', // Added academy role
   },
   {
     id: 'or',
@@ -198,9 +210,11 @@ export const teamMembers = [
   {
     id: 'itzik',
     name: 'איציק',
-    title: 'ספר מקצועי ומדריך ראשי באקדמיה',
+    title: 'ספר מקצועי ומדריך באקדמיה',
     bio: 'עם שנים של ניסיון בתעשייה, איציק מביא עושר של ידע וטכניקות מסורתיות למספרה. מומחיותו בעיצוב זקן וטיפולי פנים הופכת אותו לחלק חיוני מהצוות, המציע חווית טיפוח מקיפה ללקוחותינו ומוביל את תכנית הלימודים באקדמיה.',
     image: '/images/team/itzik.jpg',
+    isAcademyInstructor: true, // Added flag for academy instructor
+    academyRole: 'מדריך מומחה לעיצוב זקן', // Added academy role
   }
 ];
 
@@ -217,6 +231,7 @@ export const galleryCategories = {
     space: 'המרחב שלנו',
     experience: 'החוויה',
     work: 'עבודות אחרונות',
+    academy: 'האקדמיה', // Added academy category
   }
 };
 
@@ -235,6 +250,13 @@ export const businessInfo = {
   social: {
     instagram: 'https://www.instagram.com/barber_shemtov/',
     tiktok: 'https://www.tiktok.com/@barber_shem_tov'
+  },
+  // Added academy information
+  academy: {
+    name: 'האקדמיה לספרות של בר שם טוב',
+    director: 'בר שם טוב',
+    established: 2023,
+    email: 'academy@modernbarber.com',
   },
   
   // Add a helper function for closed days (for form validation)

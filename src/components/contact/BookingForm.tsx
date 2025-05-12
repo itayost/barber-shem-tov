@@ -14,17 +14,25 @@ interface BookingFormProps {
     getHoursForDay: (dayNumber: number) => { isOpen: boolean, open: string, close: string };
   };
   initialService?: string;
+  initialCourse?: string;
 }
 
 const BookingForm: React.FC<BookingFormProps> = ({ 
   services, 
   businessInfo,
-  initialService = '' 
+  initialService = '',
+  initialCourse = ''
 }) => {
+  // Separate services and academy courses
+  const regularServices = services.filter(service => service.category !== 'academy');
+  const academyCourses = services.filter(service => service.category === 'academy');
+  
   // Form state
   const [formData, setFormData] = useState({
     name: '',
+    subject: initialCourse ? 'course' : 'service', // 'service' or 'course'
     service: initialService,
+    course: initialCourse,
     date: '',
     time: '',
     contact: '',
@@ -51,15 +59,24 @@ const BookingForm: React.FC<BookingFormProps> = ({
     invalidTime: 'שעה מחוץ לשעות הפעילות',
   };
 
-  // Update service if initialService changes
+  // Update service/course if initialService/initialCourse changes
   useEffect(() => {
     if (initialService) {
       setFormData(prev => ({
         ...prev,
+        subject: 'service',
         service: initialService,
       }));
     }
-  }, [initialService]);
+    
+    if (initialCourse) {
+      setFormData(prev => ({
+        ...prev,
+        subject: 'course',
+        course: initialCourse,
+      }));
+    }
+  }, [initialService, initialCourse]);
 
   // Filter function for date picker - exclude closed days and past dates
   const filterDate = (date: Date) => {
@@ -71,7 +88,12 @@ const BookingForm: React.FC<BookingFormProps> = ({
       return false;
     }
     
-    // Check if the day is a business day
+    // If form subject is 'course', don't apply business day restrictions
+    if (formData.subject === 'course') {
+      return true;
+    }
+    
+    // Check if the day is a business day for regular services
     const dayOfWeek = date.getDay();
     return !businessInfo.isClosedDay(dayOfWeek);
   };
@@ -79,6 +101,14 @@ const BookingForm: React.FC<BookingFormProps> = ({
   // Update available time slots when date changes
   useEffect(() => {
     if (selectedDate) {
+      // For courses, no need to show time slots
+      if (formData.subject === 'course') {
+        setAvailableTimes([]);
+        setSelectedTime(null);
+        setFormData(prev => ({ ...prev, time: '' }));
+        return;
+      }
+      
       const dayOfWeek = selectedDate.getDay();
       const dayHours = businessInfo.getHoursForDay(dayOfWeek);
       
@@ -138,7 +168,7 @@ const BookingForm: React.FC<BookingFormProps> = ({
       setSelectedTime(null);
       setFormData(prev => ({ ...prev, time: '' }));
     }
-  }, [selectedDate, businessInfo]);
+  }, [selectedDate, businessInfo, formData.subject]);
 
   // Handle date change
   const handleDateChange = (date: Date | null) => {
@@ -166,6 +196,29 @@ const BookingForm: React.FC<BookingFormProps> = ({
       setFormData(prev => ({ ...prev, time: formattedTime }));
     } else {
       setFormData(prev => ({ ...prev, time: '' }));
+    }
+  };
+
+  // Handle subject change (service or course)
+  const handleSubjectChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newSubject = e.target.value;
+    setFormData(prev => ({
+      ...prev,
+      subject: newSubject,
+      // Reset service/course based on subject
+      service: newSubject === 'service' ? initialService : '',
+      course: newSubject === 'course' ? initialCourse : '',
+    }));
+    
+    // Clear date and time for courses
+    if (newSubject === 'course') {
+      setSelectedDate(null);
+      setSelectedTime(null);
+      setFormData(prev => ({
+        ...prev,
+        date: '',
+        time: '',
+      }));
     }
   };
 
@@ -216,15 +269,19 @@ const BookingForm: React.FC<BookingFormProps> = ({
       errors.name = errorMessages.required;
     }
     
-    if (!formData.service) {
+    if (formData.subject === 'service' && !formData.service) {
       errors.service = 'אנא בחר שירות';
     }
     
-    if (!formData.date) {
+    if (formData.subject === 'course' && !formData.course) {
+      errors.course = 'אנא בחר קורס';
+    }
+    
+    if (formData.subject === 'service' && !formData.date) {
       errors.date = 'אנא בחר תאריך מועדף';
     }
     
-    if (!formData.time) {
+    if (formData.subject === 'service' && !formData.time) {
       errors.time = 'אנא בחר שעה מועדפת';
     }
     
@@ -255,7 +312,9 @@ const BookingForm: React.FC<BookingFormProps> = ({
         // Reset form
         setFormData({
           name: '',
+          subject: 'service',
           service: '',
+          course: '',
           date: '',
           time: '',
           contact: '',
@@ -302,12 +361,21 @@ const BookingForm: React.FC<BookingFormProps> = ({
     return (
       <div className="p-8 border border-gold border-opacity-30 text-center">
         <h3 className="font-heebo text-h4 mb-4">תודה רבה!</h3>
-        <p className="mb-6 text-lightgrey">
-          קיבלנו את בקשת ההזמנה שלך וניצור איתך קשר בהקדם כדי לאשר את פרטי התור שלך.
-        </p>
-        {formData.date && formData.time && (
-          <p className="mb-6 text-gold">
-            התור המבוקש: {formatHebrewDate(formData.date)}, בשעה {formData.time}
+        {formData.subject === 'service' ? (
+          <>
+            <p className="mb-6 text-lightgrey">
+              קיבלנו את בקשת ההזמנה שלך וניצור איתך קשר בהקדם כדי לאשר את פרטי התור שלך.
+            </p>
+            {formData.date && formData.time && (
+              <p className="mb-6 text-gold">
+                התור המבוקש: {formatHebrewDate(formData.date)}, בשעה {formData.time}
+              </p>
+            )}
+          </>
+        ) : (
+          <p className="mb-6 text-lightgrey">
+            קיבלנו את בקשת המידע שלך לגבי הקורסים שלנו. נציג מהאקדמיה יצור איתך קשר בהקדם
+            כדי לספק לך מידע נוסף ולענות על שאלותיך.
           </p>
         )}
         <p className="text-lightgrey mb-4">
@@ -328,13 +396,57 @@ const BookingForm: React.FC<BookingFormProps> = ({
 
   return (
     <div className="text-right">
-      <h2 className="font-heebo text-h3 text-gold mb-8">בקשת תור</h2>
+      <h2 className="font-heebo text-h3 text-gold mb-8">
+        {formData.subject === 'service' ? 'בקשת תור' : 'מידע על קורסי האקדמיה'}
+      </h2>
       <p className="mb-6 text-lightgrey">
-        בזמן שמערכת ההזמנות המקוונת שלנו נמצאת בפיתוח, נשמח לארגן את התור שלך
-        באמצעות הטלפון או טופס בקשה זה. ניצור איתך קשר בהקדם לאישור ההזמנה שלך.
+        {formData.subject === 'service' 
+          ? 'בזמן שמערכת ההזמנות המקוונת שלנו נמצאת בפיתוח, נשמח לארגן את התור שלך באמצעות הטלפון או טופס בקשה זה.'
+          : 'מעוניין במידע נוסף על הקורסים שלנו? השאר את פרטיך ונחזור אליך בהקדם עם כל המידע שאתה צריך.'}
       </p>
       
       <form onSubmit={handleSubmit} className="space-y-6">
+        {/* Form subject - Service or Academy Course */}
+        <div className="mb-6">
+          <p className="mb-4 font-medium">אני מעוניין ב:</p>
+          <div className="flex flex-wrap gap-4">
+            <label className="flex items-center cursor-pointer">
+              <input
+                type="radio"
+                name="subject"
+                value="service"
+                checked={formData.subject === 'service'}
+                onChange={handleSubjectChange}
+                className="sr-only"
+              />
+              <span className={`inline-block px-4 py-2 border ${
+                formData.subject === 'service' 
+                  ? 'border-gold bg-gold bg-opacity-10 text-gold' 
+                  : 'border-lightgrey border-opacity-30 text-lightgrey'
+              } transition-colors duration-200`}>
+                שירותי ספרות
+              </span>
+            </label>
+            <label className="flex items-center cursor-pointer">
+              <input
+                type="radio"
+                name="subject"
+                value="course"
+                checked={formData.subject === 'course'}
+                onChange={handleSubjectChange}
+                className="sr-only"
+              />
+              <span className={`inline-block px-4 py-2 border ${
+                formData.subject === 'course' 
+                  ? 'border-gold bg-gold bg-opacity-10 text-gold' 
+                  : 'border-lightgrey border-opacity-30 text-lightgrey'
+              } transition-colors duration-200`}>
+                קורסי אקדמיה
+              </span>
+            </label>
+          </div>
+        </div>
+      
         {/* Name */}
         <FormField
           id="name"
@@ -355,84 +467,115 @@ const BookingForm: React.FC<BookingFormProps> = ({
           />
         </FormField>
         
-        {/* Service */}
-        <FormField
-          id="service"
-          label="שירות"
-          required
-          error={formErrors.service}
-        >
-          <select
+        {/* Service Selection - shown only when subject is 'service' */}
+        {formData.subject === 'service' && (
+          <FormField
             id="service"
-            name="service"
-            value={formData.service}
-            onChange={handleChange}
-            className={`w-full px-4 py-3 bg-charcoal border text-right ${
-              formErrors.service ? 'border-burgundy' : 'border-lightgrey border-opacity-30'
-            } focus:border-gold focus:outline-none transition-colors duration-200`}
+            label="שירות"
+            required
+            error={formErrors.service}
           >
-            <option value="">בחר שירות</option>
-            {services.map((service) => (
-              <option key={service.id} value={service.name_he}>
-                {service.name_he} - {service.price}₪
-              </option>
-            ))}
-          </select>
-        </FormField>
+            <select
+              id="service"
+              name="service"
+              value={formData.service}
+              onChange={handleChange}
+              className={`w-full px-4 py-3 bg-charcoal border text-right ${
+                formErrors.service ? 'border-burgundy' : 'border-lightgrey border-opacity-30'
+              } focus:border-gold focus:outline-none transition-colors duration-200`}
+            >
+              <option value="">בחר שירות</option>
+              {regularServices.map((service) => (
+                <option key={service.id} value={service.name_he}>
+                  {service.name_he} - {service.price}₪
+                </option>
+              ))}
+            </select>
+          </FormField>
+        )}
         
-        {/* Date and Time */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Date Field */}
+        {/* Course Selection - shown only when subject is 'course' */}
+        {formData.subject === 'course' && (
           <FormField
-            id="date"
-            label="תאריך מועדף"
+            id="course"
+            label="קורס"
             required
-            error={formErrors.date}
+            error={formErrors.course}
           >
-            <DatePicker
-              selected={selectedDate}
-              onChange={handleDateChange}
-              filterDate={filterDate}
-              dateFormat="dd/MM/yyyy"
-              customInput={<CustomDateInput />}
-              calendarClassName="rtl-datepicker"
-              showPopperArrow={false}
-              inline={false}
-              popperClassName="datepicker-popper"
-              popperPlacement="bottom-end"
-            />
+            <select
+              id="course"
+              name="course"
+              value={formData.course}
+              onChange={handleChange}
+              className={`w-full px-4 py-3 bg-charcoal border text-right ${
+                formErrors.course ? 'border-burgundy' : 'border-lightgrey border-opacity-30'
+              } focus:border-gold focus:outline-none transition-colors duration-200`}
+            >
+              <option value="">בחר קורס</option>
+              {academyCourses.map((course) => (
+                <option key={course.id} value={course.name_he}>
+                  {course.name_he} - {course.price}₪
+                </option>
+              ))}
+            </select>
           </FormField>
+        )}
+        
+        {/* Date and Time - shown only for service bookings */}
+        {formData.subject === 'service' && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Date Field */}
+            <FormField
+              id="date"
+              label="תאריך מועדף"
+              required
+              error={formErrors.date}
+            >
+              <DatePicker
+                selected={selectedDate}
+                onChange={handleDateChange}
+                filterDate={filterDate}
+                dateFormat="dd/MM/yyyy"
+                customInput={<CustomDateInput />}
+                calendarClassName="rtl-datepicker"
+                showPopperArrow={false}
+                inline={false}
+                popperClassName="datepicker-popper"
+                popperPlacement="bottom-end"
+              />
+            </FormField>
 
-          {/* Time Field */}
-          <FormField
-            id="time"
-            label="שעה מועדפת"
-            required
-            error={formErrors.time}
-          >
-            <DatePicker
-              selected={selectedTime}
-              onChange={handleTimeChange}
-              showTimeSelect
-              showTimeSelectOnly
-              timeIntervals={30}
-              timeCaption="שעה"
-              dateFormat="HH:mm"
-              includeTimes={availableTimes}
-              customInput={<CustomTimeInput />}
-              disabled={!selectedDate}
-              calendarClassName="rtl-datepicker time-only"
-              showPopperArrow={false}
-              popperClassName="datepicker-popper"
-              popperPlacement="bottom-end"
-            />
-            {selectedDate && (
-              <small className="text-lightgrey block mt-1">
-                שעות פעילות ביום זה: {businessHours.open} - {businessHours.close}
-              </small>
-            )}
-          </FormField>
-        </div>
+            {/* Time Field */}
+            <FormField
+              id="time"
+              label="שעה מועדפת"
+              required
+              error={formErrors.time}
+            >
+              <DatePicker
+                selected={selectedTime}
+                onChange={handleTimeChange}
+                showTimeSelect
+                showTimeSelectOnly
+                timeIntervals={30}
+                timeCaption="שעה"
+                dateFormat="HH:mm"
+                includeTimes={availableTimes}
+                customInput={<CustomTimeInput />}
+                disabled={!selectedDate}
+                calendarClassName="rtl-datepicker time-only"
+                showPopperArrow={false}
+                popperClassName="datepicker-popper"
+                popperPlacement="bottom-end"
+              />
+              {selectedDate && (
+                <small className="text-lightgrey block mt-1">
+                  שעות פעילות ביום זה: {businessHours.open} - {businessHours.close}
+                </small>
+              )}
+            </FormField>
+          </div>
+        )}
         
         {/* Contact */}
         <FormField
@@ -461,7 +604,7 @@ const BookingForm: React.FC<BookingFormProps> = ({
         {/* Message */}
         <FormField
           id="message"
-          label="הערות נוספות (אופציונלי)"
+          label={formData.subject === 'service' ? "הערות נוספות (אופציונלי)" : "שאלות או בקשות מיוחדות (אופציונלי)"}
           error=""
         >
           <textarea
@@ -470,7 +613,10 @@ const BookingForm: React.FC<BookingFormProps> = ({
             value={formData.message}
             onChange={handleChange}
             rows={4}
-            placeholder="הוסף הערות או בקשות מיוחדות"
+            placeholder={formData.subject === 'service' 
+              ? "הוסף הערות או בקשות מיוחדות" 
+              : "שאלות נוספות או תחומים ספציפיים שמעניינים אותך"
+            }
             className="w-full px-4 py-3 bg-transparent border text-right border-lightgrey border-opacity-30 focus:border-gold focus:outline-none transition-colors duration-200 resize-none"
             style={{ textAlign: 'right', direction: 'rtl' }}
           />
@@ -491,7 +637,12 @@ const BookingForm: React.FC<BookingFormProps> = ({
             variant="primary"
             className="w-full md:w-auto"
           >
-            {isSubmitting ? 'שולח...' : 'בקש תור'}
+            {isSubmitting 
+              ? 'שולח...' 
+              : formData.subject === 'service' 
+                ? 'בקש תור' 
+                : 'שלח בקשת מידע'
+            }
           </Button>
         </div>
       </form>

@@ -35,20 +35,20 @@ const Navbar = () => {
   return (
     <header 
       className={`fixed w-full z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-charcoal shadow-md py-3' : 'bg-transparent py-6'
+        isScrolled ? 'bg-charcoal shadow-md py-2' : 'bg-transparent py-4'
       }`}
     >
       <div className="container mx-auto px-6 flex items-center justify-between">
-        {/* Logo (Right in RTL) with fixed dimensions */}
+        {/* Logo (Right in RTL) with height to fill navbar */}
         <div className="flex-shrink-0 flex items-center">
           <Link href="/" className="relative z-10 inline-block">
-            {/* Logo with fixed dimensions and prioritized loading */}
-            <div className={`transition-all duration-300 ${isScrolled ? 'h-8' : 'h-10'}`}>
+            {/* Logo container with dynamic height that matches navbar height */}
+            <div className={`transition-all duration-300 ${isScrolled ? 'h-12' : 'h-16'}`}>
               <Image 
                 src="/images/logos/logo.png"
                 alt="The Fader Barbershop"
-                width={isScrolled ? 120 : 150}
-                height={isScrolled ? 32 : 40}
+                width={isScrolled ? 180 : 240}
+                height={isScrolled ? 48 : 64}
                 className="h-full w-auto object-contain"
                 priority
               />
@@ -97,14 +97,14 @@ const Navbar = () => {
             isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
           }`}
         >
-          {/* Logo in mobile menu */}
+          {/* Logo in mobile menu - larger size */}
           <div className="mb-8">
             <Image 
               src="/images/logos/logo.png"
               alt="The Fader Barbershop"
-              width={150}
-              height={40}
-              className="h-10 w-auto object-contain"
+              width={240}
+              height={64}
+              className="h-16 w-auto object-contain"
             />
           </div>
           

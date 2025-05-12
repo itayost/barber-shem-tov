@@ -32,14 +32,6 @@ const Navbar = () => {
     { name: 'צור קשר', path: '/contact' },
   ];
 
-  // Calculate appropriate logo size based on navbar height
-  // When scrolled, navbar is shorter (py-3 = padding-top and padding-bottom of 0.75rem = 1.5rem total)
-  // When not scrolled, navbar is taller (py-6 = padding-top and padding-bottom of 1.5rem = 3rem total)
-  const logoHeight = isScrolled ? 30 : 40; // Adjust these values to fit your navbar
-  
-  // Assuming an aspect ratio of the original logo
-  const logoWidth = logoHeight * 3; // Adjust the multiplier based on your logo's aspect ratio
-
   return (
     <header 
       className={`fixed w-full z-50 transition-all duration-300 ${
@@ -47,17 +39,20 @@ const Navbar = () => {
       }`}
     >
       <div className="container mx-auto px-6 flex items-center justify-between">
-        {/* Logo (Right in RTL) - Sized to fit navbar height */}
+        {/* Logo (Right in RTL) with fixed dimensions */}
         <div className="flex-shrink-0 flex items-center">
           <Link href="/" className="relative z-10 inline-block">
-            <Image 
-              src="/images/logos/logo.png"
-              alt="The Fader Barbershop"
-              width={logoWidth}
-              height={logoHeight}
-              className="h-auto transition-all duration-300"
-              priority
-            />
+            {/* Logo with fixed dimensions and prioritized loading */}
+            <div className={`transition-all duration-300 ${isScrolled ? 'h-8' : 'h-10'}`}>
+              <Image 
+                src="/images/logos/logo.png"
+                alt="The Fader Barbershop"
+                width={isScrolled ? 120 : 150}
+                height={isScrolled ? 32 : 40}
+                className="h-full w-auto object-contain"
+                priority
+              />
+            </div>
           </Link>
         </div>
 
@@ -102,6 +97,17 @@ const Navbar = () => {
             isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
           }`}
         >
+          {/* Logo in mobile menu */}
+          <div className="mb-8">
+            <Image 
+              src="/images/logos/logo.png"
+              alt="The Fader Barbershop"
+              width={150}
+              height={40}
+              className="h-10 w-auto object-contain"
+            />
+          </div>
+          
           <nav className="flex flex-col items-center space-y-6">
             {navItems.map((item) => (
               <Link 

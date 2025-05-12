@@ -6,7 +6,7 @@ const Footer = () => {
   return (
     <footer className="bg-charcoal border-t border-lightgrey border-opacity-20 pt-16 pb-8" dir="rtl">
       <div className="container mx-auto px-6">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           {/* Contact Information */}
           <div>
             <h3 className="font-heebo text-h4 mb-4 text-gold">צור קשר</h3>
@@ -31,6 +31,38 @@ const Footer = () => {
                   <span>{schedule.hours}</span>
                 </li>
               ))}
+            </ul>
+          </div>
+          
+          {/* Quick Links */}
+          <div>
+            <h3 className="font-heebo text-h4 mb-4 text-gold">ניווט מהיר</h3>
+            <ul className="space-y-2">
+              <li>
+                <Link href="/services" className="hover:text-gold transition-colors duration-200">
+                  שירותים
+                </Link>
+              </li>
+              <li>
+                <Link href="/academy" className="hover:text-gold transition-colors duration-200">
+                  האקדמיה
+                </Link>
+              </li>
+              <li>
+                <Link href="/gallery" className="hover:text-gold transition-colors duration-200">
+                  גלריה
+                </Link>
+              </li>
+              <li>
+                <Link href="/about" className="hover:text-gold transition-colors duration-200">
+                  אודות
+                </Link>
+              </li>
+              <li>
+                <Link href="/contact" className="hover:text-gold transition-colors duration-200">
+                  צור קשר
+                </Link>
+              </li>
             </ul>
           </div>
           
@@ -64,12 +96,20 @@ const Footer = () => {
                 </>
               )}
             </div>
-            <Link
-              href="/contact"
-              className="inline-block px-6 py-3 bg-gold text-charcoal font-medium hover:bg-opacity-90 transition-colors duration-200 mt-4"
-            >
-              הזמן תור
-            </Link>
+            <div className="flex space-x-4 space-x-reverse">
+              <Link
+                href="/contact"
+                className="inline-block px-6 py-3 bg-gold text-charcoal font-medium hover:bg-opacity-90 transition-colors duration-200"
+              >
+                הזמן תור
+              </Link>
+              <Link
+                href="/academy"
+                className="inline-block px-6 py-3 border border-gold text-gold font-medium hover:bg-gold hover:bg-opacity-10 transition-colors duration-200"
+              >
+                האקדמיה
+              </Link>
+            </div>
           </div>
         </div>
         

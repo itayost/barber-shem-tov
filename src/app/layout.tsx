@@ -76,30 +76,15 @@ export const metadata = {
   
   // Web app manifest
   manifest: '/site.webmanifest',
-  
-  // Theme color
+};
+
+// Moving themeColor to viewport as per Next.js recommendation
+export const viewport = {
   themeColor: '#1A1A1A', // Using your deep charcoal color from the style guide
-  
-  // Additional verification (uncomment and fill in if you have these)
-  // verification: {
-  //   google: 'your-google-verification-id',
-  //   yandex: 'your-yandex-verification-id',
-  // },
-  
-  // App info (if applicable)
-  // appleWebApp: {
-  //   title: 'The Fader Barbershop',
-  //   statusBarStyle: 'black-translucent',
-  //   capable: true,
-  // },
-  
-  // Format detection (disable automatic phone/email detection if you prefer)
-  formatDetection: {
-    telephone: true,
-    email: true,
-    address: true,
-  },
-}
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+};
 
 export default function RootLayout({
   children,

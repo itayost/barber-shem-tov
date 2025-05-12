@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image'; 
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -25,10 +26,19 @@ const Navbar = () => {
   const navItems = [
     { name: 'דף הבית', path: '/' },
     { name: 'שירותים', path: '/services' },
+    { name: 'האקדמיה', path: '/academy' },
     { name: 'גלריה', path: '/gallery' },
     { name: 'אודות', path: '/about' },
     { name: 'צור קשר', path: '/contact' },
   ];
+
+  // Calculate appropriate logo size based on navbar height
+  // When scrolled, navbar is shorter (py-3 = padding-top and padding-bottom of 0.75rem = 1.5rem total)
+  // When not scrolled, navbar is taller (py-6 = padding-top and padding-bottom of 1.5rem = 3rem total)
+  const logoHeight = isScrolled ? 30 : 40; // Adjust these values to fit your navbar
+  
+  // Assuming an aspect ratio of the original logo
+  const logoWidth = logoHeight * 3; // Adjust the multiplier based on your logo's aspect ratio
 
   return (
     <header 
@@ -37,12 +47,17 @@ const Navbar = () => {
       }`}
     >
       <div className="container mx-auto px-6 flex items-center justify-between">
-        {/* Logo (Right in RTL) */}
-        <div className="flex-shrink-0">
+        {/* Logo (Right in RTL) - Sized to fit navbar height */}
+        <div className="flex-shrink-0 flex items-center">
           <Link href="/" className="relative z-10 inline-block">
-            <h1 className="font-heebo text-h3 font-bold">
-              <span className="text-gold">THE</span> FADER
-            </h1>
+            <Image 
+              src="/images/logos/logo.png"
+              alt="The Fader Barbershop"
+              width={logoWidth}
+              height={logoHeight}
+              className="h-auto transition-all duration-300"
+              priority
+            />
           </Link>
         </div>
 

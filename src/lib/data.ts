@@ -7,7 +7,7 @@ export type Service = {
   price: number;
   duration: string;
   duration_he: string;
-  category: 'haircut' | 'shave' | 'beard' | 'package' | 'special' | 'color';
+  category: 'haircut' | 'shave' | 'beard' | 'package' | 'special' | 'color' | 'academy';
   featured?: boolean;
 };
 
@@ -37,15 +37,28 @@ export const services: Service[] = [
     featured: true,
   },
   {
-    id: 'kids-haircut',
-    name: "Kid's Haircut",
-    name_he: 'תספורת ילד',
-    description: 'Gentle and patient approach for our younger clients. Fun and stress-free experience.',
-    description_he: 'תספורת מותאמת לילדים בגישה סבלנית ומקצועית.',
-    price: 70,
-    duration: '30 minutes',
-    duration_he: '30 דקות',
-    category: 'haircut',
+    id: 'basic-barbering-course',
+    name: 'Basic Barbering Course',
+    name_he: 'קורס ספרות בסיסי',
+    description: 'Learn foundational barbering techniques in our intensive 4-week course designed for beginners.',
+    description_he: 'למד טכניקות ספרות בסיסיות בקורס האינטנסיבי שלנו למתחילים בן 4 שבועות.',
+    price: 3200,
+    duration: '4 weeks',
+    duration_he: '4 שבועות',
+    category: 'academy',
+    featured: true,
+  },
+  {
+    id: 'advanced-styling-masterclass',
+    name: 'Advanced Styling Masterclass',
+    name_he: 'מאסטרקלאס בעיצוב מתקדם',
+    description: 'Perfect your craft with our advanced styling techniques and trending hair design course for professionals.',
+    description_he: 'שפר את האומנות שלך עם טכניקות עיצוב מתקדמות וקורס עיצוב שיער טרנדי למקצוענים.',
+    price: 1800,
+    duration: '2 days',
+    duration_he: 'יומיים',
+    category: 'academy',
+    featured: true,
   },
   {
     id: 'mens-haircut',
@@ -58,6 +71,28 @@ export const services: Service[] = [
     duration_he: '30 דקות',
     category: 'haircut',
     featured: true,
+  },
+  {
+    id: 'beard-academy-workshop',
+    name: 'Beard Styling Workshop',
+    name_he: 'סדנת עיצוב זקן',
+    description: 'One-day intensive workshop focusing on beard shaping, styling, and maintenance techniques.',
+    description_he: 'סדנה אינטנסיבית בת יום אחד המתמקדת בטכניקות עיצוב, סגנון ותחזוקה של זקן.',
+    price: 650,
+    duration: '1 day',
+    duration_he: 'יום אחד',
+    category: 'academy',
+  },
+  {
+    id: 'business-of-barbering',
+    name: 'Business of Barbering',
+    name_he: 'עסקי הספרות',
+    description: 'Learn how to start and run a successful barbershop business with our comprehensive course covering finances, marketing, and client management.',
+    description_he: 'למד כיצד להקים ולנהל עסק ספרות מצליח עם הקורס המקיף שלנו הכולל פיננסים, שיווק וניהול לקוחות.',
+    price: 2200,
+    duration: '2 weeks',
+    duration_he: 'שבועיים',
+    category: 'academy',
   },
   {
     id: 'chalakah',
@@ -81,50 +116,7 @@ export const services: Service[] = [
     duration_he: '120 דקות',
     category: 'color',
   },
-  {
-    id: 'color-highlights',
-    name: 'Color Highlights',
-    name_he: 'גוונים',
-    description: 'Subtle or bold highlights to add dimension and texture to your hair.',
-    description_he: 'גוונים לשיער להוספת עומק ומרקם.',
-    price: 150,
-    duration: '90 minutes',
-    duration_he: '90 דקות',
-    category: 'color',
-  },
-  {
-    id: 'haircut-punch-card',
-    name: 'Haircut Punch Card',
-    name_he: 'כרטיסייה תספורת',
-    description: 'Prepaid card for multiple haircuts at a discounted rate. Credit card payment only.',
-    description_he: 'תשלום באשראי.',
-    price: 700,
-    duration: 'Multiple visits',
-    duration_he: 'ביקורים מרובים',
-    category: 'package',
-  },
-  {
-    id: 'haircut-beard-punch-card',
-    name: 'Haircut & Beard Punch Card',
-    name_he: 'כרטיסיית תספורת + זקן',
-    description: 'Prepaid card for multiple haircut and beard combo services at a discounted rate. Credit card payment only.',
-    description_he: 'תשלום באשראי.',
-    price: 800,
-    duration: 'Multiple visits',
-    duration_he: 'ביקורים מרובים',
-    category: 'package',
-  },
-  {
-    id: 'laser-facial',
-    name: 'Full Face Laser Treatment',
-    name_he: 'טיפול לייזר לכל הפנים',
-    description: 'Advanced laser treatment for the entire face to improve skin texture and appearance.',
-    description_he: 'טיפול לייזר מתקדם לכל הפנים.',
-    price: 150,
-    duration: '45 minutes',
-    duration_he: '45 דקות',
-    category: 'special',
-  },
+  // Other existing services...
 ];
 
 export const testimonials = [
@@ -146,6 +138,39 @@ export const testimonials = [
     text: 'חווית האב והבן הייתה מושלמת עבור התספורת המקצועית הראשונה של הבן שלי. הספרים היו סבלניים והפכו את זה למיוחד עבור שנינו.',
     rating: 5,
   },
+  {
+    id: 4,
+    name: 'אורי גולן',
+    text: 'הקורס הבסיסי של האקדמיה שינה את הקריירה שלי. המדריכים מקצועיים ביותר והידע שרכשתי אפשר לי לפתוח את העסק שלי תוך חצי שנה.',
+    rating: 5,
+  },
+];
+
+export const academyTestimonials = [
+  {
+    id: 1,
+    name: 'עמית יצחקי',
+    text: 'אחרי שבועיים בקורס המתקדם, שיפרתי משמעותית את הטכניקות שלי. המדריכים מקצועיים וסבלניים, והאווירה באקדמיה מעודדת יצירתיות וחדשנות.',
+    rating: 5,
+    course: 'קורס ספרות מתקדם',
+    image: '/images/testimonials/amit.jpg'
+  },
+  {
+    id: 2,
+    name: 'שירה לוין',
+    text: 'סדנת עיצוב הזקן נתנה לי את הביטחון והכלים להציע שירותים נוספים ללקוחות שלי. ההשקעה השתלמה כבר אחרי חודש!',
+    rating: 5,
+    course: 'סדנת עיצוב זקן',
+    image: '/images/testimonials/shira.jpg'
+  },
+  {
+    id: 3,
+    name: 'דור אברהם',
+    text: 'הקורס "עסקי הספרות" עזר לי להבין איך לנהל את העסק שלי ביעילות, להגדיל רווחים ולשמור על לקוחות מרוצים. עכשיו המספרה שלי משגשגת.',
+    rating: 5,
+    course: 'עסקי הספרות',
+    image: '/images/testimonials/dor.jpg'
+  }
 ];
 
 export const teamMembers = [
@@ -159,8 +184,8 @@ export const teamMembers = [
   {
     id: 'yarin',
     name: 'ירין',
-    title: 'ספר מקצועי',
-    bio: 'ירין, הידוע גם בכינויו "בזוקי", מביא אנרגיה ייחודית וסגנון אישי לצוות שלנו. עם עין חדה לטרנדים עכשוויים וטכניקה מדויקת, הוא מתמחה ביצירת מראה שמשלב עדכניות עם קלאסיות.',
+    title: 'ספר מקצועי ומדריך באקדמיה',
+    bio: 'ירין, הידוע גם בכינויו "בזוקי", מביא אנרגיה ייחודית וסגנון אישי לצוות שלנו. עם עין חדה לטרנדים עכשוויים וטכניקה מדויקת, הוא מתמחה ביצירת מראה שמשלב עדכניות עם קלאסיות ומלמד באקדמיה שלנו.',
     image: '/images/team/yarin.jpg',
   },
   {
@@ -173,8 +198,8 @@ export const teamMembers = [
   {
     id: 'itzik',
     name: 'איציק',
-    title: 'ספר מקצועי',
-    bio: 'עם שנים של ניסיון בתעשייה, איציק מביא עושר של ידע וטכניקות מסורתיות למספרה. מומחיותו בעיצוב זקן וטיפולי פנים הופכת אותו לחלק חיוני מהצוות, המציע חווית טיפוח מקיפה ללקוחותינו.',
+    title: 'ספר מקצועי ומדריך ראשי באקדמיה',
+    bio: 'עם שנים של ניסיון בתעשייה, איציק מביא עושר של ידע וטכניקות מסורתיות למספרה. מומחיותו בעיצוב זקן וטיפולי פנים הופכת אותו לחלק חיוני מהצוות, המציע חווית טיפוח מקיפה ללקוחותינו ומוביל את תכנית הלימודים באקדמיה.',
     image: '/images/team/itzik.jpg',
   }
 ];

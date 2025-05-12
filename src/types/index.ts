@@ -29,6 +29,6 @@ export interface Service {
   price: number;
   duration: string;
   duration_he: string;
-  category: 'haircut' | 'shave' | 'beard' | 'package' | 'special' | 'color';
+  category: 'haircut' | 'shave' | 'beard' | 'package' | 'special' | 'color' | 'academy';
   featured?: boolean;
 }

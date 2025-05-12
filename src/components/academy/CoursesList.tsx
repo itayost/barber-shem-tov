@@ -24,14 +24,8 @@ const CoursesList: React.FC<CoursesListProps> = ({ courses }) => {
     course => course.name_he.includes('סדנ') || course.description_he.includes('סדנ')
   );
   
-  // Determine which courses to display based on filter
-  const filteredCourses = filter === 'all' 
-    ? courses 
-    : filter === 'beginner'
-      ? beginnerCourses
-      : filter === 'advanced'
-        ? advancedCourses
-        : workshopCourses;
+  // Note: We're not using filteredCourses, instead we're conditionally showing each section
+  // So we can remove this unused variable
 
   return (
     <section id="courses" className="py-section-mobile md:py-section bg-charcoal">
@@ -99,6 +93,25 @@ const CoursesList: React.FC<CoursesListProps> = ({ courses }) => {
             ))}
           </div>
         </div>
+        
+        {/* Empty state when no courses match the filter */}
+        {filter === 'beginner' && beginnerCourses.length === 0 && (
+          <div className="text-center py-12">
+            <p className="text-lightgrey">לא נמצאו קורסים למתחילים</p>
+          </div>
+        )}
+        
+        {filter === 'advanced' && advancedCourses.length === 0 && (
+          <div className="text-center py-12">
+            <p className="text-lightgrey">לא נמצאו קורסים מתקדמים</p>
+          </div>
+        )}
+        
+        {filter === 'workshops' && workshopCourses.length === 0 && (
+          <div className="text-center py-12">
+            <p className="text-lightgrey">לא נמצאו סדנאות</p>
+          </div>
+        )}
       </div>
     </section>
   );

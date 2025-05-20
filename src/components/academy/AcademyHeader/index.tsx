@@ -1,16 +1,11 @@
-// src/components/academy/AcademyHeader/index.tsx
 'use client';
-
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import Button from '@/components/common/Button';
-import { academyInfo, courses, instructors } from '@/lib/data';
-
 // Import components
 import HeaderBackground from './HeaderBackground';
 import HeaderContent from './HeaderContent';
 import TabSection from './TabSection';
 import ScrollIndicator from './ScrollIndicator';
+import { academyInfo, courses, instructors } from '@/lib/data';
 
 interface AcademyHeaderProps {
   title?: string;
@@ -24,14 +19,14 @@ const AcademyHeader: React.FC<AcademyHeaderProps> = ({
   // Custom description if not provided
   const headerDescription = description || 
     `באקדמיה של ${academyInfo.shortName}, אנו מכשירים את הדור הבא של ספרים מקצועיים עם הכלים, הידע והביטחון להצליח בתעשייה המתחדשת תמיד.`;
-
+  
   // Filter to find featured courses and instructors
   const featuredCourses = courses.filter(course => 
     course.featured || course.category === 'beginner'
   ).slice(0, 3); // Limit to 3 courses
   
   const featuredInstructors = instructors.slice(0, 2);
-
+  
   // State for scroll animation
   const [scrollY, setScrollY] = useState(0);
   
@@ -44,13 +39,13 @@ const AcademyHeader: React.FC<AcademyHeaderProps> = ({
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
+  
   // Helper function for instructor name lookup
   const getInstructorName = (instructorId: string): string => {
     const instructor = instructors.find(i => i.id === instructorId);
     return instructor ? instructor.name : instructorId;
   };
-
+  
   return (
     <header className="relative overflow-hidden bg-charcoal" dir="rtl">
       {/* Hero section */}

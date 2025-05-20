@@ -4,8 +4,14 @@ import Link from 'next/link';
 import Button from '@/components/common/Button';
 import { Course, instructors } from '@/lib/data';
 
+// Extended Course interface to include optional properties that aren't in the base type
+interface ExtendedCourse extends Course {
+  nextStartDate?: string;
+  originalPrice?: number;
+}
+
 interface CourseCardProps {
-  course: Course;
+  course: ExtendedCourse;
   variant?: 'default' | 'compact' | 'featured';
   showInstructor?: boolean;
   showPrerequisites?: boolean;
@@ -29,14 +35,14 @@ const CourseCard: React.FC<CourseCardProps> = ({
   const instructor = getInstructorDetails(course.instructor);
 
   // Calculate discounted price if present
-  const originalPrice = course.originalPrice as number | undefined;
+  const originalPrice = course.originalPrice;
   const hasDiscount = originalPrice && originalPrice > course.price;
   const discountPercentage = hasDiscount 
     ? Math.round(((originalPrice - course.price) / originalPrice) * 100) 
     : 0;
 
-  // Safe check for nextStartDate which is not in the type
-  const nextStartDate = (course as any).nextStartDate;
+  // Now nextStartDate is properly typed
+  const nextStartDate = course.nextStartDate;
 
   return (
     <div 
@@ -133,7 +139,7 @@ const CourseCard: React.FC<CourseCardProps> = ({
             <div className="text-gold font-medium mb-1">מחיר</div>
             {hasDiscount ? (
               <div>
-                <span className="text-lightgrey line-through text-sm mr-2">{formatPrice(originalPrice)} ₪</span>
+                <span className="text-lightgrey line-through text-sm mr-2">{formatPrice(originalPrice as number)} ₪</span>
                 <span className="text-offwhite font-bold transition-all duration-500 group-hover:text-gold">
                   {formatPrice(course.price)} ₪
                 </span>

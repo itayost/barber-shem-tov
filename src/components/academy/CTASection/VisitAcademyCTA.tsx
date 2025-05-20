@@ -2,10 +2,9 @@
 'use client';
 
 import React from 'react';
-import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import { LocationMarkerIcon, ClockIcon, PhoneIcon } from '@heroicons/react/outline';
+import { MapPinIcon as LocationMarkerIcon, ClockIcon, PhoneIcon } from '@heroicons/react/24/outline';
 
 const VisitAcademyCTA: React.FC = () => {
   // Tour schedule - in a real app, this would come from props or a data source

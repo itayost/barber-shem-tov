@@ -101,7 +101,7 @@ const CTASection: React.FC<CTASectionProps> = ({
           whileInView="visible"
           viewport={{ once: true }}
         >
-          {ctaOptions.map((option, index) => (
+          {ctaOptions.map((option) => (
             <motion.button
               key={option.id}
               onClick={() => setActiveCTA(option.id)}

@@ -114,9 +114,8 @@ const MobileMenu = ({ isOpen, onClose, academyInfo, navItems, id }: MobileMenuPr
     onClose();
   };
 
-  // Handle button click without propagation
-  const handleButtonClick = (e: React.MouseEvent) => {
-    e.stopPropagation(); // Prevent event from bubbling up
+  // Handle link clicks when using buttons
+  const handleLinkButtonClick = () => {
     onClose();
   };
 
@@ -257,7 +256,7 @@ const MobileMenu = ({ isOpen, onClose, academyInfo, navItems, id }: MobileMenuPr
                   href="/academy/apply" 
                   variant="primary"
                   className={`w-full text-center ${isSmallScreen ? 'py-2 text-sm' : ''}`}
-                  onClick={(e) => handleButtonClick(e)}
+                  onClick={handleLinkButtonClick}
                 >
                   הרשמה לקורסים
                 </Button>
@@ -265,7 +264,7 @@ const MobileMenu = ({ isOpen, onClose, academyInfo, navItems, id }: MobileMenuPr
                   href="/contact" 
                   variant="secondary"
                   className={`w-full text-center ${isSmallScreen ? 'py-2 text-sm' : ''}`}
-                  onClick={(e) => handleButtonClick(e)}
+                  onClick={handleLinkButtonClick}
                 >
                   צור קשר
                 </Button>

@@ -1,155 +1,97 @@
-// File: src/components/academy/CoursesList.tsx
 import React, { useState } from 'react';
-import Button from '@/components/common/Button';
-import { Service } from '@/lib/data';
+import { Course } from '@/lib/data';
+import Button from '../common/Button';
+import CourseCard from './CourseCard';
 
 interface CoursesListProps {
-  courses: Service[];
+  courses: Course[];
 }
 
 const CoursesList: React.FC<CoursesListProps> = ({ courses }) => {
-  // State for filtering courses
-  const [filter, setFilter] = useState<'all' | 'beginner' | 'advanced' | 'workshops'>('all');
+  // State for category filter
+  const [activeCategory, setActiveCategory] = useState<string | null>(null);
   
-  // Group courses by difficulty/type
-  const beginnerCourses = courses.filter(
-    course => course.name_he.includes('בסיסי') || course.description_he.includes('מתחילים')
-  );
+  // The only two categories we have
+  const categories = ['beginner', 'advanced'];
   
-  const advancedCourses = courses.filter(
-    course => course.name_he.includes('מתקדם') || course.description_he.includes('מתקדם')
-  );
+  // Category labels in Hebrew
+  const categoryLabels: Record<string, string> = {
+    'beginner': 'למתחילים',
+    'advanced': 'מתקדמים'
+  };
   
-  const workshopCourses = courses.filter(
-    course => course.name_he.includes('סדנ') || course.description_he.includes('סדנ')
-  );
-  
-  // Note: We're not using filteredCourses, instead we're conditionally showing each section
-  // So we can remove this unused variable
+  // Filter courses based on selected category
+  const filteredCourses = activeCategory 
+    ? courses.filter(course => course.category === activeCategory)
+    : courses;
+
+  // Count courses in each category
+  const getCategoryCount = (category: string) => {
+    return courses.filter(course => course.category === category).length;
+  };
 
   return (
-    <section id="courses" className="py-section-mobile md:py-section bg-charcoal">
-      <div className="container mx-auto px-6">
-        <div className="text-center mb-12">
-          <h2 className="font-heebo text-h3 mb-6">הקורסים שלנו</h2>
-          <p className="max-w-2xl mx-auto text-lightgrey mb-8">
-            האקדמיה שלנו מציעה מגוון קורסים, החל מיסודות בסיסיים למתחילים ועד טכניקות מתקדמות למקצוענים.
-            בחר את המסלול המתאים לך ולמטרות שלך.
+    <section className="py-section-mobile md:py-section bg-charcoal" dir="rtl">
+      <div className="container-custom">
+        {/* Section header */}
+        <div className="text-center mb-10">
+          <h2 className="section-title">הקורסים <span className="text-gold">שלנו</span></h2>
+          <p className="max-w-2xl mx-auto text-lightgrey mb-8" style={{ lineHeight: 'var(--hebrew-line-height)' }}>
+            בחר בין קורס למתחילים או השתלמות מקצועית למתקדמים
           </p>
           
-          {/* Filter buttons */}
-          <div className="flex flex-wrap justify-center gap-4 mb-12">
+          {/* Simplified category filter */}
+          <div className="flex flex-wrap justify-center gap-6 mb-12">
             <Button 
-              onClick={() => setFilter('all')} 
-              variant={filter === 'all' ? 'primary' : 'secondary'}
+              onClick={() => setActiveCategory(null)}
+              variant={activeCategory === null ? 'primary' : 'secondary'}
             >
-              כל הקורסים
+              הכל ({courses.length})
             </Button>
-            <Button 
-              onClick={() => setFilter('beginner')} 
-              variant={filter === 'beginner' ? 'primary' : 'secondary'}
-            >
-              למתחילים
-            </Button>
-            <Button 
-              onClick={() => setFilter('advanced')} 
-              variant={filter === 'advanced' ? 'primary' : 'secondary'}
-            >
-              מתקדמים
-            </Button>
-            <Button 
-              onClick={() => setFilter('workshops')} 
-              variant={filter === 'workshops' ? 'primary' : 'secondary'}
-            >
-              סדנאות
-            </Button>
-          </div>
-        </div>
-        
-        {/* Course sections */}
-        <div id="beginner" className={`mb-16 ${filter !== 'all' && filter !== 'beginner' ? 'hidden' : ''}`}>
-          <h3 className="font-heebo text-h4 text-gold mb-8 text-center">קורסים למתחילים</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {beginnerCourses.map((course) => (
-              <CourseCard key={course.id} course={course} />
+            
+            {categories.map((category) => (
+              <Button 
+                key={category}
+                onClick={() => setActiveCategory(category)}
+                variant={activeCategory === category ? 'primary' : 'secondary'}
+              >
+                {categoryLabels[category]} ({getCategoryCount(category)})
+              </Button>
             ))}
           </div>
         </div>
         
-        <div id="advanced" className={`mb-16 ${filter !== 'all' && filter !== 'advanced' ? 'hidden' : ''}`}>
-          <h3 className="font-heebo text-h4 text-gold mb-8 text-center">קורסים מתקדמים</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {advancedCourses.map((course) => (
-              <CourseCard key={course.id} course={course} />
-            ))}
-          </div>
+        {/* Courses display */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {filteredCourses.map((course) => (
+            <CourseCard 
+              key={course.id} 
+              course={course} 
+              variant={course.featured ? "featured" : "default"}
+              className="h-full"
+            />
+          ))}
         </div>
         
-        <div id="workshops" className={filter !== 'all' && filter !== 'workshops' ? 'hidden' : ''}>
-          <h3 className="font-heebo text-h4 text-gold mb-8 text-center">סדנאות מקצועיות</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {workshopCourses.map((course) => (
-              <CourseCard key={course.id} course={course} />
-            ))}
-          </div>
-        </div>
-        
-        {/* Empty state when no courses match the filter */}
-        {filter === 'beginner' && beginnerCourses.length === 0 && (
-          <div className="text-center py-12">
-            <p className="text-lightgrey">לא נמצאו קורסים למתחילים</p>
+        {/* No courses message */}
+        {filteredCourses.length === 0 && (
+          <div className="text-center py-12 border border-lightgrey/10 bg-brown/5 rounded-sm">
+            <p className="text-lightgrey py-8">אין קורסים בקטגוריה זו כרגע.</p>
           </div>
         )}
         
-        {filter === 'advanced' && advancedCourses.length === 0 && (
-          <div className="text-center py-12">
-            <p className="text-lightgrey">לא נמצאו קורסים מתקדמים</p>
-          </div>
-        )}
-        
-        {filter === 'workshops' && workshopCourses.length === 0 && (
-          <div className="text-center py-12">
-            <p className="text-lightgrey">לא נמצאו סדנאות</p>
-          </div>
-        )}
-      </div>
-    </section>
-  );
-};
-
-// Course Card Component
-interface CourseCardProps {
-  course: Service;
-}
-
-const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
-  return (
-    <div className="bg-charcoal border border-lightgrey border-opacity-10 hover:border-gold hover:border-opacity-30 transition-all duration-300 overflow-hidden">
-      {/* Course image placeholder */}
-      <div className="relative h-48 bg-brown bg-opacity-20">
-        {/* Would be replaced with actual course image */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <span className="text-gold text-h3">{course.name_he}</span>
-        </div>
-      </div>
-      
-      {/* Course content */}
-      <div className="p-6">
-        <div className="flex justify-between items-start mb-4">
-          <h3 className="font-heebo text-h4">{course.name_he}</h3>
-          <span className="bg-gold text-charcoal px-3 py-1 text-sm font-medium">₪{course.price}</span>
-        </div>
-        
-        <p className="text-lightgrey mb-6">{course.description_he}</p>
-        
-        <div className="flex items-center justify-between pt-4 border-t border-lightgrey border-opacity-20">
-          <span className="text-lightgrey">{course.duration_he}</span>
-          <Button href={`/contact?course=${encodeURIComponent(course.name_he)}`} variant="tertiary">
-            הרשם עכשיו
+        {/* Additional info section */}
+        <div className="mt-16 text-center">
+          <p className="text-lightgrey mb-4">מעוניינים במידע נוסף על הקורסים שלנו?</p>
+          <Button 
+            href="/academy/contact"
+            variant="secondary"
+          >
+            צור קשר לייעוץ אישי
           </Button>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

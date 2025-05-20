@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@heroicons/react": "^2.2.0",
     "@popperjs/core": "^2.11.8",
     "@types/react-datepicker": "^6.2.0",
     "framer-motion": "^12.9.4",

@@ -2,41 +2,56 @@
 
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState, Suspense } from 'react';
-import { businessInfo, services } from '@/lib/data';
+import { academyInfo, courses } from '@/lib/data';
 
 // Import components
-import ContactPageHeader from '@/components/contact/ContactPageHeader';
-import ContactInfo from '@/components/contact/ContactInfo';
-import BookingForm from '@/components/contact/BookingForm';
-
+import AcademyContactPageHeader from '@/components/contact/AcademyContactPageHeader';
+import AcademyContactInfo from '@/components/contact/AcademyContactInfo';
+import AcademyEnrollmentForm from '@/components/contact/AcademyEnrollmentForm';
 
 // Client component that uses useSearchParams
-function ContactPageContent() {
+function AcademyContactContent() {
   const searchParams = useSearchParams();
-  const [initialService, setInitialService] = useState<string>('');
-
-  // Update initial service if provided in URL params
+  const [initialCourse, setInitialCourse] = useState<string>('');
+  const [inquiryType, setInquiryType] = useState<'course' | 'info'>('info');
+  
+  // Update initial course and inquiry type if provided in URL params
   useEffect(() => {
-    if (searchParams && searchParams.get('service')) {
-      setInitialService(searchParams.get('service') || '');
+    if (searchParams) {
+      // Check for course parameter
+      if (searchParams.get('course')) {
+        setInitialCourse(searchParams.get('course') || '');
+        setInquiryType('course');
+      }
+      
+      // Check for subject parameter (general info vs course enrollment)
+      if (searchParams.get('subject') === 'enrollment') {
+        setInquiryType('course');
+      }
     }
   }, [searchParams]);
 
   return (
     <>
-      <ContactPageHeader />
+      <AcademyContactPageHeader 
+        inquiryType={inquiryType}
+      />
       
       <section className="py-section-mobile md:py-section bg-charcoal">
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            {/* Contact Information */}
-            <ContactInfo businessInfo={businessInfo} />
+            {/* Academy Contact Information */}
+            <AcademyContactInfo 
+              academyInfo={academyInfo} 
+            />
 
-            {/* Booking Form */}
-            <BookingForm 
-              services={services} 
-              businessInfo={businessInfo} 
-              initialService={initialService}
+            {/* Academy Enrollment Form */}
+            <AcademyEnrollmentForm 
+              courses={courses} 
+              academyInfo={academyInfo} 
+              initialCourse={initialCourse}
+              inquiryType={inquiryType}
+              setInquiryType={setInquiryType}
             />
           </div>
         </div>
@@ -45,14 +60,14 @@ function ContactPageContent() {
   );
 }
 
-export default function ContactPage() {
+export default function AcademyContactPage() {
   return (
     <Suspense fallback={
       <div className="min-h-screen flex items-center justify-center">
         <div className="animate-pulse text-gold">טוען...</div>
       </div>
     }>
-      <ContactPageContent />
+      <AcademyContactContent />
     </Suspense>
   );
 }

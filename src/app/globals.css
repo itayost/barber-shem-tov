@@ -25,6 +25,65 @@ body {
   text-align: right;
 }
 
+/* Typography */
+h1, .h1 {
+  font-size: var(--font-size-4xl);
+  line-height: 1.1;
+  margin-bottom: var(--space-lg);
+  font-weight: 700;
+}
+
+h2, .h2 {
+  font-size: var(--font-size-3xl);
+  line-height: 1.2;
+  margin-bottom: var(--space-md);
+  font-weight: 700;
+}
+
+h3, .h3 {
+  font-size: var(--font-size-2xl);
+  line-height: 1.3;
+  margin-bottom: var(--space-sm);
+  font-weight: 600;
+}
+
+h4, .h4 {
+  font-size: var(--font-size-xl);
+  line-height: 1.4;
+  margin-bottom: var(--space-xs);
+  font-weight: 600;
+}
+
+h5, .h5 {
+  font-size: var(--font-size-lg);
+  line-height: 1.4;
+  margin-bottom: var(--space-xs);
+  font-weight: 500;
+}
+
+h6, .h6 {
+  font-size: var(--font-size-md);
+  line-height: 1.4;
+  margin-bottom: var(--space-xs);
+  font-weight: 500;
+}
+
+/* Add fluid typography */
+@media (min-width: 768px) {
+  h1, .h1 { font-size: calc(var(--font-size-4xl) * 1.2); }
+  h2, .h2 { font-size: calc(var(--font-size-3xl) * 1.1); }
+}
+
+/* Accent text for headings */
+.accent-text {
+  color: var(--color-gold);
+}
+
+/* Text utilities */
+.text-balance {
+  text-wrap: balance;
+}
+
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heebo);
   line-height: 1.2;
@@ -314,4 +373,110 @@ html {
 /* Fix datepicker popper positioning */
 .datepicker-popper {
   z-index: 9999 !important;
+}
+
+@media (max-width: 767px) {
+  h1, .h1 { font-size: 2.25rem; }
+  h2, .h2 { font-size: 1.875rem; }
+  h3, .h3 { font-size: 1.5rem; }
+  
+  .container-custom {
+    @apply px-4;
+  }
+  
+  .hero-section {
+    @apply min-h-[85vh];
+  }
+  
+  .hero-title {
+    @apply text-3xl;
+  }
+  
+  .hero-subtitle {
+    @apply text-base;
+  }
+  
+  .section-spacing {
+    @apply py-12;
+  }
+  
+  .services-grid,
+  .team-grid,
+  .gallery-grid {
+    @apply grid-cols-1;
+  }
+  
+  .luxury-card {
+    @apply p-4;
+  }
+  
+  .testimonial-card {
+    @apply p-6;
+  }
+  
+  .testimonial-text {
+    @apply text-base;
+  }
+  
+  .cta-buttons {
+    @apply flex-col;
+  }
+}
+
+/* Tablet optimizations */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .container-custom {
+    @apply px-6;
+  }
+  
+  .section-spacing {
+    @apply py-16;
+  }
+  
+  .services-grid,
+  .team-grid {
+    @apply grid-cols-2;
+  }
+  
+  .gallery-grid {
+    @apply grid-cols-2;
+  }
+}
+
+/* Large screens optimizations */
+@media (min-width: 1280px) {
+  .container-custom {
+    @apply px-8;
+  }
+  
+  .hero-title {
+    @apply text-6xl;
+  }
+  
+  .hero-subtitle {
+    @apply text-xl;
+  }
+  
+  .section-spacing {
+    @apply py-24;
+  }
+}
+
+/* Print styles */
+@media print {
+  body {
+    @apply text-black bg-white;
+  }
+  
+  .no-print {
+    @apply hidden;
+  }
+  
+  a {
+    @apply text-black;
+  }
+  
+  .container {
+    @apply max-w-full mx-0;
+  }
 }

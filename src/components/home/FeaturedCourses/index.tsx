@@ -1,6 +1,4 @@
-// src/components/home/FeaturedCourses/index.tsx
 'use client';
-
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import Button from '@/components/common/Button';
@@ -12,10 +10,11 @@ import { courses } from '@/lib/data';
 const FeaturedCourses = () => {
   // Group courses by category for filtering
   const courseCategories = {
-    'beginner': courses.filter(course => course.category === 'beginner' || course.level === 'beginner'),
-    'advanced': courses.filter(course => course.category === 'advanced' || course.level === 'advanced'),
+    'beginner': courses.filter(course => course.category === 'beginner'),
+    'advanced': courses.filter(course => course.category === 'advanced'),
     'professional': courses.filter(course => course.category === 'professional'),
-    'specialized': courses.filter(course => course.category === 'specialized' || course.isSpecialized)
+    'workshop': courses.filter(course => course.category === 'workshop'),
+    'business': courses.filter(course => course.category === 'business'),
   };
   
   // Get all featured courses
@@ -50,7 +49,8 @@ const FeaturedCourses = () => {
             { id: 'beginner', label: 'למתחילים' },
             { id: 'advanced', label: 'מתקדמים' },
             { id: 'professional', label: 'מקצועיים' },
-            { id: 'specialized', label: 'התמחויות' }
+            { id: 'workshop', label: 'סדנאות' },
+            { id: 'business', label: 'ניהול עסקי' }
           ]}
           activeCategory={activeCategory}
           setActiveCategory={setActiveCategory}

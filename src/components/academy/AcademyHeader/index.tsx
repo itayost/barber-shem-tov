@@ -45,10 +45,15 @@ const AcademyHeader: React.FC<AcademyHeaderProps> = ({
     return instructor ? instructor.name : instructorId;
   };
   
-  // Create a subset of academyInfo that matches what HeaderContent expects
-  const headerContentAcademyInfo = {
+  // Create compatible academyInfo object for HeaderContent
+  const headerAcademyInfo = {
     established: academyInfo.established,
-    stats: academyInfo.stats,
+    stats: {
+      graduates: academyInfo.stats.graduates,
+      placementRate: academyInfo.stats.placementRate,
+      programCount: academyInfo.stats.programCount,
+      averageSalaryIncrease: academyInfo.stats.averageSalaryIncrease
+    },
     accreditations: academyInfo.accreditations
   };
   
@@ -64,7 +69,7 @@ const AcademyHeader: React.FC<AcademyHeaderProps> = ({
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center h-full">
             {/* Left content column */}
             <HeaderContent 
-              academyInfo={headerContentAcademyInfo}
+              academyInfo={headerAcademyInfo}
               description={headerDescription}
             />
             

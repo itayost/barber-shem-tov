@@ -70,7 +70,7 @@ const HeroContent: React.FC<HeroContentProps> = ({ isLoaded }) => {
           className="flex flex-col sm:flex-row gap-6"
         >
           <Button 
-            href="/academy/courses" 
+            href="/courses" 
             variant="primary"
             className="px-8 py-4 text-base"
           >

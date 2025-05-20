@@ -104,7 +104,7 @@ const HeaderContent: React.FC<HeaderContentProps> = ({ academyInfo, description 
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, delay: 0.8 }}
       >
-        <Button href="/academy/courses" variant="primary" className="min-w-[150px]">
+        <Button href="/courses" variant="primary" className="min-w-[150px]">
           הקורסים שלנו
         </Button>
         <Button href="/contact?subject=academy" variant="secondary" className="min-w-[150px]">

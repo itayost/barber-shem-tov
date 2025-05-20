@@ -92,8 +92,8 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link href="/about" className="text-lightgrey hover:text-gold transition-colors duration-200 block py-1">
-                  אודות
+                <Link href="/courses" className="text-lightgrey hover:text-gold transition-colors duration-200 block py-1">
+                  קורסים
                 </Link>
               </li>
             </ul>
@@ -170,7 +170,7 @@ const Footer = () => {
             </div>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link
-                href="/academy/apply"
+                href="/academy"
                 className="btn-primary text-center px-6 py-3 inline-block"
               >
                 הרשמה לקורסים

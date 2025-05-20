@@ -258,7 +258,7 @@ const MobileMenu = ({ isOpen, onClose, academyInfo, navItems, id }: MobileMenuPr
                 transition={{ delay: 0.4 }}
               >
                 <Button 
-                  href="/academy/apply" 
+                  href="/contact" 
                   variant="primary"
                   className={`w-full text-center ${isSmallScreen ? 'py-2 text-sm' : ''}`}
                   onClick={handleLinkButtonClick}

@@ -67,7 +67,7 @@ const Navbar = () => {
           ]} 
           callToAction={{
             text: "הרשמה לקורסים",
-            href: "/academy/apply",
+            href: "/academy",
             className: "btn-primary"
           }}
         />

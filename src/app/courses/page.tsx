@@ -36,7 +36,7 @@ export default function CoursesPage() {
   
   // Find selected course for modal
   const selectedCourse = selectedCourseId 
-    ? courses.find(course => course.id === selectedCourseId) 
+    ? courses.find(course => course.id === selectedCourseId) || null
     : null;
   
   // Show course details modal
@@ -95,8 +95,8 @@ export default function CoursesPage() {
             </div>
           )}
           
-          {/* Course details modal */}
-          {selectedCourseId && (
+          {/* Course details modal - Only show when we have both a selectedCourseId AND a valid selectedCourse */}
+          {selectedCourseId && selectedCourse && (
             <CourseDetailsModal 
               course={selectedCourse}
               instructors={instructors}

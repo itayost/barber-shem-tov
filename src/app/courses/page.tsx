@@ -1,4 +1,3 @@
-// src/app/courses/page.tsx
 'use client';
 
 import React, { useState } from 'react';
@@ -78,8 +77,7 @@ export default function CoursesPage() {
               <CourseCard 
                 key={course.id}
                 course={course}
-                instructors={instructors}
-                onShowDetails={handleShowDetails}
+                onEnroll={() => handleShowDetails(course.id)}
               />
             ))}
           </div>

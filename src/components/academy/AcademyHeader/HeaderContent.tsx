@@ -1,4 +1,3 @@
-// src/components/academy/AcademyHeader/HeaderContent.tsx
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
@@ -151,8 +150,8 @@ interface KeyStatProps {
 const KeyStat: React.FC<KeyStatProps> = ({ value, label, suffix = '' }) => {
   const [count, setCount] = useState(0);
   const countRef = useRef<number>(0);
-  const requestRef = useRef<number>();
-  const startTimeRef = useRef<number>();
+  const requestRef = useRef<number | undefined>(undefined);
+  const startTimeRef = useRef<number | undefined>(undefined);
   
   useEffect(() => {
     // Animation duration in ms

@@ -130,7 +130,7 @@ export const metadata = {
     type: 'website',
     images: [
       {
-        url: '/images/hero-barbershop.jpg',
+        url: '/images/logos/og.png',
         width: 1200,
         height: 630,
         alt: 'The Fader - מספרה בטירת הכרמל',
@@ -143,7 +143,7 @@ export const metadata = {
     card: 'summary_large_image',
     title: 'The Fader | ספר מודרני ויוקרתי בטירת הכרמל',
     description: 'חווית הספרות המובילה של הצפון. הזמינו תור עוד היום.',
-    images: ['/images/hero-barbershop.jpg'],
+    images: ['/images/logos/og.png'],
     creator: '@TheFaderBarber',
     site: '@TheFaderBarber',
   },

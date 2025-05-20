@@ -1,4 +1,3 @@
-// src/components/academy/OurStory/index.tsx
 'use client';
 
 import React from 'react';
@@ -124,9 +123,9 @@ const OurStory: React.FC<OurStoryProps> = ({
             <h3 className="text-h3 text-gold mb-4 font-heebo">המילה של המייסד</h3>
             <div className="mb-6 text-xl font-light text-lightgrey leading-relaxed">
               <p className="mb-4 relative">
-                <span className="absolute -right-6 top-0 text-gold text-4xl opacity-30">"</span>
+                <span className="absolute -right-6 top-0 text-gold text-4xl opacity-30">&ldquo;</span>
                 {founderMessage}
-                <span className="absolute -bottom-6 left-0 text-gold text-4xl opacity-30">"</span>
+                <span className="absolute -bottom-6 left-0 text-gold text-4xl opacity-30">&rdquo;</span>
               </p>
             </div>
             <div className="text-gold font-medium">{founderName}</div>

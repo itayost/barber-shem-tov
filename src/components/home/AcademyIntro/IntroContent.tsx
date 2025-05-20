@@ -1,4 +1,3 @@
-// src/components/home/AcademyIntro/IntroContent.tsx
 import React from 'react';
 import { motion } from 'framer-motion';
 import Button from '@/components/common/Button';
@@ -37,7 +36,7 @@ const IntroContent: React.FC = () => {
           whileHover={{ x: 5, borderRightWidth: '6px' }}
         >
           <p className="text-gold italic font-medium text-lg mb-2">
-            "אנו לא רק מלמדים טכניקות - אנו מעצבים את העתיד של תעשיית הספרות בישראל."
+            &ldquo;אנו לא רק מלמדים טכניקות - אנו מעצבים את העתיד של תעשיית הספרות בישראל.&rdquo;
           </p>
           <div className="flex items-center">
             {director?.image && (

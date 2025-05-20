@@ -153,17 +153,16 @@ export const academyInfo = {
   },
   
   getHoursForDay: function(dayNumber: number) {
-    const dayMap: Record<number, string> = {
-      0: 'ראשון', // Sunday
-      1: 'שני',   // Monday
-      2: 'שלישי', // Tuesday
-      3: 'רביעי', // Wednesday
-      4: 'חמישי', // Thursday
-      5: 'שישי',  // Friday
-      6: 'שבת'    // Saturday
-    };
-    
-    const dayName = dayMap[dayNumber];
+    // Map of day numbers to day names - could be used for localization or display
+    // const dayMap: Record<number, string> = {
+    //   0: 'ראשון', // Sunday
+    //   1: 'שני',   // Monday
+    //   2: 'שלישי', // Tuesday
+    //   3: 'רביעי', // Wednesday
+    //   4: 'חמישי', // Thursday
+    //   5: 'שישי',  // Friday
+    //   6: 'שבת'    // Saturday
+    // };
     
     // Check if it's Saturday (closed)
     if (dayNumber === 6) {

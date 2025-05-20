@@ -1,4 +1,3 @@
-// src/components/home/AcademyFeatures/AnimatedStatisticBox.tsx
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, useInView } from 'framer-motion';
 
@@ -44,13 +43,17 @@ const AnimatedStatisticBox: React.FC<AnimatedStatisticBoxProps> = ({ value, unit
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.5 }}
+      transition={{ 
+        duration: 0.5,
+        type: "spring", 
+        stiffness: 300, 
+        damping: 15 
+      }}
       whileHover={{ 
         borderColor: "rgba(201, 166, 107, 0.3)",
         y: -5,
         boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)" 
       }}
-      transition={{ type: "spring", stiffness: 300, damping: 15 }}
     >
       <div className="text-gold text-h2 font-bold mb-2 flex items-center justify-center">
         {count}{unit && <span className="text-lg mr-1">{unit}</span>}

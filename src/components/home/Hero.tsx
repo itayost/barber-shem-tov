@@ -3,7 +3,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import HeroContent from './HeroContent';
 import ScrollDownButton from './ScrollDownButton';
-import { academyInfo } from '@/lib/data';
 
 const Hero = () => {
   const [isLoaded, setIsLoaded] = useState(false);

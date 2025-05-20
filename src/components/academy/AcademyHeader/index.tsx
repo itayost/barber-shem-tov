@@ -13,7 +13,6 @@ interface AcademyHeaderProps {
 }
 
 const AcademyHeader: React.FC<AcademyHeaderProps> = ({
-  title = 'האקדמיה לאמנות הספרות',
   description
 }) => {
   // Custom description if not provided

@@ -25,7 +25,6 @@ const MobileMenu = ({ isOpen, onClose, academyInfo, navItems, id }: MobileMenuPr
   // Ref for the menu container to trap focus
   const menuRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
-  const [viewportHeight, setViewportHeight] = useState(0);
   const [isSmallScreen, setIsSmallScreen] = useState(false);
   
   // Update viewport height on mount and resize
@@ -33,7 +32,6 @@ const MobileMenu = ({ isOpen, onClose, academyInfo, navItems, id }: MobileMenuPr
     if (typeof window !== 'undefined') {
       // Initial calculation
       const updateViewportSize = () => {
-        setViewportHeight(window.innerHeight);
         setIsSmallScreen(window.innerHeight < 700);
       };
       

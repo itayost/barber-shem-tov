@@ -1,4 +1,3 @@
-// src/components/home/AcademyFeatures/FeaturedCourse.tsx
 import React from 'react';
 import { motion } from 'framer-motion';
 import Button from '@/components/common/Button';
@@ -32,14 +31,19 @@ const FeaturedCourse = () => {
       className="bg-gold/10 p-8 border border-gold border-opacity-30 mb-8"
       initial={{ opacity: 0, x: 20 }}
       whileInView={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.7, delay: 0.3 }}
       viewport={{ once: true }}
       whileHover={{ 
         scale: 1.02, 
         boxShadow: "0 10px 25px -5px rgba(201, 166, 107, 0.1), 0 8px 10px -6px rgba(201, 166, 107, 0.1)",
         borderColor: "rgba(201, 166, 107, 0.5)"
       }}
-      transition={{ type: "spring", stiffness: 400, damping: 10 }}
+      transition={{ 
+        duration: 0.7, 
+        delay: 0.3,
+        type: "spring", 
+        stiffness: 400, 
+        damping: 10 
+      }}
     >
       {featuredProfessionalCourse ? (
         <>

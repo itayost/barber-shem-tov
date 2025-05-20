@@ -1,6 +1,5 @@
 // src/components/home/AcademyFeatures/StatisticsGrid.tsx
 import React from 'react';
-import { motion } from 'framer-motion';
 import StatisticBox from './StatisticBox';
 import AnimatedStatisticBox from './AnimatedStatisticBox';
 

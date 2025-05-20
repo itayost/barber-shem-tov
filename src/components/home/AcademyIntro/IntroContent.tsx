@@ -50,7 +50,7 @@ const IntroContent: React.FC = () => {
                 />
               </div>
             )}
-            <p className="text-lightgrey">— {director?.name || academyInfo.director}, {director?.title || 'מייסד ומנהל האקדמיה'}</p>
+            <p className="text-lightgrey">— {director?.name || 'בר שם טוב'}, {director?.title || 'מייסד ומנהל האקדמיה'}</p>
           </div>
         </motion.div>
         

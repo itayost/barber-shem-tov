@@ -480,3 +480,27 @@ html {
     @apply max-w-full mx-0;
   }
 }
+
+.academy-gradient {
+  background: linear-gradient(135deg, var(--color-charcoal) 0%, var(--color-charcoal-light) 100%);
+}
+
+.course-card-hover {
+  transition: all 0.3s ease;
+}
+
+.course-card-hover:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(201, 166, 107, 0.15);
+}
+
+/* Academy-specific section spacing */
+.academy-section {
+  padding: 100px 0;
+}
+
+@media (max-width: 768px) {
+  .academy-section {
+    padding: 60px 0;
+  }
+}

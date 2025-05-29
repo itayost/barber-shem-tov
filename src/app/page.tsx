@@ -1,20 +1,31 @@
-// File: src/app/page.tsx
+// src/app/page.tsx - Streamlined Homepage
 import Hero from '@/components/home/Hero';
-import AcademyTestimonials from '@/components/home/AcademyTestimonials';
-import AcademyGallery from '@/components/home/AcademyGallery';
-import AcademyIntro from '@/components/home/AcademyIntro';
-import AcademyFeatures from '@/components/home/AcademyFeatures';
+import ThreePathways from '@/components/home/ThreePathways';
+import WhyUs from '@/components/home/WhyUs';
+import Testimonials from '@/components/home/Testimonials';
+import NextSteps from '@/components/home/NextSteps';
+import WhatsAppFloat from '@/components/common/WhatsAppFloat';
 
 export default function Home() {
   return (
     <>
+      {/* 1. Hero Section - Clear value proposition with 2 CTAs */}
       <Hero />
-      <div className="relative bg-charcoal py-20">
-        <AcademyIntro/>
-        <AcademyFeatures/>
-        <AcademyGallery/>
-        <AcademyTestimonials />
-      </div>
+      
+      {/* 2. Three Pathways - Simple course progression */}
+      <ThreePathways />
+      
+      {/* 3. Why Us - 4 outcome-focused benefits */}
+      <WhyUs />
+      
+      {/* 4. Testimonials - 3 success stories with real results */}
+      <Testimonials />
+      
+      {/* 5. Next Steps - Simple 3-step process with large CTA */}
+      <NextSteps />
+
+      {/* WhatsApp floating button for immediate contact */}
+      <WhatsAppFloat />
     </>
   );
 }

@@ -37,7 +37,7 @@ const HeroContent: React.FC<HeroContentProps> = ({ isLoaded }) => {
       initial="hidden"
       animate={isLoaded ? "visible" : "hidden"}
     >
-      <div className="flex flex-col items-center text-center max-w-2xl mx-auto">
+      <div className="flex flex-col items-center text-center max-w-4xl mx-auto">
         {/* Logo */}
         <motion.div 
           variants={item}
@@ -55,35 +55,73 @@ const HeroContent: React.FC<HeroContentProps> = ({ isLoaded }) => {
           </div>
         </motion.div>
         
-        
-        {/* Subheader */}
-        <motion.p 
+        {/* Main headline - conversion focused */}
+        <motion.h1 
           variants={item}
-          className="text-lightgrey text-lg md:text-xl mb-12 max-w-xl"
+          className="text-h1 md:text-5xl lg:text-6xl font-bold text-offwhite mb-6 leading-tight"
         >
-          המקום המוביל להכשרת ספרים מקצועיים בישראל
-        </motion.p>
+          התחל קריירה מצליחה<br />
+          <span className="text-gold">כספר מקצועי</span>
+        </motion.h1>
         
-        {/* Two buttons */}
+        {/* Subheader with key benefit */}
         <motion.div 
           variants={item}
-          className="flex flex-col sm:flex-row gap-6"
+          className="bg-gold/10 border border-gold/30 px-6 py-4 mb-8 backdrop-blur-sm"
+        >
+          <p className="text-gold text-xl font-medium">
+            🎯 <span className="font-bold">{academyInfo.stats.placementRate}%</span> מהבוגרים שלנו מוצאים עבודה תוך 3 חודשים
+          </p>
+        </motion.div>
+        
+        {/* Value proposition */}
+        <motion.p 
+          variants={item}
+          className="text-lightgrey text-xl md:text-2xl mb-12 max-w-3xl leading-relaxed"
+        >
+          למד מהמומחים, קבל הכשרה מעשית עם לקוחות אמיתיים, 
+          והכן עצמך לקריירה רווחית ומספקת בתעשייה המתפתחת
+        </motion.p>
+        
+        {/* Two clear CTAs */}
+        <motion.div 
+          variants={item}
+          className="flex flex-col sm:flex-row gap-6 w-full max-w-lg"
         >
           <Button 
             href="/courses" 
             variant="primary"
-            className="px-8 py-4 text-base"
+            className="flex-1 py-4 px-8 text-lg font-bold shadow-lg hover:shadow-xl"
           >
-            הקורסים שלנו
+            🚀 הרשמה לקורס
           </Button>
           
           <Button 
-            href="/contact?subject=academy" 
+            href="/contact?consultation=true" 
             variant="secondary"
-            className="px-8 py-4 text-base"
+            className="flex-1 py-4 px-8 text-lg font-medium"
           >
-            דבר איתנו
+            💬 קבל ייעוץ חינם
           </Button>
+        </motion.div>
+
+        {/* Trust indicators */}
+        <motion.div 
+          variants={item}
+          className="mt-12 flex flex-wrap justify-center gap-8 text-lightgrey/80 text-sm"
+        >
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 bg-gold rounded-full"></span>
+            <span>מאז {academyInfo.established}</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 bg-gold rounded-full"></span>
+            <span>{academyInfo.stats.graduates}+ בוגרים מצליחים</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 bg-gold rounded-full"></span>
+            <span>הסמכה מקצועית מוכרת</span>
+          </div>
         </motion.div>
       </div>
     </motion.div>

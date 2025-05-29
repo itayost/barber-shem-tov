@@ -1,48 +1,73 @@
-// src/pages/academy/index.tsx or src/app/academy/page.tsx
+// src/app/academy/page.tsx - Complete Academy Page
 import FAQSection, { FAQItem } from '@/components/academy/FAQSection';
 import CTASection from '@/components/academy/CTASection';
 import AcademyHeader from '@/components/academy/AcademyHeader';
 import OurStory from '@/components/academy/OurStory';
+import InstructorsSection from '@/components/academy/InstructorsSection';
+import WhatsAppFloat from '@/components/common/WhatsAppFloat';
+import { instructors } from '@/lib/data';
 
-// Sample FAQ data
-const faqItems: FAQItem[] = [
+// Academy-specific FAQ data
+const academyFAQs: FAQItem[] = [
   {
     id: 'faq-1',
-    question: 'האם נדרש ניסיון קודם בספרות?',
-    answer: 'לא, הקורסים הבסיסיים שלנו מיועדים למתחילים ללא ניסיון קודם. אנו מלמדים את כל היסודות מאפס.'
+    question: 'מהי גישת ההוראה של האקדמיה?',
+    answer: 'אנו מאמינים בלמידה מעשית - 70% מהזמן תעבוד עם לקוחות אמיתיים תחת הדרכה צמודה. שילוב של תיאוריה וניסיון מעשי מבטיח שתסיים עם הכישורים והביטחון לעבוד מיד.'
   },
   {
     id: 'faq-2',
-    question: 'כמה זמן לוקח להשלים את הקורס הבסיסי?',
-    answer: 'הקורס הבסיסי שלנו נמשך כ-4 שבועות, עם מפגשים של 3-4 שעות, מספר פעמים בשבוע.'
+    question: 'איך האקדמיה עוזרת בהשמה לעבודה?',
+    answer: 'יש לנו רשת של 50+ מספרות שותפות שמחפשות בוגרים שלנו. אנו מספקים: הכנה לראיונות, בניית CV מקצועי, המלצות אישיות, וליווי עד למציאת עבודה. 92% מהבוגרים מוצאים עבודה תוך 3 חודשים.'
   },
   {
     id: 'faq-3',
-    question: 'האם ניתן למצוא עבודה לאחר סיום הקורס?',
-    answer: 'כן, אנו עוזרים לבוגרים שלנו למצוא הזדמנויות עבודה. יש לנו קשרים עם מספרות רבות באזור, ואנו מציעים גם תמיכה בכתיבת קורות חיים והכנה לראיונות עבודה.'
+    question: 'האם ההסמכה שלכם מוכרת?',
+    answer: 'בהחלט! האקדמיה מוכרת על ידי משרד העבודה והרווחה, וחברה באיגוד הספרים הבינלאומי. התעודות שלנו מוכרות בכל מספרה בארץ ונחשבות לסימן איכות בתעשייה.'
   },
   {
     id: 'faq-4',
-    question: 'האם אקבל תעודה רשמית בסוף הקורס?',
-    answer: 'כן, כל המשתתפים שמסיימים בהצלחה את הקורסים שלנו מקבלים תעודת הסמכה מוכרת בתעשייה, המאשרת את המיומנויות והידע שרכשו.'
+    question: 'מה מייחד אתכם מאקדמיות אחרות?',
+    answer: 'ניסיון של 7 שנים, מעל 500 בוגרים מצליחים, צוות מדריכים מהמובילים בתעשייה, כיתות קטנות (עד 12 תלמידים), והתמקדות בהשמה ובהצלחה ארוכת טווח של הבוגרים.'
   },
   {
     id: 'faq-5',
-    question: 'מה כוללים דמי הלימוד?',
-    answer: 'דמי הלימוד כוללים את כל חומרי הלימוד, השימוש בכלים ובציוד במהלך הקורס, וגישה למשאבים מקוונים. בנוסף, תקבל ערכת כלים בסיסית שתוכל לקחת איתך בסיום הקורס.'
+    question: 'האם יש אפשרות לסיור באקדמיה?',
+    answer: 'כמובן! אנחנו מעודדים מועמדים לבוא לסיור היכרות. תוכלו לראות את הכיתות, להכיר את הצוות, ולקבל תחושה של האווירה. צרו קשר לתיאום סיור אישי.'
+  },
+  {
+    id: 'faq-6',
+    question: 'איך נראה יום טיפוסי באקדמיה?',
+    answer: 'מתחילים בהדגמה טכנית (שעה), אחר כך תרגול מודרך (שעה), ואז עבודה עם לקוחות אמיתיים (2 שעות). כל יום מסתיים בסיכום ומשוב אישי. האווירה תומכת ומעודדת למידה.'
   }
 ];
 
 export default function AcademyPage() {
   return (
     <>
+      {/* 1. Academy Header - Hero section with stats and featured content */}
       <AcademyHeader />
       
-      <OurStory/>
+      {/* 2. Our Story - Timeline, founder message, values, vision */}
+      <OurStory />
       
-      <FAQSection faqs={faqItems} />
+      {/* 3. Instructors Section - Showcase the teaching team */}
+      <InstructorsSection instructors={instructors} />
       
-      <CTASection />
+      {/* 4. FAQ Section - Address common questions about the academy */}
+      <FAQSection 
+        faqs={academyFAQs}
+        title="שאלות נפוצות על האקדמיה"
+        description="כל מה שרציתם לדעת על האקדמיה, גישת ההוראה, וההסמכות שלנו"
+      />
+      
+      {/* 5. CTA Section - Multiple engagement options */}
+      <CTASection 
+        title="מוכנים לקחת את הצעד הבא?"
+        description="בחרו את הדרך הנוחה לכם ליצור איתנו קשר ולהתחיל את המסע"
+      />
+      
+      {/* WhatsApp floating button for immediate contact */}
+      <WhatsAppFloat />
     </>
   );
 }

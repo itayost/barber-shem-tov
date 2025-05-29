@@ -10,13 +10,87 @@ export type Course = {
   duration_he: string;
   category: 'beginner' | 'advanced' | 'professional' | 'workshop' | 'business';
   featured?: boolean;
-  instructor: string; // All courses have an instructor
-  maxStudents?: number; // Added maximum students allowed
-  prerequisites?: string; // Added prerequisites
-  certification?: string; // Added certification type
+  instructor: string;
+  maxStudents?: number;
+  prerequisites?: string;
+  certification?: string;
 };
 
-// Modified to include only the two main courses
+// Gallery Types
+export interface GalleryImage {
+  id: string;
+  category: string;
+  title: string;
+  src: string;
+  description?: string;
+  featured?: boolean;
+  order?: number;
+  date?: string;
+  tags?: string[];
+}
+
+export interface GalleryCategory {
+  id: string;
+  label: string;
+  description: string;
+  icon: string;
+  order: number;
+}
+
+export interface GalleryMetadata {
+  [filename: string]: {
+    title?: string;
+    description?: string;
+    featured?: boolean;
+    order?: number;
+    date?: string;
+    tags?: string[];
+  };
+}
+
+// Gallery Categories Data
+export const galleryCategories: GalleryCategory[] = [
+  {
+    id: 'experience',
+    label: 'חוויות',
+    description: 'רגעים בלתי נשכחים מתוך ההכשרה והעשייה',
+    icon: '📸',
+    order: 1
+  },
+  {
+    id: 'space',
+    label: 'המרחב',
+    description: 'הסביבה המודרנית שלנו שמעצימה למידה ויצירה',
+    icon: '🏢',
+    order: 2
+  },
+  {
+    id: 'work',
+    label: 'עבודות',
+    description: 'תוצרים יצירתיים ומקצועיים של המשתתפים',
+    icon: '✂️',
+    order: 3
+  }
+];
+
+// Gallery helper functions
+export const getCategoryById = (id: string): GalleryCategory | undefined => {
+  return galleryCategories.find(cat => cat.id === id);
+};
+
+export const getCategoryLabel = (id: string): string => {
+  const category = getCategoryById(id);
+  return category?.label || id;
+};
+
+export const getCategoryLabelsMap = (): Record<string, string> => {
+  return galleryCategories.reduce((acc, cat) => {
+    acc[cat.id] = cat.label;
+    return acc;
+  }, {} as Record<string, string>);
+};
+
+// Courses data
 export const courses: Course[] = [
   {
     id: 'basic-barbering-course',
@@ -88,24 +162,6 @@ export const instructors = [
   }
 ];
 
-export interface GalleryImage {
-  id: string;
-  category: string;
-  title: string;
-  src: string;
-}
-
-// Updated gallery categories to focus on academy
-export const galleryCategories = {
-  labels: {
-    classroom: 'כיתות הלימוד',
-    workshops: 'סדנאות',
-    students: 'עבודות סטודנטים',
-    graduates: 'בוגרים',
-    events: 'אירועים'
-  }
-};
-
 // Academy-specific business info
 export const academyInfo = {
   name: 'The Fader - Barbershop & Academy',
@@ -113,7 +169,7 @@ export const academyInfo = {
   address: 'העצמאות 4, טירת הכרמל',
   phone: '+972528691415',
   email: 'academy@modernbarber.com',
-  established: 2018, // Updated to match site copy
+  established: 2018,
   hours: [
     { days: 'ראשון-חמישי', hours: '9:00-19:00' },
     { days: 'שישי', hours: '9:00-14:00' },
@@ -131,7 +187,7 @@ export const academyInfo = {
     placementRate: 92,
     programCount: 15,
     industryAwards: 12,
-    averageSalaryIncrease: 40, // percent
+    averageSalaryIncrease: 40,
   },
   
   // Accreditations and partnerships
@@ -149,32 +205,18 @@ export const academyInfo = {
   
   // Helper functions
   isOpenDay: function(dayNumber: number) {
-    return dayNumber !== 6; // Closed on Saturday (6)
+    return dayNumber !== 6;
   },
   
   getHoursForDay: function(dayNumber: number) {
-    // Map of day numbers to day names - could be used for localization or display
-    // const dayMap: Record<number, string> = {
-    //   0: 'ראשון', // Sunday
-    //   1: 'שני',   // Monday
-    //   2: 'שלישי', // Tuesday
-    //   3: 'רביעי', // Wednesday
-    //   4: 'חמישי', // Thursday
-    //   5: 'שישי',  // Friday
-    //   6: 'שבת'    // Saturday
-    // };
-    
-    // Check if it's Saturday (closed)
     if (dayNumber === 6) {
       return { isOpen: false, open: '', close: '' };
     }
     
-    // Check if it's Friday (shorter hours)
     if (dayNumber === 5) {
       return { isOpen: true, open: '9:00', close: '14:00' };
     }
     
-    // Regular hours for all other days
     return { isOpen: true, open: '9:00', close: '19:00' };
   }
 };

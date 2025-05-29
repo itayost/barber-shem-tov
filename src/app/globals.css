@@ -504,3 +504,12 @@ html {
     padding: 60px 0;
   }
 }
+
+/* Hide horizontal scrollbar */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;     /* Firefox */
+}

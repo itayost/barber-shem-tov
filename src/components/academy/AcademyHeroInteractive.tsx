@@ -4,7 +4,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { academyInfo } from '@/lib/data';
 import Button from '@/components/common/Button';
 
 const AcademyHeroInteractive: React.FC = () => {

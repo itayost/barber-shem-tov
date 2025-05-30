@@ -3,6 +3,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 
 // Simple 3-step process
 const steps = [
@@ -125,7 +126,7 @@ const NextSteps: React.FC = () => {
                 <div className="flex-shrink-0 relative">
                   <div className="w-32 h-32 bg-charcoal border-4 border-gold rounded-full flex flex-col items-center justify-center relative z-10">
                     <div className="text-4xl mb-2">
-                      <img src={step.icon} alt={`${step.title} icon`} width={40} height={40} className="text-gold"/>
+                      <Image src={step.icon} alt={`${step.title} icon`} width={40} height={40} className="text-gold"/>
                     </div>
                     <div className="text-gold font-bold text-sm">{step.number}</div>
                   </div>
@@ -153,10 +154,10 @@ const NextSteps: React.FC = () => {
                       
                       <div className="flex items-center gap-4 text-sm">
                         <div className="bg-gold/10 px-3 py-1 text-gold flex items-center gap-2">
-                          <img src="/icons/Timer.svg" alt="Timer icon" width={24} height={24} className="text-gold"/> {step.duration}
+                          <Image src="/icons/Timer.svg" alt="Timer icon" width={24} height={24} className="text-gold"/> {step.duration}
                         </div>
                         <div className="text-lightgrey flex items-center gap-2">
-                          <img src="/icons/PointerUp.svg" alt="Pointer up icon" width={24} height={24} className="text-lightgrey"/> {step.action}
+                          <Image src="/icons/PointerUp.svg" alt="Pointer up icon" width={24} height={24} className="text-lightgrey"/> {step.action}
                         </div>
                       </div>
                     </div>
@@ -207,7 +208,7 @@ const NextSteps: React.FC = () => {
                 whileTap={{ scale: 0.95 }}
               >
                 <span className="flex items-center gap-3">
-                  <img src="/icons/StartLearning.svg" alt="Rocket icon" width={40} height={40} className="text-charcoal"/> התחל עכשיו
+                  <Image src="/icons/StartLearning.svg" alt="Rocket icon" width={40} height={40} className="text-charcoal"/> התחל עכשיו
                   <motion.span
                     className="text-xl"
                     animate={{ x: [0, 5, 0] }}
@@ -250,7 +251,7 @@ const NextSteps: React.FC = () => {
               href="tel:+972528691415"
               className="flex items-center justify-center gap-2 bg-green-600 text-white py-3 px-6 hover:bg-green-700 transition-colors"
             >
-              <img src="/icons/Phone.svg" alt="Phone icon" width={24} height={24} className="text-white"/> 052-869-1415
+              <Image src="/icons/Phone.svg" alt="Phone icon" width={24} height={24} className="text-white"/> 052-869-1415
             </a>
             <a 
               href="https://wa.me/972528691415?text=היי, אשמח לקבל מידע על הקורסים"
@@ -258,7 +259,7 @@ const NextSteps: React.FC = () => {
               rel="noopener noreferrer"
               className="flex items-center justify-center gap-2 bg-green-500 text-white py-3 px-6 hover:bg-green-600 transition-colors"
             >
-              <img src="/icons/Whatsapp.svg" alt="WhatsApp icon" width={24} height={24} className="text-white"/> WhatsApp
+              <Image src="/icons/Whatsapp.svg" alt="WhatsApp icon" width={24} height={24} className="text-white"/> WhatsApp
             </a>
           </div>
         </motion.div>

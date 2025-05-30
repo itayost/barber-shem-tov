@@ -92,7 +92,7 @@ function ContactContent() {
                 className="flex items-center gap-3 bg-charcoal/50 px-6 py-3 rounded-full border border-gold/20 hover:border-gold/40 transition-all"
                 whileHover={{ scale: 1.05, backgroundColor: 'rgba(212, 175, 55, 0.1)' }}
               >
-                <img src="/icons/Phone.svg" alt="Phone icon" width={20} height={20} className="text-lightgrey"/>
+                <Image src="/icons/Phone.svg" alt="Phone icon" width={20} height={20} className="text-lightgrey"/>
                 <span className="text-lightgrey">{academyInfo.phone}</span>
               </motion.a>
               <motion.a
@@ -102,7 +102,7 @@ function ContactContent() {
                 className="flex items-center gap-3 bg-charcoal/50 px-6 py-3 rounded-full border border-gold/20 hover:border-gold/40 transition-all"
                 whileHover={{ scale: 1.05, backgroundColor: 'rgba(212, 175, 55, 0.1)' }}
               >
-                <img src="/icons/Whatsapp.svg" alt="WhatsApp icon" width={20} height={20} className="text-lightgrey"/>
+                <Image src="/icons/Whatsapp.svg" alt="WhatsApp icon" width={20} height={20} className="text-lightgrey"/>
                 <span className="text-lightgrey">WhatsApp</span>
               </motion.a>
               <motion.a

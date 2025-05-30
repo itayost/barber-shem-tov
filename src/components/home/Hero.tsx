@@ -1,95 +1,189 @@
-// src/components/home/Hero.tsx
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import HeroContent from './HeroContent';
-import ScrollDownButton from './ScrollDownButton';
-import { AnimatePresence, motion } from 'framer-motion'; // Import motion for transitions
+import { motion, AnimatePresence } from 'framer-motion';
+import { ChevronDown } from 'lucide-react';
+import Button from '@/components/common/Button';
 
 const Hero = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [loadedImages, setLoadedImages] = useState<string[]>([]);
 
-  // Array of background image paths
+  // Array of background images
   const backgroundImagePaths = [
-    "/images/hero/homeHero1.jpg", // Use your provided image paths
+    "/images/hero/homeHero1.jpg", 
     "/images/hero/homeHero2.jpg", 
     "/images/hero/homeHero3.jpg",
   ];
 
   // Preload images
   useEffect(() => {
+    let loadedCount = 0;
     backgroundImagePaths.forEach((imagePath) => {
       const img = new Image();
       img.onload = () => {
-        setLoadedImages((prevLoadedImages) => [...prevLoadedImages, imagePath]);
+        loadedCount++;
+        setLoadedImages(prev => [...prev, imagePath]);
+        if (loadedCount === backgroundImagePaths.length) {
+          setIsLoaded(true);
+        }
       };
       img.src = imagePath;
     });
-  }, [backgroundImagePaths]); // Preload all images when the component mounts or image paths change
+  }, []);
 
+  // Auto-advance slides
   useEffect(() => {
-    setIsLoaded(true);
-
-    // Set interval to change background image every 5 seconds
+    if (!isLoaded) return;
+    
     const intervalId = setInterval(() => {
       setCurrentImageIndex((prevIndex) =>
         (prevIndex + 1) % backgroundImagePaths.length
       );
-    }, 5000); // Change image every 5000 milliseconds (5 seconds)
+    }, 6000); // 6 seconds interval
 
-    // Clear interval on component unmount
     return () => clearInterval(intervalId);
-  }, [backgroundImagePaths.length]); // Depend on array length to restart interval if images change
-  
+  }, [backgroundImagePaths.length, isLoaded]);
+
   const currentImagePath = backgroundImagePaths[currentImageIndex];
   const isCurrentImageLoaded = loadedImages.includes(currentImagePath);
 
+  // Simple fade animation variants
+  const imageVariants = {
+    enter: {
+      opacity: 0,
+    },
+    center: {
+      opacity: 1,
+      transition: {
+        opacity: { duration: 2, ease: "easeInOut" },
+      }
+    },
+    exit: {
+      opacity: 0,
+      transition: {
+        opacity: { duration: 2, ease: "easeInOut" },
+      }
+    }
+  };
+
+  // Content animation
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: 0.3
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: { 
+      opacity: 1, 
+      y: 0, 
+      transition: { 
+        duration: 0.8,
+        ease: "easeOut"
+      }
+    }
+  };
+
   return (
-    <section 
-      className="relative h-[100dvh] flex flex-col overflow-hidden bg-charcoal"
-      dir="rtl"
-    >
-      {/* Background images with overlay and transitions */}
+    <section className="relative h-[100dvh] flex flex-col overflow-hidden bg-charcoal" dir="rtl">
+      {/* Background images with fade transitions */}
       <div className="absolute inset-0 z-0">
-        <AnimatePresence initial={false}>
+        <AnimatePresence>
           {isCurrentImageLoaded && (
             <motion.div
               key={currentImageIndex}
-              className="absolute inset-0 h-full w-full bg-cover bg-center"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 6 }}
-              style={{
-                backgroundImage: `url(${currentImagePath})`,
-                backgroundPosition: 'center center',
-              }}
-              aria-hidden="true"
-            />
+              className="absolute inset-0 h-full w-full"
+              initial="enter"
+              animate="center"
+              exit="exit"
+              variants={imageVariants}
+            >
+              <div
+                className="w-full h-full bg-cover bg-center"
+                style={{
+                  backgroundImage: `url(${currentImagePath})`,
+                  backgroundPosition: 'center center',
+                }}
+              />
+            </motion.div>
           )}
         </AnimatePresence>
         
-        {/* Gradient overlay - Stronger on mobile for readability */}
-        <div 
-          className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/60 to-black/80 sm:from-black/60 sm:via-black/50 sm:to-black/70"
-          aria-hidden="true"
-        />
+        {/* Mobile-optimized gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/60 to-black/80 sm:from-black/50 sm:via-black/40 sm:to-black/60" />
       </div>
       
-      {/* Main content container */}
-      <div className="flex-1 flex items-center justify-center px-4 sm:px-6 pt-16">
-        {/* Hero content - Adjusted padding */}
-        <div className="w-full relative z-10">
-          <HeroContent isLoaded={isLoaded} />
-        </div>
+      {/* Main content - Positioned at bottom */}
+      <div className="flex-1 flex items-end pb-24 sm:pb-32 px-5 sm:px-8 lg:px-12">
+        <motion.div 
+          className="w-full relative z-10"
+          variants={containerVariants}
+          initial="hidden"
+          animate={isLoaded ? "visible" : "hidden"}
+        >
+          <div className="flex flex-col items-center text-center">
+            <motion.h1 
+              variants={itemVariants}
+              className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-offwhite mb-3 sm:mb-4 md:mb-6 leading-[1.2] sm:leading-tight"
+            >
+              צור את העתיד שלך<br />
+              <span className="text-gold">כאמן ספרות מוביל</span>
+            </motion.h1>
+            
+            <motion.p 
+              variants={itemVariants}
+              className="text-lightgrey text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl mb-6 sm:mb-8 md:mb-10 max-w-lg md:max-w-xl lg:max-w-2xl leading-[1.6] sm:leading-relaxed px-2 sm:px-0"
+            >
+              תוכנית הכשרה מקיפה ברמה בינלאומית
+              <span className="hidden sm:inline"> עם התמחות בטכניקות פרימיום</span>
+            </motion.p>
+            
+            <motion.div 
+              variants={itemVariants}
+              className="w-full px-2 sm:px-0 max-w-[280px] sm:max-w-xs md:max-w-sm"
+            >
+              <Button 
+                href="/courses" 
+                variant="primary"
+                className="w-full font-bold text-sm sm:text-base"
+                size="large"
+              >
+                הרשמה לקורס
+              </Button>
+            </motion.div>
+          </div>
+        </motion.div>
       </div>
       
-      {/* Scroll down button */}
-      <div className="relative z-10 pb-4 sm:pb-6 flex justify-center">
-        <ScrollDownButton targetId="three-pathways" />
-      </div>
+      {/* Animated scroll indicator */}
+      <motion.div 
+        className="relative z-10 pb-6 sm:pb-8 flex justify-center"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1, duration: 1 }}
+      >
+        <button className="flex flex-col items-center cursor-pointer group">
+          <motion.div
+            animate={{ y: [0, 8, 0] }}
+            transition={{ 
+              repeat: Infinity, 
+              duration: 2, 
+              ease: "easeInOut"
+            }}
+            className="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-gold/50 flex items-center justify-center group-hover:border-gold transition-colors duration-300"
+          >
+            <ChevronDown className="w-5 h-5 sm:w-6 sm:h-6 text-gold" />
+          </motion.div>
+        </button>
+      </motion.div>
     </section>
   );
 };

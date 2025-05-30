@@ -37,7 +37,6 @@ export interface GalleryCategory {
   id: string;
   label: string;
   description: string;
-  icon: string;
   order: number;
 }
 
@@ -58,21 +57,18 @@ export const galleryCategories: GalleryCategory[] = [
     id: 'experience',
     label: 'חוויות',
     description: 'רגעים בלתי נשכחים מתוך ההכשרה והעשייה',
-    icon: '📸',
     order: 1
   },
   {
     id: 'space',
     label: 'המרחב',
     description: 'הסביבה המודרנית שלנו שמעצימה למידה ויצירה',
-    icon: '🏢',
     order: 2
   },
   {
     id: 'work',
     label: 'עבודות',
     description: 'תוצרים יצירתיים ומקצועיים של המשתתפים',
-    icon: '✂️',
     order: 3
   }
 ];
@@ -121,7 +117,7 @@ export const courses: Course[] = [
     ],
     nextSession: '15 בינואר',
     paymentOptions: true,
-    urgentNote: '📅 יש למהר!'
+    urgentNote: 'יש למהר!'
   },
   {
     id: 'advanced-styling-masterclass',
@@ -147,7 +143,7 @@ export const courses: Course[] = [
     ],
     nextSession: '28 בינואר',
     paymentOptions: true,
-    urgentNote: '📅 מספר מקומות מוגבל!'
+    urgentNote: 'מספר מקומות מוגבל!'
   }
 ];
 
@@ -169,7 +165,7 @@ export const academyTestimonials = [
     rating: 5,
     course: 'קורס ספרות בסיסי',
     instructor: 'בר שם טוב',
-    image: '/images/testimonials/ron.jpg',
+    image: '/images/testimonials/yarin.jpg',
     year: 2022
   },
   {
@@ -221,9 +217,9 @@ export const academyInfo = {
     { days: 'שבת', hours: 'סגור' }
   ],
   social: {
-    instagram: 'https://www.instagram.com/barber_shemtov_academy/',
-    facebook: 'https://www.facebook.com/barber.shemtov.academy',
-    youtube: 'https://www.youtube.com/channel/shemtov_academy'
+    instagram: 'https://www.instagram.com/barber_shemtov/',
+    facebook: 'https://www.facebook.com/people/Barber-shem-tov/100063887357860/',
+    tiktok: 'https://www.tiktok.com/@barber_shem_tov'
   },
   
   // Academy statistics

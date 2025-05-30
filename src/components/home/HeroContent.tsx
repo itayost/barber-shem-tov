@@ -1,8 +1,6 @@
 // src/components/home/HeroContent.tsx
 import React from 'react';
 import { motion } from 'framer-motion';
-import Image from 'next/image';
-import { academyInfo } from '@/lib/data';
 import Button from '@/components/common/Button';
 
 interface HeroContentProps {
@@ -39,23 +37,6 @@ const HeroContent: React.FC<HeroContentProps> = ({ isLoaded }) => {
       animate={isLoaded ? "visible" : "hidden"}
     >
       <div className="flex flex-col items-center text-center max-w-3xl mx-auto">
-        {/* Logo - Smaller on mobile */}
-        <motion.div 
-          variants={item}
-          className="mb-4 sm:mb-6"
-        >
-          <div className="relative w-36 h-18 sm:w-48 sm:h-24">
-            <Image
-              src="/images/logos/logo.png"
-              alt={academyInfo.name}
-              fill
-              priority
-              sizes="(max-width: 640px) 144px, 192px"
-              className="object-contain"
-            />
-          </div>
-        </motion.div>
-        
         {/* Main headline - Mobile optimized */}
         <motion.h1 
           variants={item}
@@ -64,16 +45,6 @@ const HeroContent: React.FC<HeroContentProps> = ({ isLoaded }) => {
           התחל קריירה מצליחה<br />
           <span className="text-gold">כספר מקצועי</span>
         </motion.h1>
-        
-        {/* Trust badge - Compact on mobile */}
-        <motion.div 
-          variants={item}
-          className="bg-gold/10 border border-gold/30 px-3 py-2 sm:px-4 sm:py-3 mb-4 sm:mb-6 backdrop-blur-sm"
-        >
-          <p className="text-gold text-sm sm:text-base font-medium">
-            🎯 <span className="font-bold">{academyInfo.stats.placementRate}%</span> מהבוגרים מוצאים עבודה
-          </p>
-        </motion.div>
         
         {/* Value proposition - Shorter on mobile */}
         <motion.p 
@@ -84,47 +55,19 @@ const HeroContent: React.FC<HeroContentProps> = ({ isLoaded }) => {
           <span className="hidden sm:inline"> והכן עצמך לקריירה רווחית</span>
         </motion.p>
         
-        {/* CTAs - Stack on mobile */}
+        {/* Single CTA Button */}
         <motion.div 
           variants={item}
-          className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full max-w-md"
+          className="w-full max-w-sm"
         >
           <Button 
             href="/courses" 
             variant="primary"
-            className="w-full sm:flex-1 py-3 px-5 text-sm sm:text-base font-bold"
-            size="medium"
+            className="w-full py-3 px-5 text-base font-bold"
+            size="large"
           >
-            🚀 הרשמה לקורס
+            הרשמה לקורס
           </Button>
-          
-          <Button 
-            href="/contact?consultation=true" 
-            variant="secondary"
-            className="w-full sm:flex-1 py-2.5 px-5 text-sm sm:text-base"
-            size="small"
-          >
-            💬 ייעוץ חינם
-          </Button>
-        </motion.div>
-
-        {/* Trust indicators - Mobile optimized */}
-        <motion.div 
-          variants={item}
-          className="mt-6 sm:mt-8 flex flex-wrap justify-center gap-3 sm:gap-4 text-[10px] sm:text-xs text-lightgrey/70"
-        >
-          <div className="flex items-center gap-1">
-            <span className="w-1 h-1 bg-gold rounded-full"></span>
-            <span>מאז {academyInfo.established}</span>
-          </div>
-          <div className="flex items-center gap-1">
-            <span className="w-1 h-1 bg-gold rounded-full"></span>
-            <span>{academyInfo.stats.graduates}+ בוגרים</span>
-          </div>
-          <div className="flex items-center gap-1">
-            <span className="w-1 h-1 bg-gold rounded-full"></span>
-            <span>הסמכה מוכרת</span>
-          </div>
         </motion.div>
       </div>
     </motion.div>

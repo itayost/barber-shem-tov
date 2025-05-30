@@ -27,7 +27,7 @@ const GalleryHero: React.FC<GalleryHeroProps> = ({ totalImages }) => {
             className="inline-block mb-8"
           >
             <div className="bg-gold/10 border border-gold/30 px-6 py-2 text-gold font-medium">
-              📸 {totalImages} תמונות מחיי האקדמיה
+              {totalImages} תמונות מחיי האקדמיה
             </div>
           </motion.div>
 

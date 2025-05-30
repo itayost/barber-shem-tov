@@ -62,7 +62,7 @@ const EnhancedGalleryGrid: React.FC<EnhancedGalleryGridProps> = ({
                   {/* Featured badge */}
                   {image.featured && (
                     <div className="absolute top-4 right-4 bg-gold text-charcoal px-3 py-1 text-sm font-bold z-10">
-                      ⭐ מומלץ
+                      מומלץ
                     </div>
                   )}
 
@@ -81,7 +81,7 @@ const EnhancedGalleryGrid: React.FC<EnhancedGalleryGridProps> = ({
                         target.parentElement.innerHTML = `
                           <div class="w-full h-full bg-brown/20 flex items-center justify-center">
                             <div class="text-center">
-                              <div class="text-4xl text-gold/50 mb-2">📷</div>
+                              <div class="text-4xl text-gold/50 mb-2"></div>
                               <div class="text-gold/50 text-sm">תמונה בקרוב</div>
                             </div>
                           </div>
@@ -144,7 +144,7 @@ const EnhancedGalleryGrid: React.FC<EnhancedGalleryGridProps> = ({
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6 }}
           >
-            <div className="text-6xl mb-4">🤔</div>
+            <div className="text-6xl mb-4"></div>
             <h3 className="text-h3 mb-4">אין תמונות בקטגוריה זו</h3>
             <p className="text-lightgrey">נסה לבחור קטגוריה אחרת או חזור מאוחר יותר</p>
           </motion.div>

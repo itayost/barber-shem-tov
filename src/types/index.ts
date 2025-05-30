@@ -10,8 +10,7 @@ export interface AcademyHours {
 export interface AcademySocial {
   instagram: string;
   facebook: string;
-  youtube?: string;
-  linkedin?: string;
+  tiktok: string;
 }
 
 // Academy statistics
@@ -172,4 +171,11 @@ export interface Service {
   category: 'haircut' | 'shave' | 'beard' | 'package' | 'special' | 'color' | 'academy';
   featured?: boolean;
   instructor?: string;
+}
+
+export interface GalleryCategory {
+  id: string;
+  label: string;
+  description: string;
+  order: number;
 }

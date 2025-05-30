@@ -25,7 +25,7 @@ const Testimonials: React.FC = () => {
   const renderStars = (rating: number) => {
     return Array.from({ length: 5 }, (_, i) => (
       <span key={i} className={`text-xl ${i < rating ? 'text-yellow-400' : 'text-gray-400'}`}>
-        ⭐
+        
       </span>
     ));
   };
@@ -128,7 +128,7 @@ const Testimonials: React.FC = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              🚀 הרשמה לקורס
+              הרשמה לקורס
             </motion.a>
             
             <motion.a
@@ -137,7 +137,7 @@ const Testimonials: React.FC = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              💬 שיחת ייעוץ חינם
+              שיחת ייעוץ חינם
             </motion.a>
           </div>
 

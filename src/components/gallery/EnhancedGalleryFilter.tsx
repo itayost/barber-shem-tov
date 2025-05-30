@@ -26,13 +26,11 @@ const EnhancedGalleryFilter: React.FC<EnhancedGalleryFilterProps> = ({
     {
       id: 'all',
       label: 'הכל',
-      icon: '🎨',
       count: totalImages
     },
     ...categories.map(category => ({
       id: category.id,
       label: category.label,
-      icon: category.icon,
       count: imageCounts[category.id] || 0
     }))
   ];

@@ -182,7 +182,7 @@ const AcademyTeamTab: React.FC = () => {
               <ul className="space-y-2">
                 {selectedInstructor.certifications.map((cert, idx) => (
                   <li key={idx} className="flex items-start gap-2 text-lightgrey">
-                    <span className="text-gold mt-0.5">🏆</span>
+                    <span className="text-gold mt-0.5"></span>
                     <span>{cert}</span>
                   </li>
                 ))}

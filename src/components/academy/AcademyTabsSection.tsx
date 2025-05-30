@@ -12,9 +12,9 @@ const AcademyTabsSection: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string>('story');
 
   const tabs = [
-    { id: 'story', label: 'הסיפור שלנו', icon: '📖' },
-    { id: 'results', label: 'תוצאות', icon: '🏆' },
-    { id: 'team', label: 'הצוות', icon: '👥' }
+    { id: 'story', label: 'הסיפור שלנו' },
+    { id: 'results', label: 'תוצאות' },
+    { id: 'team', label: 'הצוות' }
   ];
 
   return (

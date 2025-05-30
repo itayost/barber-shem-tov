@@ -161,7 +161,7 @@ const EnhancedGalleryLightbox: React.FC<EnhancedGalleryLightboxProps> = ({
                     target.parentElement.innerHTML = `
                       <div class="w-full h-full flex items-center justify-center">
                         <div class="text-center">
-                          <div class="text-6xl text-gold/50 mb-4">📷</div>
+                          <div class="text-6xl text-gold/50 mb-4"></div>
                           <div class="text-gold/50 text-xl">תמונה לא זמינה</div>
                         </div>
                       </div>

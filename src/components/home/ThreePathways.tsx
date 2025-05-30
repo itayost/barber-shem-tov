@@ -28,10 +28,10 @@ const ThreePathways: React.FC = () => {
       'ליווי אישי צמוד'
     ],
     icon: course.category === 'beginner'
-      ? '🎯'
+      ? ''
       : course.category === 'advanced'
-      ? '⚡'
-      : '👑',
+      ? ''
+      : '',
     popular: course.featured || false,
     nextStep: course.category === 'beginner'
       ? 'התחל מהבסיס'
@@ -103,7 +103,7 @@ const ThreePathways: React.FC = () => {
             size="medium"
             className="min-w-[200px]"
           >
-            💬 קבל ייעוץ אישי חינם
+            קבל ייעוץ אישי חינם
           </Button>
         </motion.div>
 

@@ -43,7 +43,7 @@ const GalleryBottomCTA: React.FC = () => {
               variant="primary"
               className="min-w-[200px] py-4 text-lg font-bold shadow-lg hover:shadow-xl"
             >
-              🏛️ קבע סיור באקדמיה
+              קבע סיור באקדמיה
             </Button>
             
             <Button
@@ -51,7 +51,7 @@ const GalleryBottomCTA: React.FC = () => {
               variant="secondary"
               className="min-w-[200px] py-4 text-lg"
             >
-              📚 לקורסים שלנו
+              לקורסים שלנו
             </Button>
           </motion.div>
 
@@ -88,17 +88,14 @@ const GalleryBottomCTA: React.FC = () => {
             <h3 className="text-h4 font-bold mb-6 text-gold">מה תראה בסיור?</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-lightgrey">
               <div>
-                <div className="text-3xl mb-3">🏫</div>
                 <h4 className="font-bold mb-2">הכיתות שלנו</h4>
                 <p className="text-sm">12 עמדות עבודה מאובזרות עם ציוד מקצועי</p>
               </div>
               <div>
-                <div className="text-3xl mb-3">👥</div>
                 <h4 className="font-bold mb-2">פגישה עם הצוות</h4>
                 <p className="text-sm">הכרות עם המדריכים והתלמידים</p>
               </div>
               <div>
-                <div className="text-3xl mb-3">🎯</div>
                 <h4 className="font-bold mb-2">ייעוץ אישי</h4>
                 <p className="text-sm">התאמת מסלול לימודים אישי</p>
               </div>

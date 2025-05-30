@@ -4,33 +4,72 @@
 import React, { useEffect, useState } from 'react';
 import HeroContent from './HeroContent';
 import ScrollDownButton from './ScrollDownButton';
+import { AnimatePresence, motion } from 'framer-motion'; // Import motion for transitions
 
 const Hero = () => {
   const [isLoaded, setIsLoaded] = useState(false);
-  
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [loadedImages, setLoadedImages] = useState<string[]>([]);
+
+  // Array of background image paths
+  const backgroundImagePaths = [
+    "/images/hero/homeHero1.jpg", // Use your provided image paths
+    "/images/hero/homeHero2.jpg", 
+    "/images/hero/homeHero3.jpg",
+  ];
+
+  // Preload images
+  useEffect(() => {
+    backgroundImagePaths.forEach((imagePath) => {
+      const img = new Image();
+      img.onload = () => {
+        setLoadedImages((prevLoadedImages) => [...prevLoadedImages, imagePath]);
+      };
+      img.src = imagePath;
+    });
+  }, [backgroundImagePaths]); // Preload all images when the component mounts or image paths change
+
   useEffect(() => {
     setIsLoaded(true);
-  }, []);
+
+    // Set interval to change background image every 5 seconds
+    const intervalId = setInterval(() => {
+      setCurrentImageIndex((prevIndex) =>
+        (prevIndex + 1) % backgroundImagePaths.length
+      );
+    }, 5000); // Change image every 5000 milliseconds (5 seconds)
+
+    // Clear interval on component unmount
+    return () => clearInterval(intervalId);
+  }, [backgroundImagePaths.length]); // Depend on array length to restart interval if images change
   
-  // Primary image path
-  const heroImagePath = "/images/academy-background.jpg";
-  
+  const currentImagePath = backgroundImagePaths[currentImageIndex];
+  const isCurrentImageLoaded = loadedImages.includes(currentImagePath);
+
   return (
     <section 
       className="relative h-[100dvh] flex flex-col overflow-hidden bg-charcoal"
       dir="rtl"
     >
-      {/* Background image with overlay - Mobile optimized */}
+      {/* Background images with overlay and transitions */}
       <div className="absolute inset-0 z-0">
-        {/* Primary background image */}
-        <div 
-          className="h-full w-full bg-cover bg-center"
-          style={{ 
-            backgroundImage: `url(${heroImagePath})`, 
-            backgroundPosition: 'center center'
-          }}
-          aria-hidden="true"
-        />
+        <AnimatePresence initial={false}>
+          {isCurrentImageLoaded && (
+            <motion.div
+              key={currentImageIndex}
+              className="absolute inset-0 h-full w-full bg-cover bg-center"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 6 }}
+              style={{
+                backgroundImage: `url(${currentImagePath})`,
+                backgroundPosition: 'center center',
+              }}
+              aria-hidden="true"
+            />
+          )}
+        </AnimatePresence>
         
         {/* Gradient overlay - Stronger on mobile for readability */}
         <div 

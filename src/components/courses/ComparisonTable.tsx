@@ -84,7 +84,7 @@ const ComparisonTable: React.FC = () => {
               className="bg-gradient-to-br from-charcoal to-charcoal/80 border border-lightgrey/10 p-6 rounded-lg shadow-xl hover:shadow-2xl transition-all duration-300"
               whileHover={{ y: -5 }}
             >
-              <div className="text-4xl mb-4">🎓</div>
+              <div className="text-4xl mb-4"></div>
               <h3 className="text-xl font-bold text-gold mb-4">למתחילים</h3>
               <p className="text-lightgrey mb-6">
                 מתאים למי שרוצה להתחיל קריירה חדשה בספרות
@@ -111,7 +111,7 @@ const ComparisonTable: React.FC = () => {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="bg-gradient-to-br from-gold/20 to-brown/10 border border-gold/20 p-6 rounded-lg flex flex-col justify-center shadow-xl"
             >
-              <div className="text-4xl mb-4 text-center">🤔</div>
+              <div className="text-4xl mb-4 text-center"></div>
               <h3 className="text-xl font-bold text-gold mb-4 text-center">איך לבחור?</h3>
               <div className="space-y-4">
                 <motion.div 
@@ -119,7 +119,7 @@ const ComparisonTable: React.FC = () => {
                   whileHover={{ scale: 1.02 }}
                 >
                   <h4 className="font-bold text-offwhite mb-2 flex items-center gap-2">
-                    <span className="text-gold">📚</span> בחר קורס למתחילים אם:
+                    בחר קורס למתחילים אם:
                   </h4>
                   <ul className="text-lightgrey text-sm space-y-2">
                     <li className="flex items-center gap-2">
@@ -141,7 +141,7 @@ const ComparisonTable: React.FC = () => {
                   whileHover={{ scale: 1.02 }}
                 >
                   <h4 className="font-bold text-offwhite mb-2 flex items-center gap-2">
-                    <span className="text-gold">🚀</span> בחר קורס מתקדם אם:
+                    בחר קורס מתקדם אם:
                   </h4>
                   <ul className="text-lightgrey text-sm space-y-2">
                     <li className="flex items-center gap-2">
@@ -169,7 +169,7 @@ const ComparisonTable: React.FC = () => {
               className="bg-gradient-to-br from-charcoal to-charcoal/80 border border-lightgrey/10 p-6 rounded-lg shadow-xl hover:shadow-2xl transition-all duration-300"
               whileHover={{ y: -5 }}
             >
-              <div className="text-4xl mb-4">⭐</div>
+              <div className="text-4xl mb-4"></div>
               <h3 className="text-xl font-bold text-gold mb-4">מתקדמים</h3>
               <p className="text-lightgrey mb-6">
                 מתאים לספרים עם ניסיון שרוצים להתמקצע
@@ -205,7 +205,7 @@ const ComparisonTable: React.FC = () => {
               className="inline-flex items-center gap-2 bg-gradient-to-r from-gold to-gold/80 text-charcoal py-3 px-6 font-bold hover:from-gold/90 hover:to-gold/70 transition-all rounded-lg shadow-lg hover:shadow-xl"
               whileHover={{ scale: 1.05, y: -2 }}
             >
-              💬 קבל ייעוץ אישי חינם
+              קבל ייעוץ אישי חינם
             </motion.a>
           </motion.div>
         </div>

@@ -9,9 +9,9 @@ import Button from '@/components/common/Button';
 
 const AcademyHeroInteractive: React.FC = () => {
   const stats = [
-    { number: `${academyInfo.stats.graduates}+`, label: 'בוגרים', icon: '🎓' },
-    { number: `${academyInfo.stats.placementRate}%`, label: 'השמה', icon: '💼' },
-    { number: '4.9★', label: 'דירוג', icon: '⭐' }
+    { number: '4.9', label: 'דירוג', icon: '' },
+    { number: '500+', label: 'בוגרים', icon: '' },
+    { number: '92%', label: 'השמה', icon: '' }
   ];
 
   return (
@@ -66,10 +66,10 @@ const AcademyHeroInteractive: React.FC = () => {
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button href="/courses" variant="primary" size="large">
-              🎯 ראה את הקורסים
+              ראה את הקורסים
             </Button>
             <Button href="/contact?tour=true" variant="secondary" size="large">
-              🏛️ סיור באקדמיה
+              סיור באקדמיה
             </Button>
           </div>
         </motion.div>

@@ -50,7 +50,7 @@ const PathwayCard: React.FC<PathwayCardProps> = ({ pathway }) => {
       {/* Popular badge - Now properly inside the card */}
       {popular && (
         <div className="absolute top-2 right-2 bg-gold text-charcoal px-3 py-1 text-xs font-bold z-10 shadow-md">
-          🔥 פופולרי
+          פופולרי
         </div>
       )}
 
@@ -77,7 +77,7 @@ const PathwayCard: React.FC<PathwayCardProps> = ({ pathway }) => {
         </div>
         {nextSession && (
           <div className="text-orange-400 text-xs mt-1">
-            ⏰ מתחיל {nextSession}
+            מתחיל {nextSession}
           </div>
         )}
       </div>
@@ -91,13 +91,13 @@ const PathwayCard: React.FC<PathwayCardProps> = ({ pathway }) => {
       <div className="bg-charcoal-light/50 p-3 mb-4 text-xs sm:text-sm space-y-1">
         {prerequisites && (
           <div className="flex items-center gap-2">
-            <span className="text-gold">📋</span>
+            <span className="text-gold"></span>
             <span className="text-lightgrey">{prerequisites}</span>
           </div>
         )}
         {certification && (
           <div className="flex items-center gap-2">
-            <span className="text-gold">🏆</span>
+            <span className="text-gold"></span>
             <span className="text-lightgrey truncate">{certification}</span>
           </div>
         )}
@@ -131,7 +131,7 @@ const PathwayCard: React.FC<PathwayCardProps> = ({ pathway }) => {
             variant="tertiary"
             className="flex-1 text-xs sm:text-sm text-center"
           >
-            💬 WhatsApp
+            WhatsApp
           </Button>
           
           <Button

@@ -218,13 +218,13 @@ const CourseCards: React.FC<CourseCardsProps> = ({ activeFilter }) => {
         {/* No results state */}
         {enhancedCourses.length === 0 && (
           <motion.div 
-            className="text-center py-16"
+            className="text-center py-20"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6 }}
           >
-            <div className="text-6xl mb-4">🤔</div>
-            <h3 className="text-h3 mb-4">אין קורסים זמינים בקטגוריה זו</h3>
+            <div className="text-6xl mb-4"></div>
+            <h3 className="text-h3 mb-4">אין קורסים זמינים כרגע</h3>
             <p className="text-lightgrey mb-6">נסה לבחור קטגוריה אחרת או צור איתנו קשר לפרטים נוספים</p>
             <motion.a
               href="/contact"

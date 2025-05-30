@@ -40,28 +40,28 @@ const AcademyResultsTab: React.FC = () => {
     { 
       value: `${animatedNumbers.graduates}+`,
       label: 'בוגרים מצליחים',
-      icon: '🎓',
+      icon: '',
       color: 'text-green-400',
       description: 'הצטרפו למשפחה שלנו'
     },
     { 
       value: `${animatedNumbers.placement}%`,
       label: 'שיעור השמה',
-      icon: '💼',
+      icon: '',
       color: 'text-blue-400',
       description: 'מוצאים עבודה תוך 3 חודשים'
     },
     { 
       value: `₪${animatedNumbers.salary.toLocaleString()}`,
       label: 'שכר התחלתי ממוצע',
-      icon: '💰',
+      icon: '',
       color: 'text-gold',
       description: 'לבוגרים שלנו'
     },
     { 
       value: `${animatedNumbers.partners}+`,
       label: 'מספרות שותפות',
-      icon: '🤝',
+      icon: '',
       color: 'text-purple-400',
       description: 'ברחבי הארץ'
     }
@@ -206,7 +206,7 @@ const AcademyResultsTab: React.FC = () => {
         transition={{ duration: 0.5, delay: 0.8 }}
       >
         <div className="bg-gradient-to-br from-gold/10 to-transparent p-6 border border-gold/20">
-          <div className="text-3xl mb-4">🌟</div>
+          <div className="text-3xl mb-4"></div>
           <h4 className="font-bold mb-2">מקצועיות</h4>
           <p className="text-lightgrey text-sm">
             הכשרה ברמה הגבוהה ביותר עם ציוד ומתקנים מתקדמים
@@ -214,7 +214,7 @@ const AcademyResultsTab: React.FC = () => {
         </div>
         
         <div className="bg-gradient-to-br from-blue-500/10 to-transparent p-6 border border-blue-500/20">
-          <div className="text-3xl mb-4">🎯</div>
+          <div className="text-3xl mb-4"></div>
           <h4 className="font-bold mb-2">התמקדות בתוצאות</h4>
           <p className="text-lightgrey text-sm">
             ליווי צמוד עד למציאת עבודה והשתלבות מלאה בתעשייה
@@ -222,7 +222,7 @@ const AcademyResultsTab: React.FC = () => {
         </div>
         
         <div className="bg-gradient-to-br from-purple-500/10 to-transparent p-6 border border-purple-500/20">
-          <div className="text-3xl mb-4">🚀</div>
+          <div className="text-3xl mb-4"></div>
           <h4 className="font-bold mb-2">קפיצת מדרגה</h4>
           <p className="text-lightgrey text-sm">
             הבוגרים שלנו מרוויחים בממוצע 40% יותר תוך שנה

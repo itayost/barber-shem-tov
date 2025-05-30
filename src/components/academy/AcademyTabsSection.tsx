@@ -3,12 +3,13 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import TabNavigation from '@/components/common/TabNavigation';
 import AcademyStoryTab from './tabs/AcademyStoryTab';
 import AcademyResultsTab from './tabs/AcademyResultsTab';
 import AcademyTeamTab from './tabs/AcademyTeamTab';
 
 const AcademyTabsSection: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'story' | 'results' | 'team'>('story');
+  const [activeTab, setActiveTab] = useState<string>('story');
 
   const tabs = [
     { id: 'story', label: 'הסיפור שלנו', icon: '📖' },
@@ -19,25 +20,15 @@ const AcademyTabsSection: React.FC = () => {
   return (
     <section className="py-16 sm:py-20 bg-charcoal" dir="rtl">
       <div className="container mx-auto px-4 sm:px-6">
-        {/* Tab Navigation */}
-        <div className="flex justify-center mb-12">
-          <div className="bg-charcoal-light/50 p-1 rounded-full inline-flex">
-            {tabs.map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id as any)}
-                className={`px-6 sm:px-8 py-3 sm:py-4 rounded-full text-sm sm:text-base font-medium transition-all ${
-                  activeTab === tab.id
-                    ? 'bg-gold text-charcoal'
-                    : 'text-lightgrey hover:text-gold'
-                }`}
-              >
-                <span className="mr-2">{tab.icon}</span>
-                {tab.label}
-              </button>
-            ))}
-          </div>
-        </div>
+        {/* Tab Navigation using reusable component */}
+        <TabNavigation
+          tabs={tabs}
+          activeTab={activeTab}
+          onTabChange={setActiveTab}
+          sticky={true}
+          stickyOffset={16}
+          className="mb-8"
+        />
 
         {/* Tab Content */}
         <motion.div

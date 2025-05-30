@@ -3,270 +3,234 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import Button from '@/components/common/Button';
 
 const AcademyStoryTab: React.FC = () => {
-  const [activeYear, setActiveYear] = useState(2023);
+  const [expandedValue, setExpandedValue] = useState<number | null>(null);
 
-  const milestones = [
-    { 
-      year: 2018, 
-      title: 'הקמת האקדמיה',
-      description: 'החלום התחיל - פתחנו את דלתות האקדמיה הראשונה',
-      icon: '🎯',
-      stats: '12 תלמידים ראשונים',
-      achievements: [
-        'פתיחת הכיתה הראשונה',
-        'גיוס צוות מדריכים מקצועי',
-        'יצירת תוכנית לימודים ייחודית'
-      ]
-    },
-    { 
-      year: 2019, 
-      title: 'ציון דרך ראשון',
-      description: 'עברנו את רף ה-100 בוגרים והרחבנו את צוות המדריכים',
-      icon: '🎓',
-      stats: '100+ בוגרים',
-      achievements: [
-        'הסמכה ממשרד העבודה',
-        'שיתוף פעולה ראשון עם מספרות',
-        'פתיחת קורס מתקדמים'
-      ]
-    },
-    { 
-      year: 2021, 
-      title: 'שותפויות אסטרטגיות',
-      description: 'יצרנו שותפויות עם רשתות המספרות המובילות בארץ',
+  // Our core values
+  const values = [
+    {
+      id: 1,
       icon: '🤝',
-      stats: '20+ מספרות שותפות',
-      achievements: [
-        'הסכמי השמה עם רשתות גדולות',
-        'פתיחת מסלול ניהול עסקי',
-        'השקת תוכנית חונכות'
-      ]
+      title: 'מחויבות אישית',
+      description: 'כל תלמיד אצלנו הוא עולם ומלואו. אנחנו לא עוזבים עד שהוא מצליח.'
     },
-    { 
-      year: 2023, 
-      title: 'מובילים בתעשייה',
-      description: 'הפכנו לאקדמיה המובילה בצפון עם אחוזי השמה מרשימים',
-      icon: '🏆',
-      stats: '500+ בוגרים, 92% השמה',
-      achievements: [
-        'דירוג 4.9 כוכבים בגוגל',
-        'זכייה בפרס מצוינות',
-        'פתיחת קורסי מאסטרקלאס'
-      ]
+    {
+      id: 2,
+      icon: '✨',
+      title: 'מצוינות מקצועית',
+      description: 'אנחנו לא מתפשרים על איכות. רק המדריכים הטובים ביותר, רק הציוד המתקדם ביותר.'
+    },
+    {
+      id: 3,
+      icon: '🎯',
+      title: 'תוצאות אמיתיות',
+      description: 'הצלחה בשבילנו זה כשבוגר שלנו פותח עסק משלו או מקבל עבודה במספרה מובילה.'
+    },
+    {
+      id: 4,
+      icon: '❤️',
+      title: 'אהבת המקצוע',
+      description: 'ספרות זה לא רק מקצוע, זו אמנות. אנחנו מלמדים את התשוקה, לא רק את הטכניקה.'
     }
   ];
 
-  const currentMilestone = milestones.find(m => m.year === activeYear) || milestones[0];
-
-  // Pre-defined positions for background dots to avoid hydration issues
-  const backgroundDots = [
-    { left: 10, top: 20, delay: 0.5 },
-    { left: 80, top: 15, delay: 1.0 },
-    { left: 25, top: 70, delay: 1.5 },
-    { left: 90, top: 50, delay: 2.0 },
-    { left: 15, top: 85, delay: 2.5 },
-    { left: 60, top: 30, delay: 0.3 },
-    { left: 45, top: 90, delay: 0.8 },
-    { left: 70, top: 60, delay: 1.3 },
-    { left: 35, top: 40, delay: 1.8 },
-    { left: 50, top: 10, delay: 2.3 },
-    { left: 20, top: 55, delay: 0.7 },
-    { left: 85, top: 75, delay: 1.2 },
-    { left: 40, top: 25, delay: 1.7 },
-    { left: 65, top: 80, delay: 2.2 },
-    { left: 30, top: 15, delay: 0.4 },
-    { left: 75, top: 45, delay: 0.9 },
-    { left: 55, top: 65, delay: 1.4 },
-    { left: 12, top: 35, delay: 1.9 },
-    { left: 95, top: 25, delay: 2.4 },
-    { left: 5, top: 95, delay: 0.6 }
+  // Simplified milestones with stories
+  const milestones = [
+    {
+      year: 2018,
+      title: 'החלום נולד',
+      story: 'עם מספריים ביד אחת וחזון בלב, פתחתי דלת לכיתה קטנה עם 12 תלמידים. לא ידעתי אז שזה תחילתו של משהו גדול.',
+      quote: 'האמנתי שאפשר ללמד ספרות אחרת - עם לב, עם נשמה, עם תשוקה אמיתית למקצוע',
+      highlight: 'הקורס הראשון: 12 תלמידים, 12 סיפורי הצלחה'
+    },
+    {
+      year: 2020,
+      title: 'למרות הכל, צמחנו',
+      story: 'כשהעולם נעצר, אנחנו המשכנו. הפכנו אתגרים להזדמנויות וגילינו שהתשוקה שלנו חזקה מכל מגפה.',
+      quote: 'דווקא בתקופה הכי קשה, ראינו את הכוח של קהילה אמיתית',
+      highlight: 'פתחנו מסלולים חדשים והגענו ל-200 בוגרים'
+    },
+    {
+      year: 2023,
+      title: 'הפכנו למשפחה',
+      story: 'כבר לא רק אקדמיה - אנחנו קהילה של 500+ בוגרים שתומכים אחד בשני, חולמים ביחד ומצליחים ביחד.',
+      quote: 'כשאני רואה בוגר פותח מספרה משלו, אני יודע שעשינו משהו נכון',
+      highlight: '92% השמה, 50+ מספרות שותפות, אינספור חלומות שהתגשמו'
+    }
   ];
 
   return (
-    <div className="space-y-8">
-      {/* Timeline Navigation */}
-      <div className="relative">
-        <div className="absolute top-1/2 left-0 right-0 h-1 bg-lightgrey/20 -translate-y-1/2" />
-        <div className="relative flex justify-between">
-          {milestones.map((milestone, index) => (
-            <button
-              key={milestone.year}
-              onClick={() => setActiveYear(milestone.year)}
-              className="relative group"
-            >
-              <motion.div
-                className={`w-12 h-12 sm:w-16 sm:h-16 rounded-full flex items-center justify-center text-xl sm:text-2xl transition-all ${
-                  activeYear === milestone.year
-                    ? 'bg-gold scale-110 shadow-lg shadow-gold/30'
-                    : 'bg-charcoal-light hover:bg-gold/20 hover:scale-105'
-                }`}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                {milestone.icon}
-              </motion.div>
-              <span className={`absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs whitespace-nowrap ${
-                activeYear === milestone.year ? 'text-gold font-bold' : 'text-lightgrey'
-              }`}>
-                {milestone.year}
-              </span>
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Milestone Content */}
-      <motion.div
-        key={activeYear}
+    <div className="space-y-12 max-w-5xl mx-auto">
+      {/* Founder's Personal Message */}
+      <motion.div 
+        className="text-center"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="mt-16 grid md:grid-cols-2 gap-8 items-start"
+        transition={{ duration: 0.6 }}
       >
-        {/* Text Content */}
-        <div>
-          <motion.h3 
-            className="text-2xl sm:text-3xl font-bold mb-4"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-          >
-            {currentMilestone.title}
-          </motion.h3>
-          
-          <motion.p 
-            className="text-lightgrey mb-6 leading-relaxed"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
-            {currentMilestone.description}
-          </motion.p>
-          
-          {/* Stats Badge */}
-          <motion.div 
-            className="bg-gold/10 border border-gold/20 p-4 mb-6 inline-block"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-          >
-            <p className="text-gold font-bold text-lg">{currentMilestone.stats}</p>
-          </motion.div>
-
-          {/* Achievements List */}
-          <motion.div 
-            className="mb-8"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-          >
-            <h4 className="font-bold mb-3 text-offwhite">הישגים מרכזיים:</h4>
-            <ul className="space-y-2">
-              {currentMilestone.achievements.map((achievement, idx) => (
-                <motion.li 
-                  key={idx}
-                  className="flex items-start gap-2 text-lightgrey text-sm"
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.3, delay: 0.5 + idx * 0.1 }}
-                >
-                  <span className="text-gold mt-0.5">✓</span>
-                  <span>{achievement}</span>
-                </motion.li>
-              ))}
-            </ul>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.8 }}
-          >
-            <Button href="/contact" variant="primary">
-              הצטרף לסיפור ההצלחה
-            </Button>
-          </motion.div>
+        <div className="relative inline-block mb-8">
+          <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-gold/30 mx-auto">
+            <Image
+              src="/images/team/bar.jpg"
+              alt="בר שם טוב"
+              width={128}
+              height={128}
+              className="object-cover"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.style.display = 'none';
+                if (target.parentElement) {
+                  target.parentElement.innerHTML = `
+                    <div class="w-full h-full bg-gold/20 flex items-center justify-center">
+                      <span class="text-4xl text-gold">ב</span>
+                    </div>
+                  `;
+                }
+              }}
+            />
+          </div>
         </div>
+
+        <h2 className="text-2xl sm:text-3xl font-bold mb-6">
+          הסיפור שלנו <span className="text-gold">התחיל מחלום</span>
+        </h2>
         
-        {/* Visual Card */}
         <motion.div
-          className="relative h-[400px] sm:h-[500px]"
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
+          className="max-w-3xl mx-auto"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <div className="absolute inset-0 bg-gradient-to-br from-gold/20 to-brown/10 rounded-lg overflow-hidden">
-            {/* Background Pattern - Using pre-defined positions */}
-            <div className="absolute inset-0 opacity-10">
-              {backgroundDots.map((dot, i) => (
-                <div
-                  key={i}
-                  className="absolute w-2 h-2 bg-gold rounded-full animate-pulse"
-                  style={{
-                    left: `${dot.left}%`,
-                    top: `${dot.top}%`,
-                    animationDelay: `${dot.delay}s`
-                  }}
-                />
-              ))}
-            </div>
-
-            {/* Year Display */}
-            <div className="absolute top-8 right-8">
-              <div className="text-6xl font-bold text-gold/20">
-                {currentMilestone.year}
-              </div>
-            </div>
-
-            {/* Central Icon */}
-            <div className="absolute inset-0 flex items-center justify-center">
-              <motion.div 
-                className="text-[120px] opacity-20"
-                animate={{ 
-                  scale: [1, 1.1, 1],
-                  rotate: [0, 5, -5, 0]
-                }}
-                transition={{ 
-                  duration: 4,
-                  repeat: Infinity,
-                  repeatType: "reverse"
-                }}
-              >
-                {currentMilestone.icon}
-              </motion.div>
-            </div>
-
-            {/* Bottom Info */}
-            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-charcoal via-charcoal/90 to-transparent p-6">
-              <p className="text-gold font-bold text-xl mb-2">{currentMilestone.year}</p>
-              <p className="text-offwhite text-lg">{currentMilestone.title}</p>
-              <p className="text-lightgrey text-sm mt-2">{currentMilestone.stats}</p>
-            </div>
-          </div>
+          <p className="text-lightgrey leading-relaxed mb-4 text-lg">
+            "כשהייתי ספר צעיר, תמיד חלמתי על מקום שבו אפשר ללמוד את המקצוע הזה אחרת. 
+            לא רק טכניקות וכלים, אלא את הקסם שבמגע האנושי, את היכולת לגרום לאדם 
+            להרגיש טוב עם עצמו, את האמנות שבפרטים הקטנים."
+          </p>
+          <p className="text-lightgrey leading-relaxed mb-6">
+            "היום, אחרי 7 שנים ו-500 בוגרים, אני יכול להגיד בגאווה - 
+            הצלחנו ליצור לא רק אקדמיה, אלא בית. מקום שבו חלומות הופכים למקצוע, 
+            ומקצוע הופך לדרך חיים."
+          </p>
+          <p className="text-gold font-bold text-lg">
+            - בר שם טוב, מייסד האקדמיה
+          </p>
         </motion.div>
       </motion.div>
 
-      {/* Progress Bar */}
-      <div className="mt-12 bg-charcoal-light p-6 rounded-lg">
-        <h4 className="text-center font-bold mb-4">המסע שלנו</h4>
-        <div className="relative h-2 bg-lightgrey/20 rounded-full overflow-hidden">
+      {/* Journey Milestones - Simplified */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.6, delay: 0.3 }}
+      >
+        <h3 className="text-2xl font-bold text-center mb-8">
+          תחנות <span className="text-gold">בדרך</span>
+        </h3>
+        
+        <div className="space-y-8">
+          {milestones.map((milestone, index) => (
+            <motion.div
+              key={milestone.year}
+              className="bg-charcoal-light/30 border border-lightgrey/10 p-6 sm:p-8"
+              initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+            >
+              <div className="flex flex-col md:flex-row gap-6 items-center">
+                <div className="text-center md:text-right flex-shrink-0">
+                  <div className="text-5xl font-bold text-gold/20 mb-2">
+                    {milestone.year}
+                  </div>
+                  <h4 className="text-xl font-bold text-gold">
+                    {milestone.title}
+                  </h4>
+                </div>
+                
+                <div className="flex-1">
+                  <p className="text-lightgrey leading-relaxed mb-4">
+                    {milestone.story}
+                  </p>
+                  <blockquote className="border-r-4 border-gold pr-4 mb-4">
+                    <p className="text-offwhite italic">
+                      "{milestone.quote}"
+                    </p>
+                  </blockquote>
+                  <p className="text-gold text-sm font-medium">
+                    ← {milestone.highlight}
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </motion.div>
+
+
+      {/* Future Vision */}
+      <motion.div
+        className="text-center bg-gradient-to-r from-gold/10 to-brown/10 border border-gold/20 p-8 sm:p-12"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+      >
+        <h3 className="text-2xl font-bold mb-6">
+          והמסע <span className="text-gold">רק מתחיל</span>...
+        </h3>
+        <p className="text-lightgrey text-lg leading-relaxed mb-6 max-w-2xl mx-auto">
+          החזון שלנו פשוט: להמשיך לגדול, להמשיך להשפיע, להמשיך לשנות חיים. 
+          כל בוגר שלנו הוא שגריר של המקצועיות והתשוקה שאנחנו מלמדים.
+        </p>
+        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
           <motion.div 
-            className="absolute top-0 left-0 h-full bg-gold"
-            initial={{ width: 0 }}
-            animate={{ 
-              width: `${((activeYear - 2018) / (2023 - 2018)) * 100}%` 
-            }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-          />
+            className="text-center"
+            whileHover={{ scale: 1.05 }}
+          >
+            <div className="text-3xl font-bold text-gold mb-1">1000+</div>
+            <div className="text-sm text-lightgrey">החזון שלנו ל-2026</div>
+          </motion.div>
+          <div className="hidden sm:block text-2xl text-gold/30">•</div>
+          <motion.div 
+            className="text-center"
+            whileHover={{ scale: 1.05 }}
+          >
+            <div className="text-3xl font-bold text-gold mb-1">2</div>
+            <div className="text-sm text-lightgrey">סניפים חדשים</div>
+          </motion.div>
+          <div className="hidden sm:block text-2xl text-gold/30">•</div>
+          <motion.div 
+            className="text-center"
+            whileHover={{ scale: 1.05 }}
+          >
+            <div className="text-3xl font-bold text-gold mb-1">∞</div>
+            <div className="text-sm text-lightgrey">הזדמנויות</div>
+          </motion.div>
         </div>
-        <div className="flex justify-between mt-2 text-xs text-lightgrey">
-          <span>2018</span>
-          <span>היום</span>
-        </div>
-      </div>
+        
+        <motion.div
+          className="mt-8"
+          whileHover={{ scale: 1.02 }}
+        >
+          <h4 className="text-xl font-bold mb-4">
+            רוצה להיות <span className="text-gold">חלק מהסיפור</span>?
+          </h4>
+          <p className="text-lightgrey mb-6">
+            כל מסע של אלף מייל מתחיל בצעד אחד. הצעד הראשון שלך מתחיל כאן.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button href="/courses" variant="primary" size="large">
+              התחל את המסע שלך
+            </Button>
+            <Button href="/contact?consultation=true" variant="secondary" size="large">
+              שוחח איתנו
+            </Button>
+          </div>
+        </motion.div>
+      </motion.div>
     </div>
   );
 };

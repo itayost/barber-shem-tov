@@ -203,6 +203,8 @@ export default function RootLayout({
         {/* Preconnect to third-party domains for performance */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+
+        <meta name="apple-mobile-web-app-title" content="The Fader" />
       </head>
       
       <body className="bg-charcoal text-offwhite font-heebo">

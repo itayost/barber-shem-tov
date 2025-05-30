@@ -6,77 +6,57 @@ import { motion } from 'framer-motion';
 import { courses } from '@/lib/data';
 
 const ComparisonTable: React.FC = () => {
-  // Enhanced comparison data
-  const comparisonData = [
-    {
-      feature: 'רמת הקורס',
-      beginner: 'מתחילים ללא ניסיון',
-      advanced: 'מקצוענים עם בסיס',
-      icon: '🎯'
-    },
-    {
-      feature: 'משך הקורס',
-      beginner: '4 שבועות מלאים',
-      advanced: '2 ימי סדנה אינטנסיבית',
-      icon: '⏰'
-    },
-    {
-      feature: 'מחיר',
-      beginner: '₪3,200',
-      advanced: '₪1,800',
-      icon: '💰'
-    },
-    {
-      feature: 'גודל הקבוצה',
-      beginner: 'עד 12 משתתפים',
-      advanced: 'עד 8 משתתפים',
-      icon: '👥'
-    },
-    {
-      feature: 'עבודה עם לקוחות',
-      beginner: '20+ לקוחות אמיתיים',
-      advanced: 'לקוחות VIP ויוקרה',
-      icon: '✂️'
-    },
-    {
-      feature: 'תעודה',
-      beginner: 'תעודת יסודות הספרות',
-      advanced: 'תעודת מומחה מתקדם',
-      icon: '🏆'
-    },
-    {
-      feature: 'כלים וציוד',
-      beginner: 'ערכת כלים כלולה',
-      advanced: 'גישה לכלים מתקדמים',
-      icon: '🛠️'
-    },
-    {
-      feature: 'ליווי אחרי הקורס',
-      beginner: 'ליווי בחיפוש עבודה',
-      advanced: 'רשת קשרים מקצועית',
-      icon: '🤝'
-    },
-    {
-      feature: 'הזדמנויות תעסוקה',
-      beginner: 'מספרות רגילות ברחבי הארץ',
-      advanced: 'מספרות יוקרה ועבודה עצמאית',
-      icon: '💼'
-    },
-    {
-      feature: 'שכר צפוי',
-      beginner: '₪6,000-9,000/חודש',
-      advanced: '₪9,000-15,000/חודש',
-      icon: '📈'
-    }
-  ];
-
   const beginnerCourse = courses.find(c => c.category === 'beginner');
   const advancedCourse = courses.find(c => c.category === 'advanced');
 
+  const comparisonPoints = [
+    {
+      title: 'רמת הקורס',
+      beginner: 'מתחילים - ללא ניסיון קודם',
+      advanced: 'מתקדמים - עם ניסיון בסיסי'
+    },
+    {
+      title: 'משך הקורס',
+      beginner: beginnerCourse?.duration_he || '3 חודשים',
+      advanced: advancedCourse?.duration_he || '2 חודשים'
+    },
+    {
+      title: 'תעודה',
+      beginner: 'תעודת הסמכה בסיסית',
+      advanced: 'תעודת מומחה מתקדם'
+    },
+    {
+      title: 'תרגול מעשי',
+      beginner: '20+ לקוחות אמיתיים',
+      advanced: '30+ לקוחות VIP'
+    },
+    {
+      title: 'סדנאות',
+      beginner: 'סדנאות בסיסיות',
+      advanced: 'סדנאות עם מומחים בינלאומיים'
+    },
+    {
+      title: 'ליווי תעסוקתי',
+      beginner: 'ליווי בחיפוש עבודה',
+      advanced: 'ליווי בהקמת עסק עצמאי'
+    },
+    {
+      title: 'השקעה',
+      beginner: `${beginnerCourse?.price.toLocaleString()}₪`,
+      advanced: `${advancedCourse?.price.toLocaleString()}₪`
+    }
+  ];
+
   return (
-    <section className="py-20 bg-brown/5 relative overflow-hidden" dir="rtl">
-      <div className="container mx-auto px-6">
-        {/* Section header */}
+    <section className="py-20 bg-gradient-to-b from-brown/5 to-charcoal relative overflow-hidden" dir="rtl">
+      {/* Background elements */}
+      <div className="absolute inset-0">
+        <div className="absolute top-1/4 right-1/4 w-64 h-64 bg-gold/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-1/4 left-1/4 w-64 h-64 bg-brown/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+      </div>
+
+      <div className="container mx-auto px-6 relative z-10">
+        {/* Enhanced section header */}
         <motion.div 
           className="text-center mb-16"
           initial={{ opacity: 0, y: 20 }}
@@ -92,146 +72,143 @@ const ComparisonTable: React.FC = () => {
           </p>
         </motion.div>
 
-        {/* Comparison table */}
-        <motion.div 
-          className="max-w-5xl mx-auto bg-charcoal border border-lightgrey/10 overflow-hidden"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-        >
-          {/* Table header */}
-          <div className="grid grid-cols-1 md:grid-cols-3 bg-gradient-to-r from-gold/20 to-brown/20 border-b border-lightgrey/10">
-            <div className="p-6 border-b md:border-b-0 md:border-l border-lightgrey/10">
-              <h3 className="text-h4 font-bold text-center">השוואת תכונות</h3>
-            </div>
-            <div className="p-6 border-b md:border-b-0 md:border-l border-lightgrey/10 bg-green-500/10">
-              <div className="text-center">
-                <div className="text-2xl mb-2">🎯</div>
-                <h3 className="text-h4 font-bold text-green-400 mb-2">קורס למתחילים</h3>
-                <div className="text-sm text-lightgrey">הכי פופולרי למתחילים</div>
-              </div>
-            </div>
-            <div className="p-6 bg-blue-500/10">
-              <div className="text-center">
-                <div className="text-2xl mb-2">⚡</div>
-                <h3 className="text-h4 font-bold text-blue-400 mb-2">קורס מתקדמים</h3>
-                <div className="text-sm text-lightgrey">לבעלי ניסיון</div>
-              </div>
-            </div>
-          </div>
-
-          {/* Table rows */}
-          {comparisonData.map((row, index) => (
-            <motion.div 
-              key={row.feature}
-              className="grid grid-cols-1 md:grid-cols-3 border-b border-lightgrey/10 hover:bg-lightgrey/5 transition-colors"
+        {/* Enhanced comparison table */}
+        <div className="max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Enhanced course cards */}
+            <motion.div
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: index * 0.05 }}
+              transition={{ duration: 0.6 }}
+              className="bg-gradient-to-br from-charcoal to-charcoal/80 border border-lightgrey/10 p-6 rounded-lg shadow-xl hover:shadow-2xl transition-all duration-300"
+              whileHover={{ y: -5 }}
             >
-              <div className="p-6 border-b md:border-b-0 md:border-l border-lightgrey/10 bg-charcoal/50">
-                <div className="flex items-center gap-3">
-                  <span className="text-2xl">{row.icon}</span>
-                  <span className="font-bold text-offwhite">{row.feature}</span>
-                </div>
-              </div>
-              <div className="p-6 border-b md:border-b-0 md:border-l border-lightgrey/10">
-                <div className="text-lightgrey">{row.beginner}</div>
-              </div>
-              <div className="p-6">
-                <div className="text-lightgrey">{row.advanced}</div>
+              <div className="text-4xl mb-4">🎓</div>
+              <h3 className="text-xl font-bold text-gold mb-4">למתחילים</h3>
+              <p className="text-lightgrey mb-6">
+                מתאים למי שרוצה להתחיל קריירה חדשה בספרות
+              </p>
+              <ul className="space-y-3">
+                {comparisonPoints.map((point, index) => (
+                  <motion.li 
+                    key={index} 
+                    className="text-lightgrey group"
+                    whileHover={{ x: 5 }}
+                  >
+                    <span className="text-gold font-bold group-hover:text-gold/80 transition-colors">{point.title}:</span>
+                    <span className="mr-2"> {point.beginner}</span>
+                  </motion.li>
+                ))}
+              </ul>
+            </motion.div>
+
+            {/* Enhanced quick decision helper */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="bg-gradient-to-br from-gold/20 to-brown/10 border border-gold/20 p-6 rounded-lg flex flex-col justify-center shadow-xl"
+            >
+              <div className="text-4xl mb-4 text-center">🤔</div>
+              <h3 className="text-xl font-bold text-gold mb-4 text-center">איך לבחור?</h3>
+              <div className="space-y-4">
+                <motion.div 
+                  className="bg-charcoal/50 p-4 rounded-lg border border-gold/10 hover:border-gold/30 transition-all"
+                  whileHover={{ scale: 1.02 }}
+                >
+                  <h4 className="font-bold text-offwhite mb-2 flex items-center gap-2">
+                    <span className="text-gold">📚</span> בחר קורס למתחילים אם:
+                  </h4>
+                  <ul className="text-lightgrey text-sm space-y-2">
+                    <li className="flex items-center gap-2">
+                      <span className="text-gold">•</span>
+                      <span>אין לך ניסיון קודם בספרות</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <span className="text-gold">•</span>
+                      <span>אתה רוצה ללמוד את הבסיס</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <span className="text-gold">•</span>
+                      <span>אתה מעדיף קצב למידה הדרגתי</span>
+                    </li>
+                  </ul>
+                </motion.div>
+                <motion.div 
+                  className="bg-charcoal/50 p-4 rounded-lg border border-gold/10 hover:border-gold/30 transition-all"
+                  whileHover={{ scale: 1.02 }}
+                >
+                  <h4 className="font-bold text-offwhite mb-2 flex items-center gap-2">
+                    <span className="text-gold">🚀</span> בחר קורס מתקדם אם:
+                  </h4>
+                  <ul className="text-lightgrey text-sm space-y-2">
+                    <li className="flex items-center gap-2">
+                      <span className="text-gold">•</span>
+                      <span>יש לך ניסיון בסיסי בספרות</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <span className="text-gold">•</span>
+                      <span>אתה רוצה להתמקצע</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <span className="text-gold">•</span>
+                      <span>אתה מעוניין להקים עסק עצמאי</span>
+                    </li>
+                  </ul>
+                </motion.div>
               </div>
             </motion.div>
-          ))}
 
-          {/* CTA row */}
-          <div className="grid grid-cols-1 md:grid-cols-3 bg-gradient-to-r from-charcoal to-brown/10">
-            <div className="p-6 border-b md:border-b-0 md:border-l border-lightgrey/10">
-              <div className="text-center">
-                <h4 className="font-bold text-gold mb-2">מוכן להתחיל?</h4>
-                <p className="text-sm text-lightgrey">בחר את הקורס המתאים לך</p>
-              </div>
-            </div>
-            <div className="p-6 border-b md:border-b-0 md:border-l border-lightgrey/10">
-              <motion.a
-                href={`/contact?course=${encodeURIComponent(beginnerCourse?.name_he || 'קורס מתחילים')}`}
-                className="block w-full bg-green-500 text-white py-3 px-4 font-bold text-center hover:bg-green-600 transition-all"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                🚀 הרשמה למתחילים
-              </motion.a>
-            </div>
-            <div className="p-6">
-              <motion.a
-                href={`/contact?course=${encodeURIComponent(advancedCourse?.name_he || 'קורס מתקדמים')}`}
-                className="block w-full bg-blue-500 text-white py-3 px-4 font-bold text-center hover:bg-blue-600 transition-all"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                ⚡ הרשמה למתקדמים
-              </motion.a>
-            </div>
-          </div>
-        </motion.div>
-
-        {/* Quick decision helper */}
-        <motion.div 
-          className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-        >
-          <div className="bg-charcoal border border-green-500/30 p-8 text-center">
-            <div className="text-4xl mb-4">🎯</div>
-            <h3 className="text-h4 font-bold text-green-400 mb-4">מתאים לך אם:</h3>
-            <ul className="text-lightgrey space-y-2">
-              <li>✓ אין לך ניסיון בספרות</li>
-              <li>✓ רוצה ללמוד מהבסיס</li>
-              <li>✓ מחפש קריירה יציבה</li>
-              <li>✓ רוצה הכשרה מקיפה</li>
-            </ul>
-          </div>
-          
-          <div className="bg-charcoal border border-blue-500/30 p-8 text-center">
-            <div className="text-4xl mb-4">⚡</div>
-            <h3 className="text-h4 font-bold text-blue-400 mb-4">מתאים לך אם:</h3>
-            <ul className="text-lightgrey space-y-2">
-              <li>✓ יש לך ניסיון בסיסי</li>
-              <li>✓ רוצה להתמחות בטכניקות מתקדמות</li>
-              <li>✓ מעוניין בלקוחות VIP</li>
-              <li>✓ רוצה השתלמות מהירה</li>
-            </ul>
-          </div>
-        </motion.div>
-
-        {/* Still unsure CTA */}
-        <motion.div 
-          className="text-center mt-12"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.6 }}
-        >
-          <p className="text-lightgrey mb-4 text-lg">עדיין לא בטוח איזה קורס מתאים לך?</p>
-          <motion.a
-            href="/contact?consultation=true"
-            className="inline-flex items-center gap-2 bg-gold text-charcoal py-4 px-8 font-bold text-lg hover:bg-gold/90 transition-all"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            💬 קבל ייעוץ אישי חינם
-            <motion.span
-              animate={{ x: [0, 5, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="bg-gradient-to-br from-charcoal to-charcoal/80 border border-lightgrey/10 p-6 rounded-lg shadow-xl hover:shadow-2xl transition-all duration-300"
+              whileHover={{ y: -5 }}
             >
-              ←
-            </motion.span>
-          </motion.a>
-        </motion.div>
+              <div className="text-4xl mb-4">⭐</div>
+              <h3 className="text-xl font-bold text-gold mb-4">מתקדמים</h3>
+              <p className="text-lightgrey mb-6">
+                מתאים לספרים עם ניסיון שרוצים להתמקצע
+              </p>
+              <ul className="space-y-3">
+                {comparisonPoints.map((point, index) => (
+                  <motion.li 
+                    key={index} 
+                    className="text-lightgrey group"
+                    whileHover={{ x: 5 }}
+                  >
+                    <span className="text-gold font-bold group-hover:text-gold/80 transition-colors">{point.title}:</span>
+                    <span className="mr-2"> {point.advanced}</span>
+                  </motion.li>
+                ))}
+              </ul>
+            </motion.div>
+          </div>
+
+          {/* Enhanced bottom CTA */}
+          <motion.div 
+            className="text-center mt-12"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+          >
+            <p className="text-lightgrey mb-4">
+              עדיין לא בטוח איזה קורס מתאים לך?
+            </p>
+            <motion.a
+              href="/contact?consultation=true"
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-gold to-gold/80 text-charcoal py-3 px-6 font-bold hover:from-gold/90 hover:to-gold/70 transition-all rounded-lg shadow-lg hover:shadow-xl"
+              whileHover={{ scale: 1.05, y: -2 }}
+            >
+              💬 קבל ייעוץ אישי חינם
+            </motion.a>
+          </motion.div>
+        </div>
       </div>
     </section>
   );

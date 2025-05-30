@@ -4,6 +4,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { academyInfo } from '@/lib/data';
+import Image from 'next/image';
 
 interface CoursesHeroProps {
   activeFilter: 'all' | 'beginner' | 'advanced';
@@ -18,11 +19,29 @@ const CoursesHero: React.FC<CoursesHeroProps> = ({ activeFilter, onFilterChange 
   ];
 
   return (
-    <section className="pt-32 pb-20 bg-gradient-to-b from-charcoal to-brown/10 relative overflow-hidden" dir="rtl">
-      {/* Background decorative elements */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute top-1/4 right-0 w-96 h-96 bg-gold rounded-full blur-3xl"></div>
-        <div className="absolute bottom-1/4 left-0 w-64 h-64 bg-brown rounded-full blur-3xl"></div>
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden" dir="rtl">
+      {/* Background image */}
+      <div className="absolute inset-0 z-0">
+        <Image
+          src="/images/courses-hero.jpg"
+          alt="קורסי ספרות מקצועיים"
+          fill
+          className="object-cover"
+          priority
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-charcoal/90 via-charcoal/80 to-charcoal/90"></div>
+      </div>
+
+      {/* Decorative elements */}
+      <div className="absolute inset-0 z-0">
+        <div className="absolute top-1/4 right-0 w-96 h-96 bg-gold/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-1/4 left-0 w-64 h-64 bg-brown/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+        
+        {/* Animated lines */}
+        <div className="absolute inset-0">
+          <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-gold/20 to-transparent animate-[shimmer_3s_infinite]"></div>
+          <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-gold/20 to-transparent animate-[shimmer_3s_infinite]" style={{ animationDelay: '1.5s' }}></div>
+        </div>
       </div>
 
       <div className="container mx-auto px-6 relative z-10">
@@ -34,7 +53,7 @@ const CoursesHero: React.FC<CoursesHeroProps> = ({ activeFilter, onFilterChange 
             transition={{ duration: 0.6 }}
             className="mb-8"
           >
-            <h1 className="text-h1 md:text-6xl font-bold mb-4">
+            <h1 className="text-h1 md:text-7xl font-bold mb-6 leading-tight">
               בחר את <span className="text-gold">המסלול המתאים לך</span>
             </h1>
             <p className="text-lightgrey text-xl md:text-2xl max-w-3xl mx-auto leading-relaxed">
@@ -44,27 +63,26 @@ const CoursesHero: React.FC<CoursesHeroProps> = ({ activeFilter, onFilterChange 
 
           {/* Key benefits bar */}
           <motion.div 
-            className="flex flex-wrap justify-center gap-6 mb-12 text-lightgrey/80"
+            className="flex flex-wrap justify-center gap-6 mb-12"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <div className="flex items-center gap-2">
-              <span className="w-2 h-2 bg-gold rounded-full"></span>
-              <span>{academyInfo.stats.placementRate}% שיעור השמה</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="w-2 h-2 bg-gold rounded-full"></span>
-              <span>הסמכה מוכרת</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="w-2 h-2 bg-gold rounded-full"></span>
-              <span>ליווי עד להשמה</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="w-2 h-2 bg-gold rounded-full"></span>
-              <span>כיתות קטנות</span>
-            </div>
+            {[
+              { icon: '🎯', text: `${academyInfo.stats.placementRate}% שיעור השמה` },
+              { icon: '📜', text: 'הסמכה מוכרת' },
+              { icon: '🤝', text: 'ליווי עד להשמה' },
+              { icon: '👥', text: 'כיתות קטנות' }
+            ].map((benefit, index) => (
+              <motion.div
+                key={index}
+                className="flex items-center gap-3 bg-charcoal/50 px-6 py-3 rounded-full border border-gold/20 hover:border-gold/40 transition-all"
+                whileHover={{ scale: 1.05, backgroundColor: 'rgba(212, 175, 55, 0.1)' }}
+              >
+                <span className="text-xl">{benefit.icon}</span>
+                <span className="text-lightgrey">{benefit.text}</span>
+              </motion.div>
+            ))}
           </motion.div>
 
           {/* Filter buttons */}
@@ -83,7 +101,7 @@ const CoursesHero: React.FC<CoursesHeroProps> = ({ activeFilter, onFilterChange 
                     ? 'bg-gold text-charcoal border-gold shadow-lg'
                     : 'bg-transparent text-gold border-gold/50 hover:border-gold hover:bg-gold/10'
                 }`}
-                whileHover={{ scale: 1.02 }}
+                whileHover={{ scale: 1.02, y: -2 }}
                 whileTap={{ scale: 0.98 }}
               >
                 <span className="relative z-10 flex flex-col items-center">
@@ -98,7 +116,9 @@ const CoursesHero: React.FC<CoursesHeroProps> = ({ activeFilter, onFilterChange 
                     layoutId="activeFilter"
                     initial={false}
                     transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                  />
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-[shimmer_2s_infinite]"></div>
+                  </motion.div>
                 )}
               </motion.button>
             ))}
@@ -127,39 +147,6 @@ const CoursesHero: React.FC<CoursesHeroProps> = ({ activeFilter, onFilterChange 
                 ←
               </motion.span>
             </motion.a>
-          </motion.div>
-
-          {/* Trust indicators */}
-          <motion.div 
-            className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8 max-w-2xl mx-auto"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.8 }}
-          >
-            <div className="text-center">
-              <div className="text-2xl font-bold text-gold mb-1">
-                {academyInfo.stats.graduates}+
-              </div>
-              <div className="text-lightgrey text-sm">בוגרים מצליחים</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-gold mb-1">
-                {academyInfo.stats.placementRate}%
-              </div>
-              <div className="text-lightgrey text-sm">שיעור השמה</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-gold mb-1">
-                {academyInfo.established}
-              </div>
-              <div className="text-lightgrey text-sm">שנת ייסוד</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-gold mb-1">
-                4.9★
-              </div>
-              <div className="text-lightgrey text-sm">דירוג ממוצע</div>
-            </div>
           </motion.div>
         </div>
       </div>

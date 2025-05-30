@@ -79,19 +79,25 @@ const CourseCards: React.FC<CourseCardsProps> = ({ activeFilter }) => {
               className="bg-charcoal border border-lightgrey/10 hover:border-gold/30 transition-all duration-300 overflow-hidden group"
               whileHover={{ y: -5, boxShadow: "0 25px 50px rgba(0, 0, 0, 0.3)" }}
             >
-              {/* Course header */}
-              <div className="relative p-8 bg-gradient-to-br from-gold/10 to-brown/10">
-                {/* Popular badge */}
+              {/* Course header with enhanced gradient */}
+              <div className="relative p-8 bg-gradient-to-br from-gold/20 via-gold/10 to-brown/10">
+                {/* Enhanced popular badge */}
                 {course.featured && (
-                  <div className="absolute top-4 left-4 bg-gold text-charcoal px-4 py-2 text-sm font-bold">
+                  <motion.div 
+                    className="absolute top-4 left-4 bg-gradient-to-r from-gold to-gold/80 text-charcoal px-4 py-2 text-sm font-bold rounded-full shadow-lg"
+                    whileHover={{ scale: 1.05 }}
+                  >
                     🔥 הכי פופולרי
-                  </div>
+                  </motion.div>
                 )}
                 
-                {/* Spots left indicator */}
-                <div className="absolute top-4 right-4 bg-red-500 text-white px-3 py-1 text-sm font-bold rounded-full">
+                {/* Enhanced spots left indicator */}
+                <motion.div 
+                  className="absolute top-4 right-4 bg-gradient-to-r from-red-500 to-red-600 text-white px-3 py-1 text-sm font-bold rounded-full shadow-lg"
+                  whileHover={{ scale: 1.05 }}
+                >
                   נותרו {course.spotsLeft} מקומות!
-                </div>
+                </motion.div>
 
                 <h2 className="text-h2 font-bold mb-2 mt-8 group-hover:text-gold transition-colors">
                   {course.name_he}
@@ -100,48 +106,61 @@ const CourseCards: React.FC<CourseCardsProps> = ({ activeFilter }) => {
                   {course.description_he}
                 </p>
 
-                {/* Price and payment */}
+                {/* Enhanced price and payment section */}
                 <div className="flex flex-wrap items-center gap-4 mb-6">
-                  <div className="text-4xl font-bold text-gold">
+                  <div className="text-4xl font-bold bg-gradient-to-r from-gold to-gold/80 bg-clip-text text-transparent">
                     ₪{course.price.toLocaleString()}
                   </div>
                   <div className="text-lightgrey">
-                    <div className="text-sm">משך: {course.duration_he}</div>
-                    <div className="text-sm">{course.paymentPlan}</div>
+                    <div className="text-sm flex items-center gap-2">
+                      <span className="text-gold">⏱️</span> משך: {course.duration_he}
+                    </div>
+                    <div className="text-sm flex items-center gap-2">
+                      <span className="text-gold">💳</span> {course.paymentPlan}
+                    </div>
                   </div>
                 </div>
 
-                {/* Next start date */}
-                <div className="bg-charcoal/50 p-4 border border-gold/20">
+                {/* Enhanced next start date section */}
+                <div className="bg-charcoal/50 p-4 border border-gold/20 rounded-lg backdrop-blur-sm">
                   <div className="flex items-center justify-between">
                     <div>
                       <span className="text-gold font-bold">מחזור הבא:</span>
-                      <span className="text-offwhite mr-2">{course.nextStartDate}</span>
+                      <span className="text-offwhite mr-2"> {course.nextStartDate}</span>
                     </div>
-                    <div className="text-sm text-lightgrey">
-                      📅 יש למהר!
-                    </div>
+                    <motion.div 
+                      className="text-sm text-lightgrey flex items-center gap-2"
+                      whileHover={{ scale: 1.05 }}
+                    >
+                      <span className="animate-pulse">📅</span> יש למהר!
+                    </motion.div>
                   </div>
                 </div>
               </div>
 
-              {/* Course details */}
+              {/* Enhanced course details section */}
               <div className="p-8">
-                <h3 className="font-bold mb-4 text-offwhite">מה כלול בקורס:</h3>
+                <h3 className="font-bold mb-4 text-offwhite flex items-center gap-2">
+                  <span className="text-gold">✨</span> מה כלול בקורס:
+                </h3>
                 <ul className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-8">
                   {course.features.map((feature, idx) => (
-                    <li key={idx} className="flex items-start text-lightgrey">
-                      <span className="text-gold ml-3 mt-1 flex-shrink-0">✓</span>
+                    <motion.li 
+                      key={idx} 
+                      className="flex items-start text-lightgrey group"
+                      whileHover={{ x: 5 }}
+                    >
+                      <span className="text-gold ml-3 mt-1 flex-shrink-0 group-hover:scale-110 transition-transform">✓</span>
                       <span className="text-sm">{feature}</span>
-                    </li>
+                    </motion.li>
                   ))}
                 </ul>
 
-                {/* Instructor info */}
-                <div className="bg-brown/10 p-4 mb-6 border border-brown/20">
+                {/* Enhanced instructor info */}
+                <div className="bg-gradient-to-r from-brown/10 to-gold/5 p-4 mb-6 border border-gold/20 rounded-lg">
                   <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 bg-gold/20 rounded-full flex items-center justify-center">
-                      <span className="text-gold font-bold">
+                    <div className="w-12 h-12 bg-gradient-to-br from-gold to-gold/80 rounded-full flex items-center justify-center shadow-lg">
+                      <span className="text-charcoal font-bold">
                         {course.instructorName.charAt(0)}
                       </span>
                     </div>
@@ -152,60 +171,44 @@ const CourseCards: React.FC<CourseCardsProps> = ({ activeFilter }) => {
                   </div>
                 </div>
 
-                {/* Prerequisites */}
-                {course.prerequisites && (
-                  <div className="mb-6">
-                    <h4 className="font-bold mb-2 text-gold">דרישות קדם:</h4>
-                    <p className="text-lightgrey text-sm">{course.prerequisites}</p>
-                  </div>
-                )}
-
-                {/* Action buttons */}
+                {/* Enhanced action buttons */}
                 <div className="space-y-4">
                   <motion.a
                     href={`/contact?course=${encodeURIComponent(course.name_he)}`}
-                    className="block w-full bg-gold text-charcoal py-4 px-6 font-bold text-lg text-center hover:bg-gold/90 transition-all shadow-lg hover:shadow-xl"
-                    whileHover={{ scale: 1.02 }}
+                    className="block w-full bg-gradient-to-r from-gold to-gold/80 text-charcoal py-4 px-6 font-bold text-lg text-center hover:from-gold/90 hover:to-gold/70 transition-all shadow-lg hover:shadow-xl rounded-lg"
+                    whileHover={{ scale: 1.02, y: -2 }}
                     whileTap={{ scale: 0.98 }}
                   >
                     🚀 הרשם עכשיו
                   </motion.a>
                   
-                  <div className="grid grid-cols-2 gap-4">
-                    <motion.a
-                      href={course.whatsappLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="bg-green-500 text-white py-3 px-4 font-bold text-center hover:bg-green-600 transition-all"
-                      whileHover={{ scale: 1.02 }}
-                    >
-                      💬 WhatsApp לפרטים
-                    </motion.a>
-                    
-                    <motion.a
-                      href="/contact?consultation=true"
-                      className="border border-gold text-gold py-3 px-4 font-bold text-center hover:bg-gold/10 transition-all"
-                      whileHover={{ scale: 1.02 }}
-                    >
-                      📞 שיחת ייעוץ
-                    </motion.a>
-                  </div>
+                  <motion.a
+                    href={course.whatsappLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block w-full bg-gradient-to-r from-green-500 to-green-600 text-white py-3 px-4 font-bold text-center hover:from-green-600 hover:to-green-700 transition-all rounded-lg"
+                    whileHover={{ scale: 1.02, y: -2 }}
+                  >
+                    💬 WhatsApp לפרטים
+                  </motion.a>
                 </div>
 
-                {/* Trust indicators */}
+                {/* Enhanced trust indicators */}
                 <div className="flex flex-wrap justify-center gap-4 mt-6 text-xs text-lightgrey/80">
-                  <div className="flex items-center gap-1">
-                    <span className="text-green-400">✓</span>
-                    <span>ללא התחייבות</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <span className="text-green-400">✓</span>
-                    <span>תשובה תוך 24 שעות</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <span className="text-green-400">✓</span>
-                    <span>ליווי אישי</span>
-                  </div>
+                  {[
+                    { icon: '✓', text: 'ללא התחייבות' },
+                    { icon: '✓', text: 'תשובה תוך 24 שעות' },
+                    { icon: '✓', text: 'ליווי אישי' }
+                  ].map((indicator, idx) => (
+                    <motion.div 
+                      key={idx}
+                      className="flex items-center gap-1"
+                      whileHover={{ scale: 1.05 }}
+                    >
+                      <span className="text-green-400">{indicator.icon}</span>
+                      <span>{indicator.text}</span>
+                    </motion.div>
+                  ))}
                 </div>
               </div>
             </motion.div>

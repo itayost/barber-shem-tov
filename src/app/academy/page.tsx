@@ -1,30 +1,22 @@
-// src/app/academy/page.tsx - Streamlined Academy Page
-import AcademyHero from '@/components/academy/AcademyHero';
-import WhyOurAcademy from '@/components/academy/WhyOurAcademy';
-import MeetTheFounder from '@/components/academy/MeetTheFounder';
-import AcademyResults from '@/components/academy/AcademyResults';
-import AcademyBottomCTA from '@/components/academy/AcademyBottomCTA';
+// src/app/academy/page.tsx - Interactive & Engaging Academy Page
+import AcademyHeroInteractive from '@/components/academy/AcademyHeroInteractive';
+import AcademyTabsSection from '@/components/academy/AcademyTabsSection';
+import AcademyQuickActions from '@/components/academy/AcademyQuickActions';
 import WhatsAppFloat from '@/components/common/WhatsAppFloat';
 
 export default function AcademyPage() {
   return (
     <>
-      {/* 1. Academy Hero - Clear value proposition with stats */}
-      <AcademyHero />
+      {/* 1. Interactive Hero with Live Stats */}
+      <AcademyHeroInteractive />
       
-      {/* 2. Why Our Academy - 4 key differentiators */}
-      <WhyOurAcademy />
+      {/* 2. Tabbed Content - Story, Results, Team */}
+      <AcademyTabsSection />
       
-      {/* 3. Academy Results - Numbers that matter */}
-      <AcademyResults />
+      {/* 3. Quick Actions - Multiple ways to engage */}
+      <AcademyQuickActions />
       
-      {/* 4. Meet The Founder - Personal connection and trust */}
-      <MeetTheFounder />
-      
-      {/* 5. Bottom CTA - Multiple ways to take action */}
-      <AcademyBottomCTA />
-      
-      {/* WhatsApp floating button for immediate contact */}
+      {/* WhatsApp floating button */}
       <WhatsAppFloat />
     </>
   );

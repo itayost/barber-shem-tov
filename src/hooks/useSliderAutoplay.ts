@@ -3,7 +3,7 @@ import { KeenSliderInstance } from 'keen-slider/react';
 
 export function useSliderAutoplay(
   instanceRef: React.MutableRefObject<KeenSliderInstance | null>,
-  delay = 5000
+  delay = 8000
 ) {
   const timer = useRef<NodeJS.Timeout | null>(null);
 

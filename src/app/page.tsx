@@ -1,7 +1,6 @@
 // src/app/page.tsx - Streamlined Homepage
 import Hero from '@/components/home/Hero';
 import ThreePathways from '@/components/home/ThreePathways';
-import WhyUs from '@/components/home/WhyUs';
 import Testimonials from '@/components/home/Testimonials';
 import NextSteps from '@/components/home/NextSteps';
 import WhatsAppFloat from '@/components/common/WhatsAppFloat';
@@ -14,9 +13,6 @@ export default function Home() {
       
       {/* 2. Three Pathways - Simple course progression */}
       <ThreePathways />
-      
-      {/* 3. Why Us - 4 outcome-focused benefits */}
-      {/*<WhyUs />*/}
       
       {/* 4. Testimonials - 3 success stories with real results */}
       <Testimonials />

@@ -44,30 +44,6 @@ const ThreePathways: React.FC = () => {
     certification: course.certification
   }));
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.1
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      transition: { 
-        duration: 0.6,
-        type: "spring",
-        stiffness: 100
-      }
-    }
-  };
-
   return (
     <section className="py-12 sm:py-16 md:py-20 bg-charcoal relative overflow-hidden" dir="rtl">
       {/* Background decorative elements - Subtle on mobile */}

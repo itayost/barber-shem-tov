@@ -1,41 +1,16 @@
 // src/components/academy/tabs/AcademyStoryTab.tsx
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Button from '@/components/common/Button';
 
 const AcademyStoryTab: React.FC = () => {
-  const [expandedValue, setExpandedValue] = useState<number | null>(null);
+  // Removed unused expandedValue and setExpandedValue
 
   // Our core values
-  const values = [
-    {
-      id: 1,
-      icon: '🤝',
-      title: 'מחויבות אישית',
-      description: 'כל תלמיד אצלנו הוא עולם ומלואו. אנחנו לא עוזבים עד שהוא מצליח.'
-    },
-    {
-      id: 2,
-      icon: '✨',
-      title: 'מצוינות מקצועית',
-      description: 'אנחנו לא מתפשרים על איכות. רק המדריכים הטובים ביותר, רק הציוד המתקדם ביותר.'
-    },
-    {
-      id: 3,
-      icon: '🎯',
-      title: 'תוצאות אמיתיות',
-      description: 'הצלחה בשבילנו זה כשבוגר שלנו פותח עסק משלו או מקבל עבודה במספרה מובילה.'
-    },
-    {
-      id: 4,
-      icon: '❤️',
-      title: 'אהבת המקצוע',
-      description: 'ספרות זה לא רק מקצוע, זו אמנות. אנחנו מלמדים את התשוקה, לא רק את הטכניקה.'
-    }
-  ];
+  // Removed unused values
 
   // Simplified milestones with stories
   const milestones = [
@@ -105,14 +80,14 @@ const AcademyStoryTab: React.FC = () => {
           transition={{ duration: 0.6, delay: 0.2 }}
         >
           <p className="text-lightgrey leading-relaxed mb-4 text-lg">
-            "כשהייתי ספר צעיר, תמיד חלמתי על מקום שבו אפשר ללמוד את המקצוע הזה אחרת. 
+            &quot;כשהייתי ספר צעיר, תמיד חלמתי על מקום שבו אפשר ללמוד את המקצוע הזה אחרת. 
             לא רק טכניקות וכלים, אלא את הקסם שבמגע האנושי, את היכולת לגרום לאדם 
-            להרגיש טוב עם עצמו, את האמנות שבפרטים הקטנים."
+            להרגיש טוב עם עצמו, את האמנות שבפרטים הקטנים.&quot;
           </p>
           <p className="text-lightgrey leading-relaxed mb-6">
-            "היום, אחרי 7 שנים ו-500 בוגרים, אני יכול להגיד בגאווה - 
+            &quot;היום, אחרי 7 שנים ו-500 בוגרים, אני יכול להגיד בגאווה - 
             הצלחנו ליצור לא רק אקדמיה, אלא בית. מקום שבו חלומות הופכים למקצוע, 
-            ומקצוע הופך לדרך חיים."
+            ומקצוע הופך לדרך חיים.&quot;
           </p>
           <p className="text-gold font-bold text-lg">
             - בר שם טוב, מייסד האקדמיה
@@ -156,7 +131,7 @@ const AcademyStoryTab: React.FC = () => {
                   </p>
                   <blockquote className="border-r-4 border-gold pr-4 mb-4">
                     <p className="text-offwhite italic">
-                      "{milestone.quote}"
+                      &quot;{milestone.quote}&quot;
                     </p>
                   </blockquote>
                   <p className="text-gold text-sm font-medium">

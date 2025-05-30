@@ -3,14 +3,12 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { galleryCategories } from '@/lib/data';
 
 interface GalleryHeroProps {
   totalImages: number;
-  imageCounts: Record<string, number>;
 }
 
-const GalleryHero: React.FC<GalleryHeroProps> = ({ totalImages, imageCounts }) => {
+const GalleryHero: React.FC<GalleryHeroProps> = ({ totalImages }) => {
   return (
     <section className="pt-32 pb-20 bg-gradient-to-b from-charcoal to-brown/10 relative overflow-hidden" dir="rtl">
       {/* Background elements */}

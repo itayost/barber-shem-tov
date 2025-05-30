@@ -60,7 +60,7 @@ function loadImageMetadata(categoryPath: string): GalleryMetadata {
     try {
       const content = fs.readFileSync(metadataPath, 'utf-8');
       return JSON.parse(content);
-    } catch (error) {
+    } catch {
       console.warn(`Failed to parse metadata.json in ${categoryPath}`);
     }
   }

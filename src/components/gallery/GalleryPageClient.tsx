@@ -62,7 +62,6 @@ const GalleryPageClient: React.FC<GalleryPageClientProps> = ({ images }) => {
       {/* Hero Section */}
       <GalleryHero 
         totalImages={images.length}
-        imageCounts={imageCounts}
       />
       
       {/* Filter Section */}

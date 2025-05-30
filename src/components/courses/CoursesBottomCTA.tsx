@@ -3,7 +3,6 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { academyInfo } from '@/lib/data';
 
 const CoursesBottomCTA: React.FC = () => {
   return (
@@ -108,11 +107,11 @@ const CoursesBottomCTA: React.FC = () => {
             <h3 className="text-xl font-bold text-gold mb-4">שעות פעילות</h3>
             <div className="grid grid-cols-2 gap-4 text-lightgrey">
               <div>
-                <div className="font-bold">ימים א'-ה':</div>
+                <div className="font-bold">ימים א&apos;-ה&apos;:</div>
                 <div>09:00 - 22:00</div>
               </div>
               <div>
-                <div className="font-bold">יום ו':</div>
+                <div className="font-bold">יום ו&apos;:</div>
                 <div>09:00 - 14:00</div>
               </div>
             </div>

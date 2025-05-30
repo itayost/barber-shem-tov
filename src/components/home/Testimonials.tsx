@@ -8,17 +8,6 @@ import Carousel from '@/components/common/Carousel'
 import { academyTestimonials } from '@/lib/data';
 
 const Testimonials: React.FC = () => {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.1
-      }
-    }
-  };
-
   const cardVariants = {
     hidden: { opacity: 0, y: 40 },
     visible: { 

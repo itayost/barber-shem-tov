@@ -1,7 +1,7 @@
 // src/components/gallery/EnhancedGalleryLightbox.tsx
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { GalleryImage, getCategoryLabel } from '@/lib/data';
@@ -20,6 +20,16 @@ const EnhancedGalleryLightbox: React.FC<EnhancedGalleryLightboxProps> = ({
   onNavigate
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
+
+  const navigateNext = useCallback(() => {
+    const nextIndex = (currentIndex + 1) % images.length;
+    onNavigate(images[nextIndex]);
+  }, [currentIndex, images, onNavigate]);
+
+  const navigatePrev = useCallback(() => {
+    const prevIndex = (currentIndex - 1 + images.length) % images.length;
+    onNavigate(images[prevIndex]);
+  }, [currentIndex, images, onNavigate]);
 
   useEffect(() => {
     if (image) {
@@ -47,17 +57,7 @@ const EnhancedGalleryLightbox: React.FC<EnhancedGalleryLightboxProps> = ({
 
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [currentIndex, images]);
-
-  const navigateNext = () => {
-    const nextIndex = (currentIndex + 1) % images.length;
-    onNavigate(images[nextIndex]);
-  };
-
-  const navigatePrev = () => {
-    const prevIndex = (currentIndex - 1 + images.length) % images.length;
-    onNavigate(images[prevIndex]);
-  };
+  }, [currentIndex, images, image, navigateNext, navigatePrev, onClose]);
 
   if (!image) return null;
 

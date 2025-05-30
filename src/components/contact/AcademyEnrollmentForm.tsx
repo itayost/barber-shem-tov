@@ -190,11 +190,6 @@ const AcademyEnrollmentForm: React.FC<AcademyEnrollmentFormProps> = ({
   );
   CustomDateInput.displayName = 'CustomDateInput';
 
-  // Get selected course details
-  const selectedCourse = formData.course 
-    ? courses.find(course => course.name_he === formData.course) 
-    : null;
-
   if (isSubmitted) {
     return (
       <motion.div 

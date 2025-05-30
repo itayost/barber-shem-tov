@@ -198,44 +198,35 @@ const AcademyResultsTab: React.FC = () => {
         </div>
       </motion.div>
 
-      {/* Success Calculator */}
+      {/* Success Stories Grid */}
       <motion.div 
-        className="bg-gradient-to-br from-gold/10 to-brown/10 p-8 rounded-lg border border-gold/20"
+        className="grid grid-cols-1 md:grid-cols-3 gap-6"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.8 }}
       >
-        <h3 className="text-xl font-bold mb-6 text-center">
-          מחשבון <span className="text-gold">החזר השקעה</span>
-        </h3>
+        <div className="bg-gradient-to-br from-gold/10 to-transparent p-6 border border-gold/20">
+          <div className="text-3xl mb-4">🌟</div>
+          <h4 className="font-bold mb-2">מקצועיות</h4>
+          <p className="text-lightgrey text-sm">
+            הכשרה ברמה הגבוהה ביותר עם ציוד ומתקנים מתקדמים
+          </p>
+        </div>
         
-        <div className="max-w-md mx-auto space-y-6">
-          <div>
-            <label className="block text-sm font-medium mb-2">
-              לקוחות ביום: <span className="text-gold">{Math.round(animatedNumbers.salary / 300)}</span>
-            </label>
-            <input 
-              type="range" 
-              min="5" 
-              max="15" 
-              value={Math.round(animatedNumbers.salary / 300)}
-              className="w-full"
-              onChange={(e) => {
-                const clients = parseInt(e.target.value);
-                setAnimatedNumbers(prev => ({ ...prev, salary: clients * 300 }));
-              }}
-            />
-          </div>
-          
-          <div className="bg-charcoal/50 p-6 rounded-lg text-center">
-            <p className="text-sm text-lightgrey mb-2">הכנסה חודשית משוערת:</p>
-            <p className="text-4xl font-bold text-gold">
-              ₪{(Math.round(animatedNumbers.salary / 300) * 60 * 22).toLocaleString()}
-            </p>
-            <p className="text-xs text-lightgrey mt-2">
-              * בהנחה של ₪60 לתספורת, 22 ימי עבודה
-            </p>
-          </div>
+        <div className="bg-gradient-to-br from-blue-500/10 to-transparent p-6 border border-blue-500/20">
+          <div className="text-3xl mb-4">🎯</div>
+          <h4 className="font-bold mb-2">התמקדות בתוצאות</h4>
+          <p className="text-lightgrey text-sm">
+            ליווי צמוד עד למציאת עבודה והשתלבות מלאה בתעשייה
+          </p>
+        </div>
+        
+        <div className="bg-gradient-to-br from-purple-500/10 to-transparent p-6 border border-purple-500/20">
+          <div className="text-3xl mb-4">🚀</div>
+          <h4 className="font-bold mb-2">קפיצת מדרגה</h4>
+          <p className="text-lightgrey text-sm">
+            הבוגרים שלנו מרוויחים בממוצע 40% יותר תוך שנה
+          </p>
         </div>
       </motion.div>
 
@@ -252,17 +243,6 @@ const AcademyResultsTab: React.FC = () => {
         <Button href="/courses" variant="primary" size="large">
           התחל את המסע שלך
         </Button>
-      </motion.div>
-
-      {/* Floating Achievement */}
-      <motion.div 
-        className="fixed bottom-8 right-8 bg-gold text-charcoal p-4 rounded-lg shadow-lg max-w-xs"
-        initial={{ x: 400 }}
-        animate={{ x: 0 }}
-        transition={{ delay: 2, type: "spring", stiffness: 100 }}
-      >
-        <p className="font-bold mb-1">🎉 מזל טוב!</p>
-        <p className="text-sm">דניאל הצטרף לקורס לפני 3 שעות</p>
       </motion.div>
     </div>
   );

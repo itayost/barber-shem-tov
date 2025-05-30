@@ -4,49 +4,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-
-// Success stories data - focused on outcomes
-const testimonials = [
-  {
-    id: 1,
-    name: 'עמית יצחקי',
-    photo: '/images/testimonials/amit.jpg',
-    graduationYear: 2023,
-    currentPosition: 'ספר ראשי במספרת אליט, תל אביב',
-    beforeSalary: '₪4,500',
-    afterSalary: '₪9,800',
-    rating: 5,
-    quote: 'תוך חודשיים מסיום הקורס קיבלתי הצעת עבודה במספרת יוקרה בתל אביב. השכר יותר מהכפיל את עצמו והעבודה מספקת בטירוף. האקדמיה לא רק לימדה אותי טכניקות - היא שינתה לי את החיים.',
-    course: 'קורס מקצועי מתקדם',
-    highlight: 'השכר הכפיל את עצמו תוך חודשיים'
-  },
-  {
-    id: 2,
-    name: 'דני כהן',
-    photo: '/images/testimonials/danny.jpg',
-    graduationYear: 2022,
-    currentPosition: 'בעל מספרת "סטייל מאסטר", חיפה',
-    beforeSalary: 'מובטל',
-    afterSalary: '₪15,000+',
-    rating: 5,
-    quote: 'הגעתי לאקדמיה ללא שום ניסיון. היום אני בעל מספרה עצמאית עם 4 עובדים ורשימת המתנה של חודש וחצי. הליווי העסקי שקיבלתי פה היה קריטי להצלחה שלי.',
-    course: 'מסלול יזמות + ניהול עסקי',
-    highlight: 'ממובטל לבעל עסק מצליח תוך שנה'
-  },
-  {
-    id: 3,
-    name: 'רון אשכנזי',
-    photo: '/images/testimonials/ron.jpg',
-    graduationYear: 2023,
-    currentPosition: 'ספר פרטי ללקוחות VIP',
-    beforeSalary: '₪6,200',
-    afterSalary: '₪12,500',
-    rating: 5,
-    quote: 'העברתי קריירה בגיל 35 ולא הייתי בטוח שזה יעבוד. האקדמיה לא רק הכשירה אותי טכנית אלא גם נתנה לי ביטחון עצמי. היום אני עובד עם לקוחות VIP ומרוויח פי שניים ממה שהרווחתי בעבר.',
-    course: 'קורס התמחות VIP',
-    highlight: 'החליף קריירה בהצלחה בגיל 35'
-  }
-];
+import Carousel from '@/components/common/Carousel'
+import { academyTestimonials } from '@/lib/data';
 
 const Testimonials: React.FC = () => {
   const containerVariants = {
@@ -107,105 +66,56 @@ const Testimonials: React.FC = () => {
           </p>
         </motion.div>
 
-        {/* Testimonials grid */}
-        <motion.div 
-          className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-7xl mx-auto"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-        >
-          {testimonials.map((testimonial) => (
+        {/* Testimonials carousel */}
+        <Carousel>
+          {academyTestimonials.map((testimonial) => (
             <motion.div
-              key={testimonial.id}
+              key={testimonial.name}
+              className="w-full px-4"
               variants={cardVariants}
-              className="bg-charcoal border border-lightgrey/10 p-8 hover:border-gold/30 transition-all duration-300 hover:-translate-y-2 group"
-              whileHover={{ 
-                scale: 1.02,
-                boxShadow: "0 25px 50px rgba(0, 0, 0, 0.3)"
-              }}
             >
-              {/* Header with photo and basic info */}
-              <div className="flex items-start gap-4 mb-6">
-                <div className="relative w-16 h-16 rounded-full overflow-hidden border-2 border-gold/30 flex-shrink-0">
-                  <Image
-                    src={testimonial.photo}
-                    alt={testimonial.name}
-                    fill
-                    className="object-cover"
-                    onError={(e) => {
-                      // Fallback to colored avatar if image doesn't exist
-                      const target = e.target as HTMLImageElement;
-                      target.style.display = 'none';
-                      if (target.parentElement) {
-                        target.parentElement.innerHTML = `
-                          <div class="w-full h-full bg-gold/20 flex items-center justify-center text-gold font-bold text-xl">
-                            ${testimonial.name.charAt(0)}
-                          </div>
-                        `;
-                      }
-                    }}
-                  />
-                </div>
-                <div className="flex-1">
-                  <h3 className="font-bold text-lg text-offwhite group-hover:text-gold transition-colors">
-                    {testimonial.name}
-                  </h3>
-                  <p className="text-gold text-sm font-medium">
-                    בוגר {testimonial.graduationYear}
-                  </p>
-                  <p className="text-lightgrey text-sm">
-                    {testimonial.currentPosition}
-                  </p>
-                </div>
-              </div>
-
-              {/* Star rating */}
-              <div className="flex gap-1 mb-4">
-                {renderStars(testimonial.rating)}
-              </div>
-
-              {/* Highlight achievement */}
-              <div className="bg-gold/10 border border-gold/20 p-3 mb-6 text-center">
-                <p className="text-gold font-bold text-sm">
-                  ✨ {testimonial.highlight}
-                </p>
-              </div>
-
-              {/* Salary comparison */}
-              <div className="grid grid-cols-2 gap-4 mb-6">
-                <div className="text-center">
-                  <div className="text-xs text-lightgrey mb-1">לפני:</div>
-                  <div className="text-lg font-bold text-red-400">
-                    {testimonial.beforeSalary}
+              <div className="bg-charcoal/50 backdrop-blur-md border border-gold/10 rounded-xl p-6 md:p-10 shadow-xl flex flex-col justify-between h-full">
+                {/* Header with avatar */}
+                <div className="flex flex-col items-center text-center mb-6">
+                  <div className="relative w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden border-2 border-gold/30 mb-4">
+                    <Image
+                      src={testimonial.image}
+                      alt={testimonial.name}
+                      fill
+                      className="object-cover"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.style.display = 'none';
+                        if (target.parentElement) {
+                          target.parentElement.innerHTML = `
+                            <div class="w-full h-full bg-gold/20 flex items-center justify-center text-gold font-bold text-2xl">
+                              ${testimonial.name.charAt(0)}
+                            </div>
+                          `;
+                        }
+                      }}
+                    />
                   </div>
+                  <h3 className="text-xl md:text-2xl font-bold text-offwhite">{testimonial.name}</h3>
+                  <p className="text-gold text-sm font-medium">בוגר {testimonial.year}</p>
+                  <p className="text-lightgrey text-sm">{testimonial.course}</p>
                 </div>
-                <div className="text-center">
-                  <div className="text-xs text-lightgrey mb-1">אחרי:</div>
-                  <div className="text-lg font-bold text-green-400">
-                    {testimonial.afterSalary}
-                  </div>
+
+                {/* Rating */}
+                <div className="flex justify-center gap-1 mb-4">
+                  {renderStars(testimonial.rating)}
                 </div>
-              </div>
 
-              {/* Quote */}
-              <div className="mb-6">
-                <div className="text-gold text-4xl mb-2 opacity-50">"</div>
-                <p className="text-lightgrey leading-relaxed italic">
-                  {testimonial.quote}
-                </p>
-                <div className="text-gold text-4xl text-left opacity-50">"</div>
-              </div>
-
-              {/* Course info */}
-              <div className="pt-4 border-t border-lightgrey/10">
-                <p className="text-xs text-lightgrey">
-                  סיים: {testimonial.course}
-                </p>
+                {/* Quote */}
+                <div className="text-center px-2">
+                  <div className="text-gold text-4xl mb-2 opacity-50">“</div>
+                  <p className="text-lightgrey leading-relaxed italic text-base md:text-lg">{testimonial.text}</p>
+                  <div className="text-gold text-4xl mt-2 opacity-50">”</div>
+                </div>
               </div>
             </motion.div>
           ))}
-        </motion.div>
+        </Carousel>
 
         {/* Call to action */}
         <motion.div 

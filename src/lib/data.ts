@@ -14,6 +14,10 @@ export type Course = {
   maxStudents?: number;
   prerequisites?: string;
   certification?: string;
+  features?: string[];
+  nextSession?: string;
+  paymentOptions?: boolean;
+  urgentNote?: string;
 };
 
 // Gallery Types
@@ -106,7 +110,18 @@ export const courses: Course[] = [
     instructor: 'bar',
     maxStudents: 12,
     prerequisites: 'אין צורך בניסיון קודם',
-    certification: 'תעודת יסודות הספרות'
+    certification: 'תעודת יסודות הספרות',
+    features: [
+      'למידה מהבסיס ללא ניסיון קודם',
+      'עבודה עם 20+ לקוחות אמיתיים',
+      'ערכת כלים מקצועית כלולה',
+      'תעודת הסמכה מוכרת',
+      'ליווי בחיפוש עבודה',
+      'גישה לקהילת בוגרים'
+    ],
+    nextSession: '15 בינואר',
+    paymentOptions: true,
+    urgentNote: '📅 יש למהר!'
   },
   {
     id: 'advanced-styling-masterclass',
@@ -122,7 +137,17 @@ export const courses: Course[] = [
     instructor: 'bar',
     maxStudents: 8,
     prerequisites: 'ניסיון בסיסי בספרות',
-    certification: 'תעודת השתתפות במאסטרקלאס'
+    certification: 'תעודת השתתפות במאסטרקלאס',
+    features: [
+      'טכניקות עיצוב מתקדמות',
+      'הדגמות חיות ומעשיות',
+      'קבלת פידבק אישי מהמדריך',
+      'תעודת השתתפות מקצועית',
+      'גישה לחומרי עזר דיגיטליים'
+    ],
+    nextSession: '28 בינואר',
+    paymentOptions: true,
+    urgentNote: '📅 מספר מקומות מוגבל!'
   }
 ];
 
@@ -144,8 +169,18 @@ export const academyTestimonials = [
     rating: 5,
     course: 'קורס ספרות בסיסי',
     instructor: 'בר שם טוב',
-    image: '/images/testimonials/uri.jpg',
+    image: '/images/testimonials/ron.jpg',
     year: 2022
+  },
+  {
+    id: 5,
+    name: 'נועה לוי',
+    text: 'חוויה מדהימה! הקורס נתן לי כלים מעשיים וביטחון עצמי להתחיל לעבוד בתחום. ממליצה בחום על האקדמיה לכל מי שחולם להפוך לספר מקצועי.',
+    rating: 5,
+    course: 'קורס ספרות בסיסי',
+    instructor: 'בר שם טוב',
+    image: '/images/testimonials/danny.jpg',
+    year: 2023
   }
 ];
 

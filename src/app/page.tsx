@@ -16,7 +16,7 @@ export default function Home() {
       <ThreePathways />
       
       {/* 3. Why Us - 4 outcome-focused benefits */}
-      <WhyUs />
+      {/*<WhyUs />*/}
       
       {/* 4. Testimonials - 3 success stories with real results */}
       <Testimonials />

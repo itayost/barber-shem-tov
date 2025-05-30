@@ -513,3 +513,191 @@ html {
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;     /* Firefox */
 }
+
+/* ===== LUXURY ENHANCEMENTS ===== */
+
+/* Luxury card effects */
+.luxury-card-glow {
+  box-shadow: 
+    0 10px 30px rgba(0, 0, 0, 0.5),
+    0 1px 0 rgba(201, 166, 107, 0.1) inset,
+    0 -1px 0 rgba(0, 0, 0, 0.5) inset;
+}
+
+.luxury-text-shadow {
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Gold shimmer effect */
+.gold-shimmer {
+  background: linear-gradient(
+    to right,
+    #C9A66B 0%,
+    #F4E4BC 45%,
+    #C9A66B 50%,
+    #B8935F 55%,
+    #C9A66B 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+}
+
+/* Premium card hover effects */
+.luxury-lift {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.luxury-lift:hover {
+  transform: translateY(-12px);
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.4),
+    0 15px 30px rgba(201, 166, 107, 0.1);
+}
+
+/* Gold accent animations */
+@keyframes goldPulse {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 1; }
+}
+
+.gold-pulse {
+  animation: goldPulse 3s ease-in-out infinite;
+}
+
+/* Luxury gradient text with animation */
+.luxury-gradient-text {
+  background: linear-gradient(
+    135deg,
+    var(--color-gold) 0%,
+    var(--color-offwhite) 50%,
+    var(--color-gold) 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  background-size: 200% auto;
+  animation: luxuryShine 3s linear infinite;
+}
+
+@keyframes luxuryShine {
+  to {
+    background-position: 200% center;
+  }
+}
+
+/* Premium button effects */
+.luxury-button {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.luxury-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  transition: left 0.6s ease;
+}
+
+.luxury-button:hover::before {
+  left: 100%;
+}
+
+/* Glass morphism for cards */
+.luxury-glass {
+  background: rgba(26, 26, 26, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(201, 166, 107, 0.2);
+}
+
+/* Premium divider */
+.luxury-divider {
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--color-gold),
+    transparent
+  );
+  opacity: 0.5;
+}
+
+/* Elegant number display */
+.luxury-number {
+  font-variant-numeric: lining-nums;
+  font-feature-settings: "lnum" 1;
+  letter-spacing: 0.02em;
+}
+
+/* Subtle background patterns */
+.luxury-pattern-diagonal {
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 35px,
+    rgba(201, 166, 107, 0.03) 35px,
+    rgba(201, 166, 107, 0.03) 70px
+  );
+}
+
+/* Premium border gradient */
+.luxury-border-gradient {
+  position: relative;
+  background: var(--color-charcoal);
+  border: 1px solid transparent;
+}
+
+.luxury-border-gradient::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  background: linear-gradient(
+    135deg,
+    var(--color-gold),
+    transparent 40%,
+    transparent 60%,
+    var(--color-gold)
+  );
+  border-radius: inherit;
+  z-index: -1;
+  opacity: 0.5;
+}
+
+/* Luxury loading animation */
+@keyframes luxuryLoader {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.luxury-loading {
+  position: relative;
+  overflow: hidden;
+}
+
+.luxury-loading::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(201, 166, 107, 0.2),
+    transparent
+  );
+  animation: luxuryLoader 2s linear infinite;
+}

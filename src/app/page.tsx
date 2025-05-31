@@ -1,4 +1,4 @@
-// src/app/page.tsx - Streamlined Homepage
+// app/page.tsx
 import Hero from '@/components/home/Hero';
 import ThreePathways from '@/components/home/ThreePathways';
 import Testimonials from '@/components/home/Testimonials';
@@ -7,21 +7,29 @@ import WhatsAppFloat from '@/components/common/WhatsAppFloat';
 
 export default function Home() {
   return (
-    <>
-      {/* 1. Hero Section - Clear value proposition with 2 CTAs */}
+    <main className="relative">
+      {/* Fixed Hero Section */}
       <Hero />
       
-      {/* 2. Three Pathways - Simple course progression */}
-      <ThreePathways />
-      
-      {/* 4. Testimonials - 3 success stories with real results */}
-      <Testimonials />
-      
-      {/* 5. Next Steps - Simple 3-step process with large CTA */}
-      <NextSteps />
+      {/* Scrolling Content Container */}
+      <div className="relative z-10">
+        {/* First section with background to cover hero */}
+        <section className="relative bg-black">
+          <ThreePathways />
+        </section>
+        
+        {/* Subsequent sections */}
+        <section className="relative bg-charcoal">
+          <Testimonials />
+        </section>
+        
+        <section className="relative bg-black">
+          <NextSteps />
+        </section>
+      </div>
 
-      {/* WhatsApp floating button for immediate contact */}
+      {/* WhatsApp floating button */}
       <WhatsAppFloat />
-    </>
+    </main>
   );
 }

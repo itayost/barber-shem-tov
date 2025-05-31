@@ -1,35 +1,13 @@
-// src/components/home/Testimonials.tsx
+// components/home/Testimonials.tsx
 'use client';
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import Image from 'next/image';
-import Carousel from '@/components/common/Carousel'
+import Carousel from '@/components/common/Carousel';
+import TestimonialCard from './TestimonialCard';
 import { academyTestimonials } from '@/lib/data';
 
 const Testimonials: React.FC = () => {
-  const cardVariants = {
-    hidden: { opacity: 0, y: 40 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      transition: { 
-        duration: 0.7,
-        type: "spring",
-        stiffness: 100
-      }
-    }
-  };
-
-  // Render stars
-  const renderStars = (rating: number) => {
-    return Array.from({ length: 5 }, (_, i) => (
-      <span key={i} className={`text-xl ${i < rating ? 'text-yellow-400' : 'text-gray-400'}`}>
-        
-      </span>
-    ));
-  };
-
   return (
     <section className="py-20 md:py-32 bg-charcoal relative overflow-hidden" dir="rtl">
       {/* Background elements */}
@@ -55,54 +33,14 @@ const Testimonials: React.FC = () => {
           </p>
         </motion.div>
 
-        {/* Testimonials carousel */}
-        <Carousel>
-          {academyTestimonials.map((testimonial) => (
-            <motion.div
-              key={testimonial.name}
-              className="w-full px-4"
-              variants={cardVariants}
-            >
-              <div className="bg-charcoal/50 backdrop-blur-md border border-gold/10 rounded-xl p-6 md:p-10 shadow-xl flex flex-col justify-between h-full">
-                {/* Header with avatar */}
-                <div className="flex flex-col items-center text-center mb-6">
-                  <div className="relative w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden border-2 border-gold/30 mb-4">
-                    <Image
-                      src={testimonial.image}
-                      alt={testimonial.name}
-                      fill
-                      className="object-cover"
-                      onError={(e) => {
-                        const target = e.target as HTMLImageElement;
-                        target.style.display = 'none';
-                        if (target.parentElement) {
-                          target.parentElement.innerHTML = `
-                            <div class="w-full h-full bg-gold/20 flex items-center justify-center text-gold font-bold text-2xl">
-                              ${testimonial.name.charAt(0)}
-                            </div>
-                          `;
-                        }
-                      }}
-                    />
-                  </div>
-                  <h3 className="text-xl md:text-2xl font-bold text-offwhite">{testimonial.name}</h3>
-                  <p className="text-gold text-sm font-medium">בוגר {testimonial.year}</p>
-                  <p className="text-lightgrey text-sm">{testimonial.course}</p>
-                </div>
-
-                {/* Rating */}
-                <div className="flex justify-center gap-1 mb-4">
-                  {renderStars(testimonial.rating)}
-                </div>
-
-                {/* Quote */}
-                <div className="text-center px-2">
-                  <div className="text-gold text-4xl mb-2 opacity-50">“</div>
-                  <p className="text-lightgrey leading-relaxed italic text-base md:text-lg">{testimonial.text}</p>
-                  <div className="text-gold text-4xl mt-2 opacity-50">”</div>
-                </div>
-              </div>
-            </motion.div>
+        {/* Testimonials Carousel */}
+        <Carousel autoplayDelay={5000}>
+          {academyTestimonials.map((testimonial, index) => (
+            <TestimonialCard
+              key={testimonial.id}
+              {...testimonial}
+              index={index}
+            />
           ))}
         </Carousel>
 

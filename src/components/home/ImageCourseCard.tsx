@@ -44,7 +44,7 @@ const ImageCourseCard: React.FC<ImageCourseCardProps> = ({
         />
         
         {/* Dark Overlay */}
-        <div className="absolute inset-0 bg-black/70 group-hover:bg-black/60 transition-colors duration-500" />
+        <div className="absolute inset-0 bg-black/60" />
       </div>
 
       {/* Content */}

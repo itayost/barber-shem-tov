@@ -34,7 +34,6 @@ const ImageCourseCard: React.FC<ImageCourseCardProps> = ({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6, delay: index * 0.1 }}
-      whileHover={{ y: -5 }}
     >
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
@@ -42,7 +41,7 @@ const ImageCourseCard: React.FC<ImageCourseCardProps> = ({
           src={imageUrl}
           alt={title}
           fill
-          className="object-cover transition-transform duration-700 group-hover:scale-110"
+          className="object-cover transition-transform duration-700"
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
         

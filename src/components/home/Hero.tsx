@@ -10,6 +10,7 @@ const Hero = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [loadedImages, setLoadedImages] = useState<string[]>([]);
+  const [scrollY, setScrollY] = useState(0);
 
   // Array of background images
   const backgroundImagePaths = [
@@ -17,6 +18,13 @@ const Hero = () => {
     "/images/hero/homeHero2.jpg", 
     "/images/hero/homeHero3.jpg",
   ];
+
+  // Scroll tracking
+  useEffect(() => {
+    const handleScroll = () => setScrollY(window.scrollY);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   // Preload images
   useEffect(() => {
@@ -49,6 +57,9 @@ const Hero = () => {
 
   const currentImagePath = backgroundImagePaths[currentImageIndex];
   const isCurrentImageLoaded = loadedImages.includes(currentImagePath);
+
+  // Calculate if hero should be hidden (scrolled past viewport height)
+  const shouldHideHero = scrollY > window.innerHeight * 0.8;
 
   // Simple fade animation variants
   const imageVariants = {
@@ -86,9 +97,11 @@ const Hero = () => {
 
   return (
     <>
-      {/* Fixed Hero Section */}
+      {/* Fixed Hero Section - hides when scrolled */}
       <section 
-        className="fixed inset-0 h-[100dvh] flex flex-col overflow-hidden bg-charcoal z-0" 
+        className={`fixed inset-0 h-[100dvh] flex flex-col overflow-hidden bg-charcoal transition-all duration-500 ${
+          shouldHideHero ? 'opacity-0 pointer-events-none -z-10' : 'opacity-100 z-0'
+        }`}
         dir="rtl"
       >
         {/* Background images with fade transitions */}

@@ -2,7 +2,6 @@
 'use client';
 
 import React from 'react';
-import { motion } from 'framer-motion';
 import Image from 'next/image';
 
 interface TestimonialCardProps {
@@ -36,21 +35,14 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
   };
 
   return (
-    <motion.div
-      className="bg-charcoal border border-gold/10 overflow-hidden group h-full flex flex-col"
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.6, delay: index * 0.1 }}
-      whileHover={{ y: -5, borderColor: 'rgba(201, 166, 107, 0.3)' }}
-    >
+    <div className="bg-charcoal border border-gold/10 overflow-hidden h-full flex flex-col">
       {/* Big Image Header */}
       <div className="relative h-64 overflow-hidden">
         <Image
           src={image}
           alt={name}
           fill
-          className="object-cover transition-transform duration-700 group-hover:scale-110"
+          className="object-cover"
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           onError={(e) => {
             const target = e.target as HTMLImageElement;
@@ -104,7 +96,7 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
           </p>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 };
 

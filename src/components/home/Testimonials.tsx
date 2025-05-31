@@ -2,7 +2,6 @@
 'use client';
 
 import React from 'react';
-import { motion } from 'framer-motion';
 import Carousel from '@/components/common/Carousel';
 import TestimonialCard from './TestimonialCard';
 import { academyTestimonials } from '@/lib/data';
@@ -18,40 +17,36 @@ const Testimonials: React.FC = () => {
 
       <div className="container mx-auto px-6 relative z-10">
         {/* Section header */}
-        <motion.div 
-          className="text-center mb-16"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
+        <div className="text-center mb-16">
           <h2 className="text-h2 md:text-5xl font-bold mb-4">
             סיפורי <span className="text-gold">הצלחה אמיתיים</span>
           </h2>
           <p className="text-lightgrey text-xl max-w-2xl mx-auto">
             הבוגרים שלנו משנים חיים - הנה הסיפורים שלהם
           </p>
-        </motion.div>
+        </div>
 
-        {/* Testimonials Carousel */}
-        <Carousel autoplayDelay={5000}>
-          {academyTestimonials.map((testimonial, index) => (
-            <TestimonialCard
-              key={testimonial.id}
-              {...testimonial}
-              index={index}
-            />
-          ))}
-        </Carousel>
+        {/* Responsive Testimonials Carousel */}
+        <div className="max-w-7xl mx-auto">
+          <Carousel 
+            autoplayDelay={5000}
+            responsive={true}
+            spacing={24}
+            showDots={true}
+            showArrows={true}
+          >
+            {academyTestimonials.map((testimonial, index) => (
+              <TestimonialCard
+                key={testimonial.id}
+                {...testimonial}
+                index={index}
+              />
+            ))}
+          </Carousel>
+        </div>
 
         {/* Call to action */}
-        <motion.div 
-          className="text-center mt-16 bg-gold/5 border border-gold/20 p-8 max-w-4xl mx-auto"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-        >
+        <div className="text-center mt-16 bg-gold/5 border border-gold/20 p-8 max-w-4xl mx-auto">
           <h3 className="text-h3 font-bold mb-4">
             מוכן להיות <span className="text-gold">הסיפור הבא</span>?
           </h3>
@@ -60,23 +55,19 @@ const Testimonials: React.FC = () => {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <motion.a
+            <a
               href="/courses"
               className="bg-gold text-charcoal py-4 px-8 font-bold text-lg hover:bg-gold/90 transition-all shadow-lg hover:shadow-xl"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
             >
               הרשמה לקורס
-            </motion.a>
+            </a>
             
-            <motion.a
+            <a
               href="/contact?consultation=true"
               className="border border-gold text-gold py-4 px-8 font-bold text-lg hover:bg-gold/10 transition-all"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
             >
               שיחת ייעוץ חינם
-            </motion.a>
+            </a>
           </div>
 
           {/* Trust indicators */}
@@ -94,7 +85,7 @@ const Testimonials: React.FC = () => {
               <span>תשובה תוך 24 שעות</span>
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

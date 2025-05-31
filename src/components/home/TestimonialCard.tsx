@@ -13,7 +13,6 @@ interface TestimonialCardProps {
   instructor: string;
   image: string;
   year: number;
-  index?: number;
 }
 
 const TestimonialCard: React.FC<TestimonialCardProps> = ({
@@ -23,8 +22,7 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
   course,
   instructor,
   image,
-  year,
-  index = 0
+  year
 }) => {
   const renderStars = (rating: number) => {
     return Array.from({ length: 5 }, (_, i) => (
@@ -67,7 +65,7 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
         
         {/* Quote Icon */}
         <div className="absolute top-4 right-4 text-gold/30 text-5xl font-serif">
-          "
+          &ldquo;
         </div>
       </div>
 
@@ -80,7 +78,7 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
 
         {/* Testimonial Text */}
         <blockquote className="text-lightgrey text-base leading-relaxed mb-6 italic flex-grow">
-          "{text}"
+          &ldquo;{text}&rdquo;
         </blockquote>
 
         {/* Author Info */}

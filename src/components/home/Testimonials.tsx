@@ -33,13 +33,11 @@ const Testimonials: React.FC = () => {
             responsive={true}
             spacing={24}
             showDots={true}
-            showArrows={true}
           >
-            {academyTestimonials.map((testimonial, index) => (
+            {academyTestimonials.map((testimonial) => (
               <TestimonialCard
                 key={testimonial.id}
                 {...testimonial}
-                index={index}
               />
             ))}
           </Carousel>

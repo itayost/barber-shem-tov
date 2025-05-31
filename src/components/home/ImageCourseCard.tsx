@@ -13,7 +13,6 @@ interface ImageCourseCardProps {
   duration: string; // "40 Weeks | Hairstyling & Barbering"
   imageUrl: string;
   enrollLink?: string;
-  learnMoreLink?: string;
   index?: number;
 }
 
@@ -24,7 +23,6 @@ const ImageCourseCard: React.FC<ImageCourseCardProps> = ({
   duration,
   imageUrl,
   enrollLink = '/contact',
-  learnMoreLink = '/courses',
   index = 0
 }) => {
   return (

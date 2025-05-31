@@ -8,14 +8,11 @@ interface Pathway {
   subtitle: string;
   duration: string;
   price: number;
-  description: string;
   features: string[];
   icon: string;
   popular?: boolean;
   nextStep: string;
   instructor?: string;
-  prerequisites?: string;
-  certification?: string;
 }
 
 interface PathwayCardProps {
@@ -29,13 +26,10 @@ const PathwayCard: React.FC<PathwayCardProps> = ({ pathway, index = 0 }) => {
     subtitle,
     duration,
     price,
-    description,
     features,
     icon,
     popular,
-    nextStep,
-    prerequisites,
-    certification
+    nextStep
   } = pathway;
 
   return (

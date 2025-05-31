@@ -1,7 +1,7 @@
 // components/home/Hero.tsx
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
 import Button from '@/components/common/Button';
@@ -11,23 +11,33 @@ const Hero = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [loadedImages, setLoadedImages] = useState<string[]>([]);
   const [scrollY, setScrollY] = useState(0);
+  const [isMounted, setIsMounted] = useState(false);
 
-  // Array of background images
-  const backgroundImagePaths = [
+  // Array of background images wrapped in useMemo
+  const backgroundImagePaths = useMemo(() => [
     "/images/hero/homeHero1.jpg", 
     "/images/hero/homeHero2.jpg", 
     "/images/hero/homeHero3.jpg",
-  ];
+  ], []);
 
-  // Scroll tracking
+  // Handle initial mount
   useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  // Scroll tracking - only run on client side
+  useEffect(() => {
+    if (!isMounted) return;
+
     const handleScroll = () => setScrollY(window.scrollY);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [isMounted]);
 
   // Preload images
   useEffect(() => {
+    if (!isMounted) return;
+
     let loadedCount = 0;
     backgroundImagePaths.forEach((imagePath) => {
       const img = new Image();
@@ -40,11 +50,11 @@ const Hero = () => {
       };
       img.src = imagePath;
     });
-  }, []);
+  }, [backgroundImagePaths, isMounted]);
 
   // Auto-advance slides
   useEffect(() => {
-    if (!isLoaded) return;
+    if (!isLoaded || !isMounted) return;
     
     const intervalId = setInterval(() => {
       setCurrentImageIndex((prevIndex) =>
@@ -53,13 +63,13 @@ const Hero = () => {
     }, 6000);
 
     return () => clearInterval(intervalId);
-  }, [backgroundImagePaths.length, isLoaded]);
+  }, [backgroundImagePaths.length, isLoaded, isMounted]);
 
   const currentImagePath = backgroundImagePaths[currentImageIndex];
   const isCurrentImageLoaded = loadedImages.includes(currentImagePath);
 
   // Calculate if hero should be hidden (scrolled past viewport height)
-  const shouldHideHero = scrollY > window.innerHeight * 0.8;
+  const shouldHideHero = isMounted && scrollY > window.innerHeight * 0.8;
 
   // Simple fade animation variants
   const imageVariants = {

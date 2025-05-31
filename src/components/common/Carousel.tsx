@@ -11,7 +11,6 @@ interface CarouselProps {
   slidesPerView?: number | 'auto';
   spacing?: number;
   showDots?: boolean;
-  showArrows?: boolean;
 }
 
 const Carousel: React.FC<CarouselProps> = ({ 
@@ -20,8 +19,7 @@ const Carousel: React.FC<CarouselProps> = ({
   responsive = false,
   slidesPerView = 1,
   spacing = 16,
-  showDots = true,
-  showArrows = false
+  showDots = true
 }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   

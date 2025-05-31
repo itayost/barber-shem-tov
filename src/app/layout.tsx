@@ -1,7 +1,7 @@
 // File: src/app/layout.tsx
 import { Heebo } from 'next/font/google';
 import './globals.css';
-import { Navbar } from '@/components/navigation'; // Updated import path
+import { NavbarOptimized as Navbar } from '@/components/navigation'; // Updated import path
 import Footer from '@/components/common/Footer';
 
 // Hebrew font setup

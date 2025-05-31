@@ -7,11 +7,6 @@ import Image from 'next/image';
 import Button from '@/components/common/Button';
 
 const AcademyStoryTab: React.FC = () => {
-  // Removed unused expandedValue and setExpandedValue
-
-  // Our core values
-  // Removed unused values
-
   // Simplified milestones with stories
   const milestones = [
     {
@@ -80,14 +75,14 @@ const AcademyStoryTab: React.FC = () => {
           transition={{ duration: 0.6, delay: 0.2 }}
         >
           <p className="text-lightgrey leading-relaxed mb-4 text-lg">
-            &quot;כשהייתי ספר צעיר, תמיד חלמתי על מקום שבו אפשר ללמוד את המקצוע הזה אחרת. 
+            &ldquo;כשהייתי ספר צעיר, תמיד חלמתי על מקום שבו אפשר ללמוד את המקצוע הזה אחרת. 
             לא רק טכניקות וכלים, אלא את הקסם שבמגע האנושי, את היכולת לגרום לאדם 
-            להרגיש טוב עם עצמו, את האמנות שבפרטים הקטנים.&quot;
+            להרגיש טוב עם עצמו, את האמנות שבפרטים הקטנים.&rdquo;
           </p>
           <p className="text-lightgrey leading-relaxed mb-6">
-            &quot;היום, אחרי 7 שנים ו-500 בוגרים, אני יכול להגיד בגאווה - 
+            &ldquo;היום, אחרי 7 שנים ו-500 בוגרים, אני יכול להגיד בגאווה - 
             הצלחנו ליצור לא רק אקדמיה, אלא בית. מקום שבו חלומות הופכים למקצוע, 
-            ומקצוע הופך לדרך חיים.&quot;
+            ומקצוע הופך לדרך חיים.&rdquo;
           </p>
           <p className="text-gold font-bold text-lg">
             - בר שם טוב, מייסד האקדמיה
@@ -131,7 +126,7 @@ const AcademyStoryTab: React.FC = () => {
                   </p>
                   <blockquote className="border-r-4 border-gold pr-4 mb-4">
                     <p className="text-offwhite italic">
-                      &quot;{milestone.quote}&quot;
+                      &ldquo;{milestone.quote}&rdquo;
                     </p>
                   </blockquote>
                   <p className="text-gold text-sm font-medium">

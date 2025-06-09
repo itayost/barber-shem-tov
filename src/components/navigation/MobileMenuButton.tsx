@@ -1,3 +1,4 @@
+// src/components/navigation/MobileMenuButton.tsx
 'use client';
 
 import { motion } from 'framer-motion';
@@ -34,10 +35,10 @@ const MobileMenuButton = ({ isOpen, onClick, className = '' }: MobileMenuButtonP
 
   return (
     <motion.button 
-      className={`md:hidden flex-shrink-0 p-3 rounded-lg z-10 
+      className={`md:hidden flex-shrink-0 p-3 rounded-lg relative
         focus:outline-none focus:ring-2 focus:ring-gold focus:ring-opacity-50 
-        hover:bg-charcoal/10 active:bg-charcoal/20 transition-colors
-        ${className}`}
+        ${isOpen ? 'bg-charcoal/30 backdrop-blur-sm fixed top-6 right-6 z-[9999]' : 'hover:bg-charcoal/10 active:bg-charcoal/20'} 
+        transition-all duration-200 ${className}`}
       onClick={onClick}
       aria-label={isOpen ? 'סגור תפריט' : 'פתח תפריט'}
       aria-expanded={isOpen}
@@ -49,21 +50,21 @@ const MobileMenuButton = ({ isOpen, onClick, className = '' }: MobileMenuButtonP
       <div className="w-6 h-5 relative flex flex-col justify-between">
         {/* Top line */}
         <motion.div 
-          className="w-6 h-0.5 bg-offwhite absolute top-0"
+          className={`w-6 h-0.5 ${isOpen ? 'bg-gold' : 'bg-offwhite'} absolute top-0 transition-colors duration-200`}
           variants={topLineVariants}
           transition={lineTransition}
         />
         
         {/* Middle line */}
         <motion.div 
-          className="w-6 h-0.5 bg-offwhite absolute top-1/2 -translate-y-1/2"
+          className={`w-6 h-0.5 ${isOpen ? 'bg-gold' : 'bg-offwhite'} absolute top-1/2 -translate-y-1/2 transition-colors duration-200`}
           variants={middleLineVariants}
           transition={lineTransition}
         />
         
         {/* Bottom line */}
         <motion.div 
-          className="w-6 h-0.5 bg-offwhite absolute bottom-0"
+          className={`w-6 h-0.5 ${isOpen ? 'bg-gold' : 'bg-offwhite'} absolute bottom-0 transition-colors duration-200`}
           variants={bottomLineVariants}
           transition={lineTransition}
         />

@@ -1,51 +1,72 @@
 'use client';
-import { useState, useEffect, useCallback } from 'react';
+
+import { useState, useEffect, useCallback, lazy, Suspense } from 'react';
 import Logo from './Logo';
 import DesktopNav from './DesktopNav';
 import MobileMenuButton from './MobileMenuButton';
-import MobileMenu from './MobileMenu';
 import { academyInfo } from '@/lib/data';
+import { navigationConfig } from '@/config/navigation';
 
-const Navbar = () => {
+// Lazy load mobile menu for better initial page load
+const MobileMenuRefactored = lazy(() => import('./MobileMenuRefactored'));
+
+const NavbarOptimized = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
-  // Handle scroll effect for navbar
+  // Optimized scroll handler with RAF
   useEffect(() => {
+    let rafId: number;
+    let lastScrollY = 0;
+    
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      if (rafId) cancelAnimationFrame(rafId);
+      
+      rafId = requestAnimationFrame(() => {
+        const currentScrollY = window.scrollY;
+        // Only update if crossing the threshold
+        if ((lastScrollY <= 50 && currentScrollY > 50) || 
+            (lastScrollY > 50 && currentScrollY <= 50)) {
+          setIsScrolled(currentScrollY > 50);
+        }
+        lastScrollY = currentScrollY;
+      });
     };
-    // Add passive: true for better performance
+    
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    
+    return () => {
+      if (rafId) cancelAnimationFrame(rafId);
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
   
-  // Toggle mobile menu
+  // Memoized callbacks
   const toggleMobileMenu = useCallback(() => {
-    setIsMobileMenuOpen(prevState => !prevState);
+    setIsMobileMenuOpen(prev => !prev);
   }, []);
   
-  // Close mobile menu
   const closeMobileMenu = useCallback(() => {
     setIsMobileMenuOpen(false);
   }, []);
   
+  // Dynamic navbar styles
+  const navbarStyles = {
+    paddingTop: isScrolled ? '0.5rem' : '1rem',
+    paddingBottom: isScrolled ? '0.5rem' : '1rem',
+    backgroundColor: isScrolled ? 'rgba(26, 26, 26, 0.98)' : 'transparent',
+    boxShadow: isScrolled ? '0 4px 6px rgba(0, 0, 0, 0.1)' : 'none',
+    backgroundImage: !isScrolled 
+      ? 'linear-gradient(to bottom, rgba(26, 26, 26, 0.8) 0%, rgba(26, 26, 26, 0.6) 50%, rgba(26, 26, 26, 0) 100%)' 
+      : 'none',
+    backdropFilter: 'blur(5px)',
+    transition: 'padding 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease'
+  };
+  
   return (
     <header 
-      className={`navbar fixed w-full z-50 transition-all duration-300 ${
-        isScrolled ? 'py-2' : 'py-4'
-      }`}
-      style={{
-        // Base styles
-        backdropFilter: 'blur(10px)',
-        
-        // Dynamic styles based on scroll position
-        backgroundColor: isScrolled ? 'rgba(26, 26, 26, 0.98)' : 'transparent',
-        boxShadow: isScrolled ? '0 4px 6px rgba(0, 0, 0, 0.1)' : 'none',
-        backgroundImage: !isScrolled 
-          ? 'linear-gradient(to bottom, rgba(26, 26, 26, 0.8) 0%, rgba(26, 26, 26, 0.6) 50%, rgba(26, 26, 26, 0) 100%)' 
-          : 'none'
-      }}
+      className="navbar fixed w-full z-50"
+      style={navbarStyles}
       dir="rtl"
     >
       <div className="container mx-auto px-6 flex items-center justify-between">
@@ -58,16 +79,10 @@ const Navbar = () => {
         
         {/* Desktop Navigation */}
         <DesktopNav 
-          navItems={[
-            { name: 'דף הבית', path: '/' },
-            { name: 'האקדמיה', path: '/academy' },
-            { name: 'גלריה', path: '/gallery' },
-            { name: 'קורסים', path: '/courses' },
-            { name: 'צור קשר', path: '/contact' },
-          ]} 
+          navItems={navigationConfig.mainItems}
           callToAction={{
-            text: "הרשמה לקורסים",
-            href: "/academy",
+            text: navigationConfig.quickActions.primary.text,
+            href: navigationConfig.quickActions.primary.href,
             className: "btn-primary"
           }}
         />
@@ -78,22 +93,21 @@ const Navbar = () => {
           onClick={toggleMobileMenu}
         />
         
-        {/* Mobile Menu */}
-        <MobileMenu 
-          isOpen={isMobileMenuOpen} 
-          onClose={closeMobileMenu}
-          academyInfo={academyInfo}
-          navItems={[
-            { name: 'דף הבית', path: '/' },
-            { name: 'האקדמיה', path: '/academy' },
-            { name: 'גלריה', path: '/gallery' },
-            { name: 'קורסים', path: '/courses' },
-            { name: 'צור קשר', path: '/contact' },
-          ]}
-        />
+        {/* Lazy-loaded Mobile Menu */}
+        <Suspense fallback={null}>
+          {isMobileMenuOpen && (
+            <MobileMenuRefactored 
+              isOpen={isMobileMenuOpen} 
+              onClose={closeMobileMenu}
+              academyInfo={academyInfo}
+              navItems={navigationConfig.mainItems}
+              id="mobile-menu"
+            />
+          )}
+        </Suspense>
       </div>
     </header>
   );
 };
 
-export default Navbar;
+export default NavbarOptimized;

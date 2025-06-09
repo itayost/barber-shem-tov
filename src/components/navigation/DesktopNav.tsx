@@ -29,7 +29,7 @@ const DesktopNav = ({ navItems, callToAction }: DesktopNavProps) => {
   return (
     <>
       {/* Navigation Links */}
-      <nav className="hidden md:flex items-center justify-center space-x-8 space-x-reverse">
+      <nav className="navbar-nav">
         {navItems.map((item) => {
           // Check if current path matches this nav item
           const isActive = 
@@ -42,59 +42,31 @@ const DesktopNav = ({ navItems, callToAction }: DesktopNavProps) => {
           return (
             <div 
               key={item.name}
-              className="relative py-2"
+              className="navbar-nav-item"
               onMouseEnter={() => setHoveredItem(item.path)}
               onMouseLeave={() => setHoveredItem(null)}
             >
               <Link 
                 href={item.path}
-                className={`inline-block ${isActive ? 'text-gold' : 'text-offwhite hover:text-gold'} transition-colors duration-200`}
+                className={`nav-link ${isActive ? 'active' : ''}`}
                 aria-current={isActive ? 'page' : undefined}
               >
                 {item.name}
               </Link>
-              
-              {/* Explicit underline element with inline styles for line drawing animation */}
-              <div
-                className="absolute bottom-0 right-0 h-0.5 bg-gold"
-                style={{ 
-                  width: isActive ? '100%' : (isHovered ? '100%' : '0%'),
-                  transition: 'width 0.4s cubic-bezier(0.22, 1, 0.36, 1)'
-                }}
-              />
             </div>
           );
         })}
       </nav>
       
-      {/* Call To Action Button with animation */}
-      <div className="hidden md:block flex-shrink-0">
+      {/* Call To Action Button */}
+      <div className="navbar-cta">
         <Link 
           href={callToAction.href} 
-          className={`${callToAction.className} relative overflow-hidden`}
+          className={`${callToAction.className} animate-shine`}
         >
-          <span className="relative z-10">{callToAction.text}</span>
-          
-          {/* Shine effect with inline styles */}
-          {callToAction.className.includes('btn-primary') && (
-            <div
-              className="absolute inset-0 bg-white/10 skew-x-12"
-              style={{
-                animation: 'shineEffect 2s ease-in-out infinite',
-                transformOrigin: '0% 100%',
-              }}
-            />
-          )}
+          {callToAction.text}
         </Link>
       </div>
-      
-      {/* Keyframe animation for shine effect */}
-      <style jsx>{`
-        @keyframes shineEffect {
-          0% { transform: translateX(-100%) skewX(-15deg); }
-          100% { transform: translateX(200%) skewX(-15deg); }
-        }
-      `}</style>
     </>
   );
 };

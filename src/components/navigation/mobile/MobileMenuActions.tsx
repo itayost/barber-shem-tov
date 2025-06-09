@@ -3,6 +3,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import Button from '@/components/common/Button';
+import { menuAnimationPresets } from '@/styles';
 
 interface MobileMenuActionsProps {
   primaryAction: {
@@ -25,15 +26,13 @@ const MobileMenuActions: React.FC<MobileMenuActionsProps> = ({
 }) => {
   return (
     <motion.div 
-      className={`w-full ${isCompact ? 'mt-3 space-y-2' : 'mt-5 space-y-3'}`}
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.4 }}
+      className={`mobile-menu-actions ${isCompact ? 'compact' : ''}`}
+      {...menuAnimationPresets.slideUp}
     >
       <Button 
         href={primaryAction.href}
         variant="primary"
-        className={`w-full text-center ${isCompact ? 'py-2 text-sm' : ''}`}
+        className={`btn-full ${isCompact ? 'btn-sm' : ''}`}
         onClick={onActionClick}
       >
         {primaryAction.text}
@@ -41,7 +40,7 @@ const MobileMenuActions: React.FC<MobileMenuActionsProps> = ({
       <Button 
         href={secondaryAction.href}
         variant="secondary"
-        className={`w-full text-center ${isCompact ? 'py-2 text-sm' : ''}`}
+        className={`btn-full ${isCompact ? 'btn-sm' : ''}`}
         onClick={onActionClick}
       >
         {secondaryAction.text}

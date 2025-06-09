@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
+import { transitions } from '@/styles';
 
 interface LogoProps {
   isScrolled: boolean;
@@ -17,32 +18,32 @@ const Logo = ({ isScrolled, src, alt, href = "/" }: LogoProps) => {
     normal: { scale: 1 },
     scrolled: { scale: 0.85 }
   };
-
-  // Calculate responsive dimensions
-  const logoHeight = isScrolled ? 'h-12' : 'h-16';
-  const imageWidth = isScrolled ? 180 : 240;
-  const imageHeight = isScrolled ? 64 : 64;
   
   return (
     <motion.div 
-      className="flex-shrink-0 flex items-center"
+      className="navbar-logo"
       initial="normal"
       animate={isScrolled ? "scrolled" : "normal"}
       variants={logoVariants}
-      transition={{ type: "spring", stiffness: 260, damping: 20 }}
+      transition={{ 
+        type: "spring", 
+        stiffness: 260, 
+        damping: 20,
+        duration: transitions.normal
+      }}
     >
       <Link 
         href={href} 
-        className="relative z-10 inline-block focus:outline-none focus-visible" 
+        className="focus-ring" 
         aria-label={`${alt} - Return to homepage`}
       >
-        <div className={`transition-all duration-300 ${logoHeight} overflow-hidden`}>
+        <div className={`navbar-logo-image ${isScrolled ? 'scrolled' : ''}`}>
           <Image 
             src={src}
             alt={alt}
-            width={imageWidth}
-            height={imageHeight}
-            className="h-full w-auto object-contain hover-scale transition-all duration-300"
+            width={isScrolled ? 180 : 240}
+            height={64}
+            className="hover-scale"
             priority
             quality={90}
           />

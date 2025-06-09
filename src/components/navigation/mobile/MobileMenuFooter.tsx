@@ -33,30 +33,30 @@ const MobileMenuFooter: React.FC<MobileMenuFooterProps> = ({
 }) => {
   return (
     <motion.div 
-      className={`${isCompact ? 'mt-3' : 'mt-5'} flex flex-col items-center gap-3 w-full`}
+      className={`mobile-menu-footer ${isCompact ? 'compact' : ''}`}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ delay: 0.5 }}
     >
       {/* Display academy stats if not on a small screen */}
       {!isCompact && stats && (
-        <div className="w-full grid grid-cols-2 gap-2 mb-2">
-          <div className="text-center">
-            <div className="text-gold font-medium text-sm">{stats.graduates}+</div>
-            <div className="text-lightgrey text-xs">בוגרים</div>
+        <div className="menu-stats-grid">
+          <div className="menu-stat">
+            <div className="menu-stat-number">{stats.graduates}+</div>
+            <div className="menu-stat-label">בוגרים</div>
           </div>
-          <div className="text-center">
-            <div className="text-gold font-medium text-sm">{stats.placementRate}%</div>
-            <div className="text-lightgrey text-xs">השמה</div>
+          <div className="menu-stat">
+            <div className="menu-stat-number">{stats.placementRate}%</div>
+            <div className="menu-stat-label">השמה</div>
           </div>
         </div>
       )}
       
       {/* Contact Info */}
-      <div className="flex items-center justify-center gap-4 text-sm">
+      <div className="menu-contact-container">
         <a 
           href={`tel:${contact.phone}`}
-          className="text-gold flex items-center gap-1 hover:text-gold/80 transition-colors"
+          className="menu-phone-link"
           onClick={(e) => e.stopPropagation()}
         >
           <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -67,7 +67,7 @@ const MobileMenuFooter: React.FC<MobileMenuFooterProps> = ({
         
         <a 
           href={`mailto:${contact.email}`}
-          className="text-gold flex items-center gap-1 hover:text-gold/80 transition-colors"
+          className="menu-email-link"
           onClick={(e) => e.stopPropagation()}
         >
           <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -79,14 +79,14 @@ const MobileMenuFooter: React.FC<MobileMenuFooterProps> = ({
       
       {/* Social Links */}
       <div 
-        className="flex items-center space-x-reverse space-x-4 border border-lightgrey border-opacity-20 bg-charcoal/20 rounded-full py-1 px-4"
+        className="menu-social-wrapper"
         onClick={(e) => e.stopPropagation()}
       >
         <SocialLinks social={social} />
       </div>
       
       {/* Established year */}
-      <div className="text-xs text-lightgrey/70">
+      <div className="menu-footer-info">
         {businessName} • {established}
       </div>
     </motion.div>

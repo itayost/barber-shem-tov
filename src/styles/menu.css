@@ -209,3 +209,61 @@
   transform: skewX(-25deg);
   animation: shine 3s infinite 2s;
 }
+
+/***********************************************
+ * 8. SOCIAL LINKS
+ ***********************************************/
+.social-link {
+  @apply text-lightgrey hover:text-gold p-2;
+  display: inline-block;
+}
+
+.social-link-icon {
+  @apply w-5 h-5;
+}
+
+/***********************************************
+ * 9. MOBILE MENU ACTIONS
+ ***********************************************/
+.mobile-menu-actions {
+  @apply w-full mt-5 space-y-3;
+}
+
+.mobile-menu-actions.compact {
+  @apply mt-3 space-y-2;
+}
+
+/***********************************************
+ * 10. MOBILE MENU FOOTER
+ ***********************************************/
+.mobile-menu-footer {
+  @apply mt-5 flex flex-col items-center gap-3 w-full;
+}
+
+.mobile-menu-footer.compact {
+  @apply mt-3;
+}
+
+.menu-stats-grid {
+  @apply w-full grid grid-cols-2 gap-2 mb-2;
+}
+
+.menu-stat {
+  @apply text-center;
+}
+
+.menu-stat-number {
+  @apply text-gold font-medium text-sm;
+}
+
+.menu-stat-label {
+  @apply text-lightgrey text-xs;
+}
+
+.menu-email-link {
+  @apply text-gold flex items-center gap-1 hover:text-gold/80 transition-colors;
+}
+
+.menu-footer-info {
+  @apply text-xs text-lightgrey/70;
+}

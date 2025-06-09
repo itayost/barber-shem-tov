@@ -8,9 +8,9 @@ import { academyInfo } from '@/lib/data';
 import { navigationConfig } from '@/config/navigation';
 
 // Lazy load mobile menu for better initial page load
-const MobileMenuRefactored = lazy(() => import('./MobileMenuRefactored'));
+const MobileMenu = lazy(() => import('./MobileMenu'));
 
-const NavbarOptimized = () => {
+const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
@@ -50,26 +50,15 @@ const NavbarOptimized = () => {
     setIsMobileMenuOpen(false);
   }, []);
   
-  // Dynamic navbar styles
-  const navbarStyles = {
-    paddingTop: isScrolled ? '0.5rem' : '1rem',
-    paddingBottom: isScrolled ? '0.5rem' : '1rem',
-    backgroundColor: isScrolled ? 'rgba(26, 26, 26, 0.98)' : 'transparent',
-    boxShadow: isScrolled ? '0 4px 6px rgba(0, 0, 0, 0.1)' : 'none',
-    backgroundImage: !isScrolled 
-      ? 'linear-gradient(to bottom, rgba(26, 26, 26, 0.8) 0%, rgba(26, 26, 26, 0.6) 50%, rgba(26, 26, 26, 0) 100%)' 
-      : 'none',
-    backdropFilter: 'blur(5px)',
-    transition: 'padding 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease'
-  };
+  // Use classes from menu.css instead of inline styles
+  const navbarClasses = `navbar ${isScrolled ? 'navbar-scrolled' : 'navbar-transparent'}`;
   
   return (
     <header 
-      className="navbar fixed w-full z-50"
-      style={navbarStyles}
+      className={navbarClasses}
       dir="rtl"
     >
-      <div className="container mx-auto px-6 flex items-center justify-between">
+      <div className="navbar-container">
         {/* Logo */}
         <Logo 
           isScrolled={isScrolled} 
@@ -96,7 +85,7 @@ const NavbarOptimized = () => {
         {/* Lazy-loaded Mobile Menu */}
         <Suspense fallback={null}>
           {isMobileMenuOpen && (
-            <MobileMenuRefactored 
+            <MobileMenu 
               isOpen={isMobileMenuOpen} 
               onClose={closeMobileMenu}
               academyInfo={academyInfo}
@@ -110,4 +99,4 @@ const NavbarOptimized = () => {
   );
 };
 
-export default NavbarOptimized;
+export default Navbar;

@@ -6,6 +6,7 @@ import { createPortal } from 'react-dom';
 import { AcademyInfo } from '@/types';
 import { NavItem, navigationConfig } from '@/config/navigation';
 import { useViewportSize } from '@/hooks/useViewportSize';
+import { menuAnimationPresets } from '@/styles';
 
 // Import sub-components
 import MobileMenuHeader from './mobile/MobileMenuHeader';
@@ -21,7 +22,7 @@ interface MobileMenuProps {
   id?: string;
 }
 
-const MobileMenuRefactored: React.FC<MobileMenuProps> = ({ 
+const MobileMenu: React.FC<MobileMenuProps> = ({ 
   isOpen, 
   onClose, 
   academyInfo,
@@ -49,7 +50,7 @@ const MobileMenuRefactored: React.FC<MobileMenuProps> = ({
     return () => setMounted(false);
   }, []);
 
-  // Handle body scroll lock - FIXED VERSION
+  // Handle body scroll lock
   useEffect(() => {
     let scrollY = 0;
     let timer: NodeJS.Timeout;
@@ -87,7 +88,7 @@ const MobileMenuRefactored: React.FC<MobileMenuProps> = ({
       setActiveIndex(null);
     }
     
-    // Cleanup function - ALWAYS restore body styles
+    // Cleanup function
     return () => {
       if (timer) clearTimeout(timer);
       
@@ -133,21 +134,18 @@ const MobileMenuRefactored: React.FC<MobileMenuProps> = ({
         <motion.div
           ref={menuRef}
           id={id}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.3 }}
-          className="fixed inset-0 w-full h-full bg-charcoal/90 backdrop-blur-md md:hidden flex flex-col z-50"
+          className="menu-backdrop md:hidden flex flex-col"
           aria-modal="true"
           role="dialog"
           aria-label="תפריט ניווט"
           tabIndex={-1}
           onClick={handleBackgroundClick}
+          {...menuAnimationPresets.fadeIn}
         >
           {/* Background effects */}
-          <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-            <div className="absolute inset-0 bg-gradient-to-b from-gold/5 to-transparent opacity-30"></div>
-            <div className="absolute inset-0 bg-gradient-to-tr from-charcoal/80 via-transparent to-gold/5 opacity-20"></div>
+          <div className="floating-bg-elements">
+            <div className="floating-element w-96 h-96 top-0 right-0 animate-float"></div>
+            <div className="floating-element w-64 h-64 bottom-0 left-0 animate-float" style={{ animationDelay: '1s' }}></div>
           </div>
           
           {/* Content container */}
@@ -199,4 +197,4 @@ const MobileMenuRefactored: React.FC<MobileMenuProps> = ({
   return createPortal(menuContent, document.body);
 };
 
-export default MobileMenuRefactored;
+export default MobileMenu;

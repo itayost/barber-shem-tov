@@ -2,7 +2,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import CoursesHero from '@/components/courses/CoursesHero';
+import Hero from '@/components/common/Hero';
 import CoursesGrid from '@/components/courses/CoursesGrid';
 import CoursesComparison from '@/components/courses/CoursesComparison';
 import CoursesFAQ from '@/components/courses/CoursesFAQ';
@@ -13,10 +13,10 @@ const CoursesPage = () => {
 
   return (
     <main className="bg-charcoal">
-      {/* Hero with filters */}
-      <CoursesHero 
-        activeFilter={activeFilter} 
-        onFilterChange={setActiveFilter} 
+      <Hero
+        title={<>הקרוסים <span className="text-gold">שלנו</span></>}
+        subtitle="לכל גיל, לכל רמה"
+        backgroundImage="/images/hero/courses-hero.jpg"
       />
       
       {/* Course cards grid */}

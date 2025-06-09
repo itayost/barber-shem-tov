@@ -1,5 +1,5 @@
 // src/app/academy/page.tsx - Interactive & Engaging Academy Page
-import AcademyHeroInteractive from '@/components/academy/AcademyHeroInteractive';
+import Hero from '@/components/common/Hero';
 import AcademyTabsSection from '@/components/academy/AcademyTabsSection';
 import AcademyQuickActions from '@/components/academy/AcademyQuickActions';
 import WhatsAppFloat from '@/components/common/WhatsAppFloat';
@@ -7,8 +7,11 @@ import WhatsAppFloat from '@/components/common/WhatsAppFloat';
 export default function AcademyPage() {
   return (
     <>
-      {/* 1. Interactive Hero with Live Stats */}
-      <AcademyHeroInteractive />
+      <Hero
+        title={<>הסיפור <span className="text-gold">שלנו</span></>}
+        subtitle="מחלום למציאות"
+        backgroundImage="/images/hero/academy-hero.jpg"
+      />
       
       {/* 2. Tabbed Content - Story, Results, Team */}
       <AcademyTabsSection />

@@ -3,7 +3,7 @@
 
 import React, { useState, useMemo } from 'react';
 import { GalleryImage, galleryCategories } from '@/lib/data';
-import GalleryHero from './GalleryHero';
+import Hero from '@/components/common/Hero'; // Changed from GalleryHero
 import EnhancedGalleryFilter from './EnhancedGalleryFilter';
 import EnhancedGalleryGrid from './EnhancedGalleryGrid';
 import EnhancedGalleryLightbox from './EnhancedGalleryLightbox';
@@ -59,9 +59,11 @@ const GalleryPageClient: React.FC<GalleryPageClientProps> = ({ images }) => {
 
   return (
     <>
-      {/* Hero Section */}
-      <GalleryHero 
-        totalImages={images.length}
+      {/* Hero Section using Common Hero Component */}
+      <Hero
+        title={<>גלריה <span className="text-gold">האקדמיה</span></>}
+        subtitle="תיעוד חיי האקדמיה"
+        backgroundImage="/images/hero/gallery-hero.jpg"
       />
       
       {/* Filter Section */}

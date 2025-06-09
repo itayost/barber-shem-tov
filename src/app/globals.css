@@ -3,9 +3,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Import third-party CSS */
-@import 'keen-slider/keen-slider.min.css';
-@import 'react-datepicker/dist/react-datepicker.css';
 
 /* Import your custom styles */
 @import '../styles/variables.css';
@@ -17,8 +14,12 @@
 :root {
   /* Primary colors */
   --color-charcoal: #1A1A1A;
+  --color-charcoal-light: #2A2A2A;
+  --color-charcoal-dark: #111111;
   --color-brown: #704214;
   --color-gold: #C9A66B;
+  --color-gold-light: #D9BC8C;
+  --color-gold-dark: #A6845C;
   --color-offwhite: #F5F5F5;
   --color-lightgrey: #E0E0E0;
   --color-burgundy: #5C0511;
@@ -40,51 +41,51 @@ body {
 
 /* Typography */
 h1, .h1 {
-  font-size: var(--font-size-4xl);
+  font-size: 3rem; /* 48px */
   line-height: 1.1;
-  margin-bottom: var(--space-lg);
+  margin-bottom: 2rem;
   font-weight: 700;
 }
 
 h2, .h2 {
-  font-size: var(--font-size-3xl);
+  font-size: 2.25rem; /* 36px */
   line-height: 1.2;
-  margin-bottom: var(--space-md);
+  margin-bottom: 1.5rem;
   font-weight: 700;
 }
 
 h3, .h3 {
-  font-size: var(--font-size-2xl);
+  font-size: 1.5rem; /* 24px */
   line-height: 1.3;
-  margin-bottom: var(--space-sm);
+  margin-bottom: 1rem;
   font-weight: 600;
 }
 
 h4, .h4 {
-  font-size: var(--font-size-xl);
+  font-size: 1.25rem; /* 20px */
   line-height: 1.4;
-  margin-bottom: var(--space-xs);
+  margin-bottom: 0.75rem;
   font-weight: 600;
 }
 
 h5, .h5 {
-  font-size: var(--font-size-lg);
+  font-size: 1.125rem; /* 18px */
   line-height: 1.4;
-  margin-bottom: var(--space-xs);
+  margin-bottom: 0.75rem;
   font-weight: 500;
 }
 
 h6, .h6 {
-  font-size: var(--font-size-md);
+  font-size: 1rem; /* 16px */
   line-height: 1.4;
-  margin-bottom: var(--space-xs);
+  margin-bottom: 0.75rem;
   font-weight: 500;
 }
 
 /* Add fluid typography */
 @media (min-width: 768px) {
-  h1, .h1 { font-size: calc(var(--font-size-4xl) * 1.2); }
-  h2, .h2 { font-size: calc(var(--font-size-3xl) * 1.1); }
+  h1, .h1 { font-size: 3.75rem; }
+  h2, .h2 { font-size: 2.5rem; }
 }
 
 /* Accent text for headings */
@@ -359,103 +360,112 @@ html {
   h3, .h3 { font-size: 1.5rem; }
   
   .container-custom {
-    @apply px-4;
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
   
   .hero-section {
-    @apply min-h-[85vh];
+    min-height: 85vh;
   }
   
   .hero-title {
-    @apply text-3xl;
+    font-size: 1.875rem; /* 30px */
   }
   
   .hero-subtitle {
-    @apply text-base;
+    font-size: 1rem;
   }
   
   .section-spacing {
-    @apply py-12;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
   }
   
   .services-grid,
   .team-grid,
   .gallery-grid {
-    @apply grid-cols-1;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
   }
   
   .luxury-card {
-    @apply p-4;
+    padding: 1rem;
   }
   
   .testimonial-card {
-    @apply p-6;
+    padding: 1.5rem;
   }
   
   .testimonial-text {
-    @apply text-base;
+    font-size: 1rem;
   }
   
   .cta-buttons {
-    @apply flex-col;
+    flex-direction: column;
   }
 }
 
 /* Tablet optimizations */
 @media (min-width: 768px) and (max-width: 1023px) {
   .container-custom {
-    @apply px-6;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
   }
   
   .section-spacing {
-    @apply py-16;
+    padding-top: 4rem;
+    padding-bottom: 4rem;
   }
   
   .services-grid,
   .team-grid {
-    @apply grid-cols-2;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   
   .gallery-grid {
-    @apply grid-cols-2;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
 /* Large screens optimizations */
 @media (min-width: 1280px) {
   .container-custom {
-    @apply px-8;
+    padding-left: 2rem;
+    padding-right: 2rem;
   }
   
   .hero-title {
-    @apply text-6xl;
+    font-size: 3.75rem; /* 60px */
   }
   
   .hero-subtitle {
-    @apply text-xl;
+    font-size: 1.25rem;
   }
   
   .section-spacing {
-    @apply py-24;
+    padding-top: 6rem;
+    padding-bottom: 6rem;
   }
 }
 
 /* Print styles */
 @media print {
   body {
-    @apply text-black bg-white;
+    color: black;
+    background-color: white;
   }
   
   .no-print {
-    @apply hidden;
+    display: none;
   }
   
   a {
-    @apply text-black;
+    color: black;
   }
   
   .container {
-    @apply max-w-full mx-0;
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
   }
 }
 

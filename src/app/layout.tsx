@@ -1,6 +1,8 @@
 // File: src/app/layout.tsx
 import { Heebo } from 'next/font/google';
 import './globals.css';
+import 'keen-slider/keen-slider.min.css';
+import 'react-datepicker/dist/react-datepicker.css';
 import { Navbar } from '@/components/navigation';
 import Footer from '@/components/common/Footer';
 

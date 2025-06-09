@@ -6,7 +6,6 @@ import { createPortal } from 'react-dom';
 import { AcademyInfo } from '@/types';
 import { NavItem, navigationConfig } from '@/config/navigation';
 import { useViewportSize } from '@/hooks/useViewportSize';
-import { menuAnimationPresets } from '@/styles';
 
 // Import sub-components
 import MobileMenuHeader from './mobile/MobileMenuHeader';
@@ -21,6 +20,14 @@ interface MobileMenuProps {
   navItems?: NavItem[];
   id?: string;
 }
+
+// Simple fade in animation
+const fadeInAnimation = {
+  initial: { opacity: 0 },
+  animate: { opacity: 1 },
+  exit: { opacity: 0 },
+  transition: { duration: 0.3 }
+};
 
 const MobileMenu: React.FC<MobileMenuProps> = ({ 
   isOpen, 
@@ -140,7 +147,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
           aria-label="תפריט ניווט"
           tabIndex={-1}
           onClick={handleBackgroundClick}
-          {...menuAnimationPresets.fadeIn}
+          {...fadeInAnimation}
         >
           {/* Background effects */}
           <div className="floating-bg-elements">

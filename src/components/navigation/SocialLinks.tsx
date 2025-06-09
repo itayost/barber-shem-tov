@@ -1,7 +1,6 @@
 'use client';
 
 import Image from 'next/image';
-import { transitions } from '@/styles';
 
 interface SocialLinksProps {
   social: {
@@ -21,7 +20,7 @@ const SocialLinks = ({ social }: SocialLinksProps) => {
           rel="noopener noreferrer"
           className="social-link"
           aria-label="אינסטגרם"
-          style={{ transition: `all ${transitions.fast} ease` }}
+          style={{ transition: 'all 0.2s ease' }} // inline transition
         >
           <Image 
             src="/icons/Instagram.svg" 
@@ -39,7 +38,7 @@ const SocialLinks = ({ social }: SocialLinksProps) => {
           rel="noopener noreferrer"
           className="social-link"
           aria-label="פייסבוק"
-          style={{ transition: `all ${transitions.fast} ease` }}
+          style={{ transition: 'all 0.2s ease' }} // inline transition
         >
           <Image 
             src="/icons/Facebook.svg" 
@@ -57,7 +56,7 @@ const SocialLinks = ({ social }: SocialLinksProps) => {
           rel="noopener noreferrer"
           className="social-link"
           aria-label="טיקטוק"
-          style={{ transition: `all ${transitions.fast} ease` }}
+          style={{ transition: 'all 0.2s ease' }} // inline transition
         >
           <Image 
             src="/icons/Tiktok.svg" 

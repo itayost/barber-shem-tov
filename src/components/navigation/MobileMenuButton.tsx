@@ -1,7 +1,6 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { transitions } from '@/styles';
 
 interface MobileMenuButtonProps {
   isOpen: boolean;
@@ -26,12 +25,12 @@ const MobileMenuButton = ({ isOpen, onClick, className = '' }: MobileMenuButtonP
     open: { rotate: -45, translateY: -6 }
   };
 
-  // Common transition using centralized duration
+  // Common transition - using inline value instead of import
   const lineTransition = { 
     type: "spring", 
     stiffness: 260, 
     damping: 20,
-    duration: transitions.fast
+    duration: 0.2 // fast transition
   };
 
   return (

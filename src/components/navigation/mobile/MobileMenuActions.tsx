@@ -3,7 +3,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import Button from '@/components/common/Button';
-import { menuAnimationPresets } from '@/styles';
 
 interface MobileMenuActionsProps {
   primaryAction: {
@@ -18,6 +17,16 @@ interface MobileMenuActionsProps {
   isCompact?: boolean;
 }
 
+// Simple animation preset
+const slideUpAnimation = {
+  initial: { opacity: 0, y: 30 },
+  animate: { 
+    opacity: 1, 
+    y: 0,
+    transition: { duration: 0.5, ease: "easeOut" }
+  }
+};
+
 const MobileMenuActions: React.FC<MobileMenuActionsProps> = ({
   primaryAction,
   secondaryAction,
@@ -27,7 +36,7 @@ const MobileMenuActions: React.FC<MobileMenuActionsProps> = ({
   return (
     <motion.div 
       className={`mobile-menu-actions ${isCompact ? 'compact' : ''}`}
-      {...menuAnimationPresets.slideUp}
+      {...slideUpAnimation}
     >
       <Button 
         href={primaryAction.href}

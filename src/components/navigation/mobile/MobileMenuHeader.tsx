@@ -4,7 +4,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { menuAnimationPresets } from '@/styles';
 
 interface MobileMenuHeaderProps {
   logo: {
@@ -33,7 +32,9 @@ const MobileMenuHeader: React.FC<MobileMenuHeaderProps> = ({
         className="menu-close-btn"
         onClick={onClose}
         aria-label="סגור תפריט"
-        {...menuAnimationPresets.rotateButton}
+        whileHover={{ rotate: 90 }}
+        whileTap={{ scale: 0.9 }}
+        transition={{ duration: 0.2 }}
       >
         <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -43,7 +44,9 @@ const MobileMenuHeader: React.FC<MobileMenuHeaderProps> = ({
       {/* Logo and status */}
       <div className="flex flex-col items-center flex-1">
         <motion.div 
-          {...menuAnimationPresets.scaleLogo}
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
           className={`${isCompact ? 'mb-1' : 'mb-2'}`}
         >
           <Image 

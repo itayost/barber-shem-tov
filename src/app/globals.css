@@ -82,9 +82,10 @@
     @apply text-gold;
   }
   
-  /* Forms & Inputs */
+ /* Forms & Inputs */
   input, textarea, select {
-    @apply font-inherit text-right;
+    @apply text-right;
+    font-family: inherit;
     direction: rtl;
   }
   

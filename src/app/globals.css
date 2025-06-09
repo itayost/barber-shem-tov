@@ -105,11 +105,6 @@
   a {
     @apply text-inherit no-underline transition-colors duration-200;
   }
-  
-  a:hover {
-    @apply text-gold;
-  }
-  
   /* Lists */
   ul, ol {
     @apply pr-6;
@@ -161,7 +156,7 @@
   
   .btn-primary {
     @apply bg-gold text-charcoal hover:bg-gold/90 active:bg-gold/80
-           shadow-md hover:shadow-lg;
+           shadow-md hover:shadow-lg overflow-hidden;
   }
   
   .btn-secondary {
@@ -243,6 +238,11 @@
 
   .navbar-cta {
     @apply hidden md:block ml-8;
+  }
+
+  /* Navbar CTA Button specific styling */
+  .navbar-cta .btn {
+    @apply relative overflow-hidden;
   }
 
   .navbar-toggle {
@@ -700,8 +700,12 @@
 }
 
 @keyframes shine {
-  0% { left: -100%; }
-  100% { left: 150%; }
+  0% { 
+    left: -40%; /* Start closer to ensure it's fully hidden */
+  }
+  100% { 
+    left: 120%; /* End earlier to prevent overflow */
+  }
 }
 
 @keyframes pulse {
@@ -807,12 +811,12 @@
   position: absolute;
   top: 0;
   left: -100%;
-  width: 70%;
+  width: 60%;
   height: 100%;
   background: linear-gradient(
     to right, 
     transparent, 
-    rgba(255, 255, 255, 0.3), 
+    rgba(255, 255, 255, 0.2), 
     transparent
   );
   transform: skewX(-25deg);
@@ -825,28 +829,34 @@
   left: 150%;
 }
 
+/* Disable btn-primary shine when animate-shine is present */
+.animate-shine.btn-primary::after {
+  display: none;
+}
+
 /* Shine Animation for CTA */
 .animate-shine {
   position: relative;
   overflow: hidden;
   isolation: isolate;
+  display: inline-block; /* Ensure proper boundaries */
 }
 
 .animate-shine::before {
   content: '';
   position: absolute;
-  top: -2px;
+  top: 0;
   left: -100%;
-  width: 50%;
-  height: calc(100% + 4px);
+  width: 30%; /* Narrower shine for better effect */
+  height: 100%;
   background: linear-gradient(
-    90deg, 
+    105deg, /* Adjusted angle for better visual */
     transparent, 
-    rgba(255, 255, 255, 0.2), 
+    rgba(255, 255, 255, 0.25), 
     transparent
   );
-  transform: skewX(-25deg);
-  animation: shine 3s infinite 2s;
+  transform: skewX(-15deg); /* Less skew for subtlety */
+  animation: shine 4s infinite 2s; /* Slower for elegance */
   pointer-events: none;
   z-index: 10;
 }

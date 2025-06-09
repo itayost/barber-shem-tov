@@ -3,7 +3,6 @@
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
-import { transitions } from '@/styles';
 
 interface LogoProps {
   isScrolled: boolean;
@@ -29,7 +28,7 @@ const Logo = ({ isScrolled, src, alt, href = "/" }: LogoProps) => {
         type: "spring", 
         stiffness: 260, 
         damping: 20,
-        duration: transitions.normal
+        duration: 0.3
       }}
     >
       <Link 

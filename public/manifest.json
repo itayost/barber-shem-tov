@@ -15,7 +15,12 @@
       "purpose": "maskable"
     }
   ],
-  "theme_color": "#ffffff",
-  "background_color": "#ffffff",
-  "display": "standalone"
+  "theme_color": "#1A1A1A",
+  "background_color": "#1A1A1A",
+  "display": "standalone",
+  "start_url": "/",
+  "scope": "/",
+  "description": "The Fader - מספרה מודרנית בטירת הכרמל",
+  "dir": "rtl",
+  "lang": "he"
 }

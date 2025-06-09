@@ -1,25 +1,32 @@
 /* 
  * Main CSS Entry Point
- * Using postcss-import for clean import handling
+ * CRITICAL: ALL @import statements MUST come FIRST
  */
 
-/* Tailwind base layer */
-@import "tailwindcss/base";
-@import "../styles/base.css";
+/* Import all CSS files FIRST */
+@import '../styles/variables.css';
+@import '../styles/base.css';
+@import '../styles/components.css';
+@import '../styles/menu.css';
+@import '../styles/utilities.css';
+@import '../styles/animations.css';
 
-/* Tailwind components layer */
-@import "tailwindcss/components";
-@import "../styles/components.css";
+/* THEN Tailwind directives */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-/* Tailwind utilities layer */
-@import "tailwindcss/utilities";
-@import "../styles/utilities.css";
-@import "../styles/menu.css";
+/* THEN any custom styles */
+:root {
+  --foreground-rgb: 245, 245, 245;
+  --background-rgb: 26, 26, 26;
+}
 
-/* Animations (no @apply, so can be imported last) */
-@import "../styles/animations.css";
-
-/* Additional global styles that don't fit in other files */
+body {
+  color: rgb(var(--foreground-rgb));
+  background: rgb(var(--background-rgb));
+  font-family: var(--font-heebo), sans-serif;
+}
 
 /* Mobile responsive adjustments */
 @media (max-width: 767px) {
@@ -44,7 +51,6 @@
   }
 }
 
-/* Tablet adjustments */
 @media (min-width: 768px) and (max-width: 1023px) {
   .container-custom {
     padding-left: 1.5rem;
@@ -62,7 +68,6 @@
   }
 }
 
-/* Large screens */
 @media (min-width: 1280px) {
   .container-custom {
     padding-left: 2rem;
@@ -99,7 +104,7 @@
   }
 }
 
-/* Hide scrollbar utilities */
+/* Utility classes */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
@@ -129,26 +134,4 @@
     max-width: 100%;
     padding: 0;
   }
-}
-
-@import '../styles/variables.css';
-@import '../styles/base.css';
-@import '../styles/utilities.css';
-@import '../styles/components.css';
-@import '../styles/animations.css';
-@import '../styles/menu.css';
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-:root {
-  --foreground-rgb: 245, 245, 245;
-  --background-rgb: 26, 26, 26;
-}
-
-body {
-  color: rgb(var(--foreground-rgb));
-  background: rgb(var(--background-rgb));
-  font-family: var(--font-heebo), sans-serif;
 }

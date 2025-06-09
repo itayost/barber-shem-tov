@@ -1,2 +1,412 @@
-/* src/app/globals.css - SIMPLE VERSION */
-@import './styles/globals.css';
+/* src/app/globals.css - REPLACE YOUR ENTIRE FILE WITH THIS */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* CSS Variables */
+@layer base {
+  :root {
+    /* Colors */
+    --color-charcoal: #1A1A1A;
+    --color-charcoal-light: #2A2A2A;
+    --color-charcoal-dark: #111111;
+    --color-brown: #704214;
+    --color-gold: #C9A66B;
+    --color-gold-light: #D9BC8C;
+    --color-gold-dark: #A6845C;
+    --color-offwhite: #F5F5F5;
+    --color-lightgrey: #E0E0E0;
+    --color-burgundy: #5C0511;
+    
+    /* Spacing */
+    --space-section: 5rem;
+    --space-section-mobile: 3rem;
+    
+    /* Transitions */
+    --transition-fast: 0.2s ease;
+    --transition-normal: 0.3s ease;
+    --transition-slow: 0.5s ease;
+  }
+
+  /* Base Styles */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-charcoal text-offwhite;
+    font-family: var(--font-heebo), system-ui, sans-serif;
+    line-height: 1.5;
+    letter-spacing: -0.01em;
+    text-align: right;
+    direction: rtl;
+  }
+
+  /* Typography */
+  h1, .text-h1 { @apply text-4xl md:text-5xl lg:text-6xl font-bold leading-tight; }
+  h2, .text-h2 { @apply text-3xl md:text-4xl lg:text-5xl font-bold leading-tight; }
+  h3, .text-h3 { @apply text-2xl md:text-3xl font-semibold; }
+  h4, .text-h4 { @apply text-xl md:text-2xl font-semibold; }
+  
+  /* Links */
+  a {
+    @apply text-inherit no-underline transition-colors duration-200;
+  }
+  
+  a:hover {
+    @apply text-gold;
+  }
+
+  /* Selection */
+  ::selection {
+    @apply bg-gold text-charcoal;
+  }
+
+  /* Focus */
+  :focus-visible {
+    @apply outline-none ring-2 ring-gold/50 ring-offset-2 ring-offset-charcoal;
+  }
+
+  /* RTL specific */
+  input, textarea, select {
+    @apply text-right;
+    direction: rtl;
+  }
+}
+
+/* Component Styles */
+@layer components {
+  /* Buttons */
+  .btn {
+    @apply inline-flex items-center justify-center px-6 py-3 font-medium transition-all duration-200 text-center relative overflow-hidden;
+  }
+  
+  .btn-primary {
+    @apply bg-gold text-charcoal hover:bg-gold/90 active:bg-gold/80;
+  }
+  
+  .btn-secondary {
+    @apply bg-transparent text-gold border border-gold hover:bg-gold/10 active:bg-gold/20;
+  }
+  
+  .btn-tertiary {
+    @apply text-gold hover:text-gold/80 underline-offset-4 hover:underline;
+  }
+  
+  .btn-full {
+    @apply w-full;
+  }
+  
+  .btn-sm {
+    @apply px-4 py-2 text-sm;
+  }
+  
+  .btn-lg {
+    @apply px-8 py-4 text-lg;
+  }
+
+  /* Cards */
+  .luxury-card {
+    @apply bg-charcoal border border-lightgrey/10 p-6 transition-all duration-300 hover:border-gold/30 hover:-translate-y-1 hover:shadow-xl;
+  }
+
+  /* Forms */
+  .form-input {
+    @apply w-full px-4 py-3 bg-transparent border border-lightgrey/30 rounded-lg focus:border-gold focus:outline-none transition-colors duration-200;
+  }
+
+  /* Navigation */
+  .navbar {
+    @apply fixed w-full top-0 z-40 transition-all duration-300;
+    backdrop-filter: blur(10px);
+  }
+
+  .navbar-container {
+    @apply container mx-auto px-6 py-4 flex items-center justify-between;
+  }
+
+  .navbar-transparent {
+    background: linear-gradient(to bottom, rgba(26, 26, 26, 0.8) 0%, rgba(26, 26, 26, 0.6) 50%, rgba(26, 26, 26, 0) 100%);
+  }
+
+  .navbar-scrolled {
+    @apply bg-charcoal/95 backdrop-blur-sm shadow-md;
+  }
+
+  .navbar-logo {
+    @apply relative z-10;
+  }
+
+  .navbar-nav {
+    @apply hidden md:flex items-center space-x-8 space-x-reverse;
+  }
+
+  .navbar-cta {
+    @apply hidden md:block ml-8;
+  }
+
+  .navbar-toggle {
+    @apply md:hidden focus:outline-none z-10 relative w-6 h-5;
+  }
+
+  .navbar-toggle-line {
+    @apply w-6 h-0.5 bg-offwhite absolute left-0 transition-all duration-300;
+  }
+
+  .nav-link {
+    @apply text-offwhite hover:text-gold transition-colors duration-200 relative py-2;
+  }
+  
+  .nav-link.active {
+    @apply text-gold;
+  }
+
+  /* Mobile Menu */
+  .menu-backdrop {
+    @apply fixed inset-0 bg-charcoal/95 backdrop-blur-md z-50;
+  }
+
+  .mobile-menu-nav {
+    @apply flex flex-col items-center space-y-6;
+  }
+
+  .mobile-menu-nav-item {
+    @apply block w-full text-center py-4 px-6 text-offwhite hover:text-gold hover:bg-gold/10 transition-all duration-200;
+  }
+  
+  .mobile-menu-nav-item.compact {
+    @apply py-3 text-sm;
+  }
+
+  .mobile-menu-nav-item.active {
+    @apply text-gold bg-gold/10;
+  }
+
+  .mobile-menu-actions {
+    @apply w-full mt-5 space-y-3;
+  }
+
+  .mobile-menu-footer {
+    @apply mt-5 flex flex-col items-center gap-3 w-full;
+  }
+
+  .menu-close-btn {
+    @apply absolute top-6 left-6 text-offwhite hover:text-gold focus:outline-none focus:ring-2 focus:ring-gold focus:ring-opacity-50 p-3 rounded-full bg-charcoal/30 backdrop-blur-sm z-50;
+  }
+
+  .menu-stat-number {
+    @apply text-gold font-medium text-sm;
+  }
+
+  .menu-stat-label {
+    @apply text-lightgrey text-xs;
+  }
+
+  /* Social */
+  .social-link {
+    @apply text-lightgrey hover:text-gold transition-colors p-2 inline-block;
+  }
+
+  .social-link-icon {
+    @apply w-5 h-5;
+  }
+}
+
+/* Utilities */
+@layer utilities {
+  /* Spacing */
+  .section-spacing {
+    @apply py-20 md:py-32;
+  }
+  
+  .py-section {
+    padding-top: var(--space-section);
+    padding-bottom: var(--space-section);
+  }
+  
+  .py-section-mobile {
+    padding-top: var(--space-section-mobile);
+    padding-bottom: var(--space-section-mobile);
+  }
+  
+  .container-custom {
+    @apply container mx-auto px-6;
+  }
+
+  /* Text */
+  .text-gradient-gold {
+    @apply bg-gradient-to-r from-gold to-gold-light bg-clip-text text-transparent;
+  }
+  
+  /* Effects */
+  .glass-effect {
+    @apply bg-charcoal/70 backdrop-blur-md border border-lightgrey/10;
+  }
+  
+  /* Hebrew */
+  .hebrew-nums {
+    font-feature-settings: "tnum" 1;
+  }
+  
+  /* Focus */
+  .focus-ring {
+    @apply focus:outline-none focus:ring-2 focus:ring-gold/50;
+  }
+
+  /* Hide scrollbar */
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Hover scale */
+  .hover-scale {
+    @apply transition-transform duration-300 hover:scale-105;
+  }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { 
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes floatElement {
+  0%, 100% {
+    transform: translateY(0);
+    opacity: 0.1;
+  }
+  50% {
+    transform: translateY(-10px);
+    opacity: 0.3;
+  }
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes goldShimmer {
+  0% {
+    background-position: -100% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes shine {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+/* Animation classes */
+.animate-fadeIn { animation: fadeIn 0.5s ease-out; }
+.animate-slideUp { animation: slideUp 0.6s ease-out; }
+.animate-slideInLeft { animation: slideInLeft 0.6s ease-out; }
+.animate-slideInRight { animation: slideInRight 0.6s ease-out; }
+.animate-float { animation: float 3s ease-in-out infinite; }
+.animate-pulse { animation: pulse 2s ease-in-out infinite; }
+.animate-shimmer { animation: goldShimmer 3s linear infinite; }
+
+/* Animation utilities */
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.2s; }
+.stagger-3 { animation-delay: 0.3s; }
+.stagger-4 { animation-delay: 0.4s; }
+.stagger-5 { animation-delay: 0.5s; }
+
+/* Floating background elements */
+.floating-bg-elements {
+  @apply absolute inset-0 z-0 overflow-hidden;
+}
+
+.floating-element {
+  @apply absolute rounded-full bg-gold/5;
+}
+
+/* Additional component classes from your menu.css */
+.menu-contact-container {
+  @apply mt-12 flex flex-col items-center text-center text-sm gap-2;
+}
+
+.menu-phone-link,
+.menu-email-link {
+  @apply text-gold flex items-center gap-2 hover:text-gold/80 transition-colors;
+}
+
+.menu-social-wrapper {
+  @apply flex items-center space-x-reverse space-x-4 border border-lightgrey border-opacity-20 bg-charcoal/20 rounded-full py-2 px-6;
+}
+
+.menu-stats-grid {
+  @apply w-full grid grid-cols-2 gap-2 mb-2;
+}
+
+.menu-stat {
+  @apply text-center;
+}
+
+.menu-footer-info {
+  @apply text-xs text-lightgrey/70;
+}

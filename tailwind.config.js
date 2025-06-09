@@ -63,7 +63,7 @@ module.exports = {
       },
     },
   },
-},
+
   plugins: [
     // Add RTL-specific plugins if needed
     function ({ addUtilities }) {

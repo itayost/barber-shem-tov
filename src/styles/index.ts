@@ -1,12 +1,5 @@
 // File: src/styles/index.ts
 
-// Import all style files including the new menu.css
-import './variables.css';
-import './animations.css';
-import './components.css';
-import './utilities.css';
-import './menu.css'; // Add this new import
-
 // Export constants for theme values if needed in JS/TS
 export const themeColors = {
   charcoal: '#1A1A1A',

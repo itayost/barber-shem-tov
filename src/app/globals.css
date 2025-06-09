@@ -3,12 +3,16 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Import third-party CSS */
+@import 'keen-slider/keen-slider.min.css';
+@import 'react-datepicker/dist/react-datepicker.css';
+
 /* Import your custom styles */
-@import './styles/variables.css';
-@import './styles/animations.css';
-@import './styles/components.css';
-@import './styles/utilities.css';
-@import './styles/menu.css';
+@import '../styles/variables.css';
+@import '../styles/animations.css';
+@import '../styles/components.css';
+@import '../styles/utilities.css';
+@import '../styles/menu.css';
 
 :root {
   /* Primary colors */

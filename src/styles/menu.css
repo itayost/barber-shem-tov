@@ -39,7 +39,7 @@
 
 .navbar-nav-item,
 .nav-link {
-  @apply text-offwhite hover:text-gold transition-colors duration-200 relative group py-2;
+  @apply text-offwhite hover:text-gold transition-colors duration-200 relative py-2;
 }
 
 /* Animated underline effect - drawing line animation */

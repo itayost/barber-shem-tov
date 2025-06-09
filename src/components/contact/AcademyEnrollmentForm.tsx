@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Button from '@/components/common/Button';
 import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
 import { formatHebrewDate } from '@/utils/dateFormatters';
 
 interface AcademyEnrollmentFormProps {

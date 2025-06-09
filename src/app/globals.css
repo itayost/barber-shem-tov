@@ -138,10 +138,11 @@
   }
 
   /* Navigation Components */
-  .navbar {
-    @apply fixed w-full top-0 z-40 transition-all duration-300;
-    backdrop-filter: blur(10px);
-  }
+.navbar {
+  @apply fixed w-full top-0 z-40 transition-all duration-300;
+  backdrop-filter: blur(10px);
+  height: 80px; /* Fixed height */
+}
 
   .navbar-transparent {
     background: linear-gradient(
@@ -156,9 +157,9 @@
     @apply bg-charcoal/95 backdrop-blur-sm shadow-md;
   }
 
-  .navbar-container {
-    @apply container mx-auto px-6 py-4 flex items-center justify-between;
-  }
+.navbar-container {
+  @apply container mx-auto px-6 h-full flex items-center justify-between;
+}
 
   .navbar-logo {
     @apply relative z-10 h-10 transition-all duration-300;
@@ -512,7 +513,13 @@
 .stagger-4 { animation-delay: 0.4s; }
 .stagger-5 { animation-delay: 0.5s; }
 
+/* Update only the Special Effects section in your globals.css */
+
 /* Special Effects */
+.btn-primary {
+  @apply relative overflow-hidden;
+}
+
 .btn-primary::after {
   content: '';
   position: absolute;
@@ -528,32 +535,50 @@
   );
   transform: skewX(-25deg);
   transition: all 0.75s ease;
+  pointer-events: none;
+  z-index: 1;
 }
 
 .btn-primary:hover::after {
   left: 150%;
 }
 
+/* Shine Animation for CTA */
 .animate-shine {
   position: relative;
   overflow: hidden;
+  isolation: isolate; /* Creates a new stacking context */
 }
 
-.animate-shine::after {
+.animate-shine::before {
   content: '';
   position: absolute;
-  top: 0;
+  top: -2px;
   left: -100%;
   width: 50%;
-  height: 100%;
+  height: calc(100% + 4px);
   background: linear-gradient(
-    to right, 
+    90deg, 
     transparent, 
-    rgba(255, 255, 255, 0.1), 
+    rgba(255, 255, 255, 0.2), 
     transparent
   );
   transform: skewX(-25deg);
   animation: shine 3s infinite 2s;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Ensure button content stays above effects */
+.btn > span,
+.animate-shine > * {
+  position: relative;
+  z-index: 20;
+}
+
+@keyframes shine {
+  0% { left: -100%; }
+  100% { left: 150%; }
 }
 
 /* Floating Background Elements */

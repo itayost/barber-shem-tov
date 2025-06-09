@@ -36,13 +36,18 @@ const Button = ({
   // Combine all classes
   const buttonClasses = `${baseClass} ${variantClass} ${sizeClass} ${fullWidthClass} ${disabledClass} ${className}`.trim();
   
+  // Content wrapper for proper z-index layering
+  const content = (
+    <span className="relative z-20 flex items-center justify-center">
+      {children}
+    </span>
+  );
+  
   // Render as link if href is provided
   if (href && !disabled) {
     return (
       <Link href={href} className={buttonClasses} aria-label={ariaLabel}>
-        <span className="relative z-10 flex items-center justify-center">
-          {children}
-        </span>
+        {content}
       </Link>
     );
   }
@@ -56,9 +61,7 @@ const Button = ({
       disabled={disabled}
       aria-label={ariaLabel}
     >
-      <span className="relative z-10 flex items-center justify-center">
-        {children}
-      </span>
+      {content}
     </button>
   );
 };

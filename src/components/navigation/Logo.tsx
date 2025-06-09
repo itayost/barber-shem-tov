@@ -20,7 +20,7 @@ const Logo = ({ isScrolled, src, alt, href = "/" }: LogoProps) => {
   
   return (
     <motion.div 
-      className="navbar-logo"
+      className="navbar-logo flex items-center h-full"
       initial="normal"
       animate={isScrolled ? "scrolled" : "normal"}
       variants={logoVariants}
@@ -33,20 +33,18 @@ const Logo = ({ isScrolled, src, alt, href = "/" }: LogoProps) => {
     >
       <Link 
         href={href} 
-        className="focus-ring" 
+        className="focus-ring block" 
         aria-label={`${alt} - Return to homepage`}
       >
-        <div className={`navbar-logo-image ${isScrolled ? 'scrolled' : ''}`}>
-          <Image 
-            src={src}
-            alt={alt}
-            width={isScrolled ? 180 : 240}
-            height={64}
-            className="hover-scale"
-            priority
-            quality={90}
-          />
-        </div>
+        <Image 
+          src={src}
+          alt={alt}
+          width={200}
+          height={50}
+          className="h-10 md:h-12 w-auto object-contain"
+          priority
+          quality={90}
+        />
       </Link>
     </motion.div>
   );

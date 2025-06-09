@@ -62,7 +62,7 @@ const DesktopNav = ({ navItems, callToAction }: DesktopNavProps) => {
       <div className="navbar-cta">
         <Link 
           href={callToAction.href} 
-          className={`${callToAction.className} animate-shine`}
+          className={`${callToAction.className} px-8 py-3 text-base font-semibold animate-shine`}
         >
           {callToAction.text}
         </Link>

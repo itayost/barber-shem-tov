@@ -1,4 +1,4 @@
-// src/components/navigation/index.ts
+// src/components/navigation/index.ts - Enhanced Version
 'use client';
 
 // Main navigation components
@@ -7,15 +7,17 @@ export { default as Logo } from './Logo';
 export { default as DesktopNav } from './DesktopNav';
 export { default as MobileMenuButton } from './MobileMenuButton';
 export { default as SocialLinks } from './SocialLinks';
+export { default as MobileMiniNav } from './MobileMiniNav';
 
 // Mobile menu components
 export { default as MobileMenu } from './MobileMenu';
 
-// Mobile menu sub-components (if needed externally)
+// Mobile menu sub-components
 export { default as MobileMenuHeader } from './mobile/MobileMenuHeader';
 export { default as MobileMenuNav } from './mobile/MobileMenuNav';
 export { default as MobileMenuActions } from './mobile/MobileMenuActions';
 export { default as MobileMenuFooter } from './mobile/MobileMenuFooter';
+export { default as MobileMenuQuickActions } from './mobile/MobileMenuQuickActions';
 
 // Re-export types and config
 export type { NavItem, NavigationConfig } from '@/config/navigation';

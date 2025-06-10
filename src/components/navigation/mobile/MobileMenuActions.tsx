@@ -1,3 +1,4 @@
+// src/components/navigation/mobile/MobileMenuActions.tsx - Enhanced Version
 'use client';
 
 import React from 'react';
@@ -17,43 +18,76 @@ interface MobileMenuActionsProps {
   isCompact?: boolean;
 }
 
-// Simple animation preset
-const slideUpAnimation = {
-  initial: { opacity: 0, y: 30 },
-  animate: { 
-    opacity: 1, 
-    y: 0,
-    transition: { duration: 0.5, ease: "easeOut" }
-  }
-};
-
 const MobileMenuActions: React.FC<MobileMenuActionsProps> = ({
   primaryAction,
   secondaryAction,
   onActionClick,
   isCompact = false
 }) => {
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { duration: 0.4, ease: "easeOut" }
+    }
+  };
+
   return (
     <motion.div 
-      className={`mobile-menu-actions ${isCompact ? 'compact' : ''}`}
-      {...slideUpAnimation}
+      className={`space-y-3 ${isCompact ? 'space-y-2' : ''}`}
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
     >
-      <Button 
-        href={primaryAction.href}
-        variant="primary"
-        className={`btn-full ${isCompact ? 'btn-sm' : ''}`}
-        onClick={onActionClick}
+      {/* Primary CTA */}
+      <motion.div variants={itemVariants}>
+        <Button 
+          href={primaryAction.href}
+          variant="primary"
+          className={`w-full min-h-[48px] ${isCompact ? 'py-3' : 'py-4'} font-bold touch-manipulation`}
+          onClick={onActionClick}
+        >
+          {primaryAction.text}
+        </Button>
+      </motion.div>
+      
+      {/* Secondary CTA */}
+      <motion.div variants={itemVariants}>
+        <Button 
+          href={secondaryAction.href}
+          variant="secondary"
+          className={`w-full min-h-[48px] ${isCompact ? 'py-3' : 'py-4'} font-medium touch-manipulation`}
+          onClick={onActionClick}
+        >
+          {secondaryAction.text}
+        </Button>
+      </motion.div>
+
+      {/* Trust indicators */}
+      <motion.div 
+        variants={itemVariants}
+        className="flex items-center justify-center gap-4 text-xs text-lightgrey/60 pt-2"
       >
-        {primaryAction.text}
-      </Button>
-      <Button 
-        href={secondaryAction.href}
-        variant="secondary"
-        className={`btn-full ${isCompact ? 'btn-sm' : ''}`}
-        onClick={onActionClick}
-      >
-        {secondaryAction.text}
-      </Button>
+        <div className="flex items-center gap-1">
+          <span className="text-green-400">✓</span>
+          <span>ללא התחייבות</span>
+        </div>
+        <div className="flex items-center gap-1">
+          <span className="text-green-400">✓</span>
+          <span>מענה מהיר</span>
+        </div>
+      </motion.div>
     </motion.div>
   );
 };

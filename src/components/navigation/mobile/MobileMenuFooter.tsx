@@ -1,3 +1,4 @@
+// src/components/navigation/mobile/MobileMenuFooter.tsx - Enhanced Version
 'use client';
 
 import React from 'react';
@@ -33,61 +34,50 @@ const MobileMenuFooter: React.FC<MobileMenuFooterProps> = ({
 }) => {
   return (
     <motion.div 
-      className={`mobile-menu-footer ${isCompact ? 'compact' : ''}`}
+      className={`space-y-4 ${isCompact ? 'space-y-3' : ''}`}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ delay: 0.5 }}
+      transition={{ delay: 0.4 }}
     >
-      {/* Display academy stats if not on a small screen */}
+      {/* Stats Grid - Only on non-compact mode */}
       {!isCompact && stats && (
-        <div className="menu-stats-grid">
-          <div className="menu-stat">
-            <div className="menu-stat-number">{stats.graduates}+</div>
-            <div className="menu-stat-label">בוגרים</div>
+        <div className="grid grid-cols-2 gap-4">
+          <div className="bg-charcoal-light/30 p-4 rounded-xl text-center">
+            <div className="text-2xl font-bold text-gold mb-1">{stats.graduates}+</div>
+            <div className="text-xs text-lightgrey">בוגרים מצליחים</div>
           </div>
-          <div className="menu-stat">
-            <div className="menu-stat-number">{stats.placementRate}%</div>
-            <div className="menu-stat-label">השמה</div>
+          <div className="bg-charcoal-light/30 p-4 rounded-xl text-center">
+            <div className="text-2xl font-bold text-gold mb-1">{stats.placementRate}%</div>
+            <div className="text-xs text-lightgrey">שיעור השמה</div>
           </div>
         </div>
       )}
       
-      {/* Contact Info */}
-      <div className="menu-contact-container">
+      {/* Contact Info - Streamlined */}
+      <div className="flex items-center justify-between px-4 py-3 bg-gold/5 rounded-xl">
         <a 
           href={`tel:${contact.phone}`}
-          className="menu-phone-link"
+          className="flex items-center gap-2 text-gold hover:text-gold/80 transition-colors"
           onClick={(e) => e.stopPropagation()}
         >
-          <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
           </svg>
-          <span className="hebrew-nums text-sm">{contact.phone}</span>
+          <span className="hebrew-nums text-sm font-medium">{contact.phone}</span>
         </a>
         
-        <a 
-          href={`mailto:${contact.email}`}
-          className="menu-email-link"
+        {/* Social Links */}
+        <div 
+          className="flex items-center gap-3"
           onClick={(e) => e.stopPropagation()}
         >
-          <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-          </svg>
-          <span className="text-sm">{isCompact ? 'אימייל' : contact.email}</span>
-        </a>
+          <SocialLinks social={social} />
+        </div>
       </div>
       
-      {/* Social Links */}
-      <div 
-        className="menu-social-wrapper"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <SocialLinks social={social} />
-      </div>
-      
-      {/* Established year */}
-      <div className="menu-footer-info">
-        {businessName} • {established}
+      {/* Copyright - Minimal */}
+      <div className="text-center text-xs text-lightgrey/50 pt-2">
+        {businessName} © {new Date().getFullYear()}
       </div>
     </motion.div>
   );

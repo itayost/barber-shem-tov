@@ -1,8 +1,10 @@
+// src/components/navigation/MobileMenu.tsx - Fixed Portal Version
 'use client';
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { createPortal } from 'react-dom';
+import { usePathname } from 'next/navigation';
 import { AcademyInfo } from '@/types';
 import { NavItem, navigationConfig } from '@/config/navigation';
 import { useViewportSize } from '@/hooks/useViewportSize';
@@ -12,6 +14,7 @@ import MobileMenuHeader from './mobile/MobileMenuHeader';
 import MobileMenuNav from './mobile/MobileMenuNav';
 import MobileMenuActions from './mobile/MobileMenuActions';
 import MobileMenuFooter from './mobile/MobileMenuFooter';
+import MobileMenuQuickActions from './mobile/MobileMenuQuickActions';
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -20,14 +23,6 @@ interface MobileMenuProps {
   navItems?: NavItem[];
   id?: string;
 }
-
-// Simple fade in animation
-const fadeInAnimation = {
-  initial: { opacity: 0 },
-  animate: { opacity: 1 },
-  exit: { opacity: 0 },
-  transition: { duration: 0.3 }
-};
 
 const MobileMenu: React.FC<MobileMenuProps> = ({ 
   isOpen, 
@@ -39,6 +34,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
   const menuRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [mounted, setMounted] = useState(false);
+  const pathname = usePathname();
   
   // Use viewport hook
   const { isCompact } = useViewportSize(navigationConfig.mobileMenu.compactModeBreakpoint);
@@ -57,53 +53,38 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
     return () => setMounted(false);
   }, []);
 
-  // Handle body scroll lock
+  // Body scroll lock
   useEffect(() => {
-    let scrollY = 0;
-    let timer: NodeJS.Timeout;
-    
     if (isOpen) {
-      // Save current scroll position
-      scrollY = window.scrollY;
-      
-      // Lock scroll with iOS Safari fix
+      const scrollY = window.scrollY;
       document.body.style.overflow = 'hidden';
       document.body.style.position = 'fixed';
       document.body.style.top = `-${scrollY}px`;
       document.body.style.width = '100%';
       
-      // Focus menu after animation
-      timer = setTimeout(() => {
-        const firstFocusable = menuRef.current?.querySelector('a, button') as HTMLElement;
-        firstFocusable?.focus();
-      }, 100);
+      // Add class to body for additional styling if needed
+      document.body.classList.add('mobile-menu-open');
     } else {
-      // Get saved scroll position from style
-      const savedScrollY = document.body.style.top;
-      
-      // Restore body styles
+      const scrollY = document.body.style.top;
       document.body.style.overflow = '';
       document.body.style.position = '';
       document.body.style.top = '';
       document.body.style.width = '';
+      document.body.classList.remove('mobile-menu-open');
       
-      // Restore scroll position
-      if (savedScrollY) {
-        window.scrollTo(0, parseInt(savedScrollY || '0') * -1);
+      if (scrollY) {
+        window.scrollTo(0, parseInt(scrollY || '0') * -1);
       }
       
       setActiveIndex(null);
     }
     
-    // Cleanup function
     return () => {
-      if (timer) clearTimeout(timer);
-      
-      // Always restore body styles on cleanup
       document.body.style.overflow = '';
       document.body.style.position = '';
       document.body.style.top = '';
       document.body.style.width = '';
+      document.body.classList.remove('mobile-menu-open');
     };
   }, [isOpen]);
 
@@ -129,79 +110,105 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
     onClose();
   }, [onClose]);
 
-  const handleBackgroundClick = useCallback((e: React.MouseEvent) => {
-    if (e.target === e.currentTarget) {
-      onClose();
-    }
-  }, [onClose]);
-
   const menuContent = (
     <AnimatePresence>
       {isOpen && (
-        <motion.div
-          ref={menuRef}
-          id={id}
-          className="menu-backdrop md:hidden flex flex-col"
-          aria-modal="true"
-          role="dialog"
-          aria-label="תפריט ניווט"
-          tabIndex={-1}
-          onClick={handleBackgroundClick}
-          {...fadeInAnimation}
-        >
-          {/* Background effects */}
-          <div className="floating-bg-elements">
-            <div className="floating-element w-96 h-96 top-0 right-0 animate-float"></div>
-            <div className="floating-element w-64 h-64 bottom-0 left-0 animate-float" style={{ animationDelay: '1s' }}></div>
-          </div>
-          
-          {/* Content container */}
-          <div className="flex flex-col items-center justify-between h-full py-20 px-8 relative z-10">
+        <div className="md:hidden">
+          {/* Backdrop */}
+          <motion.div
+            className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={onClose}
+          />
+
+          {/* Menu Panel - Side drawer */}
+          <motion.div
+            ref={menuRef}
+            id={id}
+            className="fixed inset-y-0 right-0 z-[101] w-full max-w-sm bg-charcoal shadow-2xl overflow-hidden"
+            initial={{ x: '100%' }}
+            animate={{ x: 0 }}
+            exit={{ x: '100%' }}
+            transition={{ type: 'spring', damping: 30, stiffness: 300 }}
+            role="dialog"
+            aria-modal="true"
+            aria-label="תפריט ניווט"
+            dir="rtl"
+          >
             {/* Header */}
-            <MobileMenuHeader
-              logo={{ src: '/images/logos/logo.png', alt: academyInfo.shortName }}
-              businessName={academyInfo.shortName}
-              todayStatus={todayStatus}
-              isCompact={isCompact}
-              onClose={onClose}
-            />
-            
-            {/* Navigation and Actions */}
-            <div className="w-full flex-grow flex flex-col justify-center">
-              <MobileMenuNav
-                items={navItems}
-                activeIndex={activeIndex}
-                onItemClick={handleLinkClick}
-                onItemHover={setActiveIndex}
+            <div className="sticky top-0 z-10 bg-charcoal border-b border-lightgrey/10">
+              <MobileMenuHeader
+                logo={{ src: '/images/logos/logo.png', alt: academyInfo.shortName }}
+                businessName={academyInfo.shortName}
+                todayStatus={todayStatus}
                 isCompact={isCompact}
-              />
-              
-              <MobileMenuActions
-                primaryAction={navigationConfig.quickActions.primary}
-                secondaryAction={navigationConfig.quickActions.secondary}
-                onActionClick={handleActionClick}
-                isCompact={isCompact}
+                onClose={onClose}
               />
             </div>
-            
-            {/* Footer */}
-            <MobileMenuFooter
-              stats={navigationConfig.mobileMenu.showStats ? academyInfo.stats : undefined}
-              contact={{ phone: academyInfo.phone, email: academyInfo.email }}
-              social={academyInfo.social}
-              established={academyInfo.established}
-              businessName={academyInfo.shortName}
-              isCompact={isCompact}
-            />
-          </div>
-        </motion.div>
+
+            {/* Scrollable Content */}
+            <div className="h-full overflow-y-auto pb-20" style={{ maxHeight: 'calc(100vh - 80px)' }}>
+              {/* Quick Actions */}
+              {navigationConfig.mobileMenu.enableQuickActions && (
+                <div className="px-6 py-4">
+                  <MobileMenuQuickActions 
+                    phone={academyInfo.phone}
+                    whatsapp={academyInfo.phone}
+                    address={academyInfo.address}
+                    isCompact={isCompact}
+                  />
+                </div>
+              )}
+
+              {/* Navigation */}
+              <div className="px-6 py-4">
+                <MobileMenuNav
+                  items={navItems}
+                  activeIndex={activeIndex}
+                  currentPath={pathname}
+                  onItemClick={handleLinkClick}
+                  onItemHover={setActiveIndex}
+                  isCompact={isCompact}
+                />
+              </div>
+              
+              {/* Primary Actions */}
+              <div className="px-6 py-4">
+                <MobileMenuActions
+                  primaryAction={navigationConfig.quickActions.primary}
+                  secondaryAction={navigationConfig.quickActions.secondary}
+                  onActionClick={handleActionClick}
+                  isCompact={isCompact}
+                />
+              </div>
+              
+              {/* Footer */}
+              <div className="px-6 py-4 mt-auto">
+                <MobileMenuFooter
+                  stats={navigationConfig.mobileMenu.showStats ? academyInfo.stats : undefined}
+                  contact={{ phone: academyInfo.phone, email: academyInfo.email }}
+                  social={academyInfo.social}
+                  established={academyInfo.established}
+                  businessName={academyInfo.shortName}
+                  isCompact={isCompact}
+                />
+              </div>
+            </div>
+          </motion.div>
+        </div>
       )}
     </AnimatePresence>
   );
 
-  // Use portal for better performance and z-index management
+  // Portal to body
   if (!mounted) return null;
-  return createPortal(menuContent, document.body);
+  
+  return createPortal(
+    menuContent,
+    document.body
+  );
 };
 
 export default MobileMenu;

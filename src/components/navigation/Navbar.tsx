@@ -1,9 +1,11 @@
+// src/components/navigation/Navbar.tsx - Fixed Version
 'use client';
 
 import { useState, useEffect, useCallback, lazy, Suspense } from 'react';
 import Logo from './Logo';
 import DesktopNav from './DesktopNav';
 import MobileMenuButton from './MobileMenuButton';
+import MobileMiniNav from './MobileMiniNav';
 import { academyInfo } from '@/lib/data';
 import { navigationConfig } from '@/config/navigation';
 
@@ -54,48 +56,52 @@ const Navbar = () => {
   const navbarClasses = `navbar ${isScrolled ? 'navbar-scrolled' : 'navbar-transparent'}`;
   
   return (
-    <header 
-      className={navbarClasses}
-      dir="rtl"
-    >
-      <div className="navbar-container">
-        {/* Logo */}
-        <Logo 
-          isScrolled={isScrolled} 
-          src="/images/logos/logo.png" 
-          alt={academyInfo.shortName} 
-        />
-        
-        {/* Desktop Navigation */}
-        <DesktopNav 
-          navItems={navigationConfig.mainItems}
-          callToAction={{
-            text: navigationConfig.quickActions.primary.text,
-            href: navigationConfig.quickActions.primary.href,
-            className: "btn-primary"
-          }}
-        />
-        
-        {/* Mobile Menu Button */}
-        <MobileMenuButton 
+    <>
+      {/* Navbar */}
+      <header 
+        className={navbarClasses}
+        dir="rtl"
+      >
+        <div className="navbar-container">
+          {/* Logo */}
+          <Logo 
+            isScrolled={isScrolled} 
+            src="/images/logos/logo.png" 
+            alt={academyInfo.shortName} 
+          />
+          
+          {/* Desktop Navigation */}
+          <DesktopNav 
+            navItems={navigationConfig.mainItems}
+            callToAction={{
+              text: navigationConfig.quickActions.primary.text,
+              href: navigationConfig.quickActions.primary.href,
+              className: "btn-primary"
+            }}
+          />
+          
+          {/* Mobile Menu Button */}
+          <MobileMenuButton 
+            isOpen={isMobileMenuOpen} 
+            onClick={toggleMobileMenu}
+          />
+        </div>
+      </header>
+
+      {/* Mobile Menu - Rendered OUTSIDE the navbar */}
+      <Suspense fallback={null}>
+        <MobileMenu 
           isOpen={isMobileMenuOpen} 
-          onClick={toggleMobileMenu}
+          onClose={closeMobileMenu}
+          academyInfo={academyInfo}
+          navItems={navigationConfig.mainItems}
+          id="mobile-menu"
         />
-        
-        {/* Lazy-loaded Mobile Menu */}
-        <Suspense fallback={null}>
-          {isMobileMenuOpen && (
-            <MobileMenu 
-              isOpen={isMobileMenuOpen} 
-              onClose={closeMobileMenu}
-              academyInfo={academyInfo}
-              navItems={navigationConfig.mainItems}
-              id="mobile-menu"
-            />
-          )}
-        </Suspense>
-      </div>
-    </header>
+      </Suspense>
+
+      {/* Mobile Mini Navigation */}
+      <MobileMiniNav academyInfo={academyInfo} />
+    </>
   );
 };
 

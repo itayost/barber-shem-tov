@@ -1203,3 +1203,228 @@
 .status-dot-gold {
   @apply bg-gold;
 }
+/* Enhanced Mobile Navigation Styles - Add to globals.css */
+
+/* Mobile Menu Bottom Sheet */
+@layer components {
+  /* Bottom Sheet Specific */
+  .menu-bottom-sheet {
+    @apply fixed inset-x-0 bottom-0 z-50 
+           bg-charcoal rounded-t-3xl shadow-2xl 
+           max-h-[85vh] md:hidden;
+    touch-action: pan-y;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Safe area padding for iOS */
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom, 1rem);
+  }
+
+  /* Enhanced touch targets */
+  .mobile-menu-nav-item {
+    min-height: 48px; /* Minimum touch target */
+    @apply relative px-5 py-3.5 rounded-xl 
+           transition-all duration-200 
+           touch-manipulation select-none
+           active:scale-[0.98];
+  }
+
+  /* Current page styles */
+  .mobile-menu-nav-item-current {
+    @apply text-gold font-medium bg-gold/10;
+  }
+
+  .mobile-menu-nav-item-default {
+    @apply text-offwhite hover:text-gold hover:bg-gold/5;
+  }
+
+  /* Quick action buttons */
+  .quick-action-btn {
+    min-width: 64px;
+    min-height: 64px;
+    @apply flex flex-col items-center justify-center gap-2 
+           rounded-2xl border border-current/10
+           transition-all duration-200
+           active:scale-95 touch-manipulation;
+  }
+
+  /* Mini nav styles */
+  .mobile-mini-nav {
+    @apply fixed bottom-4 left-4 right-4 z-30 md:hidden;
+    /* Ensure it doesn't interfere with scrolling */
+    pointer-events: none;
+  }
+
+  .mobile-mini-nav > * {
+    pointer-events: auto;
+  }
+
+  /* Drag handle */
+  .drag-handle {
+    @apply w-12 h-1.5 bg-gold/30 rounded-full mx-auto;
+    touch-action: none;
+  }
+
+  /* Improved backdrop for mobile */
+  .mobile-menu-backdrop {
+    @apply fixed inset-0 bg-black/60 backdrop-blur-sm z-50 md:hidden;
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  /* Smooth scrolling for menu content */
+  .menu-scroll-container {
+    @apply overflow-y-auto overscroll-contain;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+
+  /* Hide scrollbar on mobile menu */
+  .menu-scroll-container::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Haptic feedback simulation */
+  @media (hover: none) and (pointer: coarse) {
+    .touch-feedback {
+      @apply transition-transform duration-100;
+    }
+    
+    .touch-feedback:active {
+      @apply scale-95;
+    }
+  }
+
+  /* Prevent body scroll when menu is open */
+  body.menu-open {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+    touch-action: none;
+  }
+
+  /* iOS-specific fixes */
+  @supports (-webkit-touch-callout: none) {
+    .menu-bottom-sheet {
+      /* Prevent iOS bounce */
+      position: fixed;
+      overflow: hidden;
+    }
+    
+    .menu-scroll-container {
+      /* Smoother scrolling on iOS */
+      -webkit-overflow-scrolling: touch;
+      transform: translateZ(0);
+    }
+  }
+
+  /* Android-specific optimizations */
+  @supports not (-webkit-touch-callout: none) {
+    .menu-bottom-sheet {
+      /* Better performance on Android */
+      will-change: transform;
+    }
+  }
+
+  /* Landscape mode adjustments */
+  @media (orientation: landscape) and (max-height: 500px) {
+    .menu-bottom-sheet {
+      @apply max-h-[90vh];
+    }
+    
+    .quick-action-btn {
+      @apply p-2;
+      min-height: 48px;
+    }
+    
+    .mobile-menu-nav-item {
+      @apply py-2.5;
+    }
+  }
+
+  /* High contrast mode support */
+  @media (prefers-contrast: high) {
+    .mobile-menu-nav-item-current {
+      @apply border-2 border-gold;
+    }
+    
+    .quick-action-btn {
+      @apply border-2;
+    }
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    .menu-bottom-sheet,
+    .mobile-mini-nav,
+    .mobile-menu-nav-item,
+    .quick-action-btn {
+      @apply transition-none;
+    }
+  }
+}
+
+/* Touch ripple effect */
+@keyframes touch-ripple {
+  0% {
+    transform: scale(0);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+.touch-ripple {
+  position: relative;
+  overflow: hidden;
+}
+
+.touch-ripple::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  transform: translate(-50%, -50%);
+  animation: touch-ripple 0.6s ease-out;
+}
+
+/* Enhanced mobile menu animations */
+@keyframes slide-up {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.menu-enter {
+  animation: slide-up 0.3s ease-out, fade-in 0.2s ease-out;
+}
+
+/* Pull to refresh indicator (optional) */
+.pull-to-refresh {
+  @apply absolute top-0 left-0 right-0 h-16 
+         flex items-center justify-center
+         transform -translate-y-full transition-transform;
+}
+
+.pull-to-refresh.active {
+  @apply translate-y-0;
+}

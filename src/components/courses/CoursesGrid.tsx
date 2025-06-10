@@ -3,7 +3,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import CourseCard from './CourseCard';
+import CourseCard from '@/components/common/CourseCard';
 import { courses } from '@/lib/data';
 
 interface CoursesGridProps {
@@ -35,9 +35,14 @@ const CoursesGrid: React.FC<CoursesGridProps> = ({ activeFilter }) => {
         )}
 
         {/* Course cards grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
           {filteredCourses.map((course, index) => (
-            <CourseCard key={course.id} course={course} index={index} />
+            <CourseCard 
+              key={course.id} 
+              course={course} 
+              index={index}
+              variant="detailed" // Show detailed view on courses page
+            />
           ))}
         </div>
 

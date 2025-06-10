@@ -1,34 +1,12 @@
-// components/home/ThreePathways.tsx
+// src/components/home/ThreePathways.tsx
 'use client';
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import ImageCourseCard from '@/components/home/ImageCourseCard';
+import CourseCard from '@/components/common/CourseCard';
 import { courses } from '@/lib/data';
 
 const ThreePathways: React.FC = () => {
-  // Map courses to the new card format
-  const courseData = [
-    {
-      type: 'קורס מקיף | מסלול מלא',
-      title: 'ספרות בסיסית',
-      subtitle: 'תוכנית מקצועית',
-      duration: '4 שבועות | ספרות וטיפוח',
-      imageUrl: '/images/courses/basic-course.jpg',
-      enrollLink: `/contact?course=${encodeURIComponent(courses[0].name_he)}`,
-      learnMoreLink: '/courses#basic'
-    },
-    {
-      type: 'מאסטרקלאס | סופ״ש אינטנסיבי',
-      title: 'עיצוב מתקדם',
-      subtitle: 'השתלמות מקצועית',
-      duration: '2 ימים | טכניקות מתקדמות',
-      imageUrl: '/images/courses/advanced-course.jpg',
-      enrollLink: `/contact?course=${encodeURIComponent(courses[1].name_he)}`,
-      learnMoreLink: '/courses#advanced'
-    }
-  ];
-
   return (
     <section className="py-16 md:py-24 bg-black" dir="rtl">
       <div className="container mx-auto px-4 sm:px-6">
@@ -55,11 +33,12 @@ const ThreePathways: React.FC = () => {
 
         {/* Course Cards */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
-          {courseData.map((course, index) => (
-            <ImageCourseCard
-              key={index}
-              {...course}
+          {courses.slice(0, 2).map((course, index) => (
+            <CourseCard
+              key={course.id}
+              course={course}
               index={index}
+              variant="minimal"
             />
           ))}
         </div>

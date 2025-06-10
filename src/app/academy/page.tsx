@@ -2,7 +2,6 @@
 import Hero from '@/components/common/Hero';
 import AcademyTabsSection from '@/components/academy/AcademyTabsSection';
 import AcademyQuickActions from '@/components/academy/AcademyQuickActions';
-import WhatsAppFloat from '@/components/common/WhatsAppFloat';
 import QuickEnrollFloat from '@/components/common/QuickEnrollFloat';
 
 
@@ -20,9 +19,7 @@ export default function AcademyPage() {
       
       {/* 3. Quick Actions - Multiple ways to engage */}
       <AcademyQuickActions />
-      
-      {/* WhatsApp floating button */}
-      <WhatsAppFloat />
+
       <QuickEnrollFloat />
     </>
   );

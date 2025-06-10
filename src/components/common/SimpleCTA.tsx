@@ -4,7 +4,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
-import { WhatsAppIcon, PhoneIcon, ArrowRightIcon } from '@/components/icons';
+import { ArrowRightIcon } from '@/components/icons';
 
 interface SimpleCTAProps {
   courseName: string;
@@ -16,29 +16,14 @@ interface SimpleCTAProps {
 
 const SimpleCTA: React.FC<SimpleCTAProps> = ({
   courseName,
-  courseDuration,
   className = '',
-  size = 'large',
-  showPhone = true
-}) => {
+  size = 'large'}) => {
   const router = useRouter();
 
   // Navigate to apply page with course parameter
   const handleApply = () => {
     const encodedCourseName = encodeURIComponent(courseName);
     router.push(`/apply?course=${encodedCourseName}`);
-  };
-
-  // WhatsApp message
-  const handleWhatsApp = () => {
-    const message = `היי! מעוניין ב${courseName} (${courseDuration}). אשמח לפרטים נוספים 🎯`;
-    const encodedMessage = encodeURIComponent(message);
-    window.open(`https://wa.me/972528691415?text=${encodedMessage}`, '_blank');
-  };
-
-  // Phone call
-  const handlePhone = () => {
-    window.location.href = 'tel:+972528691415';
   };
 
   // Size classes - mobile first
@@ -48,11 +33,6 @@ const SimpleCTA: React.FC<SimpleCTAProps> = ({
     large: 'py-4 px-6 text-base sm:text-lg gap-3'
   };
 
-  const iconSizes = {
-    small: 16,
-    medium: 18,
-    large: 20
-  };
 
   return (
     <div className={`w-full ${className}`}>
@@ -79,66 +59,8 @@ const SimpleCTA: React.FC<SimpleCTAProps> = ({
           transition={{ duration: 0.6 }}
         />
         
-        <span className="relative z-10">הרשמה מהירה</span>
-        <motion.span 
-          className="relative z-10 mr-2 inline-block"
-          animate={{ x: [0, 5, 0] }}
-          transition={{ 
-            duration: 1.5, 
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        >
-          <ArrowRightIcon size={iconSizes[size]} className="inline-block rotate-180" />
-        </motion.span>
+        <span className="relative z-10">להרשמה</span>
       </motion.button>
-
-      {/* Secondary Options */}
-      <motion.div 
-        className="flex items-center justify-center gap-4 mt-3"
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2 }}
-      >
-        {/* WhatsApp Option */}
-        <motion.button
-          onClick={handleWhatsApp}
-          className="text-green-500 hover:text-green-400 transition-colors flex items-center gap-1.5 text-sm group"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          <WhatsAppIcon size={16} className="group-hover:rotate-12 transition-transform" />
-          <span>WhatsApp</span>
-        </motion.button>
-
-        <span className="text-lightgrey/30">|</span>
-
-        {/* Phone Option */}
-        {showPhone && (
-          <motion.button
-            onClick={handlePhone}
-            className="text-gold hover:text-gold/80 transition-colors flex items-center gap-1.5 text-sm group"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <PhoneIcon size={16} className="group-hover:rotate-12 transition-transform" />
-            <span className="hebrew-nums">052-869-1415</span>
-          </motion.button>
-        )}
-      </motion.div>
-
-      {/* Optional: Trust indicators */}
-      <motion.div 
-        className="flex items-center justify-center gap-2 mt-2 text-xs text-lightgrey/50"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.4 }}
-      >
-        <span>🔒</span>
-        <span>הרשמה מאובטחת</span>
-        <span>•</span>
-        <span>ללא התחייבות</span>
-      </motion.div>
     </div>
   );
 };

@@ -1,7 +1,7 @@
 // src/components/common/LuxuryCarousel.tsx - Mobile-First Fashion Carousel
 'use client';
 
-import React, { useState, useEffect, ReactNode } from 'react';
+import React, { useState, useEffect, useCallback, ReactNode } from 'react';
 import { motion, AnimatePresence, PanInfo } from 'framer-motion';
 
 export interface LuxuryCarouselProps {
@@ -35,6 +35,17 @@ const LuxuryCarousel: React.FC<LuxuryCarouselProps> = ({
   const [isAutoPlaying, setIsAutoPlaying] = useState(autoPlay);
   const [direction, setDirection] = useState(0);
 
+  // Memoized navigation functions to avoid dependency issues
+  const handleNext = useCallback(() => {
+    setDirection(1);
+    setCurrentIndex((prev) => (prev + 1) % slides.length);
+  }, [slides.length]);
+
+  const handlePrev = useCallback(() => {
+    setDirection(-1);
+    setCurrentIndex((prev) => (prev - 1 + slides.length) % slides.length);
+  }, [slides.length]);
+
   // Auto-play functionality
   useEffect(() => {
     if (!isAutoPlaying || slides.length <= 1) return;
@@ -44,24 +55,14 @@ const LuxuryCarousel: React.FC<LuxuryCarouselProps> = ({
     }, autoPlayInterval);
 
     return () => clearInterval(interval);
-  }, [isAutoPlaying, currentIndex, slides.length, autoPlayInterval]);
+  }, [isAutoPlaying, slides.length, autoPlayInterval, handleNext]);
 
   // Notify parent of slide changes
   useEffect(() => {
     onSlideChange?.(currentIndex);
   }, [currentIndex, onSlideChange]);
 
-  const handleNext = () => {
-    setDirection(1);
-    setCurrentIndex((prev) => (prev + 1) % slides.length);
-  };
-
-  const handlePrev = () => {
-    setDirection(-1);
-    setCurrentIndex((prev) => (prev - 1 + slides.length) % slides.length);
-  };
-
-  const handleDragEnd = (_event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+  const handleDragEnd = useCallback((_event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
     const threshold = 50;
     setIsAutoPlaying(false);
     
@@ -70,13 +71,13 @@ const LuxuryCarousel: React.FC<LuxuryCarouselProps> = ({
     } else if (info.offset.x < -threshold) {
       handleNext();
     }
-  };
+  }, [handleNext, handlePrev]);
 
-  const goToSlide = (index: number) => {
+  const goToSlide = useCallback((index: number) => {
     setDirection(index > currentIndex ? 1 : -1);
     setCurrentIndex(index);
     setIsAutoPlaying(false);
-  };
+  }, [currentIndex]);
 
   // Height classes
   const heightClasses = {
@@ -326,16 +327,6 @@ const LuxuryCarousel: React.FC<LuxuryCarouselProps> = ({
             </>
           )}
         </div>
-
-        {/* Mobile Swipe Hint */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1 }}
-          className="text-center mt-6 md:hidden text-[10px] tracking-[0.2em] text-lightgrey/40"
-        >
-          SWIPE TO EXPLORE
-        </motion.p>
       </div>
     </div>
   );

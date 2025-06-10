@@ -64,8 +64,8 @@ const CourseCard: React.FC<CourseCardProps> = ({
         {/* Dark Overlay */}
         <div className={`absolute inset-0 ${
           variant === 'detailed' 
-            ? 'bg-gradient-to-t from-black via-black/80 to-black/60' 
-            : 'bg-black/60'
+            ? 'bg-gradient-to-t from-black via-black/80 to-black/50' 
+            : 'bg-black/50'
         }`} />
       </div>
 

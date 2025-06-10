@@ -1,4 +1,4 @@
-// src/components/courses/CoursesCTA.tsx
+// src/components/courses/CoursesCTA.tsx - Updated
 'use client';
 
 import React from 'react';
@@ -28,10 +28,10 @@ const CoursesCTA: React.FC = () => {
             הצטרף למאות הבוגרים המצליחים שלנו ותתחיל לבנות קריירה מצליחה בעולם הספרות
           </p>
 
-          {/* CTAs */}
+          {/* CTAs - Updated to use /apply */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Button 
-              href="/contact" 
+              href="/apply" 
               variant="primary"
               size="large"
               className="min-w-[200px]"
@@ -55,7 +55,7 @@ const CoursesCTA: React.FC = () => {
           <div className="flex flex-wrap justify-center gap-6 mt-8 text-sm text-lightgrey/60">
             <div className="flex items-center gap-2">
               <span className="text-green-400">✓</span>
-              <span>ללא התחייבות</span>
+              <span>טופס קצר</span>
             </div>
             <div className="flex items-center gap-2">
               <span className="text-green-400">✓</span>
@@ -63,7 +63,7 @@ const CoursesCTA: React.FC = () => {
             </div>
             <div className="flex items-center gap-2">
               <span className="text-green-400">✓</span>
-              <span>ייעוץ מקצועי</span>
+              <span>ללא התחייבות</span>
             </div>
           </div>
         </motion.div>

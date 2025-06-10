@@ -1,4 +1,4 @@
-// components/home/TestimonialsCarousel.tsx
+// components/home/TestimonialsCarousel.tsx - Updated
 'use client';
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
@@ -52,7 +52,7 @@ const TestimonialsCarousel: React.FC = () => {
     setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
   };
 
-const handleDragEnd = (event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+  const handleDragEnd = (event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
     const threshold = 50;
     if (info.offset.x > threshold) {
       handlePrev();
@@ -168,7 +168,7 @@ const handleDragEnd = (event: MouseEvent | TouchEvent | PointerEvent, info: PanI
           </div>
         </div>
 
-        {/* CTA Section - Mobile optimized */}
+        {/* CTA Section - Mobile optimized - UPDATED */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -186,7 +186,7 @@ const handleDragEnd = (event: MouseEvent | TouchEvent | PointerEvent, info: PanI
             
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center">
               <motion.a
-                href="/courses"
+                href="/apply"
                 className="w-full sm:w-auto bg-gold text-charcoal py-3 px-6 md:py-4 md:px-8 font-bold text-base md:text-lg hover:bg-gold/90 transition-all shadow-lg hover:shadow-xl"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}

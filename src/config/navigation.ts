@@ -1,4 +1,4 @@
-// src/config/navigation.ts - Enhanced Version
+// src/config/navigation.ts - Updated Version
 export interface NavItem {
   name: string;
   path: string;
@@ -23,12 +23,12 @@ export interface NavigationConfig {
   mobileMenu: {
     showStats: boolean;
     showHours: boolean;
-    compactModeBreakpoint: number; // viewport height in px
+    compactModeBreakpoint: number;
     enableQuickActions: boolean;
     enableDragToClose: boolean;
-    bottomSheetMaxHeight: string; // e.g., '85vh'
+    bottomSheetMaxHeight: string;
     showMiniNav: boolean;
-    miniNavScrollThreshold: number; // px from top
+    miniNavScrollThreshold: number;
   };
 }
 
@@ -58,11 +58,11 @@ export const navigationConfig: NavigationConfig = {
   quickActions: {
     primary: {
       text: 'הרשמה לקורסים',
-      href: '/contact'
+      href: '/apply' // Changed from /contact
     },
     secondary: {
       text: 'צור קשר',
-      href: '/contact'
+      href: '/contact' // Keep this for general inquiries
     }
   },
   mobileMenu: {

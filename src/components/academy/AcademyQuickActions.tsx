@@ -1,4 +1,4 @@
-// src/components/academy/AcademyQuickActions.tsx
+// src/components/academy/AcademyQuickActions.tsx - Updated
 'use client';
 
 import React from 'react';
@@ -7,21 +7,21 @@ import { motion } from 'framer-motion';
 const AcademyQuickActions: React.FC = () => {
   const actions = [
     {
-      icon: '',
+      icon: '📝',
+      title: 'הרשמה מהירה',
+      description: 'מלא טופס קצר ונחזור אליך',
+      href: '/apply',
+      color: 'bg-gold'
+    },
+    {
+      icon: '🎯',
       title: 'שיחת ייעוץ',
       description: '15 דקות עם יועץ מקצועי',
       href: '/contact?consultation=true',
       color: 'bg-blue-500'
     },
     {
-      icon: '',
-      title: 'סיור באקדמיה',
-      description: 'ראה את המתקנים שלנו',
-      href: '/contact?tour=true',
-      color: 'bg-purple-500'
-    },
-    {
-      icon: '',
+      icon: '💬',
       title: 'WhatsApp',
       description: 'תשובה מהירה לכל שאלה',
       href: 'https://wa.me/972528691415?text=היי! אשמח למידע על האקדמיה',
@@ -44,7 +44,7 @@ const AcademyQuickActions: React.FC = () => {
             איך תרצה <span className="text-gold">להתחיל</span>?
           </h2>
           <p className="text-lightgrey max-w-2xl mx-auto">
-            בחר את הדרך הנוחה לך ליצור קשר
+            בחר את הדרך הנוחה לך להתחיל את המסע
           </p>
         </motion.div>
 

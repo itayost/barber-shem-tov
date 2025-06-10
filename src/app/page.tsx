@@ -1,4 +1,4 @@
-// app/page.tsx
+// src/app/page.tsx - Updated
 import Hero from '@/components/common/Hero';
 import ThreePathways from '@/components/home/ThreePathways';
 import Testimonials from '@/components/home/Testimonials';
@@ -15,7 +15,7 @@ export default function Home() {
           "/images/hero/homeHero3.jpg"
         ]}
         ctaText="הרשמה לקורס"
-        ctaHref="/courses"
+        ctaHref="/apply" // Changed from /courses
       />
       
       {/* Scrolling Content Container */}

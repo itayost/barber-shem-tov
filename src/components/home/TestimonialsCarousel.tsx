@@ -69,7 +69,7 @@ const TestimonialsCarousel: React.FC = () => {
             <div className="p-6 md:p-10 flex flex-col justify-center">
               {/* Quote icon - Editorial style */}
               <div className="text-gold/20 text-6xl md:text-8xl font-serif leading-none mb-4 md:mb-6">
-                "
+                &ldquo;
               </div>
 
               {/* Testimonial text */}

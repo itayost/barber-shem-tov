@@ -69,7 +69,7 @@ const AcademyStoryTab: React.FC = () => {
 
         {/* Quote */}
         <div className="max-w-3xl mx-auto">
-          <div className="text-6xl md:text-8xl text-gold/10 font-serif leading-none mb-4">"</div>
+          <div className="text-6xl md:text-8xl text-gold/10 font-serif leading-none mb-4">&ldquo;</div>
           
           <motion.p 
             className="text-lg md:text-xl text-lightgrey/90 leading-relaxed mb-6 font-light italic"

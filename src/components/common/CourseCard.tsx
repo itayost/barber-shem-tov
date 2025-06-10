@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Button from '@/components/common/Button';
+import SimpleCTA from '@/components/common/SimpleCTA';
 import { Course } from '@/lib/data';
 
 interface CourseCardProps {
@@ -67,13 +68,6 @@ const CourseCard: React.FC<CourseCardProps> = ({
             : 'bg-black/60'
         }`} />
       </div>
-
-      {/* Badges */}
-      {course.featured && (
-        <div className="absolute top-4 right-4 bg-gold text-charcoal px-4 py-2 text-sm font-bold shadow-lg z-10">
-          פופולרי
-        </div>
-      )}
 
       {/* Content */}
       <div className="relative z-10 w-full px-6 sm:px-8 py-12 text-center">
@@ -140,48 +134,29 @@ const CourseCard: React.FC<CourseCardProps> = ({
                 </ul>
               </div>
             )}
-
-            {/* Additional Info Grid */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-2xl mx-auto">
-              {course.instructor && (
-                <div className="bg-black/40 backdrop-blur-sm p-3 text-center">
-                  <div className="text-xs text-lightgrey/60 mb-1">מדריך</div>
-                  <div className="text-gold font-medium">{course.instructor}</div>
-                </div>
-              )}
-              
-              {course.maxStudents && (
-                <div className="bg-black/40 backdrop-blur-sm p-3 text-center">
-                  <div className="text-xs text-lightgrey/60 mb-1">מקסימום תלמידים</div>
-                  <div className="text-gold font-medium">{course.maxStudents}</div>
-                </div>
-              )}
-            </div>
           </motion.div>
         )}
 
-        {/* CTAs */}
+        {/* Enhanced CTA */}
         <motion.div 
-          className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+          className="flex flex-col items-center"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ delay: variant === 'detailed' ? 0.6 : 0.5 }}
         >
-          <Button
-            href={`/contact?course=${encodeURIComponent(course.name_he)}`}
-            variant="primary"
+          <SimpleCTA
+            courseName={course.name_he}
+            courseDuration={course.duration_he}
             size="large"
-            className="min-w-[160px]"
-          >
-            הרשמה
-          </Button>
+          />
           
+          {/* Secondary CTA for minimal variant */}
           {variant === 'minimal' && (
             <Button
               href="/courses"
               variant="secondary"
               size="large"
-              className="min-w-[160px]"
+              className="mt-4 min-w-[200px]"
             >
               לכל הקורסים
             </Button>

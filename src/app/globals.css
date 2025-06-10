@@ -206,6 +206,14 @@
   .navbar-compact {
     height: 60px !important;
   }
+  
+  .navbar-compact .navbar-logo {
+    @apply h-8;
+  }
+  
+  .navbar-compact .navbar-cta .btn {
+    @apply py-2 text-sm;
+  }
 
   /* Luxury glass effect */
   @supports (backdrop-filter: blur(1px)) {
@@ -225,15 +233,20 @@
   }
 
   .navbar-logo {
-    @apply relative z-10 h-10 transition-all duration-300;
+    @apply relative z-10 h-10 transition-all duration-300 flex-shrink-0;
   }
 
   .navbar-logo-image {
     @apply h-full w-auto object-contain;
   }
 
+  /* Desktop nav wrapper to contain both nav items and CTA */
+  .navbar-desktop-wrapper {
+    @apply hidden md:flex items-center gap-8;
+  }
+
   .navbar-nav {
-    @apply hidden md:flex items-center space-x-8 space-x-reverse;
+    @apply flex items-center space-x-8 space-x-reverse;
   }
 
   .navbar-nav-item {
@@ -242,7 +255,7 @@
 
   .nav-link {
     @apply text-offwhite hover:text-gold transition-colors duration-200 
-           relative py-2;
+           relative py-2 whitespace-nowrap;
   }
 
   .nav-link::after {
@@ -256,12 +269,12 @@
   }
 
   .navbar-cta {
-    @apply hidden md:block ml-8;
+    @apply flex-shrink-0;
   }
 
   /* Navbar CTA Button specific styling */
   .navbar-cta .btn {
-    @apply relative overflow-hidden;
+    @apply relative overflow-hidden py-2.5 px-6 text-sm;
   }
 
   .navbar-toggle {
@@ -282,6 +295,17 @@
 
   .navbar-toggle-line:nth-child(3) {
     @apply bottom-0;
+  }
+
+  /* Responsive navbar adjustments */
+  @media (min-width: 768px) and (max-width: 1024px) {
+    .navbar-nav {
+      @apply space-x-4;
+    }
+    
+    .navbar-cta .btn {
+      @apply px-4 text-sm;
+    }
   }
 
   /* Mobile Menu */

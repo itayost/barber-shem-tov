@@ -1,4 +1,4 @@
-// src/components/navigation/MobileMenu.tsx - Luxury Enhanced Version
+// src/components/navigation/MobileMenu.tsx - Fixed Version
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
@@ -29,13 +29,18 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
   navItems = [],
   id 
 }) => {
+  // All hooks must be declared at the top level
   const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
+  const menuRef = useRef<HTMLDivElement>(null);
+  const scrollPositionRef = useRef<number>(0);
   
-  // Drag to close functionality
+  // Drag to close functionality - motion values
   const dragX = useMotionValue(0);
   const dragProgress = useTransform(dragX, [0, 300], [0, 1]);
   const opacity = useTransform(dragProgress, [0, 1], [1, 0.5]);
+  const parallaxX = useTransform(dragX, [0, 300], [0, -50]);
+  const footerParallaxX = useTransform(dragX, [0, 300], [0, -30]);
   
   // Mount portal
   useEffect(() => {
@@ -46,24 +51,21 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
   // Enhanced body scroll lock
   useEffect(() => {
     if (isOpen) {
-      const scrollY = window.scrollY;
+      scrollPositionRef.current = window.scrollY;
       document.body.style.cssText = `
         overflow: hidden;
         position: fixed;
-        top: -${scrollY}px;
+        top: -${scrollPositionRef.current}px;
         width: 100%;
         touch-action: none;
       `;
-      
-      // Add class for additional styling hooks
       document.body.classList.add('menu-open');
     } else {
-      const scrollY = document.body.style.top;
       document.body.style.cssText = '';
       document.body.classList.remove('menu-open');
       
-      if (scrollY) {
-        window.scrollTo(0, parseInt(scrollY || '0') * -1);
+      if (scrollPositionRef.current) {
+        window.scrollTo(0, scrollPositionRef.current);
       }
     }
     
@@ -80,8 +82,11 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
         onClose();
       }
     };
-    document.addEventListener('keydown', handleEscape);
-    return () => document.removeEventListener('keydown', handleEscape);
+    
+    if (isOpen) {
+      document.addEventListener('keydown', handleEscape);
+      return () => document.removeEventListener('keydown', handleEscape);
+    }
   }, [isOpen, onClose]);
 
   const menuContent = (
@@ -113,6 +118,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
 
           {/* Luxury Menu Panel */}
           <motion.div
+            ref={menuRef}
             id={id}
             className="fixed inset-y-0 right-0 z-[101] w-full max-w-sm bg-charcoal overflow-hidden"
             initial={{ x: '100%' }}
@@ -157,7 +163,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
               {/* Elegant Header with Parallax */}
               <motion.div 
                 className="px-8 py-6 border-b border-gold/10"
-                style={{ x: useTransform(dragX, [0, 300], [0, -50]) }}
+                style={{ x: parallaxX }}
               >
                 <motion.div 
                   className="flex items-center justify-between"
@@ -285,7 +291,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.8, duration: 0.5 }}
-                style={{ x: useTransform(dragX, [0, 300], [0, -30]) }}
+                style={{ x: footerParallaxX }}
               >
                 <div className="flex items-center justify-between">
                   <a 
@@ -332,6 +338,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
     </AnimatePresence>
   );
 
+  // Only render portal when mounted
   if (!mounted) return null;
   
   return createPortal(

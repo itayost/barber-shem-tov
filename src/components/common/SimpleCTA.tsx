@@ -41,7 +41,7 @@ const SimpleCTA: React.FC<SimpleCTAProps> = ({
         onClick={handleApply}
         className={`
           w-full bg-gold hover:bg-gold/90 active:bg-gold/80
-          text-charcoal font-bold rounded-lg
+          text-charcoal font-bold
           flex items-center justify-center
           transition-colors duration-200
           shadow-lg hover:shadow-xl

@@ -19,7 +19,6 @@ interface ContactHoursProps {
 
 const ContactHours: React.FC<ContactHoursProps> = ({ hours, todayStatus }) => {
   const today = new Date().getDay();
-  const dayNames = ['ראשון', 'שני', 'שלישי', 'רביעי', 'חמישי', 'שישי', 'שבת'];
   
   return (
     <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8" dir="rtl">

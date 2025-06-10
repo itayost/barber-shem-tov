@@ -1,4 +1,4 @@
-// src/components/academy/tabs/AcademyStoryTab.tsx
+// src/components/academy/tabs/AcademyStoryTab.tsx - Luxury Version
 'use client';
 
 import React from 'react';
@@ -7,198 +7,196 @@ import Image from 'next/image';
 import Button from '@/components/common/Button';
 
 const AcademyStoryTab: React.FC = () => {
-  // Simplified milestones with stories
   const milestones = [
     {
       year: 2018,
       title: 'החלום נולד',
-      story: 'עם מספריים ביד אחת וחזון בלב, פתחתי דלת לכיתה קטנה עם 12 תלמידים. לא ידעתי אז שזה תחילתו של משהו גדול.',
-      quote: 'האמנתי שאפשר ללמד ספרות אחרת - עם לב, עם נשמה, עם תשוקה אמיתית למקצוע',
-      highlight: 'הקורס הראשון: 12 תלמידים, 12 סיפורי הצלחה'
+      description: 'עם מספריים ביד אחת וחזון בלב, פתחתי דלת לכיתה קטנה עם 12 תלמידים.',
+      highlight: 'הקורס הראשון'
     },
     {
       year: 2020,
       title: 'למרות הכל, צמחנו',
-      story: 'כשהעולם נעצר, אנחנו המשכנו. הפכנו אתגרים להזדמנויות וגילינו שהתשוקה שלנו חזקה מכל מגפה.',
-      quote: 'דווקא בתקופה הכי קשה, ראינו את הכוח של קהילה אמיתית',
-      highlight: 'פתחנו מסלולים חדשים והגענו ל-200 בוגרים'
+      description: 'כשהעולם נעצר, אנחנו המשכנו. הפכנו אתגרים להזדמנויות.',
+      highlight: 'השמה בזמן קורונה'
     },
     {
       year: 2023,
       title: 'הפכנו למשפחה',
-      story: 'כבר לא רק אקדמיה - אנחנו קהילה של 500+ בוגרים שתומכים אחד בשני, חולמים ביחד ומצליחים ביחד.',
-      quote: 'כשאני רואה בוגר פותח מספרה משלו, אני יודע שעשינו משהו נכון',
-      highlight: '92% השמה, 50+ מספרות שותפות, אינספור חלומות שהתגשמו'
+      description: 'כבר לא רק אקדמיה - אנחנו קהילה של 500+ בוגרים.',
+      highlight: 'האקדמיה #1 בצפון'
     }
   ];
 
   return (
-    <div className="space-y-12 max-w-5xl mx-auto">
-      {/* Founder's Personal Message */}
+    <div className="space-y-16">
+      {/* Founder's Message - Mobile First */}
       <motion.div 
         className="text-center"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
         transition={{ duration: 0.6 }}
       >
+        {/* Founder Image */}
         <div className="relative inline-block mb-8">
-          <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-gold/30 mx-auto">
+          <motion.div 
+            className="w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-2 border-gold/30 mx-auto"
+            whileHover={{ scale: 1.05 }}
+            transition={{ type: "spring", stiffness: 300 }}
+          >
             <Image
               src="/images/team/bar.jpg"
               alt="בר שם טוב"
-              width={128}
-              height={128}
+              width={160}
+              height={160}
               className="object-cover"
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
                 target.style.display = 'none';
                 if (target.parentElement) {
                   target.parentElement.innerHTML = `
-                    <div class="w-full h-full bg-gold/20 flex items-center justify-center">
-                      <span class="text-4xl text-gold">ב</span>
+                    <div class="w-full h-full bg-gradient-to-br from-gold/20 to-brown/10 flex items-center justify-center">
+                      <span class="text-5xl text-gold/50 font-light">ב</span>
                     </div>
                   `;
                 }
               }}
             />
-          </div>
+          </motion.div>
+          {/* Decorative circle */}
+          <div className="absolute -inset-4 border border-gold/10 rounded-full" />
         </div>
 
-        <h2 className="text-2xl sm:text-3xl font-bold mb-6">
-          הסיפור שלנו <span className="text-gold">התחיל מחלום</span>
-        </h2>
-        
-        <motion.div
-          className="max-w-3xl mx-auto"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-        >
-          <p className="text-lightgrey leading-relaxed mb-4 text-lg">
-            &ldquo;כשהייתי ספר צעיר, תמיד חלמתי על מקום שבו אפשר ללמוד את המקצוע הזה אחרת. 
-            לא רק טכניקות וכלים, אלא את הקסם שבמגע האנושי, את היכולת לגרום לאדם 
-            להרגיש טוב עם עצמו, את האמנות שבפרטים הקטנים.&rdquo;
-          </p>
-          <p className="text-lightgrey leading-relaxed mb-6">
-            &ldquo;היום, אחרי 7 שנים ו-500 בוגרים, אני יכול להגיד בגאווה - 
-            הצלחנו ליצור לא רק אקדמיה, אלא בית. מקום שבו חלומות הופכים למקצוע, 
-            ומקצוע הופך לדרך חיים.&rdquo;
-          </p>
-          <p className="text-gold font-bold text-lg">
-            - בר שם טוב, מייסד האקדמיה
-          </p>
-        </motion.div>
+        {/* Quote */}
+        <div className="max-w-3xl mx-auto">
+          <div className="text-6xl md:text-8xl text-gold/10 font-serif leading-none mb-4">"</div>
+          
+          <motion.p 
+            className="text-lg md:text-xl text-lightgrey/90 leading-relaxed mb-6 font-light italic"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+          >
+            כשהייתי ספר צעיר, תמיד חלמתי על מקום שבו אפשר ללמוד את המקצוע הזה אחרת. 
+            לא רק טכניקות וכלים, אלא את הקסם שבמגע האנושי.
+          </motion.p>
+          
+          <motion.p 
+            className="text-gold text-sm tracking-wider"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.4 }}
+          >
+            — BAR SHEM TOV, FOUNDER
+          </motion.p>
+        </div>
       </motion.div>
 
-      {/* Journey Milestones - Simplified */}
+      {/* Timeline - Luxury Minimal */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 0.6, delay: 0.3 }}
+        transition={{ delay: 0.5 }}
       >
-        <h3 className="text-2xl font-bold text-center mb-8">
-          תחנות <span className="text-gold">בדרך</span>
+        <h3 className="text-center text-xs tracking-[0.3em] text-gold mb-8">
+          OUR JOURNEY
         </h3>
         
-        <div className="space-y-8">
+        <div className="space-y-8 md:space-y-0 md:grid md:grid-cols-3 md:gap-8">
           {milestones.map((milestone, index) => (
             <motion.div
               key={milestone.year}
-              className="bg-charcoal-light/30 border border-lightgrey/10 p-6 sm:p-8"
-              initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              className="relative"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
+              transition={{ delay: index * 0.1 }}
             >
-              <div className="flex flex-col md:flex-row gap-6 items-center">
-                <div className="text-center md:text-right flex-shrink-0">
-                  <div className="text-5xl font-bold text-gold/20 mb-2">
-                    {milestone.year}
-                  </div>
-                  <h4 className="text-xl font-bold text-gold">
-                    {milestone.title}
-                  </h4>
-                </div>
-                
-                <div className="flex-1">
-                  <p className="text-lightgrey leading-relaxed mb-4">
-                    {milestone.story}
-                  </p>
-                  <blockquote className="border-r-4 border-gold pr-4 mb-4">
-                    <p className="text-offwhite italic">
-                      &ldquo;{milestone.quote}&rdquo;
-                    </p>
-                  </blockquote>
-                  <p className="text-gold text-sm font-medium">
-                    ← {milestone.highlight}
-                  </p>
-                </div>
+              {/* Year - Large Display */}
+              <div className="text-6xl md:text-7xl font-thin text-gold/10 mb-4">
+                {milestone.year}
               </div>
+              
+              {/* Content */}
+              <h4 className="text-xl font-light text-offwhite mb-2">
+                {milestone.title}
+              </h4>
+              <p className="text-lightgrey/70 text-sm leading-relaxed mb-4">
+                {milestone.description}
+              </p>
+              
+              {/* Highlight Badge */}
+              <div className="inline-block">
+                <span className="text-xs tracking-wider text-gold/80 border-b border-gold/30 pb-1">
+                  {milestone.highlight}
+                </span>
+              </div>
+              
+              {/* Connector Line - Desktop Only */}
+              {index < milestones.length - 1 && (
+                <div className="hidden md:block absolute top-12 left-full w-full h-[1px] bg-gradient-to-r from-gold/20 to-transparent" />
+              )}
             </motion.div>
           ))}
         </div>
       </motion.div>
 
-
-      {/* Future Vision */}
+      {/* Vision Statement */}
       <motion.div
-        className="text-center bg-gradient-to-r from-gold/10 to-brown/10 border border-gold/20 p-8 sm:p-12"
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
+        className="text-center bg-gradient-to-br from-gold/5 to-transparent border border-gold/10 p-8 md:p-12"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.6 }}
       >
-        <h3 className="text-2xl font-bold mb-6">
-          והמסע <span className="text-gold">רק מתחיל</span>...
+        <h3 className="text-2xl md:text-3xl font-light mb-6">
+          והמסע <span className="text-gold italic font-serif">רק מתחיל</span>
         </h3>
-        <p className="text-lightgrey text-lg leading-relaxed mb-6 max-w-2xl mx-auto">
-          החזון שלנו פשוט: להמשיך לגדול, להמשיך להשפיע, להמשיך לשנות חיים. 
-          כל בוגר שלנו הוא שגריר של המקצועיות והתשוקה שאנחנו מלמדים.
+        
+        <p className="text-lightgrey/80 text-base md:text-lg leading-relaxed mb-8 max-w-2xl mx-auto font-light">
+          החזון שלנו פשוט: להמשיך לגדול, להמשיך להשפיע, להמשיך לשנות חיים.
         </p>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+        
+        {/* Future Goals */}
+        <div className="flex flex-col md:flex-row justify-center items-center gap-8 mb-8">
           <motion.div 
             className="text-center"
             whileHover={{ scale: 1.05 }}
           >
-            <div className="text-3xl font-bold text-gold mb-1">1000+</div>
-            <div className="text-sm text-lightgrey">החזון שלנו ל-2026</div>
+            <div className="text-3xl font-thin text-gold">1000+</div>
+            <div className="text-xs tracking-wider text-lightgrey/60">GRADUATES BY 2026</div>
           </motion.div>
-          <div className="hidden sm:block text-2xl text-gold/30">•</div>
+          
+          <div className="hidden md:block w-16 h-[1px] bg-gold/20" />
+          
           <motion.div 
             className="text-center"
             whileHover={{ scale: 1.05 }}
           >
-            <div className="text-3xl font-bold text-gold mb-1">2</div>
-            <div className="text-sm text-lightgrey">סניפים חדשים</div>
+            <div className="text-3xl font-thin text-gold">2</div>
+            <div className="text-xs tracking-wider text-lightgrey/60">NEW LOCATIONS</div>
           </motion.div>
-          <div className="hidden sm:block text-2xl text-gold/30">•</div>
+          
+          <div className="hidden md:block w-16 h-[1px] bg-gold/20" />
+          
           <motion.div 
             className="text-center"
             whileHover={{ scale: 1.05 }}
           >
-            <div className="text-3xl font-bold text-gold mb-1">∞</div>
-            <div className="text-sm text-lightgrey">הזדמנויות</div>
+            <div className="text-3xl font-thin text-gold">∞</div>
+            <div className="text-xs tracking-wider text-lightgrey/60">OPPORTUNITIES</div>
           </motion.div>
         </div>
         
-        <motion.div
-          className="mt-8"
-          whileHover={{ scale: 1.02 }}
-        >
-          <h4 className="text-xl font-bold mb-4">
-            רוצה להיות <span className="text-gold">חלק מהסיפור</span>?
-          </h4>
-          <p className="text-lightgrey mb-6">
-            כל מסע של אלף מייל מתחיל בצעד אחד. הצעד הראשון שלך מתחיל כאן.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button href="/courses" variant="primary" size="large">
-              התחל את המסע שלך
-            </Button>
-            <Button href="/contact?consultation=true" variant="secondary" size="large">
-              שוחח איתנו
-            </Button>
-          </div>
+        {/* CTA */}
+        <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+          <Button 
+            href="/courses" 
+            variant="primary" 
+            size="large"
+            className="font-light tracking-wider"
+          >
+            התחל את המסע שלך
+          </Button>
         </motion.div>
       </motion.div>
     </div>

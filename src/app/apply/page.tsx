@@ -3,10 +3,10 @@
 
 import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import { academyInfo, courses } from '@/lib/data';
+import { academyInfo } from '@/lib/data';
 
 function ApplyContent() {
   const searchParams = useSearchParams();

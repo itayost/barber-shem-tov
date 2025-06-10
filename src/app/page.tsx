@@ -2,7 +2,6 @@
 import Hero from '@/components/common/Hero';
 import ThreePathways from '@/components/home/ThreePathways';
 import Testimonials from '@/components/home/Testimonials';
-import WhatsAppFloat from '@/components/common/WhatsAppFloat';
 
 export default function Home() {
   return (
@@ -31,9 +30,6 @@ export default function Home() {
           <Testimonials />
         </section>
       </div>
-
-      {/* WhatsApp floating button */}
-      <WhatsAppFloat />
     </div>
   );
 }

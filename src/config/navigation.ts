@@ -37,28 +37,22 @@ export const navigationConfig: NavigationConfig = {
     { 
       name: 'דף הבית', 
       path: '/',
-      icon: '🏠'
     },
     { 
       name: 'האקדמיה', 
       path: '/academy',
-      icon: '🎓'
     },
     { 
       name: 'גלריה', 
       path: '/gallery',
-      icon: '📸'
     },
     { 
       name: 'קורסים', 
       path: '/courses',
-      icon: '📚',
-      badge: 'חדש'
     },
     { 
       name: 'צור קשר', 
       path: '/contact',
-      icon: '📞'
     },
   ],
   quickActions: {

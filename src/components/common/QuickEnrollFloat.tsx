@@ -203,8 +203,8 @@ const QuickEnrollFloat: React.FC<QuickEnrollFloatProps> = ({
         <motion.div
           className={`fixed z-40 ${
             isMobile 
-              ? 'bottom-20 right-4' // Above WhatsApp on mobile
-              : 'bottom-24 right-6' // Desktop position
+              ? 'bottom-4 right-4' // Above WhatsApp on mobile
+              : 'bottom-6 right-6' // Desktop position
           }`}
           initial={{ scale: 0, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}

@@ -1,4 +1,4 @@
-// src/components/navigation/Navbar.tsx - Luxury Enhanced Version
+// src/components/navigation/Navbar.tsx - Complete fix with animations
 'use client';
 
 import { useState, useEffect, useCallback, lazy, Suspense } from 'react';
@@ -6,7 +6,6 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import Logo from './Logo';
 import DesktopNav from './DesktopNav';
 import MobileMenuButton from './MobileMenuButton';
-import MobileMiniNav from './MobileMiniNav';
 import { academyInfo } from '@/lib/data';
 import { navigationConfig } from '@/config/navigation';
 
@@ -22,6 +21,18 @@ const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [isCompact, setIsCompact] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(false);
+  
+  // Check if desktop
+  useEffect(() => {
+    const checkDesktop = () => {
+      setIsDesktop(window.innerWidth >= 768);
+    };
+    
+    checkDesktop();
+    window.addEventListener('resize', checkDesktop);
+    return () => window.removeEventListener('resize', checkDesktop);
+  }, []);
   
   // Framer Motion scroll progress
   const { scrollY } = useScroll();
@@ -122,33 +133,38 @@ const Navbar = () => {
             />
           </motion.div>
           
-          {/* Desktop Navigation with stagger */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.2, ease: LUXURY_EASING }}
-          >
-            <DesktopNav 
-              navItems={navigationConfig.mainItems}
-              callToAction={{
-                text: navigationConfig.quickActions.primary.text,
-                href: navigationConfig.quickActions.primary.href,
-                className: "btn-primary luxury-shine"
-              }}
-            />
-          </motion.div>
+          {/* Desktop Navigation - Conditionally rendered */}
+          {isDesktop && (
+            <motion.div
+              className="flex items-center gap-8"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.2, ease: LUXURY_EASING }}
+            >
+              <DesktopNav 
+                navItems={navigationConfig.mainItems}
+                callToAction={{
+                  text: navigationConfig.quickActions.primary.text,
+                  href: navigationConfig.quickActions.primary.href,
+                  className: "btn-primary luxury-shine"
+                }}
+              />
+            </motion.div>
+          )}
           
-          {/* Mobile Menu Button with refined animation */}
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            transition={LUXURY_SPRING}
-          >
-            <MobileMenuButton 
-              isOpen={isMobileMenuOpen} 
-              onClick={toggleMobileMenu}
-            />
-          </motion.div>
+          {/* Mobile Menu Button - Always visible on mobile */}
+          {!isDesktop && (
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              transition={LUXURY_SPRING}
+            >
+              <MobileMenuButton 
+                isOpen={isMobileMenuOpen} 
+                onClick={toggleMobileMenu}
+              />
+            </motion.div>
+          )}
         </motion.div>
         
         {/* Bottom border with animated width */}
@@ -170,9 +186,6 @@ const Navbar = () => {
           id="mobile-menu"
         />
       </Suspense>
-
-      {/* Mobile Mini Navigation with enhanced reveal */}
-      <MobileMiniNav academyInfo={academyInfo} />
     </>
   );
 };

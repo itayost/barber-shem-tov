@@ -1,7 +1,6 @@
 // src/app/gallery/page.tsx
 import { loadGalleryImages } from '@/utils/galleryUtils';
 import GalleryPageClient from '@/components/gallery/GalleryPageClient';
-import WhatsAppFloat from '@/components/common/WhatsAppFloat';
 import { Metadata } from 'next';
 
 // Generate metadata for the page
@@ -22,7 +21,6 @@ export default function GalleryPage() {
   return (
     <>
       <GalleryPageClient images={images} />
-      <WhatsAppFloat />
     </>
   );
 }

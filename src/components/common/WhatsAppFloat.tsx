@@ -105,7 +105,7 @@ const WhatsAppFloat: React.FC = () => {
   const iconSize = isMobile ? 'w-9 h-9' : 'w-8 h-8';
   const positioning = isMobile 
     ? 'bottom-4 right-4' // More accessible on mobile
-    : 'bottom-6 left-6';
+    : 'bottom-6 right-6';
 
   return (
     <AnimatePresence>
@@ -123,7 +123,7 @@ const WhatsAppFloat: React.FC = () => {
                   fixed z-40 bg-charcoal border border-gold/30 text-offwhite px-3 py-2 text-sm font-medium shadow-lg max-w-xs
                   ${isMobile 
                     ? 'bottom-24 right-4 text-center' 
-                    : 'bottom-24 left-6'
+                    : 'bottom-24 right-4'
                   }
                 `}
                 dir="rtl"

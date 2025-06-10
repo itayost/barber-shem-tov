@@ -25,10 +25,8 @@ interface MobileMenuFooterProps {
 }
 
 const MobileMenuFooter: React.FC<MobileMenuFooterProps> = ({
-  stats,
   contact,
   social,
-  established,
   businessName,
   isCompact = false
 }) => {
@@ -38,21 +36,7 @@ const MobileMenuFooter: React.FC<MobileMenuFooterProps> = ({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ delay: 0.4 }}
-    >
-      {/* Stats Grid - Only on non-compact mode */}
-      {!isCompact && stats && (
-        <div className="grid grid-cols-2 gap-4">
-          <div className="bg-charcoal-light/30 p-4 rounded-xl text-center">
-            <div className="text-2xl font-bold text-gold mb-1">{stats.graduates}+</div>
-            <div className="text-xs text-lightgrey">בוגרים מצליחים</div>
-          </div>
-          <div className="bg-charcoal-light/30 p-4 rounded-xl text-center">
-            <div className="text-2xl font-bold text-gold mb-1">{stats.placementRate}%</div>
-            <div className="text-xs text-lightgrey">שיעור השמה</div>
-          </div>
-        </div>
-      )}
-      
+    > 
       {/* Contact Info - Streamlined */}
       <div className="flex items-center justify-between px-4 py-3 bg-gold/5 rounded-xl">
         <a 

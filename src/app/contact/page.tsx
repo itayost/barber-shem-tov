@@ -9,7 +9,6 @@ import { academyInfo, courses } from '@/lib/data';
 // Import components
 import AcademyContactInfo from '@/components/contact/AcademyContactInfo';
 import AcademyEnrollmentForm from '@/components/contact/AcademyEnrollmentForm';
-import WhatsAppFloat from '@/components/common/WhatsAppFloat';
 import Hero from '@/components/common/Hero';
 
 // Client component that uses useSearchParams
@@ -201,9 +200,6 @@ function ContactContent() {
           </motion.div>
         </div>
       </section>
-
-      {/* WhatsApp Float */}
-      <WhatsAppFloat />
     </>
   );
 }

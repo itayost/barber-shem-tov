@@ -1,14 +1,19 @@
-// src/components/navigation/MobileMenu.tsx - Fixed Version
+// src/components/navigation/MobileMenu.tsx - Enhanced Version
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useMotionValue, useTransform } from 'framer-motion';
 import { createPortal } from 'react-dom';
 import { usePathname } from 'next/navigation';
-import Link from 'next/link';
-import Image from 'next/image';
+import { useViewportSize } from '@/hooks/useViewportSize';
 import { AcademyInfo } from '@/types';
-import { NavItem } from '@/config/navigation';
+import { NavItem, navigationConfig } from '@/config/navigation';
+
+// Import all the sub-components
+import MobileMenuHeader from './mobile/MobileMenuHeader';
+import MobileMenuNav from './mobile/MobileMenuNav';
+import MobileMenuActions from './mobile/MobileMenuActions';
+import MobileMenuFooter from './mobile/MobileMenuFooter';
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -29,18 +34,25 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
   navItems = [],
   id 
 }) => {
-  // All hooks must be declared at the top level
   const [mounted, setMounted] = useState(false);
+  const [activeNavIndex, setActiveNavIndex] = useState<number | null>(null);
   const pathname = usePathname();
   const menuRef = useRef<HTMLDivElement>(null);
   const scrollPositionRef = useRef<number>(0);
+  const { isCompact } = useViewportSize(navigationConfig.mobileMenu.compactModeBreakpoint);
   
-  // Drag to close functionality - motion values
-  const dragX = useMotionValue(0);
-  const dragProgress = useTransform(dragX, [0, 300], [0, 1]);
-  const opacity = useTransform(dragProgress, [0, 1], [1, 0.5]);
-  const parallaxX = useTransform(dragX, [0, 300], [0, -50]);
-  const footerParallaxX = useTransform(dragX, [0, 300], [0, -30]);
+  // Today's status
+  const today = new Date().getDay();
+  const todayHours = academyInfo.getHoursForDay(today);
+  const todayStatus = {
+    isOpen: todayHours.isOpen,
+    hours: todayHours.isOpen ? `${todayHours.open} - ${todayHours.close}` : 'סגור'
+  };
+  
+  // Drag to close functionality
+  const dragY = useMotionValue(0);
+  const dragProgress = useTransform(dragY, [0, 300], [0, 1]);
+  const opacity = useTransform(dragProgress, [0, 1], [1, 0]);
   
   // Mount portal
   useEffect(() => {
@@ -48,7 +60,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
     return () => setMounted(false);
   }, []);
 
-  // Enhanced body scroll lock
+  // Body scroll lock
   useEffect(() => {
     if (isOpen) {
       scrollPositionRef.current = window.scrollY;
@@ -75,69 +87,49 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
     };
   }, [isOpen]);
 
-  // ESC key handler
-  useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && isOpen) {
-        onClose();
-      }
-    };
-    
-    if (isOpen) {
-      document.addEventListener('keydown', handleEscape);
-      return () => document.removeEventListener('keydown', handleEscape);
+  // Handle navigation item click
+  const handleNavItemClick = (index: number, e: React.MouseEvent) => {
+    e.preventDefault();
+    const item = navItems[index];
+    if (item) {
+      window.location.href = item.path;
+      onClose();
     }
-  }, [isOpen, onClose]);
+  };
 
   const menuContent = (
     <AnimatePresence>
       {isOpen && (
         <div className="md:hidden">
-          {/* Luxury Backdrop with Multi-layer Blur */}
+          {/* Enhanced Backdrop */}
           <motion.div
-            className="fixed inset-0 z-[100]"
+            className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-md"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ 
-              duration: 0.6,
-              ease: LUXURY_EASING
-            }}
+            transition={{ duration: 0.3 }}
             onClick={onClose}
-          >
-            {/* Base blur layer */}
-            <div className="absolute inset-0 bg-black/75 backdrop-blur-xl" />
-            
-            {/* Gradient overlay for depth */}
-            <motion.div 
-              className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-transparent"
-              animate={{ opacity: [0.3, 0.5, 0.3] }}
-              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-            />
-          </motion.div>
+          />
 
-          {/* Luxury Menu Panel */}
+          {/* Enhanced Bottom Sheet Style Menu */}
           <motion.div
             ref={menuRef}
             id={id}
-            className="fixed inset-y-0 right-0 z-[101] w-full max-w-sm bg-charcoal overflow-hidden"
-            initial={{ x: '100%' }}
-            animate={{ x: 0 }}
-            exit={{ x: '100%' }}
+            className="menu-bottom-sheet fixed inset-x-0 bottom-0 z-[101] bg-charcoal rounded-t-3xl shadow-2xl max-h-[85vh] overflow-hidden"
+            initial={{ y: '100%' }}
+            animate={{ y: 0 }}
+            exit={{ y: '100%' }}
             transition={{ 
               type: 'tween',
-              duration: 0.6,
+              duration: 0.4,
               ease: LUXURY_EASING
             }}
-            style={{
-              boxShadow: '-20px 0 60px rgba(0, 0, 0, 0.3)',
-              opacity
-            }}
-            drag="x"
-            dragConstraints={{ left: 0, right: 0 }}
+            style={{ opacity }}
+            drag="y"
+            dragConstraints={{ top: 0, bottom: 0 }}
             dragElastic={0.2}
             onDragEnd={(e, { offset, velocity }) => {
-              if (offset.x > 100 || velocity.x > 500) {
+              if (offset.y > 100 || velocity.y > 500) {
                 onClose();
               }
             }}
@@ -146,199 +138,68 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
             aria-label="תפריט ניווט"
             dir="rtl"
           >
-            {/* Subtle Pattern Overlay */}
-            <div 
-              className="absolute inset-0 opacity-[0.015] pointer-events-none"
-              style={{
-                backgroundImage: `
-                  radial-gradient(circle at 20% 80%, rgba(201, 166, 107, 0.15) 0%, transparent 50%),
-                  radial-gradient(circle at 80% 20%, rgba(201, 166, 107, 0.1) 0%, transparent 50%),
-                  radial-gradient(circle at 1px 1px, rgba(201, 166, 107, 0.3) 1px, transparent 1px)
-                `,
-                backgroundSize: '100% 100%, 100% 100%, 20px 20px'
-              }}
-            />
-
-            <div className="relative h-full flex flex-col">
-              {/* Elegant Header with Parallax */}
-              <motion.div 
-                className="px-8 py-6 border-b border-gold/10"
-                style={{ x: parallaxX }}
-              >
-                <motion.div 
-                  className="flex items-center justify-between"
-                  initial={{ opacity: 0, y: -20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.1, duration: 0.5, ease: LUXURY_EASING }}
-                >
-                  <Image 
-                    src="/images/logos/logo.png"
-                    alt={academyInfo.shortName}
-                    width={140}
-                    height={35}
-                    className="h-8 w-auto object-contain"
-                    priority
-                  />
-                  
-                  <motion.button 
-                    className="p-3 -mr-3 rounded-full hover:bg-gold/5 transition-all duration-300"
-                    onClick={onClose}
-                    aria-label="סגור תפריט"
-                    whileHover={{ scale: 1.1, rotate: 90 }}
-                    whileTap={{ scale: 0.9 }}
-                    transition={LUXURY_SPRING}
-                  >
-                    <svg className="w-5 h-5 text-gold/70 hover:text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                  </motion.button>
-                </motion.div>
-
-                {/* Live Status Indicator */}
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.3, duration: 0.4 }}
-                  className="flex items-center gap-2 mt-3"
-                >
-                  <div className={`w-2 h-2 rounded-full ${
-                    academyInfo.isOpenDay(new Date().getDay()) ? 'bg-green-400' : 'bg-red-400'
-                  } animate-pulse`} />
-                  <span className="text-xs text-lightgrey/70">
-                    {academyInfo.isOpenDay(new Date().getDay()) ? 'פתוח כעת' : 'סגור כעת'}
-                  </span>
-                </motion.div>
-              </motion.div>
-
-              {/* Scrollable Navigation */}
-              <div className="flex-1 overflow-y-auto overscroll-contain">
-                <nav className="px-8 py-8">
-                  <ul className="space-y-1">
-                    {navItems.map((item, index) => {
-                      const isActive = pathname === item.path || 
-                        (item.path !== '/' && pathname?.startsWith(item.path));
-                      
-                      return (
-                        <motion.li
-                          key={item.path}
-                          initial={{ opacity: 0, x: 50 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ 
-                            delay: 0.2 + (index * 0.08),
-                            duration: 0.5,
-                            ease: LUXURY_EASING
-                          }}
-                        >
-                          <Link 
-                            href={item.path}
-                            className={`
-                              block py-4 px-4 -mx-4 text-lg font-light tracking-wide
-                              transition-all duration-300 rounded-lg
-                              ${isActive 
-                                ? 'text-gold bg-gold/5' 
-                                : 'text-offwhite/80 hover:text-gold hover:bg-gold/5'
-                              }
-                            `}
-                            onClick={onClose}
-                          >
-                            <div className="flex items-center justify-between">
-                              <span>{item.name}</span>
-                              {isActive && (
-                                <motion.div
-                                  initial={{ scale: 0, rotate: -180 }}
-                                  animate={{ scale: 1, rotate: 0 }}
-                                  transition={LUXURY_SPRING}
-                                >
-                                  <svg className="w-4 h-4 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                  </svg>
-                                </motion.div>
-                              )}
-                            </div>
-                          </Link>
-                        </motion.li>
-                      );
-                    })}
-                  </ul>
-                </nav>
-
-                {/* CTA Section */}
-                <motion.div 
-                  className="px-8 pb-8"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.6, duration: 0.5, ease: LUXURY_EASING }}
-                >
-                  <Link
-                    href="/contact"
-                    onClick={onClose}
-                    className="block w-full bg-gradient-to-r from-gold to-gold-light text-charcoal py-4 text-center font-medium tracking-wide hover:shadow-lg transition-all duration-300 group relative overflow-hidden"
-                  >
-                    <span className="relative z-10">הרשמה לקורסים</span>
-                    <motion.div
-                      className="absolute inset-0 bg-gradient-to-r from-gold-light to-gold"
-                      initial={{ x: '-100%' }}
-                      whileHover={{ x: 0 }}
-                      transition={{ duration: 0.5, ease: "easeInOut" }}
-                    />
-                  </Link>
-                </motion.div>
-              </div>
-
-              {/* Elegant Footer */}
-              <motion.div 
-                className="px-8 py-6 border-t border-gold/10 bg-charcoal-light/50"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.8, duration: 0.5 }}
-                style={{ x: footerParallaxX }}
-              >
-                <div className="flex items-center justify-between">
-                  <a 
-                    href={`tel:${academyInfo.phone}`}
-                    className="flex items-center gap-2 text-gold/80 hover:text-gold transition-colors"
-                  >
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                    </svg>
-                    <span className="text-sm hebrew-nums">{academyInfo.phone}</span>
-                  </a>
-                  
-                  <div className="flex gap-4">
-                    {academyInfo.social.instagram && (
-                      <a 
-                        href={academyInfo.social.instagram}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-lightgrey/50 hover:text-gold transition-colors"
-                        aria-label="Instagram"
-                      >
-                        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1112.324 0 6.162 6.162 0 01-12.324 0zM12 16a4 4 0 110-8 4 4 0 010 8zm4.965-10.405a1.44 1.44 0 112.881.001 1.44 1.44 0 01-2.881-.001z"/>
-                        </svg>
-                      </a>
-                    )}
-                  </div>
-                </div>
-              </motion.div>
+            {/* Drag Handle */}
+            <div className="py-3 pb-0">
+              <div className="drag-handle mx-auto" />
             </div>
 
-            {/* Drag Handle Indicator */}
-            <motion.div 
-              className="absolute left-2 top-1/2 -translate-y-1/2"
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 0.3, x: 0 }}
-              transition={{ delay: 1, duration: 0.5 }}
-            >
-              <div className="w-1 h-16 bg-gold/20 rounded-full" />
-            </motion.div>
+            {/* Scrollable Content */}
+            <div className="menu-scroll-container overflow-y-auto max-h-[calc(85vh-3rem)] pb-safe">
+              {/* Enhanced Header */}
+              <MobileMenuHeader
+                logo={{
+                  src: '/images/logos/logo.png',
+                  alt: academyInfo.shortName
+                }}
+                businessName={academyInfo.name}
+                todayStatus={todayStatus}
+                isCompact={isCompact}
+                onClose={onClose}
+              />
+
+              {/* Content Container */}
+              <div className="px-6 py-6 space-y-6">
+                {/* Navigation */}
+                <div>
+                  <h3 className="text-sm font-medium text-gold mb-3">ניווט</h3>
+                  <MobileMenuNav
+                    items={navItems}
+                    activeIndex={activeNavIndex}
+                    currentPath={pathname}
+                    onItemClick={handleNavItemClick}
+                    onItemHover={setActiveNavIndex}
+                    isCompact={isCompact}
+                  />
+                </div>
+
+                {/* CTA Actions */}
+                <MobileMenuActions
+                  primaryAction={navigationConfig.quickActions.primary}
+                  secondaryAction={navigationConfig.quickActions.secondary}
+                  onActionClick={onClose}
+                  isCompact={isCompact}
+                />
+
+                {/* Footer with Stats and Social */}
+                <MobileMenuFooter
+                  stats={academyInfo.stats}
+                  contact={{
+                    phone: academyInfo.phone,
+                    email: academyInfo.email
+                  }}
+                  social={academyInfo.social}
+                  established={academyInfo.established}
+                  businessName={academyInfo.shortName}
+                  isCompact={isCompact}
+                />
+              </div>
+            </div>
           </motion.div>
         </div>
       )}
     </AnimatePresence>
   );
 
-  // Only render portal when mounted
   if (!mounted) return null;
   
   return createPortal(

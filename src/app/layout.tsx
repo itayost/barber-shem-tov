@@ -1,8 +1,9 @@
-// File: src/app/layout.tsx
+// src/app/layout.tsx
 import { Heebo } from 'next/font/google';
 import './globals.css';
 import { Navbar } from '@/components/navigation';
 import Footer from '@/components/common/Footer';
+import SmartFAB from '@/components/common/SmartFAB'; // Add this import
 
 // Hebrew font setup
 const heebo = Heebo({
@@ -97,7 +98,6 @@ export default function RootLayout({
         {/* Preconnect to third-party domains for performance */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-
         <meta name="apple-mobile-web-app-title" content="The Fader" />
       </head>
       
@@ -114,6 +114,9 @@ export default function RootLayout({
         </main>
         
         <Footer />
+        
+        {/* Add the Smart FAB here */}
+        <SmartFAB />
       </body>
     </html>
   );

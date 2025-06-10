@@ -2,7 +2,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence, useSpring, useTransform } from 'framer-motion';
+import { motion, AnimatePresence, useSpring } from 'framer-motion';
 import { usePathname } from 'next/navigation';
 import { navigationConfig } from '@/config/navigation';
 

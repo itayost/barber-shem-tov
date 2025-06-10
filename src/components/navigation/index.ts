@@ -17,7 +17,6 @@ export { default as MobileMenuHeader } from './mobile/MobileMenuHeader';
 export { default as MobileMenuNav } from './mobile/MobileMenuNav';
 export { default as MobileMenuActions } from './mobile/MobileMenuActions';
 export { default as MobileMenuFooter } from './mobile/MobileMenuFooter';
-export { default as MobileMenuQuickActions } from './mobile/MobileMenuQuickActions';
 
 // Re-export types and config
 export type { NavItem, NavigationConfig } from '@/config/navigation';

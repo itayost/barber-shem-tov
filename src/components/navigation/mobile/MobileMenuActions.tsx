@@ -73,21 +73,6 @@ const MobileMenuActions: React.FC<MobileMenuActionsProps> = ({
           {secondaryAction.text}
         </Button>
       </motion.div>
-
-      {/* Trust indicators */}
-      <motion.div 
-        variants={itemVariants}
-        className="flex items-center justify-center gap-4 text-xs text-lightgrey/60 pt-2"
-      >
-        <div className="flex items-center gap-1">
-          <span className="text-green-400">✓</span>
-          <span>ללא התחייבות</span>
-        </div>
-        <div className="flex items-center gap-1">
-          <span className="text-green-400">✓</span>
-          <span>מענה מהיר</span>
-        </div>
-      </motion.div>
     </motion.div>
   );
 };

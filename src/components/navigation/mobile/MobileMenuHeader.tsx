@@ -21,7 +21,6 @@ interface MobileMenuHeaderProps {
 
 const MobileMenuHeader: React.FC<MobileMenuHeaderProps> = ({ 
   logo,
-  businessName,
   todayStatus,
   isCompact,
   onClose

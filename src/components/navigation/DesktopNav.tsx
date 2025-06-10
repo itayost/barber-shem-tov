@@ -1,13 +1,10 @@
+// src/components/navigation/DesktopNav.tsx
 'use client';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
-import { useState, useRef, useEffect } from 'react';
-import { motion, useSpring, useTransform } from 'framer-motion';
-
-interface NavItem {
-  name: string;
-  path: string;
-}
+import { useState } from 'react';
+import { motion, useSpring } from 'framer-motion';
+import { NavItem } from '@/config/navigation';
 
 interface CallToAction {
   text: string;
@@ -39,7 +36,7 @@ const DesktopNav = ({ navItems, callToAction }: DesktopNavProps) => {
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
     
-    const deltaX = (e.clientX - centerX) * 0.1; // Magnetic strength
+    const deltaX = (e.clientX - centerX) * 0.1;
     const deltaY = (e.clientY - centerY) * 0.1;
     
     springX.set(deltaX);
@@ -54,10 +51,11 @@ const DesktopNav = ({ navItems, callToAction }: DesktopNavProps) => {
     setHoveredItem(null);
   };
   
+  // Return Fragment to let parent control layout and visibility
   return (
     <>
-      {/* Navigation Links with Luxury Animations */}
-      <nav className="navbar-nav">
+      {/* Navigation Links */}
+      <nav className="flex items-center space-x-8 space-x-reverse">
         {navItems.map((item) => {
           const isActive = pathname === item.path || 
             (item.path !== '/' && pathname?.startsWith(item.path));
@@ -93,6 +91,18 @@ const DesktopNav = ({ navItems, callToAction }: DesktopNavProps) => {
                     {item.name}
                   </span>
                   
+                  {/* Badge if exists */}
+                  {item.badge && (
+                    <motion.span 
+                      className="badge badge-gold text-xs mr-2"
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ type: "spring", stiffness: 500 }}
+                    >
+                      {item.badge}
+                    </motion.span>
+                  )}
+                  
                   {/* Progressive underline */}
                   <motion.span
                     className="absolute bottom-0 left-0 h-[2px] bg-gold origin-left"
@@ -124,32 +134,36 @@ const DesktopNav = ({ navItems, callToAction }: DesktopNavProps) => {
         })}
       </nav>
       
-      {/* Enhanced CTA Button */}
-      <div className="navbar-cta">
-        <motion.div
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          transition={LUXURY_SPRING}
+      {/* CTA Button */}
+      <motion.div
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        transition={LUXURY_SPRING}
+      >
+        <Link 
+          href={callToAction.href} 
+          className={`${callToAction.className} px-8 py-3 text-base font-semibold relative group block`}
+          style={{ isolation: 'isolate' }}
         >
-          <Link 
-            href={callToAction.href} 
-            className={`${callToAction.className} px-8 py-3 text-base font-semibold relative overflow-hidden group`}
-          >
-            {/* Button text */}
-            <span className="relative z-20">{callToAction.text}</span>
-            
+          {/* Create a clipping container */}
+          <span className="absolute inset-0 overflow-hidden rounded-[inherit]">
             {/* Luxury shine effect */}
             <motion.span
-              className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
-              initial={{ x: '-100%' }}
-              whileHover={{ x: '100%' }}
+              className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12"
+              initial={{ x: '-150%' }}
+              whileHover={{ x: '150%' }}
               transition={{
                 duration: 0.8,
                 ease: "easeInOut"
               }}
             />
-            
-            {/* Pulse effect */}
+          </span>
+          
+          {/* Button text */}
+          <span className="relative z-20">{callToAction.text}</span>
+          
+          {/* Pulse effect */}
+          <span className="absolute inset-0 overflow-hidden rounded-[inherit] pointer-events-none">
             <motion.span
               className="absolute inset-0 bg-gold/20"
               animate={{
@@ -162,9 +176,9 @@ const DesktopNav = ({ navItems, callToAction }: DesktopNavProps) => {
                 ease: "easeInOut"
               }}
             />
-          </Link>
-        </motion.div>
-      </div>
+          </span>
+        </Link>
+      </motion.div>
     </>
   );
 };

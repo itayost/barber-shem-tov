@@ -1,4 +1,4 @@
-// src/components/gallery/EnhancedGalleryGrid.tsx
+// src/components/gallery/EnhancedGalleryGrid.tsx - Updated with key validation
 'use client';
 
 import React from 'react';
@@ -39,19 +39,39 @@ const EnhancedGalleryGrid: React.FC<EnhancedGalleryGridProps> = ({
     }
   };
 
+  // Validate and ensure unique keys
+  const validImages = images.filter((image, index) => {
+    if (!image.id) {
+      console.error(`Image at index ${index} has no ID:`, image);
+      return false;
+    }
+    return true;
+  });
+
+  // Check for duplicate IDs
+  const seenIds = new Set<string>();
+  const uniqueImages = validImages.filter((image) => {
+    if (seenIds.has(image.id)) {
+      console.error(`Duplicate image ID found: ${image.id}`);
+      return false;
+    }
+    seenIds.add(image.id);
+    return true;
+  });
+
   return (
     <section className="py-16 bg-charcoal" dir="rtl">
       <div className="container mx-auto px-6">
-        {images.length > 0 ? (
+        {uniqueImages.length > 0 ? (
           <motion.div 
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
           >
-            {images.map((image) => (
+            {uniqueImages.map((image, index) => (
               <motion.div
-                key={image.id}
+                key={image.id || `gallery-image-${index}`} // Fallback key just in case
                 variants={itemVariants}
                 className="group relative cursor-pointer"
                 onClick={() => onImageClick(image)}
@@ -74,14 +94,13 @@ const EnhancedGalleryGrid: React.FC<EnhancedGalleryGridProps> = ({
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                     className="object-cover transition-transform duration-700 group-hover:scale-110"
                     onError={(e) => {
-                      // Fallback for missing images
                       const target = e.target as HTMLImageElement;
                       target.style.display = 'none';
                       if (target.parentElement) {
                         target.parentElement.innerHTML = `
                           <div class="w-full h-full bg-brown/20 flex items-center justify-center">
                             <div class="text-center">
-                              <div class="text-4xl text-gold/50 mb-2"></div>
+                              <div class="text-4xl text-gold/50 mb-2">📷</div>
                               <div class="text-gold/50 text-sm">תמונה בקרוב</div>
                             </div>
                           </div>
@@ -125,7 +144,7 @@ const EnhancedGalleryGrid: React.FC<EnhancedGalleryGridProps> = ({
                   <div className="absolute bottom-4 left-4 flex flex-wrap gap-2">
                     {image.tags.slice(0, 2).map((tag, idx) => (
                       <span 
-                        key={idx}
+                        key={`${image.id}-tag-${idx}`} // Unique key for tags
                         className="bg-charcoal/80 backdrop-blur-sm text-gold text-xs px-2 py-1"
                       >
                         #{tag}
@@ -144,7 +163,6 @@ const EnhancedGalleryGrid: React.FC<EnhancedGalleryGridProps> = ({
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6 }}
           >
-            <div className="text-6xl mb-4"></div>
             <h3 className="text-h3 mb-4">אין תמונות בקטגוריה זו</h3>
             <p className="text-lightgrey">נסה לבחור קטגוריה אחרת או חזור מאוחר יותר</p>
           </motion.div>

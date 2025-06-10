@@ -1,17 +1,19 @@
-// src/utils/galleryUtils.ts
+// src/utils/galleryUtils.ts - Updated with key validation
 import fs from 'fs';
 import path from 'path';
 import { GalleryImage, GalleryMetadata, galleryCategories, getCategoryLabelsMap } from '@/lib/data';
 
+// Function to generate a unique ID
+function generateUniqueId(category: string, filename: string, index: number): string {
+  // Remove file extension and create a safe ID
+  const safeName = filename.replace(/\.[^/.]+$/, '').replace(/[^a-zA-Z0-9-_]/g, '-');
+  return `${category}-${safeName}-${index}`;
+}
+
 // Function to get image title from filename
 export function getImageTitle(filename: string): string {
-  // Remove file extension
   const nameWithoutExt = filename.replace(/\.[^/.]+$/, '');
-  
-  // Replace hyphens and underscores with spaces
   const nameWithSpaces = nameWithoutExt.replace(/[-_]/g, ' ');
-  
-  // Capitalize first letter of each word
   return nameWithSpaces
     .split(' ')
     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
@@ -22,10 +24,8 @@ export function getImageTitle(filename: string): string {
 export function getGalleryCategories(): string[] {
   const galleryPath = path.join(process.cwd(), 'public', 'images', 'gallery');
   
-  // Check if directory exists
   if (!fs.existsSync(galleryPath)) {
     console.warn(`Gallery directory not found: ${galleryPath}`);
-    // Return default categories from data
     return galleryCategories.map(cat => cat.id);
   }
   
@@ -33,11 +33,9 @@ export function getGalleryCategories(): string[] {
     .filter(dirent => dirent.isDirectory())
     .map(dirent => dirent.name);
   
-  // Get defined categories
   const definedCategories = galleryCategories.map(cat => cat.id);
   const allCategories = [...new Set([...folders, ...definedCategories])];
   
-  // Sort categories by predefined order
   return allCategories.sort((a, b) => {
     const catA = galleryCategories.find(cat => cat.id === a);
     const catB = galleryCategories.find(cat => cat.id === b);
@@ -60,19 +58,18 @@ function loadImageMetadata(categoryPath: string): GalleryMetadata {
     try {
       const content = fs.readFileSync(metadataPath, 'utf-8');
       return JSON.parse(content);
-    } catch {
-      console.warn(`Failed to parse metadata.json in ${categoryPath}`);
+    } catch (error) {
+      console.warn(`Failed to parse metadata.json in ${categoryPath}:`, error);
     }
   }
   
   return {};
 }
 
-// Load all gallery images
+// Load all gallery images with validation
 export function loadGalleryImages(): GalleryImage[] {
   const galleryPath = path.join(process.cwd(), 'public', 'images', 'gallery');
   
-  // Check if directory exists
   if (!fs.existsSync(galleryPath)) {
     console.warn(`Gallery directory not found: ${galleryPath}`);
     return [];
@@ -80,48 +77,76 @@ export function loadGalleryImages(): GalleryImage[] {
   
   const categories = getGalleryCategories();
   const images: GalleryImage[] = [];
+  const usedIds = new Set<string>(); // Track used IDs to prevent duplicates
   
   categories.forEach(category => {
     const categoryPath = path.join(galleryPath, category);
     
-    // Skip if category folder doesn't exist
     if (!fs.existsSync(categoryPath)) {
       return;
     }
     
-    // Load metadata if exists
     const metadata = loadImageMetadata(categoryPath);
     
     const files = fs.readdirSync(categoryPath)
       .filter(file => /\.(jpg|jpeg|png|webp)$/i.test(file))
-      .sort(); // Basic alphabetical sort
+      .sort();
     
     files.forEach((file, index) => {
       const fileKey = file.replace(/\.[^/.]+$/, '');
-      const id = `${category}-${fileKey}`;
-      const imageMetadata = metadata[fileKey] || {};
       
-      // Use custom title from metadata or generate from filename
+      // Generate a guaranteed unique ID
+      let id = generateUniqueId(category, file, index);
+      
+      // Ensure the ID is truly unique
+      let counter = 0;
+      while (usedIds.has(id)) {
+        counter++;
+        id = `${generateUniqueId(category, file, index)}-${counter}`;
+        console.warn(`Duplicate ID detected, generated new ID: ${id}`);
+      }
+      
+      usedIds.add(id);
+      
+      const imageMetadata = metadata[fileKey] || {};
       const title = imageMetadata.title || getImageTitle(file);
       const src = `/images/gallery/${category}/${file}`;
       
-      images.push({
-        id,
-        category,
-        title,
-        src,
+      // Validate the image object
+      const image: GalleryImage = {
+        id: id, // Guaranteed unique
+        category: category || 'uncategorized',
+        title: title || 'Untitled',
+        src: src || '',
         description: imageMetadata.description,
         featured: imageMetadata.featured || false,
         order: imageMetadata.order ?? index,
         date: imageMetadata.date,
         tags: imageMetadata.tags
-      });
+      };
+      
+      // Only add if image has valid required fields
+      if (image.id && image.category && image.src) {
+        images.push(image);
+      } else {
+        console.error(`Invalid image data for file ${file}:`, image);
+      }
     });
   });
   
+  // Final validation - check for any remaining duplicates
+  const finalIds = new Set<string>();
+  const validImages = images.filter(img => {
+    if (!img.id || finalIds.has(img.id)) {
+      console.error(`Filtering out image with duplicate or missing ID: ${img.id}`);
+      return false;
+    }
+    finalIds.add(img.id);
+    return true;
+  });
+  
   // Sort images by category order, then featured, then custom order
-  return images.sort((a, b) => {
-    // First sort by category order
+  return validImages.sort((a, b) => {
     const catA = galleryCategories.find(cat => cat.id === a.category);
     const catB = galleryCategories.find(cat => cat.id === b.category);
     const catOrderA = catA?.order ?? 999;
@@ -131,12 +156,10 @@ export function loadGalleryImages(): GalleryImage[] {
       return catOrderA - catOrderB;
     }
     
-    // Within same category, featured first
     if (a.featured !== b.featured) {
       return a.featured ? -1 : 1;
     }
     
-    // Then by custom order
     return (a.order ?? 0) - (b.order ?? 0);
   });
 }
@@ -150,7 +173,6 @@ export function getFeaturedImages(limit?: number): GalleryImage[] {
     return featured.slice(0, limit);
   }
   
-  // If not enough featured images, add some regular ones
   if (limit && featured.length < limit) {
     const regularImages = allImages.filter(img => !img.featured);
     return [...featured, ...regularImages.slice(0, limit - featured.length)];
@@ -170,12 +192,10 @@ export function getImageCountByCategory(): Record<string, number> {
   const allImages = loadGalleryImages();
   const counts: Record<string, number> = {};
   
-  // Initialize with all categories
   galleryCategories.forEach(cat => {
     counts[cat.id] = 0;
   });
   
-  // Count images
   allImages.forEach(img => {
     counts[img.category] = (counts[img.category] || 0) + 1;
   });
@@ -187,7 +207,6 @@ export function getImageCountByCategory(): Record<string, number> {
 export function getRecentImages(limit: number = 6): GalleryImage[] {
   const allImages = loadGalleryImages();
   
-  // Filter images with dates and sort by date descending
   const imagesWithDates = allImages
     .filter(img => img.date)
     .sort((a, b) => {

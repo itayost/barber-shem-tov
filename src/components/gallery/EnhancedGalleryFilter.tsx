@@ -21,17 +21,21 @@ const EnhancedGalleryFilter: React.FC<EnhancedGalleryFilterProps> = ({
 }) => {
   const totalImages = Object.values(imageCounts).reduce((sum, count) => sum + count, 0);
 
-  // Convert categories to tab format
+  // Convert categories to tab format with unique IDs
   const tabs: Tab[] = [
     {
-      id: 'all',
+      id: 'all', // Unique ID
       label: 'הכל',
       count: totalImages
     },
     ...categories.map(category => ({
-      id: category.id,
+      id: category.id, // Ensure category IDs are unique
       label: category.label,
-      count: imageCounts[category.id] || 0
+      count: imageCounts[category.id] || 0,
+      // You can add icons based on category
+      icon: category.id === 'experience' ? '✨' : 
+            category.id === 'space' ? '🏢' : 
+            category.id === 'work' ? '💇' : undefined
     }))
   ];
 
@@ -43,7 +47,7 @@ const EnhancedGalleryFilter: React.FC<EnhancedGalleryFilterProps> = ({
 
   return (
     <>
-      {/* Filter description - separate from sticky container */}
+      {/* Filter description */}
       <div className="bg-charcoal pt-8 pb-4" dir="rtl">
         <div className="container mx-auto px-6">
           <motion.div 
@@ -68,14 +72,16 @@ const EnhancedGalleryFilter: React.FC<EnhancedGalleryFilterProps> = ({
       </div>
 
       {/* Sticky Tab Navigation */}
-      <div className="sticky top-16 z-20" dir="rtl">
+      <div className="sticky top-16 z-20 bg-charcoal" dir="rtl">
         <TabNavigation
           tabs={tabs}
           activeTab={currentActiveTab}
           onTabChange={handleTabChange}
-          sticky={false} // Set to false since we're handling sticky at parent level
+          variant="underline" // Clean filter style
           showCounts={true}
-          variant="compact"
+          fullWidth={true} // Spread across container
+          animated={true}
+          className="border-b border-lightgrey/20"
         />
       </div>
 
@@ -84,6 +90,7 @@ const EnhancedGalleryFilter: React.FC<EnhancedGalleryFilterProps> = ({
         <div className="bg-charcoal pb-4" dir="rtl">
           <div className="container mx-auto px-6">
             <motion.div
+              key={`desc-${activeCategory}`} // Unique key for description
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3 }}

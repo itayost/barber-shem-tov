@@ -1,23 +1,28 @@
-// src/app/academy/page.tsx - Interactive & Engaging Academy Page
+// src/app/academy/page.tsx - Step 1 & 2
 import Hero from '@/components/common/Hero';
-import AcademyTabsSection from '@/components/academy/AcademyTabsSection';
-import AcademyQuickActions from '@/components/academy/AcademyQuickActions';
-
+import AcademyStory from '@/components/academy/AcademyStory';
 
 export default function AcademyPage() {
   return (
     <>
+      {/* Step 1: Hero Section using common component */}
       <Hero
-        title={<>הסיפור <span className="text-gold">שלנו</span></>}
-        subtitle="מחלום למציאות"
+        title={
+          <>
+            האקדמיה שמכשירה
+            <br />
+            <span className="text-gold">את המקצוענים הבאים</span>
+          </>
+        }
+        subtitle="מאחורי הקלעים של The Fader"
         backgroundImage="/images/hero/academy-hero.jpg"
       />
       
-      {/* 2. Tabbed Content - Story, Results, Team */}
-      <AcademyTabsSection />
+      {/* Step 2: Our Story Section */}
+      <AcademyStory />
       
-      {/* 3. Quick Actions - Multiple ways to engage */}
-      <AcademyQuickActions />
+      {/* Step 3: Meet the Team - Coming Next */}
+      
     </>
   );
 }

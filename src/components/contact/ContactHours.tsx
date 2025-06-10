@@ -1,4 +1,4 @@
-// src/components/contact/ContactHours.tsx
+// src/components/contact/ContactHours.tsx - Styled Version
 'use client';
 
 import React from 'react';
@@ -29,7 +29,7 @@ const ContactHours: React.FC<ContactHoursProps> = ({ hours, todayStatus }) => {
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5 }}
-        className="bg-charcoal-light/30 border border-lightgrey/10 rounded-xl p-6"
+        className="bg-charcoal-light/50 border border-gold/10 p-6"
       >
         <h3 className="text-2xl font-bold text-gold mb-6 text-center">שעות פעילות</h3>
         
@@ -42,7 +42,7 @@ const ContactHours: React.FC<ContactHoursProps> = ({ hours, todayStatus }) => {
             return (
               <div
                 key={index}
-                className={`flex items-center justify-between p-3 rounded-lg transition-all ${
+                className={`flex items-center justify-between p-3 transition-all ${
                   isToday ? 'bg-gold/10 border border-gold/30' : ''
                 }`}
               >
@@ -58,9 +58,20 @@ const ContactHours: React.FC<ContactHoursProps> = ({ hours, todayStatus }) => {
         </div>
 
         {/* Current Status */}
-        <div className="mt-6 pt-6 border-t border-lightgrey/10">
+        <div className="mt-6 pt-6 border-t border-gold/10">
           <div className="flex items-center justify-center gap-3">
-            <div className={`w-3 h-3 rounded-full ${todayStatus.isOpen ? 'bg-green-400' : 'bg-red-400'} animate-pulse`} />
+            <motion.div 
+              className={`w-3 h-3 rounded-full ${todayStatus.isOpen ? 'bg-green-400' : 'bg-red-400'}`}
+              animate={{ 
+                scale: [1, 1.2, 1],
+                opacity: [1, 0.6, 1]
+              }}
+              transition={{ 
+                duration: 2,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            />
             <span className={`text-lg font-medium ${todayStatus.isOpen ? 'text-green-400' : 'text-red-400'}`}>
               {todayStatus.isOpen ? 'פתוח עכשיו' : 'סגור עכשיו'}
             </span>
@@ -82,40 +93,38 @@ const ContactHours: React.FC<ContactHoursProps> = ({ hours, todayStatus }) => {
         className="space-y-4"
       >
         {/* Best Times to Visit */}
-        <div className="bg-green-500/10 border border-green-500/30 rounded-xl p-6">
-          <h4 className="text-lg font-bold text-green-400 mb-3 flex items-center gap-2">
-            <span className="text-2xl">⏰</span>
+        <div className="bg-charcoal-light/50 border border-gold/10 p-6">
+          <h4 className="text-lg font-bold text-gold mb-3 flex items-center gap-2">
             השעות הטובות ביותר לביקור
           </h4>
           <ul className="space-y-2 text-lightgrey">
             <li className="flex items-start gap-2">
-              <span className="text-green-400 mt-0.5">•</span>
+              <span className="text-gold mt-0.5">✓</span>
               <span>בוקר מוקדם (9:00-11:00) - פחות עומס</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-green-400 mt-0.5">•</span>
+              <span className="text-gold mt-0.5">✓</span>
               <span>אחר הצהריים (14:00-16:00) - זמן אידיאלי לייעוץ</span>
             </li>
           </ul>
         </div>
 
         {/* Special Notes */}
-        <div className="bg-blue-500/10 border border-blue-500/30 rounded-xl p-6">
-          <h4 className="text-lg font-bold text-blue-400 mb-3 flex items-center gap-2">
-            <span className="text-2xl">📌</span>
+        <div className="bg-charcoal-light/50 border border-gold/10 p-6">
+          <h4 className="text-lg font-bold text-gold mb-3 flex items-center gap-2">
             שימו לב
           </h4>
           <ul className="space-y-2 text-lightgrey">
             <li className="flex items-start gap-2">
-              <span className="text-blue-400 mt-0.5">•</span>
+              <span className="text-gold mt-0.5">•</span>
               <span>בימי שישי מומלץ לתאם מראש</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-blue-400 mt-0.5">•</span>
+              <span className="text-gold mt-0.5">•</span>
               <span>שעות הקורסים עשויות להשתנות</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-blue-400 mt-0.5">•</span>
+              <span className="text-gold mt-0.5">•</span>
               <span>ניתן לקבוע פגישות מחוץ לשעות הפעילות</span>
             </li>
           </ul>

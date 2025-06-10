@@ -1,8 +1,10 @@
-// File: src/components/common/Footer.tsx
+// src/components/common/Footer.tsx - Updated with Icon System
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { academyInfo } from '@/lib/data';
+import SocialLinks from '@/components/navigation/SocialLinks';
+import { LocationIcon, PhoneIcon, EmailIcon } from '@/components/icons';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -27,43 +29,13 @@ const Footer = () => {
             <p className="text-lightgrey mb-4" style={{ lineHeight: 'var(--hebrew-line-height)' }}>
               האקדמיה המובילה לאמנות הספרות בישראל. מאז {academyInfo.established} אנו מכשירים את דור העתיד של הספרים המקצועיים.
             </p>
-            <div className="flex space-x-reverse space-x-4">
-              {academyInfo.social.instagram && (
-                <a 
-                  href={academyInfo.social.instagram}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-lightgrey hover:text-gold transition-colors duration-200"
-                  aria-label="אינסטגרם"
-                >
-                  <Image src="/icons/Instagram.svg" alt="Instagram" width={20} height={20} className="w-5 h-5" />
-                </a>
-              )}
-              
-              {academyInfo.social.facebook && (
-                <a 
-                  href={academyInfo.social.facebook}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-lightgrey hover:text-gold transition-colors duration-200"
-                  aria-label="פייסבוק"
-                >
-                  <Image src="/icons/Facebook.svg" alt="Facebook" width={20} height={20} className="w-5 h-5" />
-                </a>
-              )}
-              
-              {academyInfo.social.tiktok && (
-                <a 
-                  href={academyInfo.social.tiktok}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-lightgrey hover:text-gold transition-colors duration-200"
-                  aria-label="טיקטוק"
-                >
-                  <Image src="/icons/Tiktok.svg" alt="Tiktok" width={20} height={20} className="w-5 h-5" />
-                </a>
-              )}
-            </div>
+            {/* Social Links using the component */}
+            <SocialLinks 
+              social={academyInfo.social} 
+              variant="minimal"
+              size="medium"
+              color="gold"
+            />
           </div>
           
           {/* Quick Links */}
@@ -71,7 +43,7 @@ const Footer = () => {
             <h3 className="font-heebo text-h4 mb-4 text-gold">ניווט מהיר</h3>
             <ul className="space-y-2">
               <li>
-                <Link href="./" className="text-lightgrey hover:text-gold transition-colors duration-200 block py-1">
+                <Link href="/" className="text-lightgrey hover:text-gold transition-colors duration-200 block py-1">
                   דף הבית
                 </Link>
               </li>
@@ -90,6 +62,11 @@ const Footer = () => {
                   קורסים
                 </Link>
               </li>
+              <li>
+                <Link href="/apply" className="text-lightgrey hover:text-gold transition-colors duration-200 block py-1 font-medium">
+                  הרשמה מהירה
+                </Link>
+              </li>
             </ul>
           </div>
           
@@ -97,33 +74,28 @@ const Footer = () => {
           <div>
             <h3 className="font-heebo text-h4 mb-4 text-gold">צור קשר</h3>
             <ul className="space-y-3">
-              <li className="flex items-start">
+              <li className="flex items-start group">
                 <span className="text-gold ml-2 flex-shrink-0">
-                  <svg className="w-5 h-5 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-                  </svg>
+                  <LocationIcon size={20} className="mt-0.5" />
                 </span>
-                <span className="text-lightgrey">{academyInfo.address}</span>
+                <span className="text-lightgrey group-hover:text-gold transition-colors">
+                  {academyInfo.address}
+                </span>
               </li>
-              <li className="flex items-start">
+              <li className="flex items-start group">
                 <span className="text-gold ml-2 flex-shrink-0">
-                  <svg className="w-5 h-5 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
-                  </svg>
+                  <PhoneIcon size={20} className="mt-0.5" />
                 </span>
                 <a 
                   href={`tel:${academyInfo.phone}`}
-                  className="text-lightgrey hover:text-gold transition-colors duration-200"
+                  className="text-lightgrey hover:text-gold transition-colors duration-200 hebrew-nums"
                 >
                   {academyInfo.phone}
                 </a>
               </li>
-              <li className="flex items-start">
+              <li className="flex items-start group">
                 <span className="text-gold ml-2 flex-shrink-0">
-                  <svg className="w-5 h-5 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                  </svg>
+                  <EmailIcon size={20} className="mt-0.5" />
                 </span>
                 <a 
                   href={`mailto:${academyInfo.email}`}
@@ -164,16 +136,16 @@ const Footer = () => {
             </div>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link
-                href="/academy"
+                href="/apply"
                 className="btn-primary text-center px-6 py-3 inline-block"
               >
                 הרשמה לקורסים
               </Link>
               <Link
-                href="/contact"
+                href="/courses"
                 className="btn-secondary text-center px-6 py-3 inline-block"
               >
-                ייעוץ אישי
+                הקורסים שלנו
               </Link>
             </div>
           </div>

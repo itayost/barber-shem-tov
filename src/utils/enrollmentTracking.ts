@@ -5,6 +5,21 @@
  * Tracks user interactions with enrollment CTAs
  */
 
+declare global {
+  interface Window {
+    gtag?: (
+      command: 'config' | 'event' | 'js' | 'set',
+      targetId: string,
+      config?: Record<string, unknown>
+    ) => void;
+    fbq?: (
+      command: 'track' | 'trackCustom' | 'init' | 'pageView',
+      event: string,
+      parameters?: Record<string, unknown>
+    ) => void;
+  }
+}
+
 export type EnrollmentMethod = 'whatsapp' | 'phone' | 'form' | 'float_whatsapp' | 'float_phone' | 'float_form';
 export type EnrollmentSource = 'course_card' | 'course_page' | 'contact_page' | 'float_button' | 'academy_page';
 
@@ -105,8 +120,8 @@ class EnrollmentTracker {
    */
   private sendToAnalytics(event: EnrollmentEvent) {
     // Google Analytics 4
-    if (typeof window !== 'undefined' && (window as any).gtag) {
-      (window as any).gtag('event', 'enrollment_interaction', {
+    if (typeof window !== 'undefined' && window.gtag) {
+      window.gtag('event', 'enrollment_interaction', {
         method: event.method,
         source: event.source,
         course_name: event.courseName,
@@ -115,8 +130,8 @@ class EnrollmentTracker {
     }
 
     // Facebook Pixel
-    if (typeof window !== 'undefined' && (window as any).fbq) {
-      (window as any).fbq('track', 'InitiateCheckout', {
+    if (typeof window !== 'undefined' && window.fbq) {
+      window.fbq('track', 'InitiateCheckout', {
         content_name: event.courseName,
         value: event.coursePrice,
         currency: 'ILS',

@@ -3,7 +3,7 @@
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { useState } from 'react';
-import { motion, useSpring } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { NavItem } from '@/config/navigation';
 
 interface CallToAction {
@@ -24,32 +24,6 @@ const LUXURY_EASING = [0.25, 0.1, 0.25, 1];
 const DesktopNav = ({ navItems, callToAction }: DesktopNavProps) => {
   const pathname = usePathname();
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
-  const [magneticPos, setMagneticPos] = useState({ x: 0, y: 0 });
-  
-  // Spring animation for magnetic effect
-  const springX = useSpring(0, LUXURY_SPRING);
-  const springY = useSpring(0, LUXURY_SPRING);
-  
-  // Handle magnetic hover effect
-  const handleMouseMove = (e: React.MouseEvent<HTMLAnchorElement>, path: string) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-    
-    const deltaX = (e.clientX - centerX) * 0.1;
-    const deltaY = (e.clientY - centerY) * 0.1;
-    
-    springX.set(deltaX);
-    springY.set(deltaY);
-    setMagneticPos({ x: deltaX, y: deltaY });
-  };
-  
-  const handleMouseLeave = () => {
-    springX.set(0);
-    springY.set(0);
-    setMagneticPos({ x: 0, y: 0 });
-    setHoveredItem(null);
-  };
   
   // Return Fragment to let parent control layout and visibility
   return (
@@ -71,64 +45,55 @@ const DesktopNav = ({ navItems, callToAction }: DesktopNavProps) => {
               }}
               transition={LUXURY_SPRING}
             >
-              <motion.div
-                animate={{
-                  x: isHovered ? magneticPos.x : 0,
-                  y: isHovered ? magneticPos.y : 0
-                }}
-                transition={{ type: "spring", ...LUXURY_SPRING }}
+              <Link 
+                href={item.path}
+                className={`nav-link ${isActive ? 'active' : ''} relative group`}
+                aria-current={isActive ? 'page' : undefined}
+                onMouseEnter={() => setHoveredItem(item.path)}
+                onMouseLeave={() => setHoveredItem(null)}
               >
-                <Link 
-                  href={item.path}
-                  className={`nav-link ${isActive ? 'active' : ''} relative group`}
-                  aria-current={isActive ? 'page' : undefined}
-                  onMouseEnter={() => setHoveredItem(item.path)}
-                  onMouseMove={(e) => handleMouseMove(e, item.path)}
-                  onMouseLeave={handleMouseLeave}
-                >
-                  {/* Text with fade effect */}
-                  <span className="relative z-10 transition-colors duration-300">
-                    {item.name}
-                  </span>
-                  
-                  {/* Badge if exists */}
-                  {item.badge && (
-                    <motion.span 
-                      className="badge badge-gold text-xs mr-2"
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      transition={{ type: "spring", stiffness: 500 }}
-                    >
-                      {item.badge}
-                    </motion.span>
-                  )}
-                  
-                  {/* Progressive underline */}
+                {/* Text with fade effect */}
+                <span className="relative z-10 transition-colors duration-300">
+                  {item.name}
+                </span>
+                
+                {/* Badge if exists */}
+                {item.badge && (
+                  <motion.span 
+                    className="badge badge-gold text-xs mr-2"
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ type: "spring", stiffness: 500 }}
+                  >
+                    {item.badge}
+                  </motion.span>
+                )}
+                
+                {/* Progressive underline */}
+                <motion.span
+                  className="absolute bottom-0 left-0 h-[2px] bg-gold origin-left"
+                  initial={{ scaleX: 0 }}
+                  animate={{ 
+                    scaleX: isActive ? 1 : isHovered ? 0.7 : 0,
+                    opacity: isActive ? 1 : isHovered ? 0.8 : 0
+                  }}
+                  transition={{
+                    duration: 0.4,
+                    ease: LUXURY_EASING
+                  }}
+                />
+                
+                {/* Glow effect on hover */}
+                {isHovered && !isActive && (
                   <motion.span
-                    className="absolute bottom-0 left-0 h-[2px] bg-gold origin-left"
-                    initial={{ scaleX: 0 }}
-                    animate={{ 
-                      scaleX: isActive ? 1 : isHovered ? 0.7 : 0,
-                      opacity: isActive ? 1 : isHovered ? 0.8 : 0
-                    }}
-                    transition={{
-                      duration: 0.4,
-                      ease: LUXURY_EASING
-                    }}
+                    className="absolute inset-0 bg-gold/5 blur-xl -z-10"
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1.2 }}
+                    exit={{ opacity: 0, scale: 0.8 }}
+                    transition={{ duration: 0.3 }}
                   />
-                  
-                  {/* Glow effect on hover */}
-                  {isHovered && !isActive && (
-                    <motion.span
-                      className="absolute inset-0 bg-gold/5 blur-xl -z-10"
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1.2 }}
-                      exit={{ opacity: 0, scale: 0.8 }}
-                      transition={{ duration: 0.3 }}
-                    />
-                  )}
-                </Link>
-              </motion.div>
+                )}
+              </Link>
             </motion.div>
           );
         })}

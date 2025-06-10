@@ -22,12 +22,7 @@ interface AcademyEnrollmentFormProps {
   setInquiryType: (type: 'course' | 'info') => void;
 }
 
-const AcademyEnrollmentForm: React.FC<AcademyEnrollmentFormProps> = ({ 
-  courses, 
-  academyInfo, 
-  initialCourse = '',
-  inquiryType,
-  setInquiryType
+const AcademyEnrollmentForm: React.FC<AcademyEnrollmentFormProps> = ({
 }) => {
   // Simplified form state - only 4 fields
   const [formData, setFormData] = useState({

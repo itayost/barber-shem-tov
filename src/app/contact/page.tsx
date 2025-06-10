@@ -10,13 +10,14 @@ import { academyInfo, courses } from '@/lib/data';
 import AcademyContactInfo from '@/components/contact/AcademyContactInfo';
 import AcademyEnrollmentForm from '@/components/contact/AcademyEnrollmentForm';
 import Hero from '@/components/common/Hero';
+import { Course } from '@/types';
 
 // Client component that uses useSearchParams
 function ContactContent() {
   const searchParams = useSearchParams();
   const [initialCourse, setInitialCourse] = useState<string>('');
   const [inquiryType, setInquiryType] = useState<'course' | 'info'>('info');
-  const [selectedCourse, setSelectedCourse] = useState<any>(null);
+  const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
   
   // Update initial course and inquiry type if provided in URL params
   useEffect(() => {
@@ -78,12 +79,6 @@ function ContactContent() {
                     <span className="text-gold">⏱️</span>
                     {selectedCourse.duration_he}
                   </span>
-                  {selectedCourse.nextSession && (
-                    <span className="flex items-center gap-1">
-                      <span className="text-gold">📅</span>
-                      מחזור הבא: {selectedCourse.nextSession}
-                    </span>
-                  )}
                 </div>
               </div>
               

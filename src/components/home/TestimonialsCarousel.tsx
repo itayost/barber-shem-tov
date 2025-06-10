@@ -1,10 +1,22 @@
 // components/home/TestimonialsCarousel.tsx
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence, PanInfo } from 'framer-motion';
 import Image from 'next/image';
 import { academyTestimonials } from '@/lib/data';
+
+// Add the Testimonial type import or define it
+interface Testimonial {
+  id: number;
+  name: string;
+  text: string;
+  rating: number;
+  course: string;
+  instructor: string;
+  image: string;
+  year: number;
+}
 
 const TestimonialsCarousel: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -14,12 +26,18 @@ const TestimonialsCarousel: React.FC = () => {
 
   const testimonials = academyTestimonials;
 
-  // Auto-play functionality
+  // Define handleNext BEFORE useEffect
+  const handleNext = useCallback(() => {
+    setDirection(1);
+    setCurrentIndex((prev) => (prev + 1) % testimonials.length);
+  }, [testimonials.length]);
+
+  // Now useEffect can use handleNext
   useEffect(() => {
     if (!isPaused) {
       intervalRef.current = setInterval(() => {
         handleNext();
-      }, 6000); // Slower for better reading
+      }, 6000);
     }
 
     return () => {
@@ -27,19 +45,14 @@ const TestimonialsCarousel: React.FC = () => {
         clearInterval(intervalRef.current);
       }
     };
-  }, [currentIndex, isPaused]);
-
-  const handleNext = () => {
-    setDirection(1);
-    setCurrentIndex((prev) => (prev + 1) % testimonials.length);
-  };
+  }, [currentIndex, isPaused, handleNext]);
 
   const handlePrev = () => {
     setDirection(-1);
     setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
   };
 
-  const handleDragEnd = (event: any, info: PanInfo) => {
+const handleDragEnd = (event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
     const threshold = 50;
     if (info.offset.x > threshold) {
       handlePrev();
@@ -198,7 +211,7 @@ const TestimonialsCarousel: React.FC = () => {
 };
 
 // Mobile-optimized testimonial slide
-const MobileOptimizedSlide: React.FC<{ testimonial: any }> = ({ testimonial }) => {
+const MobileOptimizedSlide: React.FC<{ testimonial: Testimonial }> = ({ testimonial }) => {
   const [imageError, setImageError] = useState(false);
 
   return (

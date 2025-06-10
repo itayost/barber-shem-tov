@@ -2,7 +2,7 @@
 'use client';
 
 import { useState, useEffect, useCallback, lazy, Suspense } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion } from 'framer-motion';
 import Logo from './Logo';
 import DesktopNav from './DesktopNav';
 import MobileMenuButton from './MobileMenuButton';
@@ -19,7 +19,6 @@ const LUXURY_SPRING = { type: "spring", stiffness: 260, damping: 30 };
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [lastScrollY, setLastScrollY] = useState(0);
   const [isCompact, setIsCompact] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
   
@@ -34,10 +33,6 @@ const Navbar = () => {
     return () => window.removeEventListener('resize', checkDesktop);
   }, []);
   
-  // Framer Motion scroll progress
-  const { scrollY } = useScroll();
-  const navbarOpacity = useTransform(scrollY, [0, 50], [0.95, 1]);
-  const navbarBlur = useTransform(scrollY, [0, 100], [10, 20]);
   
   // Enhanced scroll handler with multiple thresholds
   useEffect(() => {
@@ -56,7 +51,6 @@ const Navbar = () => {
         setIsCompact(currentScrollY > 300 && scrollDelta > 0); // Hide on scroll down
         
         // Update states
-        setLastScrollY(currentScrollY);
         prevScrollY = currentScrollY;
       });
     };

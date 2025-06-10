@@ -7,7 +7,6 @@ export { default as Logo } from './Logo';
 export { default as DesktopNav } from './DesktopNav';
 export { default as MobileMenuButton } from './MobileMenuButton';
 export { default as SocialLinks } from './SocialLinks';
-export { default as MobileMiniNav } from './MobileMiniNav';
 
 // Mobile menu components
 export { default as MobileMenu } from './MobileMenu';

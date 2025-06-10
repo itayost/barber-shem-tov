@@ -11,7 +11,7 @@ import QuickEnrollFloat from '@/components/common/QuickEnrollFloat';
 
 
 const CoursesPage = () => {
-  const [activeFilter, setActiveFilter] = useState<'all' | 'beginner' | 'advanced'>('all');
+  const [activeFilter] = useState<'all' | 'beginner' | 'advanced'>('all');
 
   return (
     <main className="bg-charcoal">

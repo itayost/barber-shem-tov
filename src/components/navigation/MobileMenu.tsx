@@ -25,7 +25,6 @@ interface MobileMenuProps {
 
 // Luxury animation constants
 const LUXURY_EASING = [0.25, 0.1, 0.25, 1];
-const LUXURY_SPRING = { type: "spring", stiffness: 400, damping: 30 };
 
 const MobileMenu: React.FC<MobileMenuProps> = ({ 
   isOpen, 

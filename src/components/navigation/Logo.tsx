@@ -1,6 +1,6 @@
 'use client';
 
-import { motion, useSpring, useTransform } from 'framer-motion';
+import { motion, useSpring } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState } from 'react';
@@ -25,20 +25,6 @@ const Logo = ({ isScrolled, src, alt, href = "/" }: LogoProps) => {
   const brightness = useSpring(1, { stiffness: 400, damping: 30 });
   
   // Animation variants based on scroll state
-  const logoVariants = {
-    normal: { 
-      scale: 1,
-      filter: 'brightness(1) contrast(1)'
-    },
-    scrolled: { 
-      scale: 0.9,
-      filter: 'brightness(1.1) contrast(1.05)'
-    },
-    hover: {
-      scale: 1.02,
-      filter: 'brightness(1.15) contrast(1.1)'
-    }
-  };
   
   return (
     <motion.div 

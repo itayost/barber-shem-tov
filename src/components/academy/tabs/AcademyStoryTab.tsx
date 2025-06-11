@@ -1,4 +1,4 @@
-// src/components/academy/tabs/AcademyStoryTab.tsx - Luxury Fashion Editorial
+// src/components/academy/tabs/AcademyStoryTab.tsx - Optimized Performance
 'use client';
 
 import React from 'react';
@@ -39,7 +39,7 @@ const AcademyStoryTab: React.FC = () => {
     }
   ];
 
-  // Create carousel slides with editorial design
+  // Create carousel slides with simplified animations
   const editorialSlides = chapters.map((chapter, index) => (
     <div key={index} className="relative h-[80vh] min-h-[600px]">
       {/* Full Height Editorial Image */}
@@ -50,6 +50,7 @@ const AcademyStoryTab: React.FC = () => {
           fill
           className="object-cover"
           quality={90}
+          priority={index === 0} // Only prioritize first image
           onError={(e) => {
             const target = e.target as HTMLImageElement;
             target.style.display = 'none';
@@ -66,15 +67,10 @@ const AcademyStoryTab: React.FC = () => {
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
       </div>
 
-      {/* Editorial Content */}
+      {/* Editorial Content - Removed individual motion animations */}
       <div className="relative h-full flex items-end">
         <div className="w-full p-8 md:p-16 lg:p-24">
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1] }}
-            className="max-w-4xl"
-          >
+          <div className="max-w-4xl">
             {/* Chapter Number - Fashion Magazine Style */}
             <div className="flex items-baseline gap-4 mb-8">
               <span className="text-[80px] md:text-[120px] font-serif leading-none text-gold/20">
@@ -103,7 +99,7 @@ const AcademyStoryTab: React.FC = () => {
             <p className="text-sm md:text-base italic text-gold/80 font-light">
               {chapter.quote}
             </p>
-          </motion.div>
+          </div>
         </div>
       </div>
     </div>
@@ -128,13 +124,13 @@ const AcademyStoryTab: React.FC = () => {
       <section className="relative py-24 md:py-32 bg-black">
         <div className="max-w-6xl mx-auto px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            {/* Portrait - Fashion Editorial */}
+            {/* Portrait - Fashion Editorial with simple animation */}
             <motion.div 
               className="relative"
-              initial={{ opacity: 0, x: -50 }}
+              initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 1 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
             >
               <div className="relative aspect-[3/4] max-w-md mx-auto">
                 <Image
@@ -143,6 +139,7 @@ const AcademyStoryTab: React.FC = () => {
                   fill
                   className="object-cover grayscale"
                   quality={90}
+                  loading="lazy" // Lazy load this image
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
                     target.style.display = 'none';
@@ -161,24 +158,30 @@ const AcademyStoryTab: React.FC = () => {
               </div>
             </motion.div>
 
-            {/* Quote - Minimalist Luxury */}
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
+            {/* Quote - Minimalist Luxury with simple animation */}
+            <motion.div 
+              className="space-y-8"
+              initial={{ opacity: 0, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 1 }}
-              className="space-y-8"
+              transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
             >
               <div>
                 <p className="text-xs tracking-[0.5em] text-gold mb-8">
                   
                 </p>
                 
-                <h3 className="text-4xl md:text-5xl font-thin text-offwhite mb-8 leading-tight">
+                <motion.h3 
+                  className="text-4xl md:text-5xl font-thin text-offwhite mb-8 leading-tight"
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: 0.3 }}
+                >
                   &ldquo;אמנות היא לא מה שאתה עושה,
                   <br />
                   <span className="text-gold">אלא איך אתה גורם למישהו להרגיש&rdquo;</span>
-                </h3>
+                </motion.h3>
                 
                 <p className="text-lg font-light text-lightgrey/80 leading-relaxed">
                   שבע שנים חלפו מאז פתחתי את הדלתות לראשונה. 
@@ -200,12 +203,13 @@ const AcademyStoryTab: React.FC = () => {
         </div>
       </section>
 
-      {/* Future Vision - Minimalist Luxury */}
+      {/* Future Vision - Minimalist Luxury (simple fade-in only) */}
       <section className="py-24 md:py-32 bg-black text-center">
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
+          transition={{ duration: 0.6 }} // Simple fade
           className="max-w-4xl mx-auto px-8"
         >
           <p className="text-xs tracking-[0.5em] text-gold mb-8">

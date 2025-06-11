@@ -751,3 +751,8 @@
   }
 }
 
+/* Safe GPU Acceleration */
+.gpu-accelerated {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}

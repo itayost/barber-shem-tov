@@ -1,28 +1,30 @@
-// src/components/navigation/Navbar.tsx - Fixed version without compact state
+// src/components/navigation/Navbar.tsx - Fixed animation flashing
 'use client';
 
 import { useState, useEffect, useCallback, lazy, Suspense } from 'react';
-import { motion } from 'framer-motion';
 import Logo from './Logo';
 import DesktopNav from './DesktopNav';
 import MobileMenuButton from './MobileMenuButton';
 import { academyInfo } from '@/lib/data';
 import { navigationConfig } from '@/config/navigation';
 
-// Lazy load mobile menu for better initial page load
 const MobileMenu = lazy(() => import('./MobileMenu'));
-
-// Luxury easing curves
-const LUXURY_EASING = [0.25, 0.1, 0.25, 1];
-const LUXURY_SPRING = { type: "spring", stiffness: 260, damping: 30 };
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isDesktop, setIsDesktop] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(true); // Default to true to prevent flash
+  const [mounted, setMounted] = useState(false);
   
-  // Check if desktop
+  // Set mounted state
   useEffect(() => {
+    setMounted(true);
+  }, []);
+  
+  // Check if desktop after mount
+  useEffect(() => {
+    if (!mounted) return;
+    
     const checkDesktop = () => {
       setIsDesktop(window.innerWidth >= 768);
     };
@@ -30,10 +32,12 @@ const Navbar = () => {
     checkDesktop();
     window.addEventListener('resize', checkDesktop);
     return () => window.removeEventListener('resize', checkDesktop);
-  }, []);
+  }, [mounted]);
   
-  // Simple scroll handler - only checks if scrolled or not
+  // Scroll handler
   useEffect(() => {
+    if (!mounted) return;
+    
     let rafId: number;
     
     const handleScroll = () => {
@@ -41,22 +45,21 @@ const Navbar = () => {
       
       rafId = requestAnimationFrame(() => {
         const currentScrollY = window.scrollY;
-        
-        // Simple scroll state - scrolled or not
         setIsScrolled(currentScrollY > 50);
       });
     };
     
+    // Check initial scroll position
+    handleScroll();
+    
     window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll(); // Initial call
     
     return () => {
       if (rafId) cancelAnimationFrame(rafId);
       window.removeEventListener('scroll', handleScroll);
     };
-  }, []);
+  }, [mounted]);
   
-  // Memoized callbacks
   const toggleMobileMenu = useCallback(() => {
     setIsMobileMenuOpen(prev => !prev);
   }, []);
@@ -65,111 +68,94 @@ const Navbar = () => {
     setIsMobileMenuOpen(false);
   }, []);
   
-  // Simple navbar classes - no compact state
+  // Prevent flash by not animating initial state
   const navbarClasses = `navbar ${isScrolled ? 'navbar-scrolled' : 'navbar-transparent'}`;
   
   return (
     <>
-      {/* Enhanced Navbar with Motion */}
-      <motion.header 
+      <header 
         className={navbarClasses}
         dir="rtl"
-        initial={{ y: -100 }}
-        animate={{ 
-          y: 0,
-          height: isScrolled ? 70 : 80
-        }}
-        transition={{
-          ease: LUXURY_EASING,
-          duration: 0.4
-        }}
         style={{
-          // Dynamic backdrop filter for luxury glass effect
+          height: isScrolled ? 70 : 80,
+          transition: mounted ? 'all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1)' : 'none',
           backdropFilter: `blur(${isScrolled ? 20 : 10}px)`,
           WebkitBackdropFilter: `blur(${isScrolled ? 20 : 10}px)`,
         }}
       >
-        {/* Subtle gradient overlay */}
-        <motion.div 
+        {/* Gradient overlay */}
+        <div 
           className="absolute inset-0 bg-gradient-to-b from-charcoal/60 to-transparent pointer-events-none"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: isScrolled ? 0.8 : 0.4 }}
-          transition={{ duration: 0.6, ease: LUXURY_EASING }}
+          style={{
+            opacity: isScrolled ? 0.8 : 0.4,
+            transition: mounted ? 'opacity 0.6s ease' : 'none'
+          }}
         />
         
-        {/* Container with refined animations */}
-        <motion.div 
-          className="navbar-container relative z-10"
-          animate={{
-            padding: '0 1.5rem'
-          }}
-          transition={{ ease: LUXURY_EASING, duration: 0.3 }}
-        >
-          {/* Logo with scale animation */}
-          <motion.div
-            animate={{ scale: isScrolled ? 0.9 : 1 }}
-            transition={LUXURY_SPRING}
+        {/* Container */}
+        <div className="navbar-container relative z-10">
+          {/* Logo */}
+          <div
+            style={{
+              transform: `scale(${isScrolled ? 0.9 : 1})`,
+              transition: mounted ? 'transform 0.3s ease' : 'none'
+            }}
           >
             <Logo 
               isScrolled={isScrolled} 
               src="/images/logos/logo.png" 
               alt={academyInfo.shortName} 
             />
-          </motion.div>
+          </div>
           
-          {/* Desktop Navigation - Conditionally rendered */}
-          {isDesktop && (
-            <motion.div
-              className="flex items-center gap-8"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.2, ease: LUXURY_EASING }}
-            >
-              <DesktopNav 
-                navItems={navigationConfig.mainItems}
-                callToAction={{
-                  text: navigationConfig.quickActions.primary.text,
-                  href: navigationConfig.quickActions.primary.href,
-                  className: "btn-primary luxury-shine"
-                }}
-              />
-            </motion.div>
+          {/* Navigation - No animation on initial render */}
+          {mounted && (
+            <>
+              {/* Desktop Navigation */}
+              <div className={`items-center gap-8 ${isDesktop ? 'flex' : 'hidden'}`}>
+                <DesktopNav 
+                  navItems={navigationConfig.mainItems}
+                  callToAction={{
+                    text: navigationConfig.quickActions.primary.text,
+                    href: navigationConfig.quickActions.primary.href,
+                    className: "btn-primary"
+                  }}
+                />
+              </div>
+              
+              {/* Mobile Menu Button */}
+              <div className={isDesktop ? 'hidden' : 'block'}>
+                <MobileMenuButton 
+                  isOpen={isMobileMenuOpen} 
+                  onClick={toggleMobileMenu}
+                />
+              </div>
+            </>
           )}
-          
-          {/* Mobile Menu Button - Always visible on mobile */}
-          {!isDesktop && (
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              transition={LUXURY_SPRING}
-            >
-              <MobileMenuButton 
-                isOpen={isMobileMenuOpen} 
-                onClick={toggleMobileMenu}
-              />
-            </motion.div>
-          )}
-        </motion.div>
+        </div>
         
-        {/* Bottom border with animated width */}
-        <motion.div 
+        {/* Bottom border */}
+        <div 
           className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/30 to-transparent"
-          initial={{ scaleX: 0 }}
-          animate={{ scaleX: isScrolled ? 1 : 0 }}
-          transition={{ duration: 0.6, ease: LUXURY_EASING }}
+          style={{
+            transform: `scaleX(${isScrolled ? 1 : 0})`,
+            transition: mounted ? 'transform 0.6s ease' : 'none'
+          }}
         />
-      </motion.header>
+      </header>
 
-      {/* Mobile Menu - Rendered OUTSIDE the navbar */}
-      <Suspense fallback={null}>
-        <MobileMenu 
-          isOpen={isMobileMenuOpen} 
-          onClose={closeMobileMenu}
-          academyInfo={academyInfo}
-          navItems={navigationConfig.mainItems}
-          id="mobile-menu"
-        />
-      </Suspense>
+      {/* Mobile Menu */}
+      {mounted && (
+        <Suspense fallback={null}>
+          <MobileMenu 
+            isOpen={isMobileMenuOpen} 
+            onClose={closeMobileMenu}
+            academyInfo={academyInfo}
+            navItems={navigationConfig.mainItems}
+            id="mobile-menu"
+          />
+        </Suspense>
+      )}
     </>
   );
 };

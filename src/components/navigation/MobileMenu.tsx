@@ -1,4 +1,4 @@
-// src/components/navigation/MobileMenu.tsx - Enhanced Version
+// src/components/navigation/MobileMenu.tsx - Fixed animation flashing
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
@@ -9,7 +9,6 @@ import { useViewportSize } from '@/hooks/useViewportSize';
 import { AcademyInfo } from '@/types';
 import { NavItem, navigationConfig } from '@/config/navigation';
 
-// Import all the sub-components
 import MobileMenuHeader from './mobile/MobileMenuHeader';
 import MobileMenuNav from './mobile/MobileMenuNav';
 import MobileMenuActions from './mobile/MobileMenuActions';
@@ -22,9 +21,6 @@ interface MobileMenuProps {
   navItems?: NavItem[];
   id?: string;
 }
-
-// Luxury animation constants
-const LUXURY_EASING = [0.25, 0.1, 0.25, 1];
 
 const MobileMenu: React.FC<MobileMenuProps> = ({ 
   isOpen, 
@@ -86,42 +82,45 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
     };
   }, [isOpen]);
 
-  // Handle navigation item click
+  // Handle navigation
   const handleNavItemClick = (index: number, e: React.MouseEvent) => {
     e.preventDefault();
     const item = navItems[index];
     if (item) {
-      window.location.href = item.path;
       onClose();
+      // Small delay to allow close animation
+      setTimeout(() => {
+        window.location.href = item.path;
+      }, 200);
     }
   };
 
   const menuContent = (
-    <AnimatePresence>
+    <AnimatePresence mode="wait">
       {isOpen && (
         <div className="md:hidden">
-          {/* Enhanced Backdrop */}
+          {/* Backdrop */}
           <motion.div
             className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-md"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.2 }}
             onClick={onClose}
           />
 
-          {/* Enhanced Bottom Sheet Style Menu */}
+          {/* Bottom Sheet */}
           <motion.div
             ref={menuRef}
             id={id}
-            className="menu-bottom-sheet fixed inset-x-0 bottom-0 z-[101] bg-charcoal rounded-t-3xl shadow-2xl max-h-[85vh] overflow-hidden gpu-accelerated touch-manipulation"
+            className="menu-bottom-sheet fixed inset-x-0 bottom-0 z-[101] bg-charcoal rounded-t-3xl shadow-2xl max-h-[85vh] overflow-hidden"
             initial={{ y: '100%' }}
             animate={{ y: 0 }}
             exit={{ y: '100%' }}
             transition={{ 
-              type: 'tween',
-              duration: 0.4,
-              ease: LUXURY_EASING
+              type: 'spring',
+              damping: 30,
+              stiffness: 300
             }}
             style={{ opacity }}
             drag="y"
@@ -144,7 +143,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
 
             {/* Scrollable Content */}
             <div className="menu-scroll-container overflow-y-auto max-h-[calc(85vh-3rem)] pb-safe">
-              {/* Enhanced Header */}
+              {/* Header */}
               <MobileMenuHeader
                 logo={{
                   src: '/images/logos/logo.png',
@@ -156,7 +155,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
                 onClose={onClose}
               />
 
-              {/* Content Container */}
+              {/* Content */}
               <div className="px-6 py-6 space-y-6">
                 {/* Navigation */}
                 <div>
@@ -179,7 +178,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
                   isCompact={isCompact}
                 />
 
-                {/* Footer with Stats and Social */}
+                {/* Footer */}
                 <MobileMenuFooter
                   stats={academyInfo.stats}
                   contact={{

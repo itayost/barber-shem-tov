@@ -633,6 +633,48 @@
   display: none;
 }
 
+/* Animation delays for staggered effects */
+.animation-delay-100 { animation-delay: 100ms; }
+.animation-delay-200 { animation-delay: 200ms; }
+.animation-delay-300 { animation-delay: 300ms; }
+.animation-delay-400 { animation-delay: 400ms; }
+.animation-delay-500 { animation-delay: 500ms; }
+.animation-delay-600 { animation-delay: 600ms; }
+
+/* Fill mode to prevent flash */
+.animate-fadeIn,
+.animate-slideUp,
+.animate-slideDown {
+  animation-fill-mode: both;
+}
+
+/* Prevent animation flash on load */
+@media (prefers-reduced-motion: no-preference) {
+  .motion-safe\:animate-fadeIn {
+    animation: fadeIn 0.5s ease-out forwards;
+  }
+  
+  .motion-safe\:animate-slideUp {
+    animation: slideUp 0.6s ease-out forwards;
+  }
+}
+
+/* GPU optimization for animations */
+.will-change-transform {
+  will-change: transform;
+}
+
+.will-change-opacity {
+  will-change: opacity;
+}
+
+/* Prevent layout shift during animations */
+.transform-gpu {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
 /* ============================================
    RESPONSIVE OVERRIDES
    ============================================ */

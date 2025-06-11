@@ -1,21 +1,16 @@
-// components/common/Hero.tsx
+// components/common/Hero.tsx - Fixed animation flashing
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useEffect, useMemo } from 'react';
+import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Button from '@/components/common/Button';
 
 interface HeroProps {
-  // Content
   title: string | React.ReactNode;
   subtitle: string;
-  
-  // Background - either single image or array for carousel
   backgroundImage?: string;
-  backgroundImages?: string[]; // For home page carousel
-  
-  // Optional CTA
+  backgroundImages?: string[];
   ctaText?: string;
   ctaHref?: string;
 }
@@ -28,23 +23,44 @@ const Hero: React.FC<HeroProps> = ({
   ctaText,
   ctaHref
 }) => {
-  // Image carousel state
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const images = backgroundImages || (backgroundImage ? [backgroundImage] : []);
+  const [imagesLoaded, setImagesLoaded] = useState(false);
+  
+  // Memoize images array to prevent useEffect dependency changes
+  const images = useMemo(() => {
+    return backgroundImages || (backgroundImage ? [backgroundImage] : []);
+  }, [backgroundImage, backgroundImages]);
+  
   const hasMultipleImages = images.length > 1;
+
+  // Preload images to prevent flashing
+  useEffect(() => {
+    const imagePromises = images.map(src => {
+      return new Promise((resolve, reject) => {
+        const img = new window.Image();
+        img.src = src;
+        img.onload = resolve;
+        img.onerror = reject;
+      });
+    });
+
+    Promise.all(imagePromises)
+      .then(() => setImagesLoaded(true))
+      .catch(() => setImagesLoaded(true)); // Still show even if some fail
+  }, [images]);
 
   // Auto-advance carousel
   useEffect(() => {
-    if (!hasMultipleImages) return;
+    if (!hasMultipleImages || !imagesLoaded) return;
 
     const interval = setInterval(() => {
       setCurrentImageIndex((prev) => (prev + 1) % images.length);
-    }, 5000); // Change image every 5 seconds
+    }, 5000);
 
     return () => clearInterval(interval);
-  }, [hasMultipleImages, images.length]);
+  }, [hasMultipleImages, images.length, imagesLoaded]);
 
-  // Scroll to next section
+  // Scroll handler
   const handleScrollDown = () => {
     const heroElement = document.getElementById('hero-section');
     if (heroElement) {
@@ -55,12 +71,15 @@ const Hero: React.FC<HeroProps> = ({
     }
   };
 
-  // Animation variants
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
+  // Simplified variants without conflicting animations
+  const contentVariants = {
+    initial: { opacity: 0, y: 20 },
+    animate: { 
+      opacity: 1, 
+      y: 0,
+      transition: { 
+        duration: 0.8, 
+        ease: "easeOut",
         staggerChildren: 0.2,
         delayChildren: 0.3
       }
@@ -68,86 +87,69 @@ const Hero: React.FC<HeroProps> = ({
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { 
+    initial: { opacity: 0, y: 20 },
+    animate: { 
       opacity: 1, 
       y: 0,
-      transition: { duration: 0.8, ease: "easeOut" }
-    }
-  };
-
-  // Image transition variants
-  const imageVariants = {
-    enter: { opacity: 0 },
-    center: { 
-      opacity: 1,
-      transition: { duration: 1.5, ease: "easeInOut" }
-    },
-    exit: { 
-      opacity: 0,
-      transition: { duration: 1.5, ease: "easeInOut" }
+      transition: { duration: 0.6, ease: "easeOut" }
     }
   };
 
   return (
     <section 
       id="hero-section"
-      className="relative h-screen w-full flex items-center justify-center overflow-hidden gpu-accelerated"
+      className="relative h-screen w-full flex items-center justify-center overflow-hidden"
       dir="rtl"
     >
-      {/* Background Image(s) */}
-      <div className="absolute inset-0 z-0 gpu-accelerated">
-        <AnimatePresence>
-          <motion.div
-            key={currentImageIndex}
-            className="absolute inset-0"
-            variants={imageVariants}
-            initial="enter"
-            animate="center"
-            exit="exit"
+      {/* Background - Single div for all images to prevent flashing */}
+      <div className="absolute inset-0 z-0">
+        {imagesLoaded && images.map((image, index) => (
+          <div
+            key={image}
+            className={`absolute inset-0 transition-opacity duration-1000 ${
+              index === currentImageIndex ? 'opacity-100' : 'opacity-0'
+            }`}
           >
             <Image
-              src={images[currentImageIndex]}
+              src={image}
               alt="Hero background"
               fill
               className="object-cover"
-              priority={currentImageIndex === 0} // Only first image
-              quality={75} // Fixed quality for all devices
+              priority={index === 0}
+              quality={75}
               sizes="100vw"
-              loading={currentImageIndex === 0 ? "eager" : "lazy"} // Explicit loading strategy
-              placeholder="blur"
-              blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R7w="
             />
-          </motion.div>
-        </AnimatePresence>
+          </div>
+        ))}
         
-        {/* Dark overlay for text readability */}
+        {/* Dark overlay - always visible */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/70" />
       </div>
 
-      {/* Image indicators for carousel */}
-      {hasMultipleImages && (
+      {/* Image indicators */}
+      {hasMultipleImages && imagesLoaded && (
         <div className="absolute bottom-24 left-1/2 transform -translate-x-1/2 z-10 flex gap-2">
           {images.map((_, index) => (
             <button
               key={index}
               onClick={() => setCurrentImageIndex(index)}
-              className={`w-2 h-2 rounded-full transition-all ${index === currentImageIndex 
-                ? 'bg-gold w-8' 
-                : 'bg-gold/40 hover:bg-gold/60'
-                }`}
+              className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                index === currentImageIndex 
+                  ? 'bg-gold w-8' 
+                  : 'bg-gold/40 hover:bg-gold/60'
+              }`}
               aria-label={`Go to image ${index + 1}`}
             />
           ))}
         </div>
       )}
 
-      {/* Content */}
+      {/* Content - Only animate once */}
       <motion.div 
         className="relative z-10 text-center px-6 max-w-4xl mx-auto"
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
+        variants={contentVariants}
+        initial="initial"
+        animate="animate"
       >
         {/* Subtitle */}
         <motion.p 
@@ -165,7 +167,7 @@ const Hero: React.FC<HeroProps> = ({
           {title}
         </motion.h1>
 
-        {/* CTA Button (optional) */}
+        {/* CTA Button */}
         {ctaText && ctaHref && (
           <motion.div 
             variants={itemVariants}

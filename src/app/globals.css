@@ -1447,3 +1447,159 @@
 .pull-to-refresh.active {
   @apply translate-y-0;
 }
+
+/* ============================================
+   MOBILE PERFORMANCE OPTIMIZATIONS
+   ============================================ */
+
+/* Mobile-specific performance improvements */
+@media (max-width: 768px) {
+  /* Faster animations on mobile */
+  * {
+    animation-duration: 0.3s !important;
+    transition-duration: 0.3s !important;
+  }
+  
+  /* Hardware acceleration for moving elements */
+  .carousel-container,
+  [data-carousel],
+  .motion-div {
+    transform: translateZ(0);
+    will-change: transform;
+    -webkit-transform: translateZ(0);
+    -webkit-backface-visibility: hidden;
+  }
+  
+  /* Disable expensive visual effects on mobile */
+  .luxury-background-pattern,
+  .background-pattern,
+  [data-bg-pattern] {
+    display: none !important;
+  }
+  
+  /* Optimize text rendering */
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeSpeed;
+  }
+  
+  /* Reduce motion blur during scrolling */
+  * {
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Performance utilities */
+.gpu-accelerated {
+  transform: translateZ(0);
+  will-change: transform;
+  -webkit-transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+}
+
+.no-tap-highlight {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.touch-manipulation {
+  touch-action: manipulation;
+}
+
+.smooth-scroll {
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+
+/* Hardware-accelerated transforms */
+.hw-accelerated {
+  transform: translate3d(0, 0, 0);
+  -webkit-transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  perspective: 1000px;
+  -webkit-perspective: 1000px;
+}
+
+/* Mobile-optimized carousel specifically */
+@media (max-width: 768px) {
+  .keen-slider,
+  [data-carousel="luxury"] {
+    transform: translateZ(0);
+    will-change: transform;
+  }
+  
+  .keen-slider__slide {
+    transform: translateZ(0);
+    will-change: transform;
+  }
+  
+  /* Faster carousel animations */
+  .keen-slider__slide {
+    transition: transform 0.3s ease-out !important;
+  }
+}
+
+/* Reduce animation complexity on slower devices */
+@media (max-width: 768px) and (prefers-reduced-motion: no-preference) {
+  /* Simplified animations for mobile */
+  .motion-preset-expand,
+  .motion-preset-slide-up,
+  .motion-preset-fade {
+    animation-duration: 0.25s !important;
+    animation-timing-function: ease-out !important;
+  }
+}
+
+/* Touch-friendly interactive elements */
+
+
+/* Loading performance optimizations */
+@media (max-width: 768px) {
+  /* Prevent layout shifts during image loading */
+  img[loading="lazy"] {
+    content-visibility: auto;
+    contain-intrinsic-size: 300px 200px;
+  }
+  
+  /* Optimize video loading on mobile */
+  video {
+    object-fit: cover;
+    transform: translateZ(0);
+  }
+}
+
+/* Critical loading states */
+.loading-skeleton {
+  background: linear-gradient(90deg, 
+    rgba(255,255,255,0.1) 25%, 
+    rgba(255,255,255,0.2) 50%, 
+    rgba(255,255,255,0.1) 75%
+  );
+  background-size: 200% 100%;
+  animation: loading-shimmer 1.5s infinite;
+}
+
+@keyframes loading-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Prevent scroll bounce on iOS */
+body {
+  overscroll-behavior: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Memory optimization for mobile */
+@media (max-width: 768px) {
+  /* Reduce memory usage for large background images */
+  .hero-background,
+  .large-bg-image {
+    background-attachment: scroll; /* Instead of fixed */
+    transform: translateZ(0);
+  }
+}

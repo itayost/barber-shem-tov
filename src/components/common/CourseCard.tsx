@@ -36,9 +36,8 @@ const CourseCard: React.FC<CourseCardProps> = ({
 
   return (
     <motion.div
-      className={`relative overflow-hidden group bg-charcoal flex items-center ${
-        variant === 'minimal' ? 'min-h-[600px]' : 'min-h-[700px]'
-      } ${className}`}
+      className={`relative overflow-hidden group bg-charcoal flex items-center gpu-accelerated ${variant === 'minimal' ? 'min-h-[600px]' : 'min-h-[700px]'
+        } ${className}`}
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
@@ -53,13 +52,16 @@ const CourseCard: React.FC<CourseCardProps> = ({
             fill
             className="object-cover transition-transform duration-700 group-hover:scale-110"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            priority={index === 0} // ONLY prioritize the very first card
+            quality={70} // Fixed lower quality for all course images
+            loading={index === 0 ? "eager" : "lazy"} // First card eager, rest lazy
+            placeholder="blur"
+            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R7w="
             onError={(e) => {
               const target = e.target as HTMLImageElement;
               if (target.src.includes(course.id)) {
-                // Try fallback image
                 target.src = fallbackImage;
               } else {
-                // If fallback also fails, show gradient
                 setImageError(true);
               }
             }}
@@ -69,11 +71,10 @@ const CourseCard: React.FC<CourseCardProps> = ({
         )}
         
         {/* Dark Overlay */}
-        <div className={`absolute inset-0 ${
-          variant === 'detailed' 
-            ? 'bg-gradient-to-t from-black via-black/80 to-black/60' 
-            : 'bg-black/60'
-        }`} />
+        <div className={`absolute inset-0 ${variant === 'detailed' 
+          ? 'bg-gradient-to-t from-black via-black/80 to-black/60' 
+          : 'bg-black/60'
+          }`} />
       </div>
 
       {/* Content */}
@@ -89,9 +90,9 @@ const CourseCard: React.FC<CourseCardProps> = ({
           transition={{ delay: 0.2 }}
         >
           {course.category === 'beginner' ? 'קורס למתחילים' : 
-           course.category === 'advanced' ? 'קורס מתקדמים' :
-           course.category === 'professional' ? 'קורס מקצועי' :
-           course.category === 'workshop' ? 'סדנה' : 'קורס עסקי'}
+            course.category === 'advanced' ? 'קורס מתקדמים' :
+              course.category === 'professional' ? 'קורס מקצועי' :
+                course.category === 'workshop' ? 'סדנה' : 'קורס עסקי'}
         </motion.p>
 
         {/* Title */}

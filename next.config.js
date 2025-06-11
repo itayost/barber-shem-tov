@@ -14,11 +14,6 @@ const nextConfig = {
   // Enable compression
   compress: true,
   
-  // Optimize CSS
-  experimental: {
-    optimizeCss: true,
-  },
-  
   // PWA-like optimizations
   poweredByHeader: false,
   

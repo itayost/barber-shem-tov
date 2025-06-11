@@ -92,11 +92,11 @@ const Hero: React.FC<HeroProps> = ({
   return (
     <section 
       id="hero-section"
-      className="relative h-screen w-full flex items-center justify-center overflow-hidden"
+      className="relative h-screen w-full flex items-center justify-center overflow-hidden gpu-accelerated"
       dir="rtl"
     >
       {/* Background Image(s) */}
-      <div className="absolute inset-0 z-0">
+      <div className="absolute inset-0 z-0 gpu-accelerated">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentImageIndex}
@@ -111,8 +111,12 @@ const Hero: React.FC<HeroProps> = ({
               alt="Hero background"
               fill
               className="object-cover"
-              priority
-              quality={90}
+              priority={currentImageIndex === 0} // Only first image
+              quality={75} // Fixed quality for all devices
+              sizes="100vw"
+              loading={currentImageIndex === 0 ? "eager" : "lazy"} // Explicit loading strategy
+              placeholder="blur"
+              blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R7w="
             />
           </motion.div>
         </AnimatePresence>
@@ -128,11 +132,10 @@ const Hero: React.FC<HeroProps> = ({
             <button
               key={index}
               onClick={() => setCurrentImageIndex(index)}
-              className={`w-2 h-2 rounded-full transition-all ${
-                index === currentImageIndex 
-                  ? 'bg-gold w-8' 
-                  : 'bg-gold/40 hover:bg-gold/60'
-              }`}
+              className={`w-2 h-2 rounded-full transition-all ${index === currentImageIndex 
+                ? 'bg-gold w-8' 
+                : 'bg-gold/40 hover:bg-gold/60'
+                }`}
               aria-label={`Go to image ${index + 1}`}
             />
           ))}

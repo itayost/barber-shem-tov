@@ -114,7 +114,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
           <motion.div
             ref={menuRef}
             id={id}
-            className="menu-bottom-sheet fixed inset-x-0 bottom-0 z-[101] bg-charcoal rounded-t-3xl shadow-2xl max-h-[85vh] overflow-hidden"
+            className="menu-bottom-sheet fixed inset-x-0 bottom-0 z-[101] bg-charcoal rounded-t-3xl shadow-2xl max-h-[85vh] overflow-hidden gpu-accelerated touch-manipulation"
             initial={{ y: '100%' }}
             animate={{ y: 0 }}
             exit={{ y: '100%' }}

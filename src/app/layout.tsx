@@ -99,6 +99,20 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <meta name="apple-mobile-web-app-title" content="The Fader" />
+
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+      // Prevent animation flash on load
+      document.documentElement.classList.add('preload');
+      window.addEventListener('load', function() {
+        setTimeout(function() {
+          document.documentElement.classList.remove('preload');
+        }, 100);
+      });
+    `,
+          }}
+        />
       </head>
       
       <body className="bg-charcoal text-offwhite font-heebo">

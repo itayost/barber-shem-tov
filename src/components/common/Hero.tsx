@@ -1,4 +1,4 @@
-// components/common/Hero.tsx - Fixed animation flashing
+// components/common/Hero.tsx - Stable version without flashing
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
@@ -24,43 +24,31 @@ const Hero: React.FC<HeroProps> = ({
   ctaHref
 }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [imagesLoaded, setImagesLoaded] = useState(false);
+  const [mounted, setMounted] = useState(false);
   
-  // Memoize images array to prevent useEffect dependency changes
+  // Memoize images array
   const images = useMemo(() => {
     return backgroundImages || (backgroundImage ? [backgroundImage] : []);
   }, [backgroundImage, backgroundImages]);
   
   const hasMultipleImages = images.length > 1;
 
-  // Preload images to prevent flashing
+  // Set mounted state
   useEffect(() => {
-    const imagePromises = images.map(src => {
-      return new Promise((resolve, reject) => {
-        const img = new window.Image();
-        img.src = src;
-        img.onload = resolve;
-        img.onerror = reject;
-      });
-    });
-
-    Promise.all(imagePromises)
-      .then(() => setImagesLoaded(true))
-      .catch(() => setImagesLoaded(true)); // Still show even if some fail
-  }, [images]);
+    setMounted(true);
+  }, []);
 
   // Auto-advance carousel
   useEffect(() => {
-    if (!hasMultipleImages || !imagesLoaded) return;
+    if (!hasMultipleImages || !mounted) return;
 
     const interval = setInterval(() => {
       setCurrentImageIndex((prev) => (prev + 1) % images.length);
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [hasMultipleImages, images.length, imagesLoaded]);
+  }, [hasMultipleImages, images.length, mounted]);
 
-  // Scroll handler
   const handleScrollDown = () => {
     const heroElement = document.getElementById('hero-section');
     if (heroElement) {
@@ -71,44 +59,22 @@ const Hero: React.FC<HeroProps> = ({
     }
   };
 
-  // Simplified variants without conflicting animations
-  const contentVariants = {
-    initial: { opacity: 0, y: 20 },
-    animate: { 
-      opacity: 1, 
-      y: 0,
-      transition: { 
-        duration: 0.8, 
-        ease: "easeOut",
-        staggerChildren: 0.2,
-        delayChildren: 0.3
-      }
-    }
-  };
-
-  const itemVariants = {
-    initial: { opacity: 0, y: 20 },
-    animate: { 
-      opacity: 1, 
-      y: 0,
-      transition: { duration: 0.6, ease: "easeOut" }
-    }
-  };
-
   return (
     <section 
       id="hero-section"
       className="relative h-screen w-full flex items-center justify-center overflow-hidden"
       dir="rtl"
     >
-      {/* Background - Single div for all images to prevent flashing */}
+      {/* Background Images */}
       <div className="absolute inset-0 z-0">
-        {imagesLoaded && images.map((image, index) => (
+        {images.map((image, index) => (
           <div
-            key={image}
-            className={`absolute inset-0 transition-opacity duration-1000 ${
-              index === currentImageIndex ? 'opacity-100' : 'opacity-0'
-            }`}
+            key={`hero-bg-${index}`}
+            className="absolute inset-0"
+            style={{
+              opacity: index === currentImageIndex ? 1 : 0,
+              transition: 'opacity 1.5s ease-in-out'
+            }}
           >
             <Image
               src={image}
@@ -118,20 +84,21 @@ const Hero: React.FC<HeroProps> = ({
               priority={index === 0}
               quality={75}
               sizes="100vw"
+              loading={index === 0 ? "eager" : "lazy"}
             />
           </div>
         ))}
         
-        {/* Dark overlay - always visible */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/70" />
+        {/* Dark overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/70 z-10" />
       </div>
 
       {/* Image indicators */}
-      {hasMultipleImages && imagesLoaded && (
-        <div className="absolute bottom-24 left-1/2 transform -translate-x-1/2 z-10 flex gap-2">
+      {hasMultipleImages && mounted && (
+        <div className="absolute bottom-24 left-1/2 transform -translate-x-1/2 z-20 flex gap-2">
           {images.map((_, index) => (
             <button
-              key={index}
+              key={`indicator-${index}`}
               onClick={() => setCurrentImageIndex(index)}
               className={`w-2 h-2 rounded-full transition-all duration-300 ${
                 index === currentImageIndex 
@@ -144,16 +111,13 @@ const Hero: React.FC<HeroProps> = ({
         </div>
       )}
 
-      {/* Content - Only animate once */}
-      <motion.div 
-        className="relative z-10 text-center px-6 max-w-4xl mx-auto"
-        variants={contentVariants}
-        initial="initial"
-        animate="animate"
-      >
+      {/* Content */}
+      <div className="relative z-20 text-center px-6 max-w-4xl mx-auto">
         {/* Subtitle */}
         <motion.p 
-          variants={itemVariants}
+          initial={mounted ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
           className="text-gold text-lg md:text-xl mb-4 font-medium"
         >
           {subtitle}
@@ -161,7 +125,9 @@ const Hero: React.FC<HeroProps> = ({
 
         {/* Title */}
         <motion.h1 
-          variants={itemVariants}
+          initial={mounted ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
           className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-offwhite mb-8 leading-tight"
         >
           {title}
@@ -170,7 +136,9 @@ const Hero: React.FC<HeroProps> = ({
         {/* CTA Button */}
         {ctaText && ctaHref && (
           <motion.div 
-            variants={itemVariants}
+            initial={mounted ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
             className="mb-16"
           >
             <Button
@@ -183,42 +151,44 @@ const Hero: React.FC<HeroProps> = ({
             </Button>
           </motion.div>
         )}
-      </motion.div>
+      </div>
 
       {/* Scroll Down Button */}
-      <motion.button
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10"
-        onClick={handleScrollDown}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1, duration: 0.8 }}
-        aria-label="גלול למטה"
-      >
-        <motion.div
-          className="w-12 h-12 rounded-full border-2 border-gold/50 flex items-center justify-center hover:border-gold transition-colors cursor-pointer"
-          animate={{ y: [0, 10, 0] }}
-          transition={{ 
-            repeat: Infinity, 
-            duration: 2, 
-            ease: "easeInOut"
-          }}
-          whileHover={{ scale: 1.1 }}
+      {mounted && (
+        <motion.button
+          className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20"
+          onClick={handleScrollDown}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1, duration: 0.8 }}
+          aria-label="גלול למטה"
         >
-          <svg 
-            className="w-6 h-6 text-gold" 
-            fill="none" 
-            stroke="currentColor" 
-            viewBox="0 0 24 24"
+          <motion.div
+            className="w-12 h-12 rounded-full border-2 border-gold/50 flex items-center justify-center hover:border-gold transition-colors cursor-pointer"
+            animate={{ y: [0, 10, 0] }}
+            transition={{ 
+              repeat: Infinity, 
+              duration: 2, 
+              ease: "easeInOut"
+            }}
+            whileHover={{ scale: 1.1 }}
           >
-            <path 
-              strokeLinecap="round" 
-              strokeLinejoin="round" 
-              strokeWidth={2} 
-              d="M19 14l-7 7m0 0l-7-7m7 7V3" 
-            />
-          </svg>
-        </motion.div>
-      </motion.button>
+            <svg 
+              className="w-6 h-6 text-gold" 
+              fill="none" 
+              stroke="currentColor" 
+              viewBox="0 0 24 24"
+            >
+              <path 
+                strokeLinecap="round" 
+                strokeLinejoin="round" 
+                strokeWidth={2} 
+                d="M19 14l-7 7m0 0l-7-7m7 7V3" 
+              />
+            </svg>
+          </motion.div>
+        </motion.button>
+      )}
     </section>
   );
 };

@@ -248,56 +248,24 @@ const LuxuryCarousel: React.FC<LuxuryCarouselProps> = ({
           </AnimatePresence>
         </div>
 
-        {/* Mobile-optimized Navigation */}
-        <div className="absolute bottom-8 left-0 right-0">
-          {showDots && (
-            <>
-              {/* Mobile Dots */}
-              <div className="flex justify-center space-x-2 space-x-reverse md:hidden">
-                {slides.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => goToSlide(index)}
-                    className={`h-[2px] transition-all duration-300 ${
-                      index === currentIndex 
-                        ? 'w-8 bg-gold' 
-                        : 'w-4 bg-lightgrey/20'
-                    }`}
-                    style={{ 
-                      minWidth: '32px',
-                      minHeight: '32px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center'
-                    }}
-                  >
-                    <span className={`h-[2px] ${
-                      index === currentIndex ? 'w-8 bg-gold' : 'w-4 bg-lightgrey/20'
-                    }`} />
-                  </button>
-                ))}
-              </div>
-
-              {/* Desktop Navigation */}
-              {!isMobile && (
-                <div className="flex justify-center space-x-2 space-x-reverse">
-                  {slides.map((_, index) => (
-                    <motion.button
-                      key={index}
-                      onClick={() => goToSlide(index)}
-                      className={`transition-all duration-500 ${
-                        index === currentIndex 
-                          ? 'w-12 h-[2px] bg-gold' 
-                          : 'w-8 h-[2px] bg-lightgrey/20 hover:bg-lightgrey/40'
-                      }`}
-                      whileHover={{ scale: 1.1 }}
-                    />
-                  ))}
-                </div>
-              )}
-            </>
-          )}
-        </div>
+        {showDots && (
+          <div className="absolute bottom-8 left-0 right-0">
+            <div className="flex justify-center gap-2">
+              {slides.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => goToSlide(index)}
+                  className={`w-2 h-2 rounded-full transition-all ${
+                    index === currentIndex 
+                      ? 'bg-gold w-8' 
+                      : 'bg-gold/40 hover:bg-gold/60'
+                  }`}
+                  aria-label={`Go to slide ${index + 1}`}
+                />
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

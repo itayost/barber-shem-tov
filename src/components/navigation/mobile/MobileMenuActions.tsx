@@ -47,9 +47,7 @@ const MobileMenuActions: React.FC<MobileMenuActionsProps> = ({
   };
 
   // Handle navigation with menu close
-  const handleClick = (e: React.MouseEvent, href: string) => {
-    e.preventDefault(); // Prevent default link behavior
-    
+  const handleClick = (href: string) => {
     // Close the menu first
     onActionClick();
     
@@ -72,7 +70,7 @@ const MobileMenuActions: React.FC<MobileMenuActionsProps> = ({
           href={primaryAction.href}
           variant="primary"
           className={`w-full min-h-[48px] ${isCompact ? 'py-3' : 'py-4'} font-bold touch-manipulation`}
-          onClick={(e) => handleClick(e as React.MouseEvent, primaryAction.href)}
+          onClick={() => handleClick(primaryAction.href)}
         >
           {primaryAction.text}
         </Button>
@@ -84,7 +82,7 @@ const MobileMenuActions: React.FC<MobileMenuActionsProps> = ({
           href={secondaryAction.href}
           variant="secondary"
           className={`w-full min-h-[48px] ${isCompact ? 'py-3' : 'py-4'} font-medium touch-manipulation`}
-          onClick={(e) => handleClick(e as React.MouseEvent, secondaryAction.href)}
+          onClick={() => handleClick(secondaryAction.href)}
         >
           {secondaryAction.text}
         </Button>

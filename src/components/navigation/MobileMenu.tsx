@@ -1,9 +1,8 @@
-// src/components/navigation/MobileMenu.tsx - Fixed animation flashing
+// src/components/navigation/MobileMenu.tsx - Simple Fix
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence, useMotionValue, useTransform } from 'framer-motion';
-import { createPortal } from 'react-dom';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { usePathname } from 'next/navigation';
 import { useViewportSize } from '@/hooks/useViewportSize';
 import { AcademyInfo } from '@/types';
@@ -29,11 +28,8 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
   navItems = [],
   id 
 }) => {
-  const [mounted, setMounted] = useState(false);
   const [activeNavIndex, setActiveNavIndex] = useState<number | null>(null);
   const pathname = usePathname();
-  const menuRef = useRef<HTMLDivElement>(null);
-  const scrollPositionRef = useRef<number>(0);
   const { isCompact } = useViewportSize(navigationConfig.mobileMenu.compactModeBreakpoint);
   
   // Today's status
@@ -44,41 +40,16 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
     hours: todayHours.isOpen ? `${todayHours.open} - ${todayHours.close}` : 'סגור'
   };
   
-  // Drag to close functionality
-  const dragY = useMotionValue(0);
-  const dragProgress = useTransform(dragY, [0, 300], [0, 1]);
-  const opacity = useTransform(dragProgress, [0, 1], [1, 0]);
-  
-  // Mount portal
-  useEffect(() => {
-    setMounted(true);
-    return () => setMounted(false);
-  }, []);
-
-  // Body scroll lock
+  // Simple body scroll lock
   useEffect(() => {
     if (isOpen) {
-      scrollPositionRef.current = window.scrollY;
-      document.body.style.cssText = `
-        overflow: hidden;
-        position: fixed;
-        top: -${scrollPositionRef.current}px;
-        width: 100%;
-        touch-action: none;
-      `;
-      document.body.classList.add('menu-open');
+      document.body.style.overflow = 'hidden';
     } else {
-      document.body.style.cssText = '';
-      document.body.classList.remove('menu-open');
-      
-      if (scrollPositionRef.current) {
-        window.scrollTo(0, scrollPositionRef.current);
-      }
+      document.body.style.overflow = '';
     }
     
     return () => {
-      document.body.style.cssText = '';
-      document.body.classList.remove('menu-open');
+      document.body.style.overflow = '';
     };
   }, [isOpen]);
 
@@ -88,20 +59,19 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
     const item = navItems[index];
     if (item) {
       onClose();
-      // Small delay to allow close animation
       setTimeout(() => {
         window.location.href = item.path;
       }, 200);
     }
   };
 
-  const menuContent = (
-    <AnimatePresence mode="wait">
+  return (
+    <AnimatePresence>
       {isOpen && (
-        <div className="md:hidden">
+        <>
           {/* Backdrop */}
           <motion.div
-            className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-md"
+            className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm md:hidden"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -111,25 +81,15 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
 
           {/* Bottom Sheet */}
           <motion.div
-            ref={menuRef}
             id={id}
-            className="menu-bottom-sheet fixed inset-x-0 bottom-0 z-[101] bg-charcoal rounded-t-3xl shadow-2xl max-h-[85vh] overflow-hidden"
+            className="fixed inset-x-0 bottom-0 z-[101] bg-charcoal rounded-t-3xl shadow-2xl max-h-[85vh] overflow-hidden md:hidden"
             initial={{ y: '100%' }}
             animate={{ y: 0 }}
             exit={{ y: '100%' }}
             transition={{ 
-              type: 'spring',
-              damping: 30,
-              stiffness: 300
-            }}
-            style={{ opacity }}
-            drag="y"
-            dragConstraints={{ top: 0, bottom: 0 }}
-            dragElastic={0.2}
-            onDragEnd={(e, { offset, velocity }) => {
-              if (offset.y > 100 || velocity.y > 500) {
-                onClose();
-              }
+              type: 'tween',
+              duration: 0.3,
+              ease: 'easeOut'
             }}
             role="dialog"
             aria-modal="true"
@@ -138,11 +98,11 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
           >
             {/* Drag Handle */}
             <div className="py-3 pb-0">
-              <div className="drag-handle mx-auto" />
+              <div className="w-12 h-1 bg-lightgrey/30 rounded-full mx-auto" />
             </div>
 
             {/* Scrollable Content */}
-            <div className="menu-scroll-container overflow-y-auto max-h-[calc(85vh-3rem)] pb-safe">
+            <div className="overflow-y-auto max-h-[calc(85vh-3rem)] pb-safe">
               {/* Header */}
               <MobileMenuHeader
                 logo={{
@@ -193,16 +153,9 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
               </div>
             </div>
           </motion.div>
-        </div>
+        </>
       )}
     </AnimatePresence>
-  );
-
-  if (!mounted) return null;
-  
-  return createPortal(
-    menuContent,
-    document.body
   );
 };
 

@@ -7,7 +7,6 @@ import CoursesGrid from '@/components/courses/CoursesGrid';
 import CoursesComparison from '@/components/courses/CoursesComparison';
 import CoursesFAQ from '@/components/courses/CoursesFAQ';
 import CoursesCTA from '@/components/courses/CoursesCTA';
-import QuickEnrollFloat from '@/components/common/QuickEnrollFloat';
 
 
 const CoursesPage = () => {
@@ -32,7 +31,6 @@ const CoursesPage = () => {
       
       {/* Bottom CTA */}
       <CoursesCTA />
-      <QuickEnrollFloat />
     </main>
   );
 };

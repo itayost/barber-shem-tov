@@ -1,24 +1,17 @@
-// src/components/navigation/Navbar.tsx - Stable version without flashing
+// src/components/navigation/Navbar.tsx - Simple version
 'use client';
 
-import { useState, useEffect, useCallback, lazy, Suspense } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Logo from './Logo';
 import DesktopNav from './DesktopNav';
 import MobileMenuButton from './MobileMenuButton';
+import MobileMenu from './MobileMenu';
 import { academyInfo } from '@/lib/data';
 import { navigationConfig } from '@/config/navigation';
-
-const MobileMenu = lazy(() => import('./MobileMenu'));
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
-  
-  // Set mounted state
-  useEffect(() => {
-    setMounted(true);
-  }, []);
   
   // Scroll handler
   useEffect(() => {
@@ -94,17 +87,13 @@ const Navbar = () => {
       </header>
 
       {/* Mobile Menu */}
-      {mounted && (
-        <Suspense fallback={null}>
-          <MobileMenu 
-            isOpen={isMobileMenuOpen} 
-            onClose={closeMobileMenu}
-            academyInfo={academyInfo}
-            navItems={navigationConfig.mainItems}
-            id="mobile-menu"
-          />
-        </Suspense>
-      )}
+      <MobileMenu 
+        isOpen={isMobileMenuOpen} 
+        onClose={closeMobileMenu}
+        academyInfo={academyInfo}
+        navItems={navigationConfig.mainItems}
+        id="mobile-menu"
+      />
     </>
   );
 };

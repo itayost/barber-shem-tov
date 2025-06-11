@@ -1,8 +1,7 @@
-// components/common/Hero.tsx - Stable version without flashing
+// components/common/Hero.tsx - CSS-only animations, no Framer Motion
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
-import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Button from '@/components/common/Button';
 
@@ -24,30 +23,29 @@ const Hero: React.FC<HeroProps> = ({
   ctaHref
 }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [mounted, setMounted] = useState(false);
+  const [isClient, setIsClient] = useState(false);
   
-  // Memoize images array
   const images = useMemo(() => {
     return backgroundImages || (backgroundImage ? [backgroundImage] : []);
   }, [backgroundImage, backgroundImages]);
   
   const hasMultipleImages = images.length > 1;
 
-  // Set mounted state
+  // Only run on client
   useEffect(() => {
-    setMounted(true);
+    setIsClient(true);
   }, []);
 
   // Auto-advance carousel
   useEffect(() => {
-    if (!hasMultipleImages || !mounted) return;
+    if (!hasMultipleImages || !isClient) return;
 
     const interval = setInterval(() => {
       setCurrentImageIndex((prev) => (prev + 1) % images.length);
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [hasMultipleImages, images.length, mounted]);
+  }, [hasMultipleImages, images.length, isClient]);
 
   const handleScrollDown = () => {
     const heroElement = document.getElementById('hero-section');
@@ -69,12 +67,10 @@ const Hero: React.FC<HeroProps> = ({
       <div className="absolute inset-0 z-0">
         {images.map((image, index) => (
           <div
-            key={`hero-bg-${index}`}
-            className="absolute inset-0"
-            style={{
-              opacity: index === currentImageIndex ? 1 : 0,
-              transition: 'opacity 1.5s ease-in-out'
-            }}
+            key={`bg-${index}`}
+            className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+              index === currentImageIndex ? 'opacity-100' : 'opacity-0'
+            }`}
           >
             <Image
               src={image}
@@ -84,7 +80,6 @@ const Hero: React.FC<HeroProps> = ({
               priority={index === 0}
               quality={75}
               sizes="100vw"
-              loading={index === 0 ? "eager" : "lazy"}
             />
           </div>
         ))}
@@ -94,11 +89,11 @@ const Hero: React.FC<HeroProps> = ({
       </div>
 
       {/* Image indicators */}
-      {hasMultipleImages && mounted && (
+      {hasMultipleImages && isClient && (
         <div className="absolute bottom-24 left-1/2 transform -translate-x-1/2 z-20 flex gap-2">
           {images.map((_, index) => (
             <button
-              key={`indicator-${index}`}
+              key={`ind-${index}`}
               onClick={() => setCurrentImageIndex(index)}
               className={`w-2 h-2 rounded-full transition-all duration-300 ${
                 index === currentImageIndex 
@@ -111,36 +106,27 @@ const Hero: React.FC<HeroProps> = ({
         </div>
       )}
 
-      {/* Content */}
+      {/* Content with CSS animations */}
       <div className="relative z-20 text-center px-6 max-w-4xl mx-auto">
         {/* Subtitle */}
-        <motion.p 
-          initial={mounted ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="text-gold text-lg md:text-xl mb-4 font-medium"
-        >
+        <p className={`text-gold text-lg md:text-xl mb-4 font-medium ${
+          isClient ? 'animate-fadeInUp animation-delay-200' : ''
+        }`}>
           {subtitle}
-        </motion.p>
+        </p>
 
         {/* Title */}
-        <motion.h1 
-          initial={mounted ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-offwhite mb-8 leading-tight"
-        >
+        <h1 className={`text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-offwhite mb-8 leading-tight ${
+          isClient ? 'animate-fadeInUp animation-delay-300' : ''
+        }`}>
           {title}
-        </motion.h1>
+        </h1>
 
         {/* CTA Button */}
         {ctaText && ctaHref && (
-          <motion.div 
-            initial={mounted ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="mb-16"
-          >
+          <div className={`mb-16 ${
+            isClient ? 'animate-fadeInUp animation-delay-400' : ''
+          }`}>
             <Button
               href={ctaHref}
               variant="primary"
@@ -149,30 +135,18 @@ const Hero: React.FC<HeroProps> = ({
             >
               {ctaText}
             </Button>
-          </motion.div>
+          </div>
         )}
       </div>
 
       {/* Scroll Down Button */}
-      {mounted && (
-        <motion.button
-          className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20"
+      {isClient && (
+        <button
+          className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 animate-fadeIn animation-delay-1000"
           onClick={handleScrollDown}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1, duration: 0.8 }}
           aria-label="גלול למטה"
         >
-          <motion.div
-            className="w-12 h-12 rounded-full border-2 border-gold/50 flex items-center justify-center hover:border-gold transition-colors cursor-pointer"
-            animate={{ y: [0, 10, 0] }}
-            transition={{ 
-              repeat: Infinity, 
-              duration: 2, 
-              ease: "easeInOut"
-            }}
-            whileHover={{ scale: 1.1 }}
-          >
+          <div className="w-12 h-12 rounded-full border-2 border-gold/50 flex items-center justify-center hover:border-gold transition-colors cursor-pointer animate-bounce">
             <svg 
               className="w-6 h-6 text-gold" 
               fill="none" 
@@ -186,8 +160,8 @@ const Hero: React.FC<HeroProps> = ({
                 d="M19 14l-7 7m0 0l-7-7m7 7V3" 
               />
             </svg>
-          </motion.div>
-        </motion.button>
+          </div>
+        </button>
       )}
     </section>
   );

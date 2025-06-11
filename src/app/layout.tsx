@@ -3,7 +3,7 @@ import { Heebo } from 'next/font/google';
 import './globals.css';
 import { Navbar } from '@/components/navigation';
 import Footer from '@/components/common/Footer';
-import SmartFAB from '@/components/common/SmartFAB';
+import WhatsAppFloat from '@/components/common/WhatsAppFloat';
 
 const heebo = Heebo({
   subsets: ['hebrew'],
@@ -136,7 +136,7 @@ export default function RootLayout({
         </main>
         
         <Footer />
-        <SmartFAB />
+        <WhatsAppFloat />
       </body>
     </html>
   );

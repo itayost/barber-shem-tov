@@ -1,6 +1,6 @@
 // src/app/academy/page.tsx
 import Hero from '@/components/common/Hero';
-import AcademyInfoTabs from '@/components/academy/AcademyInfoTabs';
+import AcademyStoryLight from '@/components/academy/tabs/AcademyStoryLight';
 
 export default function AcademyPage() {
   return (
@@ -18,8 +18,12 @@ export default function AcademyPage() {
         backgroundImage="/images/hero/academy-hero.jpg"
       />
       
-      {/* Tabs Section with Our Story and Team */}
-      <AcademyInfoTabs />
+      {/* Our Story Section - Lightweight version */}
+      <section className="py-20 md:py-32 bg-black" dir="rtl">
+        <div className="container mx-auto px-4 sm:px-6">
+          <AcademyStoryLight />
+        </div>
+      </section>
     </>
   );
 }

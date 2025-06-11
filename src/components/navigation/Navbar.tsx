@@ -1,7 +1,8 @@
-// src/components/navigation/Navbar.tsx - Simple version
+// src/components/navigation/Navbar.tsx - Fixed version
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import { motion } from 'framer-motion';
 import Logo from './Logo';
 import DesktopNav from './DesktopNav';
 import MobileMenuButton from './MobileMenuButton';
@@ -34,32 +35,51 @@ const Navbar = () => {
     setIsMobileMenuOpen(false);
   }, []);
   
-  // Base classes
-  const navbarClasses = `navbar ${isScrolled ? 'navbar-scrolled' : 'navbar-transparent'}`;
+  // Base classes with proper height transition
+  const navbarClasses = `navbar ${isScrolled ? 'navbar-scrolled navbar-compact' : 'navbar-transparent'}`;
   
   return (
     <>
-      <header 
+      <motion.header 
         className={navbarClasses}
         dir="rtl"
+        initial={false}
+        animate={{
+          height: isScrolled ? 60 : 80,
+          backgroundColor: isScrolled ? 'rgba(26, 26, 26, 0.9)' : 'transparent'
+        }}
+        transition={{
+          height: { duration: 0.3, ease: "easeInOut" },
+          backgroundColor: { duration: 0.3 }
+        }}
+        style={{
+          backdropFilter: isScrolled ? 'blur(24px) saturate(200%)' : 'blur(12px) saturate(180%)',
+          WebkitBackdropFilter: isScrolled ? 'blur(24px) saturate(200%)' : 'blur(12px) saturate(180%)',
+        }}
       >
         {/* Gradient overlay */}
-        <div 
-          className="absolute inset-0 bg-gradient-to-b from-charcoal/60 to-transparent pointer-events-none transition-opacity duration-300"
-          style={{ opacity: isScrolled ? 0.8 : 0.4 }}
+        <motion.div 
+          className="absolute inset-0 bg-gradient-to-b from-charcoal/60 to-transparent pointer-events-none"
+          animate={{ opacity: isScrolled ? 0.8 : 0.4 }}
+          transition={{ duration: 0.3 }}
         />
         
         {/* Container */}
         <div className="navbar-container relative z-10">
-          {/* Logo */}
-          <Logo 
-            isScrolled={isScrolled} 
-            src="/images/logos/logo.png" 
-            alt={academyInfo.shortName} 
-          />
+          {/* Logo with scaling */}
+          <motion.div
+            animate={{ scale: isScrolled ? 0.85 : 1 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+          >
+            <Logo 
+              isScrolled={isScrolled} 
+              src="/images/logos/logo.png" 
+              alt={academyInfo.shortName} 
+            />
+          </motion.div>
           
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-8">
+          {/* Desktop Navigation - Full width flex container */}
+          <div className="hidden md:flex items-center flex-1">
             <DesktopNav 
               navItems={navigationConfig.mainItems}
               callToAction={{
@@ -80,11 +100,13 @@ const Navbar = () => {
         </div>
         
         {/* Bottom border */}
-        <div 
-          className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/30 to-transparent transition-transform duration-300"
-          style={{ transform: `scaleX(${isScrolled ? 1 : 0})` }}
+        <motion.div 
+          className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/30 to-transparent"
+          initial={{ scaleX: 0 }}
+          animate={{ scaleX: isScrolled ? 1 : 0 }}
+          transition={{ duration: 0.3 }}
         />
-      </header>
+      </motion.header>
 
       {/* Mobile Menu */}
       <MobileMenu 

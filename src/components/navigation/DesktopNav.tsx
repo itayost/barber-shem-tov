@@ -1,4 +1,4 @@
-// src/components/navigation/DesktopNav.tsx
+// src/components/navigation/DesktopNav.tsx - Fixed CTA positioning
 'use client';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
@@ -25,9 +25,8 @@ const DesktopNav = ({ navItems, callToAction }: DesktopNavProps) => {
   const pathname = usePathname();
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
   
-  // Return Fragment to let parent control layout and visibility
   return (
-    <>
+    <div className="hidden md:flex items-center gap-8">
       {/* Navigation Links */}
       <nav className="flex items-center space-x-8 space-x-reverse">
         {navItems.map((item) => {
@@ -99,6 +98,9 @@ const DesktopNav = ({ navItems, callToAction }: DesktopNavProps) => {
         })}
       </nav>
       
+      {/* Spacer to push CTA to the end */}
+      <div className="flex-1" />
+      
       {/* CTA Button */}
       <motion.div
         whileHover={{ scale: 1.05 }}
@@ -144,7 +146,7 @@ const DesktopNav = ({ navItems, callToAction }: DesktopNavProps) => {
           </span>
         </Link>
       </motion.div>
-    </>
+    </div>
   );
 };
 

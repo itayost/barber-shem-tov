@@ -98,9 +98,6 @@ const DesktopNav = ({ navItems, callToAction }: DesktopNavProps) => {
         })}
       </nav>
       
-      {/* Spacer to push CTA to the end */}
-      <div className="flex-1" />
-      
       {/* CTA Button */}
       <motion.div
         whileHover={{ scale: 1.05 }}

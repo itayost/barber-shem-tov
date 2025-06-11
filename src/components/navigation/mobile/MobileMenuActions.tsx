@@ -1,8 +1,9 @@
-// src/components/navigation/mobile/MobileMenuActions.tsx - Enhanced Version
+// src/components/navigation/mobile/MobileMenuActions.tsx - Fixed with Button Component
 'use client';
 
 import React from 'react';
 import { motion } from 'framer-motion';
+import { useRouter } from 'next/navigation';
 import Button from '@/components/common/Button';
 
 interface MobileMenuActionsProps {
@@ -24,6 +25,8 @@ const MobileMenuActions: React.FC<MobileMenuActionsProps> = ({
   onActionClick,
   isCompact = false
 }) => {
+  const router = useRouter();
+  
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -43,6 +46,19 @@ const MobileMenuActions: React.FC<MobileMenuActionsProps> = ({
     }
   };
 
+  // Handle navigation with menu close
+  const handleClick = (e: React.MouseEvent, href: string) => {
+    e.preventDefault(); // Prevent default link behavior
+    
+    // Close the menu first
+    onActionClick();
+    
+    // Small delay to allow menu animation to start
+    setTimeout(() => {
+      router.push(href);
+    }, 100);
+  };
+
   return (
     <motion.div 
       className={`space-y-3 ${isCompact ? 'space-y-2' : ''}`}
@@ -56,7 +72,7 @@ const MobileMenuActions: React.FC<MobileMenuActionsProps> = ({
           href={primaryAction.href}
           variant="primary"
           className={`w-full min-h-[48px] ${isCompact ? 'py-3' : 'py-4'} font-bold touch-manipulation`}
-          onClick={onActionClick}
+          onClick={(e) => handleClick(e as React.MouseEvent, primaryAction.href)}
         >
           {primaryAction.text}
         </Button>
@@ -68,7 +84,7 @@ const MobileMenuActions: React.FC<MobileMenuActionsProps> = ({
           href={secondaryAction.href}
           variant="secondary"
           className={`w-full min-h-[48px] ${isCompact ? 'py-3' : 'py-4'} font-medium touch-manipulation`}
-          onClick={onActionClick}
+          onClick={(e) => handleClick(e as React.MouseEvent, secondaryAction.href)}
         >
           {secondaryAction.text}
         </Button>

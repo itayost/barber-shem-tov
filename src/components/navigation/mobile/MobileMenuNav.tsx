@@ -1,4 +1,4 @@
-// src/components/navigation/mobile/MobileMenuNav.tsx - Enhanced Version
+// src/components/navigation/mobile/MobileMenuNav.tsx - Fixed Active Indicator Height
 'use client';
 
 import React from 'react';
@@ -123,13 +123,16 @@ const MobileMenuNav: React.FC<MobileMenuNavProps> = ({
                   )}
                 </div>
 
-                {/* Active indicator line */}
+                {/* Active indicator line - Fixed to match text height */}
                 {isCurrentPage && (
                   <motion.div
-                    className="absolute right-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-gold rounded-full"
-                    initial={{ scaleY: 0 }}
-                    animate={{ scaleY: 1 }}
+                    className="absolute right-0 top-1/2 -translate-y-1/2 w-1 bg-gold rounded-full"
+                    initial={{ height: 0 }}
+                    animate={{ height: '50%' }}
                     transition={{ duration: 0.3 }}
+                    style={{
+                      maxHeight: '24px', // Matches typical text line height
+                    }}
                   />
                 )}
               </Link>

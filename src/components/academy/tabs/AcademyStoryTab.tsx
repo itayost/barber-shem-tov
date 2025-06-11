@@ -1,204 +1,242 @@
-// src/components/academy/tabs/AcademyStoryTab.tsx - Luxury Version
+// src/components/academy/tabs/AcademyStoryTab.tsx - Luxury Fashion Editorial
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Button from '@/components/common/Button';
+import LuxuryCarousel from '@/components/common/LuxuryCarousel';
 
 const AcademyStoryTab: React.FC = () => {
-  const milestones = [
+  const [activeChapter, setActiveChapter] = useState<number>(0);
+
+  // Luxury Editorial Chapters
+  const chapters = [
     {
-      year: 2018,
-      title: 'החלום נולד',
-      description: 'עם מספריים ביד אחת וחזון בלב, פתחתי דלת לכיתה קטנה עם 12 תלמידים.',
-      highlight: 'הקורס הראשון'
+      roman: 'I',
+      year: 'MMXVIII',
+      title: 'GENESIS',
+      subtitle: 'THE BEGINNING',
+      content: 'מספריים ביד. חזון בלב. חלום שנולד.',
+      image: '/images/academy/chapter-1.jpg',
+      quote: '"לפעמים כל מה שצריך זה להתחיל"'
     },
     {
-      year: 2020,
-      title: 'למרות הכל, צמחנו',
-      description: 'כשהעולם נעצר, אנחנו המשכנו. הפכנו אתגרים להזדמנויות.',
-      highlight: 'השמה בזמן קורונה'
+      roman: 'II',
+      year: 'MMXX',
+      title: 'RESILIENCE',
+      subtitle: 'THE TEST',
+      content: 'כשהעולם עצר. אנחנו המשכנו. חזקים מתמיד.',
+      image: '/images/academy/chapter-2.jpg',
+      quote: '"משבר הוא הזדמנות בתחפושת"'
     },
     {
-      year: 2023,
-      title: 'הפכנו למשפחה',
-      description: 'כבר לא רק אקדמיה - אנחנו קהילה של 500+ בוגרים.',
-      highlight: 'האקדמיה #1 בצפון'
+      roman: 'III',
+      year: 'MMXXIII',
+      title: 'LEGACY',
+      subtitle: 'THE FAMILY',
+      content: 'לא רק אקדמיה. משפחה. קהילה. מורשת.',
+      image: '/images/academy/chapter-3.jpg',
+      quote: '"ביחד אנחנו יוצרים היסטוריה"'
     }
   ];
 
-  return (
-    <div className="space-y-16">
-      {/* Founder's Message - Mobile First */}
-      <motion.div 
-        className="text-center"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.6 }}
-      >
-        {/* Founder Image */}
-        <div className="relative inline-block mb-8">
-          <motion.div 
-            className="w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-2 border-gold/30 mx-auto"
-            whileHover={{ scale: 1.05 }}
-            transition={{ type: "spring", stiffness: 300 }}
-          >
-            <Image
-              src="/images/team/bar.jpg"
-              alt="בר שם טוב"
-              width={160}
-              height={160}
-              className="object-cover"
-              onError={(e) => {
-                const target = e.target as HTMLImageElement;
-                target.style.display = 'none';
-                if (target.parentElement) {
-                  target.parentElement.innerHTML = `
-                    <div class="w-full h-full bg-gradient-to-br from-gold/20 to-brown/10 flex items-center justify-center">
-                      <span class="text-5xl text-gold/50 font-light">ב</span>
-                    </div>
-                  `;
-                }
-              }}
-            />
-          </motion.div>
-          {/* Decorative circle */}
-          <div className="absolute -inset-4 border border-gold/10 rounded-full" />
-        </div>
+  // Create carousel slides with editorial design
+  const editorialSlides = chapters.map((chapter, index) => (
+    <div key={index} className="relative h-[80vh] min-h-[600px]">
+      {/* Full Height Editorial Image */}
+      <div className="absolute inset-0">
+        <Image
+          src={chapter.image}
+          alt={chapter.title}
+          fill
+          className="object-cover"
+          quality={90}
+          onError={(e) => {
+            const target = e.target as HTMLImageElement;
+            target.style.display = 'none';
+            if (target.parentElement) {
+              target.parentElement.innerHTML = `
+                <div class="w-full h-full bg-gradient-to-b from-charcoal to-black flex items-center justify-center">
+                  <div class="text-[200px] text-gold/5 font-serif">${chapter.roman}</div>
+                </div>
+              `;
+            }
+          }}
+        />
+        {/* Luxury Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
+      </div>
 
-        {/* Quote */}
-        <div className="max-w-3xl mx-auto">
-          <div className="text-6xl md:text-8xl text-gold/10 font-serif leading-none mb-4">&ldquo;</div>
-          
-          <motion.p 
-            className="text-lg md:text-xl text-lightgrey/90 leading-relaxed mb-6 font-light italic"
-            initial={{ opacity: 0, y: 20 }}
+      {/* Editorial Content */}
+      <div className="relative h-full flex items-end">
+        <div className="w-full p-8 md:p-16 lg:p-24">
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
+            transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1] }}
+            className="max-w-4xl"
           >
-            כשהייתי ספר צעיר, תמיד חלמתי על מקום שבו אפשר ללמוד את המקצוע הזה אחרת. 
-            לא רק טכניקות וכלים, אלא את הקסם שבמגע האנושי.
-          </motion.p>
-          
-          <motion.p 
-            className="text-gold text-sm tracking-wider"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4 }}
-          >
-            — BAR SHEM TOV, FOUNDER
-          </motion.p>
-        </div>
-      </motion.div>
+            {/* Chapter Number - Fashion Magazine Style */}
+            <div className="flex items-baseline gap-4 mb-8">
+              <span className="text-[80px] md:text-[120px] font-serif leading-none text-gold/20">
+                {chapter.roman}
+              </span>
+              <span className="text-xs tracking-[0.3em] text-gold/60">
+                {chapter.year}
+              </span>
+            </div>
 
-      {/* Timeline - Luxury Minimal */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.5 }}
-      >
-        <h3 className="text-center text-xs tracking-[0.3em] text-gold mb-8">
-          OUR JOURNEY
-        </h3>
-        
-        <div className="space-y-8 md:space-y-0 md:grid md:grid-cols-3 md:gap-8">
-          {milestones.map((milestone, index) => (
-            <motion.div
-              key={milestone.year}
+            {/* Title - Editorial Typography */}
+            <h2 className="text-5xl md:text-7xl lg:text-8xl font-thin tracking-wider text-offwhite mb-2">
+              {chapter.title}
+            </h2>
+            
+            <p className="text-xs tracking-[0.5em] text-gold mb-8">
+              {chapter.subtitle}
+            </p>
+
+            {/* Content - Minimalist */}
+            <p className="text-xl md:text-2xl font-light text-lightgrey/90 mb-8 max-w-2xl leading-relaxed">
+              {chapter.content}
+            </p>
+
+            {/* Quote - Fashion Editorial Style */}
+            <p className="text-sm md:text-base italic text-gold/80 font-light">
+              {chapter.quote}
+            </p>
+          </motion.div>
+        </div>
+      </div>
+    </div>
+  ));
+
+  return (
+    <div className="space-y-0">
+      {/* Main Story Carousel - Full Bleed */}
+      <div className="-mx-8 md:-mx-12 -mt-8 md:-mt-12">
+        <LuxuryCarousel
+          slides={editorialSlides}
+          variant="editorial"
+          showDots={true}
+          showArrows={false}
+          autoPlayInterval={8000}
+          height="auto"
+          className="bg-black"
+        />
+      </div>
+
+      {/* Founder Section - Vogue Style */}
+      <section className="relative py-24 md:py-32 bg-black">
+        <div className="max-w-6xl mx-auto px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            {/* Portrait - Fashion Editorial */}
+            <motion.div 
               className="relative"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
+              transition={{ duration: 1 }}
             >
-              {/* Year - Large Display */}
-              <div className="text-6xl md:text-7xl font-thin text-gold/10 mb-4">
-                {milestone.year}
+              <div className="relative aspect-[3/4] max-w-md mx-auto">
+                <Image
+                  src="/images/team/bar-editorial.jpg"
+                  alt="Bar Shem Tov"
+                  fill
+                  className="object-cover grayscale"
+                  quality={90}
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.style.display = 'none';
+                    if (target.parentElement) {
+                      target.parentElement.innerHTML = `
+                        <div class="w-full h-full bg-gradient-to-b from-charcoal to-black flex items-center justify-center">
+                          <div class="text-[120px] text-gold/10 font-serif">B</div>
+                        </div>
+                      `;
+                    }
+                  }}
+                />
+                {/* Frame */}
+                <div className="absolute inset-0 border border-gold/20" />
+                <div className="absolute -inset-4 border border-gold/10" />
               </div>
-              
-              {/* Content */}
-              <h4 className="text-xl font-light text-offwhite mb-2">
-                {milestone.title}
-              </h4>
-              <p className="text-lightgrey/70 text-sm leading-relaxed mb-4">
-                {milestone.description}
-              </p>
-              
-              {/* Highlight Badge */}
-              <div className="inline-block">
-                <span className="text-xs tracking-wider text-gold/80 border-b border-gold/30 pb-1">
-                  {milestone.highlight}
-                </span>
-              </div>
-              
-              {/* Connector Line - Desktop Only */}
-              {index < milestones.length - 1 && (
-                <div className="hidden md:block absolute top-12 left-full w-full h-[1px] bg-gradient-to-r from-gold/20 to-transparent" />
-              )}
             </motion.div>
-          ))}
-        </div>
-      </motion.div>
 
-      {/* Vision Statement */}
-      <motion.div
-        className="text-center bg-gradient-to-br from-gold/5 to-transparent border border-gold/10 p-8 md:p-12"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-      >
-        <h3 className="text-2xl md:text-3xl font-light mb-6">
-          והמסע <span className="text-gold italic font-serif">רק מתחיל</span>
-        </h3>
-        
-        <p className="text-lightgrey/80 text-base md:text-lg leading-relaxed mb-8 max-w-2xl mx-auto font-light">
-          החזון שלנו פשוט: להמשיך לגדול, להמשיך להשפיע, להמשיך לשנות חיים.
-        </p>
-        
-        {/* Future Goals */}
-        <div className="flex flex-col md:flex-row justify-center items-center gap-8 mb-8">
-          <motion.div 
-            className="text-center"
-            whileHover={{ scale: 1.05 }}
-          >
-            <div className="text-3xl font-thin text-gold">1000+</div>
-            <div className="text-xs tracking-wider text-lightgrey/60">GRADUATES BY 2026</div>
-          </motion.div>
-          
-          <div className="hidden md:block w-16 h-[1px] bg-gold/20" />
-          
-          <motion.div 
-            className="text-center"
-            whileHover={{ scale: 1.05 }}
-          >
-            <div className="text-3xl font-thin text-gold">2</div>
-            <div className="text-xs tracking-wider text-lightgrey/60">NEW LOCATIONS</div>
-          </motion.div>
-          
-          <div className="hidden md:block w-16 h-[1px] bg-gold/20" />
-          
-          <motion.div 
-            className="text-center"
-            whileHover={{ scale: 1.05 }}
-          >
-            <div className="text-3xl font-thin text-gold">∞</div>
-            <div className="text-xs tracking-wider text-lightgrey/60">OPPORTUNITIES</div>
-          </motion.div>
+            {/* Quote - Minimalist Luxury */}
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1 }}
+              className="space-y-8"
+            >
+              <div>
+                <p className="text-xs tracking-[0.5em] text-gold mb-8">
+                  
+                </p>
+                
+                <h3 className="text-4xl md:text-5xl font-thin text-offwhite mb-8 leading-tight">
+                  "אמנות היא לא מה שאתה עושה,
+                  <br />
+                  <span className="text-gold">אלא איך אתה גורם למישהו להרגיש"</span>
+                </h3>
+                
+                <p className="text-lg font-light text-lightgrey/80 leading-relaxed">
+                  שבע שנים חלפו מאז פתחתי את הדלתות לראשונה. 
+                  מה שהתחיל כחלום פרטי הפך למשהו גדול הרבה יותר - 
+                  מקום שבו אמנות פוגשת מקצוע, תשוקה פוגשת מצוינות.
+                </p>
+              </div>
+
+              <div className="pt-8 border-t border-gold/20">
+                <p className="text-xs tracking-[0.3em] text-gold/80">
+                  BAR SHEM TOV
+                </p>
+                <p className="text-xs tracking-[0.2em] text-lightgrey/60">
+                  FOUNDER & CREATIVE DIRECTOR
+                </p>
+              </div>
+            </motion.div>
+          </div>
         </div>
-        
-        {/* CTA */}
-        <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-          <Button 
-            href="/courses" 
-            variant="primary" 
+      </section>
+
+      {/* Future Vision - Minimalist Luxury */}
+      <section className="py-24 md:py-32 bg-black text-center">
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          className="max-w-4xl mx-auto px-8"
+        >
+          <p className="text-xs tracking-[0.5em] text-gold mb-8">
+            THE FUTURE
+          </p>
+          
+          <h3 className="text-3xl md:text-5xl font-thin text-offwhite mb-12 leading-tight">
+            המסע רק מתחיל
+          </h3>
+
+          {/* Minimalist Timeline */}
+          <div className="flex justify-center items-center gap-8 mb-16">
+            <span className="text-sm text-lightgrey/60">2018</span>
+            <div className="w-32 h-px bg-gold/30" />
+            <span className="text-sm text-gold">2025</span>
+            <div className="w-32 h-px bg-gold/10" />
+            <span className="text-sm text-lightgrey/30">∞</span>
+          </div>
+
+          <Button
+            href="/courses"
+            variant="primary"
             size="large"
-            className="font-light tracking-wider"
+            className="min-w-[250px] font-light tracking-wider border-gold/30 hover:border-gold/60"
           >
-            התחל את המסע שלך
+            BE PART OF THE STORY
           </Button>
         </motion.div>
-      </motion.div>
+      </section>
     </div>
   );
 };

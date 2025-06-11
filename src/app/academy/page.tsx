@@ -1,13 +1,6 @@
-// src/app/academy/page.tsx - Complete Luxury Academy Page
+// src/app/academy/page.tsx
 import Hero from '@/components/common/Hero';
-import AcademyStory from '@/components/academy/AcademyStory';
-import AcademyTabsSection from '@/components/academy/AcademyTabsSection';
-import AcademyQuickActions from '@/components/academy/AcademyQuickActions';
-
-// New sections we'll create
-//import AcademyWhyChooseUs from '@/components/academy/AcademyWhyChooseUs';
-//import AcademyStudentJourney from '@/components/academy/AcademyStudentJourney';
-//import AcademyBottomCTA from '@/components/academy/AcademyBottomCTA';
+import AcademyInfoTabs from '@/components/academy/AcademyInfoTabs';
 
 export default function AcademyPage() {
   return (
@@ -25,17 +18,8 @@ export default function AcademyPage() {
         backgroundImage="/images/hero/academy-hero.jpg"
       />
       
-      {/* Our Story Section with Luxury Carousel */}
-      <AcademyStory />
-      
-
-      
-      {/* Enhanced Tabs Section */}
-      <AcademyTabsSection />
-      
-      
-      {/* Quick Actions */}
-      <AcademyQuickActions />
+      {/* Tabs Section with Our Story and Team */}
+      <AcademyInfoTabs />
     </>
   );
 }

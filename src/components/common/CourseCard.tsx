@@ -157,7 +157,7 @@ const CourseCard: React.FC<CourseCardProps> = ({
             size="large"
             className="min-w-[200px] animate-shine"
           >
-            הרשמה מהירה
+            להרשמה
           </Button>
           
           {variant === 'minimal' && (

@@ -189,26 +189,6 @@ const TestimonialsCarousel: React.FC = () => {
                     הרשמה לקורס
                   </Button>
                 </motion.div>
-                
-                <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                  <Button
-                    href="/contact?consultation=true"
-                    variant="secondary"
-                    size="large"
-                    className="min-w-[200px] font-light tracking-wider"
-                  >
-                    ייעוץ חינם
-                  </Button>
-                </motion.div>
-              </div>
-
-              {/* Trust indicators - Luxury minimal */}
-              <div className="flex justify-center gap-8 mt-8 text-xs tracking-wider text-lightgrey/50">
-                <span>EST. 2018</span>
-                <span className="text-gold/50">•</span>
-                <span>500+ GRADUATES</span>
-                <span className="text-gold/50">•</span>
-                <span>92% SUCCESS</span>
               </div>
             </div>
           </div>

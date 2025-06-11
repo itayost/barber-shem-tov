@@ -64,11 +64,13 @@ const Logo = ({ isScrolled, src, alt, href = "/" }: LogoProps) => {
             transition={{ duration: 0.6, ease: LUXURY_EASING }}
             className="relative"
           >
+
             <Image 
               src={src}
               alt={alt}
               width={200}
               height={50}
+              sizes="(max-width: 768px) 150px, 200px"
               className="h-10 md:h-12 w-auto object-contain select-none"
               priority
               quality={90}

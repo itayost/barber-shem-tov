@@ -15,7 +15,7 @@ const CoursesPage = () => {
   return (
     <main className="bg-charcoal">
       <Hero
-        title={<>הקרוסים <span className="text-gold">שלנו</span></>}
+        title={<>הקורסים <span className="text-gold">שלנו</span></>}
         subtitle="לכל גיל, לכל רמה"
         backgroundImage="/images/hero/courses-hero.jpg"
       />

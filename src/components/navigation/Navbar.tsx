@@ -46,7 +46,7 @@ const Navbar = () => {
         initial={false}
         animate={{
           height: isScrolled ? 60 : 80,
-          backgroundColor: isScrolled ? 'rgba(26, 26, 26, 0.9)' : 'transparent'
+          backgroundColor: isScrolled ? 'rgba(26, 26, 26, 0.9)' : 'rgba(26, 26, 26, 0)'
         }}
         transition={{
           height: { duration: 0.3, ease: "easeInOut" },

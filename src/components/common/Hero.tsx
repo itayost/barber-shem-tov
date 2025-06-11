@@ -97,7 +97,7 @@ const Hero: React.FC<HeroProps> = ({
     >
       {/* Background Image(s) */}
       <div className="absolute inset-0 z-0 gpu-accelerated">
-        <AnimatePresence mode="wait">
+        <AnimatePresence>
           <motion.div
             key={currentImageIndex}
             className="absolute inset-0"

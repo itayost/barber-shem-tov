@@ -1,4 +1,4 @@
-// src/components/navigation/Navbar.tsx - Complete fix with animations
+// src/components/navigation/Navbar.tsx - Fixed version without compact state
 'use client';
 
 import { useState, useEffect, useCallback, lazy, Suspense } from 'react';
@@ -19,7 +19,6 @@ const LUXURY_SPRING = { type: "spring", stiffness: 260, damping: 30 };
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isCompact, setIsCompact] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
   
   // Check if desktop
@@ -33,25 +32,18 @@ const Navbar = () => {
     return () => window.removeEventListener('resize', checkDesktop);
   }, []);
   
-  
-  // Enhanced scroll handler with multiple thresholds
+  // Simple scroll handler - only checks if scrolled or not
   useEffect(() => {
     let rafId: number;
-    let prevScrollY = 0;
     
     const handleScroll = () => {
       if (rafId) cancelAnimationFrame(rafId);
       
       rafId = requestAnimationFrame(() => {
         const currentScrollY = window.scrollY;
-        const scrollDelta = currentScrollY - prevScrollY;
         
-        // Multiple scroll states for refined behavior
+        // Simple scroll state - scrolled or not
         setIsScrolled(currentScrollY > 50);
-        setIsCompact(currentScrollY > 300 && scrollDelta > 0); // Hide on scroll down
-        
-        // Update states
-        prevScrollY = currentScrollY;
       });
     };
     
@@ -73,10 +65,8 @@ const Navbar = () => {
     setIsMobileMenuOpen(false);
   }, []);
   
-  // Enhanced navbar classes
-  const navbarClasses = `navbar ${isScrolled ? 'navbar-scrolled' : 'navbar-transparent'} ${
-    isCompact ? 'navbar-compact' : ''
-  }`;
+  // Simple navbar classes - no compact state
+  const navbarClasses = `navbar ${isScrolled ? 'navbar-scrolled' : 'navbar-transparent'}`;
   
   return (
     <>
@@ -86,8 +76,8 @@ const Navbar = () => {
         dir="rtl"
         initial={{ y: -100 }}
         animate={{ 
-          y: isCompact ? -80 : 0,
-          height: isCompact ? 60 : 80
+          y: 0,
+          height: isScrolled ? 70 : 80
         }}
         transition={{
           ease: LUXURY_EASING,
@@ -111,13 +101,13 @@ const Navbar = () => {
         <motion.div 
           className="navbar-container relative z-10"
           animate={{
-            padding: isCompact ? '0 1.5rem' : '0 1.5rem'
+            padding: '0 1.5rem'
           }}
           transition={{ ease: LUXURY_EASING, duration: 0.3 }}
         >
           {/* Logo with scale animation */}
           <motion.div
-            animate={{ scale: isCompact ? 0.85 : 1 }}
+            animate={{ scale: isScrolled ? 0.9 : 1 }}
             transition={LUXURY_SPRING}
           >
             <Logo 

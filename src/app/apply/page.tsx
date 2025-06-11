@@ -4,9 +4,48 @@
 import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { motion } from 'framer-motion';
-import Image from 'next/image';
-import Link from 'next/link';
+import Button from '@/components/common/Button';
 import { academyInfo } from '@/lib/data';
+import { enrollmentTracker } from '@/utils/enrollmentTracking';
+
+// Input component following your design system
+const FormInput: React.FC<{
+  type: string;
+  name: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  placeholder: string;
+  error?: string;
+  dir?: 'rtl' | 'ltr';
+}> = ({ type, name, value, onChange, placeholder, error, dir = 'rtl' }) => (
+  <div>
+    <input
+      type={type}
+      name={name}
+      value={value}
+      onChange={onChange}
+      placeholder={placeholder}
+      dir={dir}
+      className={`
+        w-full px-4 py-3 
+        bg-charcoal-light/50 
+        border ${error ? 'border-red-500' : 'border-lightgrey/20'}
+        text-offwhite placeholder-lightgrey/50
+        focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-transparent
+        transition-all duration-200
+      `}
+    />
+    {error && (
+      <motion.p 
+        initial={{ opacity: 0, y: -5 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="text-red-500 text-xs mt-1"
+      >
+        {error}
+      </motion.p>
+    )}
+  </div>
+);
 
 function ApplyContent() {
   const searchParams = useSearchParams();
@@ -67,9 +106,12 @@ function ApplyContent() {
     
     setIsSubmitting(true);
     
-    // Create message for company
+    // Track enrollment
+    enrollmentTracker.track('whatsapp', 'contact_page', courseName);
+    
+    // Create message
     const message = `
-🎯 פנייה חדשה מטופס הרשמה מהירה
+🎯 פנייה חדשה מטופס הרשמה
 
 👤 שם: ${formData.name}
 📍 עיר: ${formData.city}
@@ -80,12 +122,11 @@ ${courseName ? `📚 קורס: ${courseName}` : ''}
 נשלח מ: ${window.location.href}
     `.trim();
     
-    // Here you would normally send to your backend
-    // For now, open WhatsApp
-    const whatsappUrl = `https://wa.me/972544994417?text=${encodeURIComponent(message)}`;
+    // Open WhatsApp
+    const whatsappUrl = `https://wa.me/972${academyInfo.phone.substring(1)}?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
     
-    // Show success after delay
+    // Show success
     setTimeout(() => {
       setIsSubmitting(false);
       setIsSubmitted(true);
@@ -96,7 +137,6 @@ ${courseName ? `📚 קורס: ${courseName}` : ''}
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
-    // Clear error when user types
     if (errors[name]) {
       setErrors(prev => ({ ...prev, [name]: '' }));
     }
@@ -105,202 +145,222 @@ ${courseName ? `📚 קורס: ${courseName}` : ''}
   // Success state
   if (isSubmitted) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-charcoal to-black flex items-center justify-center p-4">
-        <motion.div
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 0.5 }}
-          className="bg-charcoal-light/50 border border-gold/30 backdrop-blur-sm p-8 rounded-2xl shadow-2xl max-w-md w-full text-center"
-        >
-          {/* Success Icon */}
-          <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-            className="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6"
-          >
-            <svg className="w-10 h-10 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-            </svg>
-          </motion.div>
-          
-          <h2 className="text-2xl font-bold text-offwhite mb-4">
-            נרשמת בהצלחה! 🎉
-          </h2>
-          
-          <p className="text-lightgrey mb-6">
-            קיבלנו את הפרטים שלך ונחזור אליך בהקדם.
-            <br />
-            <span className="text-gold font-medium">בדרך כלל תוך 24 שעות</span>
-          </p>
-          
-          <div className="bg-charcoal/50 p-4 rounded-lg mb-6 text-sm">
-            <p className="text-lightgrey mb-2">פרטי ההרשמה:</p>
-            <p className="text-offwhite">{formData.name}</p>
-            <p className="text-offwhite hebrew-nums" dir="ltr">{formData.phone}</p>
-          </div>
-          
-          <div className="flex flex-col gap-3">
-            <Link 
-              href="/"
-              className="bg-gold text-charcoal py-3 px-6 rounded-full font-bold hover:bg-gold/90 transition-all"
+      <>
+        <section className="py-20 bg-charcoal" dir="rtl">
+          <div className="container mx-auto px-4">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="max-w-2xl mx-auto text-center"
             >
-              חזרה לדף הבית
-            </Link>
-            <button
-              onClick={() => {
-                setIsSubmitted(false);
-                setFormData({ name: '', city: '', age: '', phone: '' });
-              }}
-              className="text-gold hover:underline"
-            >
-              מלא טופס נוסף
-            </button>
+              {/* Success Icon */}
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+                className="w-24 h-24 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-8"
+              >
+                <svg className="w-12 h-12 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+              </motion.div>
+
+              <h2 className="text-3xl font-bold text-offwhite mb-4">
+                קיבלנו את הפרטים שלך!
+              </h2>
+              
+              <p className="text-lightgrey text-lg mb-8">
+                נציג מהאקדמיה יחזור אליך תוך 24 שעות
+                <br />
+                לתיאום פגישת ייעוץ ומידע על הקורסים
+              </p>
+
+              {/* Submission details */}
+              <div className="bg-charcoal-light/50 border border-gold/20 p-6 mb-8 text-right">
+                <h3 className="text-gold font-bold mb-4">פרטי ההרשמה:</h3>
+                <div className="space-y-2 text-lightgrey">
+                  <p><span className="text-gold">שם:</span> {formData.name}</p>
+                  <p><span className="text-gold">טלפון:</span> <span className="hebrew-nums" dir="ltr">{formData.phone}</span></p>
+                  {courseName && (
+                    <p><span className="text-gold">קורס:</span> {courseName}</p>
+                  )}
+                </div>
+              </div>
+
+              {/* Actions */}
+              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <Button
+                  href="/"
+                  variant="primary"
+                  size="large"
+                >
+                  חזרה לדף הבית
+                </Button>
+                
+                <Button
+                  onClick={() => {
+                    setIsSubmitted(false);
+                    setFormData({ name: '', city: '', age: '', phone: '' });
+                  }}
+                  variant="secondary"
+                  size="large"
+                >
+                  מלא טופס נוסף
+                </Button>
+              </div>
+            </motion.div>
           </div>
-        </motion.div>
-      </div>
+        </section>
+      </>
     );
   }
 
   // Main form view
   return (
-    <div className="min-h-screen bg-gradient-to-br from-charcoal to-black flex items-center justify-center p-4" dir="rtl">
-      {/* Background decoration */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 right-20 w-96 h-96 bg-gold/5 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 left-20 w-96 h-96 bg-gold/5 rounded-full blur-3xl"></div>
-      </div>
-
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="bg-charcoal-light/50 border border-gold/30 backdrop-blur-sm p-6 sm:p-8 rounded-2xl shadow-2xl max-w-md w-full relative z-10"
-      >
-        {/* Logo */}
-        <Link href="/" className="block mb-8">
-          <Image
-            src="/images/logos/logo.png"
-            alt={academyInfo.shortName}
-            width={150}
-            height={40}
-            className="h-10 w-auto mx-auto"
-          />
-        </Link>
-
-        {/* Title */}
-        <h1 className="text-2xl font-bold text-center mb-2">
-          הרשמה מהירה
-        </h1>
-        {courseName && (
-          <p className="text-gold text-center mb-6">
-            {courseName}
-          </p>
-        )}
-
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Name Field */}
-          <div>
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              placeholder="שם מלא *"
-              className={`w-full px-4 py-3 bg-charcoal/50 border rounded-lg placeholder-lightgrey/50 focus:outline-none focus:ring-2 focus:ring-gold/50 transition-all ${
-                errors.name ? 'border-red-500' : 'border-lightgrey/20'
-              }`}
-            />
-            {errors.name && (
-              <p className="text-red-500 text-xs mt-1">{errors.name}</p>
-            )}
-          </div>
-
-          {/* City Field */}
-          <div>
-            <input
-              type="text"
-              name="city"
-              value={formData.city}
-              onChange={handleChange}
-              placeholder="עיר מגורים *"
-              className={`w-full px-4 py-3 bg-charcoal/50 border rounded-lg placeholder-lightgrey/50 focus:outline-none focus:ring-2 focus:ring-gold/50 transition-all ${
-                errors.city ? 'border-red-500' : 'border-lightgrey/20'
-              }`}
-            />
-            {errors.city && (
-              <p className="text-red-500 text-xs mt-1">{errors.city}</p>
-            )}
-          </div>
-
-          {/* Age Field */}
-          <div>
-            <input
-              type="number"
-              name="age"
-              value={formData.age}
-              onChange={handleChange}
-              placeholder="גיל *"
-              min="16"
-              max="100"
-              className={`w-full px-4 py-3 bg-charcoal/50 border rounded-lg placeholder-lightgrey/50 focus:outline-none focus:ring-2 focus:ring-gold/50 transition-all ${
-                errors.age ? 'border-red-500' : 'border-lightgrey/20'
-              }`}
-            />
-            {errors.age && (
-              <p className="text-red-500 text-xs mt-1">{errors.age}</p>
-            )}
-          </div>
-
-          {/* Phone Field */}
-          <div>
-            <input
-              type="tel"
-              name="phone"
-              value={formData.phone}
-              onChange={handleChange}
-              placeholder="מספר טלפון *"
-              dir="ltr"
-              className={`w-full px-4 py-3 bg-charcoal/50 border rounded-lg placeholder-lightgrey/50 focus:outline-none focus:ring-2 focus:ring-gold/50 transition-all ${
-                errors.phone ? 'border-red-500' : 'border-lightgrey/20'
-              }`}
-            />
-            {errors.phone && (
-              <p className="text-red-500 text-xs mt-1">{errors.phone}</p>
-            )}
-          </div>
-
-          {/* Submit Button */}
-          <motion.button
-            type="submit"
-            disabled={isSubmitting}
-            className="w-full bg-gold text-charcoal py-4 rounded-full font-bold text-lg hover:bg-gold/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
+    <>
+      <section className="py-20 bg-charcoal" dir="rtl">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="max-w-2xl mx-auto"
           >
-            {isSubmitting ? (
-              <span className="flex items-center justify-center gap-2">
-                <motion.span
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                >
-                  ⏳
-                </motion.span>
-                שולח...
-              </span>
-            ) : (
-              'שלח הרשמה'
-            )}
-          </motion.button>
-        </form>
+            {/* Form Header */}
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold text-offwhite mb-4">
+                טופס הרשמה מהירה
+              </h2>
+              <p className="text-lightgrey">
+                מלא את הפרטים ונחזור אליך תוך 24 שעות
+              </p>
+            </div>
 
-        {/* Trust text */}
-        <p className="text-xs text-lightgrey/50 text-center mt-4">
-          🔒 הפרטים שלך בטוחים ולא יועברו לצד שלישי
-        </p>
-      </motion.div>
-    </div>
+            {/* Form */}
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="bg-charcoal-light/50 border border-gold/10 p-8">
+                <div className="space-y-6">
+                  {/* Name Field */}
+                  <FormInput
+                    type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    placeholder="שם מלא *"
+                    error={errors.name}
+                  />
+
+                  {/* City Field */}
+                  <FormInput
+                    type="text"
+                    name="city"
+                    value={formData.city}
+                    onChange={handleChange}
+                    placeholder="עיר מגורים *"
+                    error={errors.city}
+                  />
+
+                  {/* Age Field */}
+                  <FormInput
+                    type="number"
+                    name="age"
+                    value={formData.age}
+                    onChange={handleChange}
+                    placeholder="גיל *"
+                    error={errors.age}
+                  />
+
+                  {/* Phone Field */}
+                  <FormInput
+                    type="tel"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    placeholder="מספר טלפון *"
+                    error={errors.phone}
+                    dir="ltr"
+                  />
+                </div>
+
+                {/* Course info if selected */}
+                {courseName && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    className="mt-6 pt-6 border-t border-gold/10"
+                  >
+                    <p className="text-sm text-lightgrey">
+                      נרשם לקורס: <span className="text-gold font-bold">{courseName}</span>
+                    </p>
+                  </motion.div>
+                )}
+              </div>
+
+              {/* Submit Button */}
+              <div className="flex flex-col items-center gap-4">
+                <Button
+                  type="submit"
+                  variant="primary"
+                  size="large"
+                  disabled={isSubmitting}
+                  className="min-w-[200px]"
+                >
+                  {isSubmitting ? (
+                    <span className="flex items-center justify-center gap-2">
+                      <motion.span
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                      >
+                        ⏳
+                      </motion.span>
+                      שולח...
+                    </span>
+                  ) : (
+                    'שלח הרשמה'
+                  )}
+                </Button>
+
+                {/* Privacy note */}
+                <p className="text-xs text-lightgrey/50 text-center">
+                  🔒 הפרטים שלך בטוחים ולא יועברו לצד שלישי
+                </p>
+              </div>
+            </form>
+
+            {/* Contact alternatives */}
+            <div className="mt-12 text-center">
+              <p className="text-lightgrey mb-4">מעדיפים ליצור קשר ישירות?</p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <a 
+                  href={`tel:${academyInfo.phone}`}
+                  className="text-gold hover:text-gold/80 transition-colors flex items-center gap-2"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                  </svg>
+                  <span className="hebrew-nums">{academyInfo.phone}</span>
+                </a>
+                
+                <span className="text-lightgrey/30 hidden sm:inline">|</span>
+                
+                <a 
+                  href={`https://wa.me/972${academyInfo.phone.substring(1)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-green-400 hover:text-green-300 transition-colors flex items-center gap-2"
+                >
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.893 3.488"/>
+                  </svg>
+                  <span>WhatsApp</span>
+                </a>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+    </>
   );
 }
 
@@ -308,7 +368,13 @@ export default function ApplyPage() {
   return (
     <Suspense fallback={
       <div className="min-h-screen flex items-center justify-center bg-charcoal">
-        <div className="animate-pulse text-gold">טוען...</div>
+        <motion.div 
+          animate={{ rotate: 360 }}
+          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+          className="text-gold text-2xl"
+        >
+          ⏳
+        </motion.div>
       </div>
     }>
       <ApplyContent />

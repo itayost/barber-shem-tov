@@ -7,16 +7,15 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "clean": "rm -rf .next node_modules package-lock.json && npm install",
-    "postinstall": "rm -f node_modules/uri-js/yarn.lock 2>/dev/null || true"
+    "clean": "rm -rf .next node_modules package-lock.json && npm install"
   },
   "dependencies": {
     "@heroicons/react": "^2.1.5",
     "clsx": "^2.1.1",
-    "framer-motion": "^10.18.0",
+    "framer-motion": "^11.2.0",
     "keen-slider": "^6.8.6",
     "lucide-react": "^0.417.0",
-    "next": "^14.2.3",
+    "next": "15.3.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "tailwind-merge": "^2.4.0"
@@ -27,7 +26,7 @@
     "@types/react-dom": "^18.3.0",
     "autoprefixer": "^10.4.19",
     "eslint": "^8.57.0",
-    "eslint-config-next": "^14.2.3",
+    "eslint-config-next": "15.3.0",
     "postcss": "^8.4.39",
     "tailwindcss": "^3.4.6",
     "typescript": "^5.5.4"

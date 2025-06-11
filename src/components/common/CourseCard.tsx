@@ -1,8 +1,7 @@
-// src/components/common/CourseCard.tsx - Stable version without flashing
+// src/components/common/CourseCard.tsx - CSS-only animations
 'use client';
 
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Button from '@/components/common/Button';
 import { Course } from '@/lib/data';
@@ -22,6 +21,8 @@ const CourseCard: React.FC<CourseCardProps> = ({
   className = ''
 }) => {
   const [imageError, setImageError] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
   
   const courseImage = `/images/courses/${course.id}.jpg`;
@@ -32,15 +33,34 @@ const CourseCard: React.FC<CourseCardProps> = ({
     router.push(`/apply?course=${encodedCourseName}`);
   };
 
+  // Intersection observer for animation trigger
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (cardRef.current) {
+      observer.observe(cardRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  const animationDelay = index * 100; // Stagger effect
+
   return (
-    <motion.div
+    <div
+      ref={cardRef}
       className={`relative overflow-hidden group bg-charcoal flex items-center ${
         variant === 'minimal' ? 'min-h-[600px]' : 'min-h-[700px]'
-      } ${className}`}
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.6, delay: index * 0.1 }}
+      } ${isVisible ? 'animate-fadeInUp' : 'opacity-0'} ${className}`}
+      style={{ animationDelay: `${animationDelay}ms` }}
     >
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
@@ -80,51 +100,39 @@ const CourseCard: React.FC<CourseCardProps> = ({
         {variant === 'minimal' && <div className="h-8 md:h-12" />}
 
         {/* Category */}
-        <motion.p 
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="text-gold text-sm uppercase tracking-wider mb-6"
-        >
+        <p className={`text-gold text-sm uppercase tracking-wider mb-6 ${
+          isVisible ? 'animate-fadeIn animation-delay-200' : 'opacity-0'
+        }`}>
           {course.category === 'beginner' ? 'קורס למתחילים' : 
             course.category === 'advanced' ? 'קורס מתקדמים' :
               course.category === 'professional' ? 'קורס מקצועי' :
                 course.category === 'workshop' ? 'סדנה' : 'קורס עסקי'}
-        </motion.p>
+        </p>
 
         {/* Title */}
-        <motion.div 
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ delay: 0.3 }}
-          className="mb-8"
-        >
+        <div className={`mb-8 ${
+          isVisible ? 'animate-fadeIn animation-delay-300' : 'opacity-0'
+        }`}>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-offwhite mb-3">
             {course.name_he}
           </h2>
           <p className="text-lg md:text-xl text-gold/80">
             {course.duration_he}
           </p>
-        </motion.div>
+        </div>
 
         {/* Description */}
-        <motion.p 
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ delay: 0.4 }}
-          className="text-lightgrey text-base md:text-lg mb-8 max-w-2xl mx-auto"
-        >
+        <p className={`text-lightgrey text-base md:text-lg mb-8 max-w-2xl mx-auto ${
+          isVisible ? 'animate-fadeIn animation-delay-400' : 'opacity-0'
+        }`}>
           {course.description_he}
-        </motion.p>
+        </p>
 
         {/* Additional Details for Detailed Variant */}
         {variant === 'detailed' && course.features && course.features.length > 0 && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
-            className="mb-8"
-          >
+          <div className={`mb-8 ${
+            isVisible ? 'animate-fadeIn animation-delay-500' : 'opacity-0'
+          }`}>
             <div className="bg-black/40 backdrop-blur-sm border border-gold/20 p-6 rounded-lg mb-6 max-w-xl mx-auto">
               <h3 className="text-gold font-bold mb-4">מה תלמדו בקורס:</h3>
               <ul className="text-lightgrey text-sm space-y-2 text-right">
@@ -136,16 +144,13 @@ const CourseCard: React.FC<CourseCardProps> = ({
                 ))}
               </ul>
             </div>
-          </motion.div>
+          </div>
         )}
 
         {/* CTA */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ delay: variant === 'detailed' ? 0.6 : 0.5 }}
-          className="flex flex-col items-center gap-4"
-        >
+        <div className={`flex flex-col items-center gap-4 ${
+          isVisible ? 'animate-fadeIn animation-delay-600' : 'opacity-0'
+        }`}>
           <Button
             onClick={handleEnroll}
             variant="primary"
@@ -165,9 +170,9 @@ const CourseCard: React.FC<CourseCardProps> = ({
               לכל הקורסים
             </Button>
           )}
-        </motion.div>
+        </div>
       </div>
-    </motion.div>
+    </div>
   );
 };
 

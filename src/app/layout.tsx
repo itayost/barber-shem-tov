@@ -1,11 +1,10 @@
-// src/app/layout.tsx
+// src/app/layout.tsx - Updated to prevent animation flash
 import { Heebo } from 'next/font/google';
 import './globals.css';
 import { Navbar } from '@/components/navigation';
 import Footer from '@/components/common/Footer';
-import SmartFAB from '@/components/common/SmartFAB'; // Add this import
+import SmartFAB from '@/components/common/SmartFAB';
 
-// Hebrew font setup
 const heebo = Heebo({
   subsets: ['hebrew'],
   weight: ['300', '400', '500', '700'],
@@ -18,7 +17,6 @@ export const metadata = {
   description: 'חווית הספרות המובילה של הצפון, שבה אומנות מסורתית פוגשת סגנון עכשווי. הזמינו תור עוד היום.',
   metadataBase: new URL('https://barber-shem-tov.vercel.app'),
   
-  // Enhanced Open Graph metadata
   openGraph: {
     title: 'The Fader | ספר מודרני ויוקרתי בטירת הכרמל',
     description: 'חווית הספרות המובילה של הצפון, שבה אומנות מסורתית פוגשת סגנון עכשווי.',
@@ -26,17 +24,14 @@ export const metadata = {
     siteName: 'The Fader Barbershop',
     locale: 'he_IL',
     type: 'website',
-    images: [
-      {
-        url: '/images/logos/og.png',
-        width: 1200,
-        height: 630,
-        alt: 'The Fader - מספרה בטירת הכרמל',
-      },
-    ],
+    images: [{
+      url: '/images/logos/og.png',
+      width: 1200,
+      height: 630,
+      alt: 'The Fader - מספרה בטירת הכרמל',
+    }],
   },
   
-  // Enhanced Twitter Card metadata
   twitter: {
     card: 'summary_large_image',
     title: 'The Fader | ספר מודרני ויוקרתי בטירת הכרמל',
@@ -46,7 +41,6 @@ export const metadata = {
     site: '@TheFaderBarber',
   },
   
-  // Enhanced robots metadata
   robots: {
     index: true,
     follow: true,
@@ -60,7 +54,6 @@ export const metadata = {
     },
   },
   
-  // Alternate and canonical URLs
   alternates: {
     canonical: 'https://barber-shem-tov.vercel.app',
     languages: {
@@ -68,20 +61,17 @@ export const metadata = {
     },
   },
   
-  // App icons
   icons: {
     icon: '/favicon.ico',
     apple: '/apple-icon.png',
     shortcut: '/shortcut-icon.png'
   },
   
-  // Web app manifest
   manifest: '/site.webmanifest',
 };
 
-// Moving themeColor to viewport as per Next.js recommendation
 export const viewport = {
-  themeColor: '#1A1A1A', // Using deep charcoal color from the style guide
+  themeColor: '#1A1A1A',
   width: 'device-width',
   initialScale: 1,
   maximumScale: 1,
@@ -93,30 +83,48 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="he" dir="rtl" className={`${heebo.variable}`}>
+    <html lang="he" dir="rtl" className={heebo.variable}>
       <head>
-        {/* Preconnect to third-party domains for performance */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <meta name="apple-mobile-web-app-title" content="The Fader" />
-
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-      // Prevent animation flash on load
-      document.documentElement.classList.add('preload');
-      window.addEventListener('load', function() {
-        setTimeout(function() {
-          document.documentElement.classList.remove('preload');
-        }, 100);
-      });
-    `,
-          }}
-        />
+        
+        {/* Critical: Prevent FOUC and animation flash */}
+        <style dangerouslySetInnerHTML={{
+          __html: `
+            /* Prevent flash of unstyled content */
+            html { 
+              visibility: hidden; 
+              opacity: 0; 
+            }
+            
+            /* Prevent Framer Motion SSR flash */
+            [data-framer-component-type] {
+              opacity: 1 !important;
+              transform: none !important;
+            }
+          `
+        }} />
+        
+        <script dangerouslySetInnerHTML={{
+          __html: `
+            // Make page visible after styles load
+            document.addEventListener('DOMContentLoaded', function() {
+              document.documentElement.style.visibility = 'visible';
+              document.documentElement.style.opacity = '1';
+              document.documentElement.style.transition = 'opacity 0.3s ease-out';
+            });
+            
+            // Fallback for slow connections
+            setTimeout(function() {
+              document.documentElement.style.visibility = 'visible';
+              document.documentElement.style.opacity = '1';
+            }, 100);
+          `
+        }} />
       </head>
       
-      <body className="bg-charcoal text-offwhite font-heebo">
-        {/* Skip to content link for accessibility */}
+      <body className="bg-charcoal text-offwhite font-heebo antialiased">
         <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-0 focus:right-0 focus:z-50 focus:p-4 focus:bg-charcoal focus:text-gold">
           דלג לתוכן העיקרי
         </a>
@@ -128,8 +136,6 @@ export default function RootLayout({
         </main>
         
         <Footer />
-        
-        {/* Add the Smart FAB here */}
         <SmartFAB />
       </body>
     </html>

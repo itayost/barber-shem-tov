@@ -1,15 +1,13 @@
 // src/components/academy/tabs/AcademyStoryTab.tsx - Luxury Fashion Editorial
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Button from '@/components/common/Button';
 import LuxuryCarousel from '@/components/common/LuxuryCarousel';
 
 const AcademyStoryTab: React.FC = () => {
-  const [activeChapter, setActiveChapter] = useState<number>(0);
-
   // Luxury Editorial Chapters
   const chapters = [
     {
@@ -177,9 +175,9 @@ const AcademyStoryTab: React.FC = () => {
                 </p>
                 
                 <h3 className="text-4xl md:text-5xl font-thin text-offwhite mb-8 leading-tight">
-                  "אמנות היא לא מה שאתה עושה,
+                  &ldquo;אמנות היא לא מה שאתה עושה,
                   <br />
-                  <span className="text-gold">אלא איך אתה גורם למישהו להרגיש"</span>
+                  <span className="text-gold">אלא איך אתה גורם למישהו להרגיש&rdquo;</span>
                 </h3>
                 
                 <p className="text-lg font-light text-lightgrey/80 leading-relaxed">

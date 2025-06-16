@@ -1,7 +1,7 @@
 // src/components/gallery/EnhancedGalleryFilter.tsx
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import TabNavigation, { Tab } from '@/components/common/TabNavigation';
 import { GalleryCategory } from '@/lib/data';
@@ -19,7 +19,35 @@ const EnhancedGalleryFilter: React.FC<EnhancedGalleryFilterProps> = ({
   setActiveCategory,
   imageCounts
 }) => {
+  const [navbarHeight, setNavbarHeight] = useState(60); // Default to scrolled height
   const totalImages = Object.values(imageCounts).reduce((sum, count) => sum + count, 0);
+
+  // Detect navbar height dynamically
+  useEffect(() => {
+    const updateNavbarHeight = () => {
+      const navbar = document.querySelector('.navbar');
+      if (navbar) {
+        const height = navbar.getBoundingClientRect().height;
+        setNavbarHeight(height);
+      }
+    };
+
+    // Initial check
+    updateNavbarHeight();
+
+    // Listen for scroll to update when navbar changes
+    const handleScroll = () => {
+      updateNavbarHeight();
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('resize', updateNavbarHeight);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', updateNavbarHeight);
+    };
+  }, []);
 
   // Convert categories to tab format with unique IDs
   const tabs: Tab[] = [
@@ -71,8 +99,12 @@ const EnhancedGalleryFilter: React.FC<EnhancedGalleryFilterProps> = ({
         </div>
       </div>
 
-      {/* Sticky Tab Navigation */}
-      <div className="sticky top-16 z-20 bg-charcoal" dir="rtl">
+      {/* Sticky Tab Navigation with dynamic top position */}
+      <div 
+        className="sticky z-20 bg-charcoal" 
+        style={{ top: `${navbarHeight}px` }}
+        dir="rtl"
+      >
         <TabNavigation
           tabs={tabs}
           activeTab={currentActiveTab}

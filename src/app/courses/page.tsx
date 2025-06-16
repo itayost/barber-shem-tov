@@ -4,7 +4,6 @@
 import React, { useState } from 'react';
 import Hero from '@/components/common/Hero';
 import CoursesGrid from '@/components/courses/CoursesGrid';
-import CoursesComparison from '@/components/courses/CoursesComparison';
 import CoursesFAQ from '@/components/courses/CoursesFAQ';
 import CoursesCTA from '@/components/courses/CoursesCTA';
 
@@ -22,9 +21,6 @@ const CoursesPage = () => {
       
       {/* Course cards grid */}
       <CoursesGrid activeFilter={activeFilter} />
-      
-      {/* Comparison section */}
-      <CoursesComparison />
       
       {/* FAQ section */}
       <CoursesFAQ />

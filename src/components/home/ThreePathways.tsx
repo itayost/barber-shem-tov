@@ -19,7 +19,7 @@ const ThreePathways: React.FC = () => {
           transition={{ duration: 0.6 }}
         >
           <p className="text-gold text-sm tracking-wider uppercase mb-3">
-            אקדמיית בר שם טוב
+            The Fader Academy
           </p>
           
           <h2 className="text-3xl md:text-5xl font-bold text-offwhite mb-4">

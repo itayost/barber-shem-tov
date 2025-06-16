@@ -1,14 +1,18 @@
-// src/components/navigation/Navbar.tsx - Fixed version
+// src/components/navigation/Navbar.tsx - Fixed CTA positioning
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
+import Link from 'next/link';
 import Logo from './Logo';
 import DesktopNav from './DesktopNav';
 import MobileMenuButton from './MobileMenuButton';
 import MobileMenu from './MobileMenu';
 import { academyInfo } from '@/lib/data';
 import { navigationConfig } from '@/config/navigation';
+
+// Luxury animation constants
+const LUXURY_SPRING = { stiffness: 300, damping: 30 };
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -64,10 +68,11 @@ const Navbar = () => {
           transition={{ duration: 0.3 }}
         />
         
-        {/* Container */}
-        <div className="navbar-container relative z-10">
-          {/* Logo with scaling */}
+        {/* Container with proper flex layout */}
+        <div className="navbar-container relative z-10 flex items-center">
+          {/* Logo */}
           <motion.div
+            className="flex-shrink-0"
             animate={{ scale: isScrolled ? 0.85 : 1 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
           >
@@ -78,17 +83,59 @@ const Navbar = () => {
             />
           </motion.div>
           
-          {/* Desktop Navigation - Full width flex container */}
-          <div className="hidden md:flex items-center flex-1">
+          {/* Center Navigation (Desktop only) */}
+          <div className="hidden md:flex items-center justify-center flex-1 px-8">
             <DesktopNav 
               navItems={navigationConfig.mainItems}
-              callToAction={{
-                text: navigationConfig.quickActions.primary.text,
-                href: navigationConfig.quickActions.primary.href,
-                className: "btn-primary"
-              }}
             />
           </div>
+          
+          {/* CTA Button (Desktop only) - Positioned at the end */}
+          <motion.div
+            className="hidden md:block flex-shrink-0"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            transition={LUXURY_SPRING}
+          >
+            <Link 
+              href={navigationConfig.quickActions.primary.href} 
+              className="btn-primary px-6 py-2.5 text-sm font-semibold relative group inline-block whitespace-nowrap"
+              style={{ isolation: 'isolate' }}
+            >
+              {/* Create a clipping container */}
+              <span className="absolute inset-0 overflow-hidden rounded-[inherit]">
+                {/* Luxury shine effect */}
+                <motion.span
+                  className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12"
+                  initial={{ x: '-150%' }}
+                  whileHover={{ x: '150%' }}
+                  transition={{
+                    duration: 0.8,
+                    ease: "easeInOut"
+                  }}
+                />
+              </span>
+              
+              {/* Button text */}
+              <span className="relative z-20">{navigationConfig.quickActions.primary.text}</span>
+              
+              {/* Pulse effect */}
+              <span className="absolute inset-0 overflow-hidden rounded-[inherit] pointer-events-none">
+                <motion.span
+                  className="absolute inset-0 bg-gold/20"
+                  animate={{
+                    scale: [1, 1.2, 1],
+                    opacity: [0.3, 0, 0.3]
+                  }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                />
+              </span>
+            </Link>
+          </motion.div>
           
           {/* Mobile Menu Button */}
           <div className="md:hidden">

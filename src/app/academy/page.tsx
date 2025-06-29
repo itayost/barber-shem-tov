@@ -1,29 +1,50 @@
 // src/app/academy/page.tsx
+import React from 'react';
 import Hero from '@/components/common/Hero';
-import AcademyStoryLight from '@/components/academy/tabs/AcademyStoryLight';
+import { generateMetadata } from '@/utils/openGraphUtils';
+
+// Import components directly without dynamic imports for now
+import OurStory from '@/components/academy/AcademyOurStory';
+import FounderSection from '@/components/academy/AcademyFounder';
+import OurStaff from '@/components/academy/AcademyStaff';
+import AcademyCTA from '@/components/academy/AcademyCTA';
+
+// Metadata
+export const metadata = generateMetadata(
+  'academy',
+  'האקדמיה | The Fader - מוסד להכשרת ספרים מקצועיים',
+  'הכירו את האקדמיה המובילה לספרות בצפון. למדו על החזון, הצוות המקצועי וההישגים שהופכים אותנו למוסד המוביל בתחום.'
+);
 
 export default function AcademyPage() {
   return (
-    <>
-      {/* Hero Section */}
+    <main className="min-h-screen bg-offwhite">
+      {/* Hero Section using common component */}
       <Hero
         title={
           <>
-            האקדמיה שמכשירה
+            האקדמיה למצוינות
             <br />
-            <span className="text-gold">את המקצוענים הבאים</span>
+            <span className="text-gold">בספרות מקצועית</span>
           </>
         }
-        subtitle="מאחורי הקלעים של The Fader"
+        subtitle="מאז 2018"
         backgroundImage="/images/hero/academy-hero.jpg"
+        ctaText="לקורסים שלנו"
+        ctaHref="/courses"
       />
-      
-      {/* Our Story Section - Lightweight version */}
-      <section className="py-20 md:py-32 bg-black" dir="rtl">
-        <div className="container mx-auto px-4 sm:px-6">
-          <AcademyStoryLight />
-        </div>
-      </section>
-    </>
+
+      {/* Our Story Component */}
+      <OurStory />
+
+      {/* Founder Section Component */}
+      <FounderSection />
+
+      {/* Our Staff Component */}
+      <OurStaff />
+
+      {/* Final CTA */}
+      <AcademyCTA />
+    </main>
   );
 }

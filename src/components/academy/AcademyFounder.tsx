@@ -3,15 +3,8 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { instructors } from '@/lib/data';
 
-const FounderSection = () => {
+const AcademyFounderSection = () => {
   const founder = instructors[0]; // Bar Shem-Tov
-
-  const fadeInUp = {
-    initial: { opacity: 0, y: 30 },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true },
-    transition: { duration: 0.8 },
-  };
 
   return (
     <section className="py-16 md:py-24 lg:py-32 bg-offwhite text-charcoal">
@@ -19,13 +12,25 @@ const FounderSection = () => {
         {/* Mobile Layout */}
         <div className="lg:hidden">
           {/* Mobile Header */}
-          <motion.div className="text-center mb-8" {...fadeInUp}>
+          <motion.div
+            className="text-center mb-8"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
             <span className="text-gold text-sm uppercase tracking-[0.2em] block mb-4">המייסד</span>
             <h2 className="text-3xl md:text-4xl font-light">החזון מאחורי המותג</h2>
           </motion.div>
 
           {/* Mobile Portrait */}
-          <motion.div className="relative h-[400px] mb-8 rounded-lg overflow-hidden" {...fadeInUp}>
+          <motion.div
+            className="relative h-[400px] mb-8 rounded-lg overflow-hidden"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
             <Image
               src={founder.image || '/images/team/bar.jpg'}
               alt={founder.name}
@@ -68,7 +73,12 @@ const FounderSection = () => {
           {/* Content */}
           <div className="lg:col-span-7 space-y-8">
             {/* Header */}
-            <motion.div {...fadeInUp}>
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+            >
               <span className="text-gold text-sm uppercase tracking-[0.2em] block mb-4">
                 המייסד
               </span>
@@ -79,8 +89,10 @@ const FounderSection = () => {
             {/* Bio */}
             <motion.div
               className="space-y-4 text-charcoal/80 leading-relaxed"
-              {...fadeInUp}
-              transition={{ delay: 0.2 }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.2 }}
             >
               <p className="text-lg">{founder.bio}</p>
             </motion.div>
@@ -88,8 +100,10 @@ const FounderSection = () => {
             {/* Philosophy Quote */}
             <motion.div
               className="bg-gold text-charcoal p-8 rounded-lg"
-              {...fadeInUp}
-              transition={{ delay: 0.3 }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.3 }}
             >
               <p className="text-xl md:text-2xl font-light italic leading-relaxed">
                 "ספרות היא לא רק מקצוע, היא אומנות שדורשת תשוקה, דיוק ומסירות"
@@ -97,7 +111,12 @@ const FounderSection = () => {
             </motion.div>
 
             {/* Achievements */}
-            <motion.div {...fadeInUp} transition={{ delay: 0.4 }}>
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+            >
               <h4 className="text-xl font-medium mb-4">הישגים מרכזיים</h4>
               <ul className="space-y-2">
                 {[
@@ -122,7 +141,12 @@ const FounderSection = () => {
             </motion.div>
 
             {/* Specialties */}
-            <motion.div {...fadeInUp} transition={{ delay: 0.6 }}>
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.6 }}
+            >
               <h4 className="text-xl font-medium mb-4">תחומי התמחות</h4>
               <div className="flex flex-wrap gap-3">
                 {founder.expertise.map((specialty, index) => (
@@ -141,19 +165,36 @@ const FounderSection = () => {
         {/* Mobile Content (continues from portrait) */}
         <div className="lg:hidden space-y-8">
           {/* Philosophy */}
-          <motion.div className="bg-gold text-charcoal p-6 rounded-lg" {...fadeInUp}>
+          <motion.div
+            className="bg-gold text-charcoal p-6 rounded-lg"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
             <p className="text-lg italic leading-relaxed">
               "ספרות היא לא רק מקצוע, היא אומנות שדורשת תשוקה, דיוק ומסירות"
             </p>
           </motion.div>
 
           {/* Bio */}
-          <motion.div className="space-y-4 text-charcoal/80" {...fadeInUp}>
+          <motion.div
+            className="space-y-4 text-charcoal/80"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
             <p>{founder.bio}</p>
           </motion.div>
 
           {/* Achievements */}
-          <motion.div {...fadeInUp}>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
             <h4 className="text-lg font-medium mb-3">הישגים מרכזיים</h4>
             <ul className="space-y-2">
               {[
@@ -170,7 +211,13 @@ const FounderSection = () => {
           </motion.div>
 
           {/* Milestones */}
-          <motion.div className="border-r-2 border-gold pr-4 space-y-4" {...fadeInUp}>
+          <motion.div
+            className="border-r-2 border-gold pr-4 space-y-4"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
             <div>
               <div className="text-lg font-medium">2018</div>
               <div className="text-sm text-charcoal/60">ייסוד האקדמיה</div>
@@ -190,4 +237,4 @@ const FounderSection = () => {
   );
 };
 
-export default FounderSection;
+export default AcademyFounderSection;

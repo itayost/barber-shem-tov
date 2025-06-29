@@ -5,22 +5,21 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { instructors } from '@/lib/data';
 
-const OurStaff = () => {
+const AcademyOurStaff = () => {
   const [selectedStaff, setSelectedStaff] = useState(0);
   const currentStaff = instructors[selectedStaff];
-
-  const fadeInUp = {
-    initial: { opacity: 0, y: 30 },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true },
-    transition: { duration: 0.8 },
-  };
 
   return (
     <section className="py-16 md:py-24 lg:py-32 bg-charcoal text-offwhite">
       <div className="container mx-auto px-6 md:px-12">
         {/* Section Header */}
-        <motion.div className="text-center mb-12 md:mb-20" {...fadeInUp}>
+        <motion.div
+          className="text-center mb-12 md:mb-20"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+        >
           <span className="text-gold text-sm uppercase tracking-[0.2em] block mb-4">
             הצוות שלנו
           </span>
@@ -34,7 +33,13 @@ const OurStaff = () => {
         </motion.div>
 
         {/* Staff Selector - Mobile: Horizontal Scroll, Desktop: Tabs */}
-        <motion.div className="mb-8 md:mb-12" {...fadeInUp} transition={{ delay: 0.2 }}>
+        <motion.div
+          className="mb-8 md:mb-12"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+        >
           <div className="flex gap-4 overflow-x-auto pb-4 md:justify-center scrollbar-hide">
             {instructors.map((staff, index) => (
               <button
@@ -188,7 +193,13 @@ const OurStaff = () => {
         </motion.div>
 
         {/* Teaching Philosophy */}
-        <motion.div className="mt-16 text-center" {...fadeInUp} transition={{ delay: 0.4 }}>
+        <motion.div
+          className="mt-16 text-center"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.4 }}
+        >
           <div className="max-w-3xl mx-auto">
             <p className="text-xl md:text-2xl font-light text-gold/80 leading-relaxed italic">
               "הפילוסופיה שלנו פשוטה - כל תלמיד הוא עולם ומלואו. אנחנו מאמינים בהוראה מותאמת אישית,
@@ -201,4 +212,4 @@ const OurStaff = () => {
   );
 };
 
-export default OurStaff;
+export default AcademyOurStaff;

@@ -4,17 +4,16 @@ import Link from 'next/link';
 import { academyInfo } from '@/lib/data';
 
 const AcademyCTA = () => {
-  const fadeInUp = {
-    initial: { opacity: 0, y: 30 },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true },
-    transition: { duration: 0.8 },
-  };
-
   return (
     <section className="py-16 md:py-24 bg-gradient-to-br from-gold to-gold-dark text-charcoal">
       <div className="container mx-auto px-6 md:px-12">
-        <motion.div className="text-center max-w-4xl mx-auto" {...fadeInUp}>
+        <motion.div
+          className="text-center max-w-4xl mx-auto"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+        >
           {/* Heading */}
           <h2 className="text-3xl md:text-5xl lg:text-6xl font-light mb-6 leading-tight">
             מוכן להתחיל את המסע שלך?

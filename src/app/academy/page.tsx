@@ -4,9 +4,9 @@ import Hero from '@/components/common/Hero';
 import { generateMetadata } from '@/utils/openGraphUtils';
 
 // Import components directly without dynamic imports for now
-import OurStory from '@/components/academy/AcademyOurStory';
-import FounderSection from '@/components/academy/AcademyFounder';
-import OurStaff from '@/components/academy/AcademyStaff';
+import AcademyOurStory from '@/components/academy/AcademyOurStory';
+import AcademyFounderSection from '@/components/academy/AcademyFounder';
+import AcademyOurStaff from '@/components/academy/AcademyStaff';
 import AcademyCTA from '@/components/academy/AcademyCTA';
 
 // Metadata
@@ -35,13 +35,13 @@ export default function AcademyPage() {
       />
 
       {/* Our Story Component */}
-      <OurStory />
+      <AcademyOurStory />
 
       {/* Founder Section Component */}
-      <FounderSection />
+      <AcademyFounderSection />
 
       {/* Our Staff Component */}
-      <OurStaff />
+      <AcademyOurStaff />
 
       {/* Final CTA */}
       <AcademyCTA />

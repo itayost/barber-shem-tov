@@ -1,8 +1,11 @@
+// src/components/academy/AcademyOurStory.tsx
+'use client';
+
 import React from 'react';
 import { motion } from 'framer-motion';
 import { academyInfo } from '@/lib/data';
 
-const OurStory = () => {
+const AcademyOurStory = () => {
   const fadeInUp = {
     initial: { opacity: 0, y: 30 },
     whileInView: { opacity: 1, y: 0 },
@@ -14,7 +17,13 @@ const OurStory = () => {
     <section className="py-16 md:py-24 lg:py-32 bg-charcoal text-offwhite">
       <div className="container mx-auto px-6 md:px-12">
         {/* Section Header */}
-        <motion.div className="text-center mb-12 md:mb-20" {...fadeInUp}>
+        <motion.div
+          className="text-center mb-12 md:mb-20"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+        >
           <span className="text-gold text-sm uppercase tracking-[0.2em] block mb-4">
             הסיפור שלנו
           </span>
@@ -38,7 +47,13 @@ const OurStory = () => {
           </motion.div>
 
           {/* Story Content */}
-          <motion.div className="lg:col-span-7 space-y-6" {...fadeInUp}>
+          <motion.div
+            className="lg:col-span-7 space-y-6"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
             <p className="text-xl md:text-2xl font-light leading-relaxed">
               <span className="text-gold text-4xl float-right mr-2">ה</span>אקדמיה שלנו נולדה מתוך
               חזון פשוט אך עוצמתי - להעלות את סטנדרט הספרות בישראל לרמה בינלאומית.
@@ -58,8 +73,10 @@ const OurStory = () => {
             {/* Mission Quote */}
             <motion.div
               className="border-r-4 border-gold pr-6 py-4 my-8"
-              {...fadeInUp}
-              transition={{ delay: 0.2 }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.2 }}
             >
               <p className="text-xl md:text-2xl font-light italic text-gold">
                 "אנחנו לא מכשירים ספרים,
@@ -165,4 +182,4 @@ const OurStory = () => {
   );
 };
 
-export default OurStory;
+export default AcademyOurStory;

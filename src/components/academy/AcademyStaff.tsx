@@ -1,3 +1,4 @@
+// src/components/academy/AcademyStaff.tsx
 'use client';
 
 import React, { useState } from 'react';
@@ -10,201 +11,246 @@ const AcademyOurStaff = () => {
   const currentStaff = instructors[selectedStaff];
 
   return (
-    <section className="py-16 md:py-24 lg:py-32 bg-charcoal text-offwhite">
-      <div className="container mx-auto px-6 md:px-12">
-        {/* Section Header */}
+    <section className="py-24 md:py-32 bg-charcoal-dark text-offwhite">
+      <div className="max-w-7xl mx-auto px-6 md:px-12">
+        {/* Luxury Header */}
         <motion.div
-          className="text-center mb-12 md:mb-20"
-          initial={{ opacity: 0, y: 30 }}
+          className="text-center mb-20"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1 }}
+        >
+          <p className="text-xs tracking-[0.5em] text-gold mb-6">THE MASTERS</p>
+          <h2 className="text-4xl md:text-6xl lg:text-7xl font-thin">
+            אמני
+            <span className="text-gold"> המחר</span>
+          </h2>
+        </motion.div>
+
+        {/* Staff Grid - Fashion Editorial Style */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16">
+          {/* Staff Selector - Minimalist Tabs */}
+          <motion.div
+            className="lg:col-span-3"
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <div className="space-y-px">
+              {instructors.map((staff, index) => (
+                <button
+                  key={staff.id}
+                  onClick={() => setSelectedStaff(index)}
+                  className={`
+                    w-full text-left p-6 transition-all duration-500 group
+                    ${selectedStaff === index ? 'bg-gold text-black' : 'bg-black hover:bg-charcoal'}
+                  `}
+                >
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <p className="text-xs tracking-[0.3em] mb-2 opacity-60">0{index + 1}</p>
+                      <h3 className="text-xl font-light mb-1">{staff.name}</h3>
+                      <p className="text-xs tracking-wider opacity-60 uppercase">{staff.title}</p>
+                    </div>
+                    <div
+                      className={`
+                      transition-all duration-300
+                      ${selectedStaff === index ? 'opacity-100' : 'opacity-0 group-hover:opacity-50'}
+                    `}
+                    >
+                      <span className="text-2xl font-thin">→</span>
+                    </div>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Staff Feature - Magazine Layout */}
+          <div className="lg:col-span-9">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentStaff.id}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.5 }}
+                className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12"
+              >
+                {/* Portrait - Fashion Editorial */}
+                <motion.div
+                  className="relative"
+                  initial={{ scale: 0.95, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
+                >
+                  <div className="relative aspect-[3/4]">
+                    <Image
+                      src={currentStaff.image || `/images/team/${currentStaff.id}.jpg`}
+                      alt={currentStaff.name}
+                      fill
+                      className="object-cover grayscale"
+                      quality={90}
+                      onError={e => {
+                        const target = e.target as HTMLImageElement;
+                        target.style.display = 'none';
+                        if (target.parentElement) {
+                          target.parentElement.innerHTML = `
+                            <div class="w-full h-full bg-gradient-to-b from-charcoal to-black flex items-center justify-center">
+                              <div class="text-[120px] text-gold/10 font-serif">
+                                ${currentStaff.name.charAt(0)}
+                              </div>
+                            </div>
+                          `;
+                        }
+                      }}
+                    />
+                    {/* Luxury Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+
+                    {/* Stats Overlay - Bottom Corner */}
+                    <div className="absolute bottom-0 left-0 right-0 p-8">
+                      <div className="flex gap-8">
+                        <div>
+                          <div className="text-3xl font-thin text-gold">
+                            {currentStaff.id === 'bar' ? '15+' : '12+'}
+                          </div>
+                          <div className="text-xs tracking-[0.2em] opacity-80 uppercase">Years</div>
+                        </div>
+                        <div>
+                          <div className="text-3xl font-thin text-gold">
+                            {currentStaff.id === 'bar' ? '500+' : '200+'}
+                          </div>
+                          <div className="text-xs tracking-[0.2em] opacity-80 uppercase">
+                            Students
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+
+                {/* Content - Editorial Style */}
+                <motion.div
+                  className="space-y-8"
+                  initial={{ x: 30, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{ duration: 0.8, delay: 0.2 }}
+                >
+                  {/* Bio - Magazine Typography */}
+                  <div>
+                    <p className="text-lg md:text-xl font-light leading-relaxed text-lightgrey/90">
+                      {currentStaff.bio}
+                    </p>
+                  </div>
+
+                  {/* Expertise - Minimalist List */}
+                  <div>
+                    <p className="text-xs tracking-[0.3em] text-gold mb-4">EXPERTISE</p>
+                    <div className="grid grid-cols-2 gap-3">
+                      {currentStaff.expertise.map((skill, i) => (
+                        <div key={i} className="flex items-center gap-2">
+                          <span className="text-gold/60 text-xs">◆</span>
+                          <span className="text-sm font-light">{skill}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Achievements - Luxury Style */}
+                  <div>
+                    <p className="text-xs tracking-[0.3em] text-gold mb-4">ACHIEVEMENTS</p>
+                    <ul className="space-y-3">
+                      {currentStaff.certifications.map((cert, i) => (
+                        <li key={i} className="flex items-start gap-3">
+                          <span className="text-gold/40 mt-1">—</span>
+                          <span className="text-sm font-light text-lightgrey/80">{cert}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {/* Quote - Fashion Editorial */}
+                  <motion.div
+                    className="relative pt-8 border-t border-gold/10"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.4 }}
+                  >
+                    <p className="text-xl font-thin italic text-offwhite/80">
+                      {currentStaff.id === 'bar'
+                        ? '"מצוינות היא לא יעד, היא דרך חיים"'
+                        : '"הסוד להצלחה טמון בפרטים הקטנים"'}
+                    </p>
+                  </motion.div>
+                </motion.div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        </div>
+
+        {/* International Masters - Luxury Grid */}
+        <motion.div
+          className="mt-32"
+          initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
-          <span className="text-gold text-sm uppercase tracking-[0.2em] block mb-4">
-            הצוות שלנו
-          </span>
-          <h2 className="text-3xl md:text-5xl lg:text-6xl font-light">
-            המאסטרים
-            <span className="text-gold"> שמובילים</span>
-          </h2>
-          <p className="text-lg text-lightgrey mt-4 max-w-2xl mx-auto">
-            מאחורי כל ספר גדול עומד מורה גדול עוד יותר
-          </p>
-        </motion.div>
+          {/* Header */}
+          <div className="text-center mb-16">
+            <p className="text-xs tracking-[0.5em] text-gold/60 mb-4">GLOBAL EXCELLENCE</p>
+            <h3 className="text-3xl md:text-4xl font-thin">מאסטרים בינלאומיים</h3>
+          </div>
 
-        {/* Staff Selector - Mobile: Horizontal Scroll, Desktop: Tabs */}
-        <motion.div
-          className="mb-8 md:mb-12"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-        >
-          <div className="flex gap-4 overflow-x-auto pb-4 md:justify-center scrollbar-hide">
-            {instructors.map((staff, index) => (
-              <button
-                key={staff.id}
-                onClick={() => setSelectedStaff(index)}
-                className={`
-                  flex-shrink-0 px-6 py-4 rounded-lg transition-all duration-300
-                  ${
-                    selectedStaff === index
-                      ? 'bg-gold text-charcoal'
-                      : 'bg-charcoal-light hover:bg-charcoal-light/80 text-offwhite'
-                  }
-                `}
+          {/* Cities Grid - Minimalist Luxury */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-gold/10">
+            {[
+              { city: 'LONDON', hebrew: 'לונדון', specialty: 'Classic Technique' },
+              { city: 'NEW YORK', hebrew: 'ניו יורק', specialty: 'Modern Style' },
+              { city: 'PARIS', hebrew: 'פריז', specialty: 'Artistic Vision' },
+              { city: 'TOKYO', hebrew: 'טוקיו', specialty: 'Precision Cut' },
+            ].map((location, i) => (
+              <motion.div
+                key={location.city}
+                className="bg-black p-8 md:p-12 text-center group cursor-pointer hover:bg-gold hover:text-black transition-all duration-500"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
               >
-                <div className="text-xs opacity-60 mb-1">0{index + 1}</div>
-                <h3 className="text-lg font-medium">{staff.name}</h3>
-                <p className="text-sm opacity-80">{staff.title}</p>
-              </button>
+                <div className="space-y-4">
+                  <p className="text-xs tracking-[0.3em] opacity-60">
+                    {location.specialty.toUpperCase()}
+                  </p>
+                  <h4 className="text-2xl font-thin">{location.hebrew}</h4>
+                  <p className="text-xs tracking-[0.5em] opacity-40 group-hover:opacity-80 transition-opacity">
+                    {location.city}
+                  </p>
+                </div>
+              </motion.div>
             ))}
           </div>
         </motion.div>
 
-        {/* Staff Feature */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={currentStaff.id}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.5 }}
-            className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12"
-          >
-            {/* Portrait */}
-            <div className="relative">
-              <div className="aspect-[3/4] lg:aspect-square relative rounded-lg overflow-hidden">
-                <Image
-                  src={currentStaff.image || `/images/team/${currentStaff.id}.jpg`}
-                  alt={currentStaff.name}
-                  fill
-                  className="object-cover"
-                />
-                {/* Stats Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-transparent to-transparent" />
-                <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8">
-                  <div className="flex gap-8 text-white">
-                    <div>
-                      <div className="text-3xl md:text-4xl font-light text-gold">
-                        {currentStaff.id === 'bar' ? '15+' : '12'}
-                      </div>
-                      <div className="text-sm opacity-80">שנות ניסיון</div>
-                    </div>
-                    <div>
-                      <div className="text-3xl md:text-4xl font-light text-gold">
-                        {currentStaff.id === 'bar' ? '500+' : '200+'}
-                      </div>
-                      <div className="text-sm opacity-80">תלמידים</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Content */}
-            <div className="space-y-6">
-              {/* Name & Title */}
-              <div>
-                <h3 className="text-2xl md:text-3xl font-light mb-2">{currentStaff.name}</h3>
-                <p className="text-gold text-lg">{currentStaff.title}</p>
-              </div>
-
-              {/* Quote */}
-              <div className="text-xl md:text-2xl font-light italic text-gold/80 leading-relaxed">
-                "כל תלמיד הוא עולם ומלואו"
-              </div>
-
-              {/* Bio */}
-              <p className="text-lightgrey leading-relaxed">{currentStaff.bio}</p>
-
-              {/* Expertise */}
-              <div>
-                <h4 className="text-lg font-medium mb-4">תחומי התמחות</h4>
-                <div className="grid grid-cols-2 gap-3">
-                  {currentStaff.expertise.map((specialty, i) => (
-                    <div
-                      key={i}
-                      className="border border-gold/30 px-4 py-3 text-center text-sm rounded hover:bg-gold hover:text-charcoal hover:border-gold transition-all duration-300"
-                    >
-                      {specialty}
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Certifications */}
-              <div>
-                <h4 className="text-lg font-medium mb-3">הסמכות</h4>
-                <ul className="space-y-2">
-                  {currentStaff.certifications.map((cert, i) => (
-                    <li key={i} className="flex items-start">
-                      <span className="text-gold mr-2">✓</span>
-                      <span className="text-sm text-lightgrey">{cert}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </motion.div>
-        </AnimatePresence>
-
-        {/* Guest Instructors */}
+        {/* Philosophy Quote - Centered Luxury */}
         <motion.div
-          className="mt-16 md:mt-24"
+          className="mt-32 text-center max-w-4xl mx-auto"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 1 }}
         >
-          <div className="bg-charcoal-light rounded-lg p-8 md:p-12">
-            <h3 className="text-2xl md:text-3xl font-light text-center mb-8">
-              מרצים אורחים
-              <span className="text-gold"> בינלאומיים</span>
-            </h3>
-
-            <p className="text-center text-lightgrey mb-12 max-w-2xl mx-auto">
-              האקדמיה מארחת באופן קבוע ספרים בינלאומיים ומומחים מהתעשייה לסדנאות מיוחדות
-              ומאסטרקלאסים
+          <div className="relative">
+            <span className="text-6xl text-gold/10 absolute -top-8 left-1/2 -translate-x-1/2">
+              "
+            </span>
+            <p className="text-2xl md:text-3xl font-thin text-offwhite/80 italic leading-relaxed">
+              הפילוסופיה שלנו פשוטה - כל תלמיד הוא יצירת אמנות בפני עצמה
             </p>
-
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-              {[
-                { city: 'לונדון', specialty: 'טכניקות קלאסיות' },
-                { city: 'ניו יורק', specialty: 'סגנונות מודרניים' },
-                { city: 'פריז', specialty: 'אומנות השיער' },
-                { city: 'טוקיו', specialty: 'דיוק וטכניקה' },
-              ].map((guest, i) => (
-                <motion.div
-                  key={guest.city}
-                  className="bg-charcoal rounded-lg p-6 text-center hover:bg-gold hover:text-charcoal transition-all duration-300 cursor-pointer group"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1 }}
-                >
-                  <div className="text-4xl mb-3 group-hover:scale-110 transition-transform">🌍</div>
-                  <h4 className="font-medium">{guest.city}</h4>
-                  <p className="text-xs opacity-80 mt-1">{guest.specialty}</p>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </motion.div>
-
-        {/* Teaching Philosophy */}
-        <motion.div
-          className="mt-16 text-center"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-        >
-          <div className="max-w-3xl mx-auto">
-            <p className="text-xl md:text-2xl font-light text-gold/80 leading-relaxed italic">
-              "הפילוסופיה שלנו פשוטה - כל תלמיד הוא עולם ומלואו. אנחנו מאמינים בהוראה מותאמת אישית,
-              ליווי צמוד, והקניית כלים שילוו את הבוגרים שלנו לאורך כל הקריירה"
-            </p>
+            <span className="text-6xl text-gold/10 absolute -bottom-8 left-1/2 -translate-x-1/2 rotate-180">
+              "
+            </span>
           </div>
         </motion.div>
       </div>

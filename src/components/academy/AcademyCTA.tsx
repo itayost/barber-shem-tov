@@ -1,3 +1,6 @@
+// src/components/academy/AcademyCTA.tsx
+'use client';
+
 import React from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
@@ -62,13 +65,13 @@ const AcademyCTA = () => {
           >
             <Link
               href="/courses"
-              className="btn bg-charcoal text-offwhite hover:bg-charcoal-dark px-8 py-4 text-lg rounded-lg transition-all duration-300 hover:scale-105"
+              className="inline-block bg-charcoal text-offwhite hover:bg-charcoal-dark px-8 py-4 text-lg rounded-lg transition-all duration-300 hover:scale-105 text-center"
             >
               צפה בקורסים שלנו
             </Link>
             <Link
               href="/contact"
-              className="btn bg-transparent border-2 border-charcoal text-charcoal hover:bg-charcoal hover:text-offwhite px-8 py-4 text-lg rounded-lg transition-all duration-300"
+              className="inline-block bg-transparent border-2 border-charcoal text-charcoal hover:bg-charcoal hover:text-offwhite px-8 py-4 text-lg rounded-lg transition-all duration-300 text-center"
             >
               צור קשר לייעוץ
             </Link>

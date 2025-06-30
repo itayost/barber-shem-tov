@@ -7,7 +7,6 @@ import { generateMetadata } from '@/utils/openGraphUtils';
 import AcademyOurStory from '@/components/academy/AcademyOurStory';
 import AcademyFounderSection from '@/components/academy/AcademyFounder';
 import AcademyOurStaff from '@/components/academy/AcademyStaff';
-import AcademyCTA from '@/components/academy/AcademyCTA';
 
 // Metadata
 export const metadata = generateMetadata(
@@ -18,7 +17,7 @@ export const metadata = generateMetadata(
 
 export default function AcademyPage() {
   return (
-    <main className="min-h-screen bg-offwhite">
+    <main className="min-h-screen bg-black overflow-x-hidden" dir="rtl">
       {/* Hero Section using common component */}
       <Hero
         title={
@@ -42,9 +41,6 @@ export default function AcademyPage() {
 
       {/* Our Staff Component */}
       <AcademyOurStaff />
-
-      {/* Final CTA */}
-      <AcademyCTA />
     </main>
   );
 }

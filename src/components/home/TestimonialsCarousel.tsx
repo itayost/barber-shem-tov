@@ -12,10 +12,10 @@ const TestimonialsCarousel: React.FC = () => {
   const [imageErrors, setImageErrors] = useState<Record<number, boolean>>({});
 
   // Create slide components for each testimonial
-  const testimonialSlides = academyTestimonials.map((testimonial) => (
+  const testimonialSlides = academyTestimonials.map(testimonial => (
     <div key={testimonial.id} className="px-4">
       <div className="max-w-sm mx-auto md:max-w-4xl">
-        <motion.div 
+        <motion.div
           className="bg-charcoal-light/30 backdrop-blur-sm border border-gold/20 overflow-hidden"
           initial={{ scale: 0.95, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
@@ -48,10 +48,10 @@ const TestimonialsCarousel: React.FC = () => {
                   </div>
                 </div>
               )}
-              
+
               {/* Gradient overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-transparent to-transparent md:bg-gradient-to-r" />
-              
+
               {/* Rating stars - Luxury style */}
               <div className="absolute bottom-4 left-0 right-0 text-center">
                 <div className="flex justify-center gap-1">
@@ -90,9 +90,7 @@ const TestimonialsCarousel: React.FC = () => {
                 <p className="text-xs md:text-sm tracking-wider text-gold/80 mb-0.5">
                   {testimonial.course} • {testimonial.year}
                 </p>
-                <p className="text-xs text-lightgrey/50 tracking-wide">
-                  {testimonial.instructor}
-                </p>
+                <p className="text-xs text-lightgrey/50 tracking-wide">{testimonial.instructor}</p>
               </div>
             </div>
           </div>
@@ -105,10 +103,13 @@ const TestimonialsCarousel: React.FC = () => {
     <section className="relative bg-gradient-to-b from-charcoal to-black overflow-hidden" dir="rtl">
       {/* Subtle background pattern */}
       <div className="absolute inset-0 opacity-[0.01]">
-        <div className="absolute inset-0" style={{
-          backgroundImage: `radial-gradient(circle at 50% 50%, #C9A66B 1px, transparent 1px)`,
-          backgroundSize: '50px 50px'
-        }} />
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `radial-gradient(circle at 50% 50%, #C9A66B 1px, transparent 1px)`,
+            backgroundSize: '50px 50px',
+          }}
+        />
       </div>
 
       {/* Ambient light */}
@@ -125,7 +126,7 @@ const TestimonialsCarousel: React.FC = () => {
             transition={{ duration: 1 }}
             className="h-[1px] bg-gold mx-auto mb-6 md:mb-8 md:w-[100px]"
           />
-          
+
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -134,7 +135,7 @@ const TestimonialsCarousel: React.FC = () => {
           >
             TESTIMONIALS
           </motion.h2>
-          
+
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -168,15 +169,15 @@ const TestimonialsCarousel: React.FC = () => {
             <div className="bg-gradient-to-br from-gold/5 to-transparent backdrop-blur-sm border border-gold/20 p-8 md:p-12 text-center">
               {/* Decorative line */}
               <div className="w-12 h-[1px] bg-gold mx-auto mb-6" />
-              
+
               <h3 className="text-2xl md:text-3xl font-light mb-3 md:mb-4">
                 רוצה להיות <span className="text-gold italic font-serif">הסיפור הבא</span>?
               </h3>
-              
+
               <p className="text-lightgrey/80 text-base md:text-lg mb-8 font-light max-w-md mx-auto">
                 הצטרף למאות הבוגרים המצליחים שלנו
               </p>
-              
+
               {/* CTAs - Mobile stack, Desktop inline */}
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                 <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>

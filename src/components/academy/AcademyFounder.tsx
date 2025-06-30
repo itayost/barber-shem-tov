@@ -10,7 +10,7 @@ const AcademyFounderSection = () => {
   const founder = instructors[0]; // Bar Shem-Tov
 
   return (
-    <section className="py-20 md:py-32 bg-black text-offwhite">
+    <section className="py-20 md:py-32 bg-charcoal text-offwhite">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         {/* Luxury Header */}
         <motion.div

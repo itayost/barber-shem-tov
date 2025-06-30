@@ -11,27 +11,26 @@ export default function Home() {
         title="צור את העתיד שלך כאמן ספרות מוביל"
         subtitle="The Fader Academy"
         backgroundImages={[
-          "/images/hero/homeHero1.jpg",
-          "/images/hero/homeHero2.jpg", 
-          "/images/hero/homeHero3.jpg"
+          '/images/hero/homeHero1.jpg',
+          '/images/hero/homeHero2.jpg',
+          '/images/hero/homeHero3.jpg',
         ]}
         ctaText="הרשמה לקורס"
         ctaHref="/apply"
-        verticalText="7 YEARS OF EXCELLENCE"
       />
-      
+
       {/* Add a transition element between hero and content */}
       <div className="relative z-20 -mt-20">
         <div className="h-20 bg-gradient-to-b from-transparent to-black" />
       </div>
-      
+
       {/* Scrolling Content Container */}
       <div className="relative z-10">
         {/* First section with background to cover hero */}
         <section className="relative bg-black">
           <ThreePathways />
         </section>
-        
+
         {/* Subsequent sections */}
         <section className="relative bg-charcoal">
           <Testimonials />

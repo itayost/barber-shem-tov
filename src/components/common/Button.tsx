@@ -32,17 +32,16 @@ const Button = ({
   const sizeClass = size !== 'medium' ? `btn-${size === 'small' ? 'sm' : 'lg'}` : '';
   const fullWidthClass = fullWidth ? 'btn-full' : '';
   const disabledClass = disabled ? 'opacity-50 cursor-not-allowed pointer-events-none' : '';
-  
+
   // Combine all classes
-  const buttonClasses = `${baseClass} ${variantClass} ${sizeClass} ${fullWidthClass} ${disabledClass} ${className}`.trim();
-  
+  const buttonClasses =
+    `${baseClass} ${variantClass} ${sizeClass} ${fullWidthClass} ${disabledClass} ${className}`.trim();
+
   // Content wrapper for proper z-index layering
   const content = (
-    <span className="relative z-20 flex items-center justify-center">
-      {children}
-    </span>
+    <span className="relative z-20 flex items-center justify-center">{children}</span>
   );
-  
+
   // Render as link if href is provided
   if (href && !disabled) {
     return (
@@ -51,12 +50,12 @@ const Button = ({
       </Link>
     );
   }
-  
+
   // Otherwise render as button
   return (
-    <button 
-      type={type} 
-      onClick={onClick} 
+    <button
+      type={type}
+      onClick={onClick}
       className={buttonClasses}
       disabled={disabled}
       aria-label={ariaLabel}

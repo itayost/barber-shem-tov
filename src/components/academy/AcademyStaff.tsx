@@ -11,7 +11,7 @@ const AcademyOurStaff = () => {
   const currentStaff = instructors[selectedStaff];
 
   return (
-    <section className="py-24 md:py-32 bg-charcoal-dark text-offwhite">
+    <section className="py-24 md:py-32 bg-charcoal text-offwhite">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         {/* Luxury Header */}
         <motion.div
@@ -169,90 +169,11 @@ const AcademyOurStaff = () => {
                       ))}
                     </ul>
                   </div>
-
-                  {/* Quote - Fashion Editorial */}
-                  <motion.div
-                    className="relative pt-8 border-t border-gold/10"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.4 }}
-                  >
-                    <p className="text-xl font-thin italic text-offwhite/80">
-                      {currentStaff.id === 'bar'
-                        ? '"מצוינות היא לא יעד, היא דרך חיים"'
-                        : '"הסוד להצלחה טמון בפרטים הקטנים"'}
-                    </p>
-                  </motion.div>
                 </motion.div>
               </motion.div>
             </AnimatePresence>
           </div>
         </div>
-
-        {/* International Masters - Luxury Grid */}
-        <motion.div
-          className="mt-32"
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-        >
-          {/* Header */}
-          <div className="text-center mb-16">
-            <p className="text-xs tracking-[0.5em] text-gold/60 mb-4">GLOBAL EXCELLENCE</p>
-            <h3 className="text-3xl md:text-4xl font-thin">מאסטרים בינלאומיים</h3>
-          </div>
-
-          {/* Cities Grid - Minimalist Luxury */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-gold/10">
-            {[
-              { city: 'LONDON', hebrew: 'לונדון', specialty: 'Classic Technique' },
-              { city: 'NEW YORK', hebrew: 'ניו יורק', specialty: 'Modern Style' },
-              { city: 'PARIS', hebrew: 'פריז', specialty: 'Artistic Vision' },
-              { city: 'TOKYO', hebrew: 'טוקיו', specialty: 'Precision Cut' },
-            ].map((location, i) => (
-              <motion.div
-                key={location.city}
-                className="bg-black p-8 md:p-12 text-center group cursor-pointer hover:bg-gold hover:text-black transition-all duration-500"
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-              >
-                <div className="space-y-4">
-                  <p className="text-xs tracking-[0.3em] opacity-60">
-                    {location.specialty.toUpperCase()}
-                  </p>
-                  <h4 className="text-2xl font-thin">{location.hebrew}</h4>
-                  <p className="text-xs tracking-[0.5em] opacity-40 group-hover:opacity-80 transition-opacity">
-                    {location.city}
-                  </p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
-
-        {/* Philosophy Quote - Centered Luxury */}
-        <motion.div
-          className="mt-32 text-center max-w-4xl mx-auto"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1 }}
-        >
-          <div className="relative">
-            <span className="text-6xl text-gold/10 absolute -top-8 left-1/2 -translate-x-1/2">
-              "
-            </span>
-            <p className="text-2xl md:text-3xl font-thin text-offwhite/80 italic leading-relaxed">
-              הפילוסופיה שלנו פשוטה - כל תלמיד הוא יצירת אמנות בפני עצמה
-            </p>
-            <span className="text-6xl text-gold/10 absolute -bottom-8 left-1/2 -translate-x-1/2 rotate-180">
-              "
-            </span>
-          </div>
-        </motion.div>
       </div>
     </section>
   );

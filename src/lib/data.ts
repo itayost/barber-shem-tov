@@ -18,7 +18,6 @@ export type Course = {
   nextSession?: string;
   paymentOptions?: boolean;
   urgentNote?: string;
-  image: string; // Added image property
 };
 
 // Gallery Types
@@ -58,20 +57,20 @@ export const galleryCategories: GalleryCategory[] = [
     id: 'experience',
     label: 'חוויות',
     description: 'רגעים בלתי נשכחים מתוך ההכשרה והעשייה',
-    order: 1,
+    order: 1
   },
   {
     id: 'space',
     label: 'המרחב',
     description: 'הסביבה המודרנית שלנו שמעצימה למידה ויצירה',
-    order: 2,
+    order: 2
   },
   {
     id: 'work',
     label: 'עבודות',
     description: 'תוצרים יצירתיים ומקצועיים של המשתתפים',
-    order: 3,
-  },
+    order: 3
+  }
 ];
 
 // Gallery helper functions
@@ -85,13 +84,10 @@ export const getCategoryLabel = (id: string): string => {
 };
 
 export const getCategoryLabelsMap = (): Record<string, string> => {
-  return galleryCategories.reduce(
-    (acc, cat) => {
-      acc[cat.id] = cat.label;
-      return acc;
-    },
-    {} as Record<string, string>
-  );
+  return galleryCategories.reduce((acc, cat) => {
+    acc[cat.id] = cat.label;
+    return acc;
+  }, {} as Record<string, string>);
 };
 
 // Courses data
@@ -100,8 +96,7 @@ export const courses: Course[] = [
     id: 'basic-barbering-course',
     name: 'Basic Barbering Course',
     name_he: 'קורס ספרות בסיסי',
-    description:
-      'Learn foundational barbering techniques in our intensive 4-week course designed for beginners.',
+    description: 'Learn foundational barbering techniques in our intensive 4-week course designed for beginners.',
     description_he: 'למד טכניקות ספרות בסיסיות בקורס האינטנסיבי שלנו למתחילים בן 4 שבועות.',
     price: 3200,
     duration: '4 weeks',
@@ -118,19 +113,17 @@ export const courses: Course[] = [
       'ערכת כלים מקצועית כלולה',
       'תעודת הסמכה מוכרת',
       'ליווי בחיפוש עבודה',
-      'גישה לקהילת בוגרים',
+      'גישה לקהילת בוגרים'
     ],
     nextSession: '15 בינואר',
     paymentOptions: true,
-    urgentNote: 'יש למהר!',
-    image: '/images/courses/basic-barbering-course.jpg', // Added image
+    urgentNote: 'יש למהר!'
   },
   {
     id: 'advanced-styling-masterclass',
     name: 'Advanced Styling Masterclass',
     name_he: 'מאסטרקלאס בעיצוב מתקדם',
-    description:
-      'Perfect your craft with our advanced styling techniques and trending hair design course for professionals.',
+    description: 'Perfect your craft with our advanced styling techniques and trending hair design course for professionals.',
     description_he: 'שפר את האומנות שלך עם טכניקות עיצוב מתקדמות וקורס עיצוב שיער טרנדי למקצוענים.',
     price: 1800,
     duration: '2 days',
@@ -146,13 +139,12 @@ export const courses: Course[] = [
       'הדגמות חיות ומעשיות',
       'קבלת פידבק אישי מהמדריך',
       'תעודת השתתפות מקצועית',
-      'גישה לחומרי עזר דיגיטליים',
+      'גישה לחומרי עזר דיגיטליים'
     ],
     nextSession: '28 בינואר',
     paymentOptions: true,
-    urgentNote: 'מספר מקומות מוגבל!',
-    image: '/images/courses/advanced-styling-masterclass.jpg', // Added image
-  },
+    urgentNote: 'מספר מקומות מוגבל!'
+  }
 ];
 
 export const academyTestimonials = [
@@ -164,7 +156,7 @@ export const academyTestimonials = [
     course: 'קורס ספרות מתקדם',
     instructor: 'בר שם טוב',
     image: '/images/testimonials/amit.jpg',
-    year: 2023,
+    year: 2023
   },
   {
     id: 4,
@@ -174,7 +166,7 @@ export const academyTestimonials = [
     course: 'קורס ספרות בסיסי',
     instructor: 'בר שם טוב',
     image: '/images/testimonials/yarin.jpg',
-    year: 2022,
+    year: 2022
   },
   {
     id: 5,
@@ -184,8 +176,8 @@ export const academyTestimonials = [
     course: 'קורס ספרות בסיסי',
     instructor: 'בר שם טוב',
     image: '/images/testimonials/danny.jpg',
-    year: 2023,
-  },
+    year: 2023
+  }
 ];
 
 export const instructors = [
@@ -197,7 +189,7 @@ export const instructors = [
     image: '/images/team/bar.jpg',
     expertise: ['טכניקות מתקדמות', 'ניהול עסקי', 'עיצוב שיער', 'אסטרטגיית מותג'],
     certifications: ['הסמכת מאסטר בארבר בינלאומית', 'תואר בניהול עסקים'],
-    courses: ['basic-barbering-course', 'advanced-styling-masterclass'],
+    courses: ['basic-barbering-course', 'advanced-styling-masterclass']
   },
   {
     id: 'yarin',
@@ -207,8 +199,8 @@ export const instructors = [
     image: '/images/team/yarin.jpg',
     expertise: ['טכניקות Fade', 'עיצוב זקן', 'תספורות קלאסיות', 'חיתוך במכונה'],
     certifications: ['Master Barber International', 'מדריך מוסמך', 'זוכה אליפות ישראל בספרות 2021'],
-    courses: ['basic-barbering-course'],
-  },
+    courses: ['basic-barbering-course']
+  }
 ];
 
 // Academy-specific business info
@@ -222,14 +214,14 @@ export const academyInfo = {
   hours: [
     { days: 'ראשון-חמישי', hours: '9:00-19:00' },
     { days: 'שישי', hours: '9:00-14:00' },
-    { days: 'שבת', hours: 'סגור' },
+    { days: 'שבת', hours: 'סגור' }
   ],
   social: {
     instagram: 'https://www.instagram.com/barber_shemtov/',
     facebook: 'https://www.facebook.com/people/Barber-shem-tov/100063887357860/',
-    tiktok: 'https://www.tiktok.com/@barber_shem_tov',
+    tiktok: 'https://www.tiktok.com/@barber_shem_tov'
   },
-
+  
   // Academy statistics
   stats: {
     graduates: 500,
@@ -238,30 +230,34 @@ export const academyInfo = {
     industryAwards: 12,
     averageSalaryIncrease: 40,
   },
-
+  
   // Accreditations and partnerships
   accreditations: [
     'משרד העבודה והרווחה',
     'International Barber Association',
-    'איגוד הספרים המקצועיים בישראל',
+    'איגוד הספרים המקצועיים בישראל'
   ],
-
-  partners: ['רשת מספרות טופ סטייל', 'חברת מוצרי שיער American Crew', 'רשת חנויות מקצועיות לספרים'],
-
+  
+  partners: [
+    'רשת מספרות טופ סטייל',
+    'חברת מוצרי שיער American Crew',
+    'רשת חנויות מקצועיות לספרים',
+  ],
+  
   // Helper functions
-  isOpenDay: function (dayNumber: number) {
+  isOpenDay: function(dayNumber: number) {
     return dayNumber !== 6;
   },
-
-  getHoursForDay: function (dayNumber: number) {
+  
+  getHoursForDay: function(dayNumber: number) {
     if (dayNumber === 6) {
       return { isOpen: false, open: '', close: '' };
     }
-
+    
     if (dayNumber === 5) {
       return { isOpen: true, open: '9:00', close: '14:00' };
     }
-
+    
     return { isOpen: true, open: '9:00', close: '19:00' };
-  },
+  }
 };

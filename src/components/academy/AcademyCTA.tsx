@@ -1,89 +1,168 @@
+// src/components/academy/AcademyCTA.tsx
 'use client';
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { LuxuryButton } from '@/components/luxury';
-import { Award, Users, Clock, Star } from 'lucide-react';
+import Link from 'next/link';
+import { academyInfo } from '@/lib/data';
 
-const benefits = [
-  { icon: Award, text: 'תעודה מוכרת ממשרד העבודה' },
-  { icon: Users, text: 'קבוצות לימוד קטנות ואינטימיות' },
-  { icon: Clock, text: 'לוח זמנים גמיש המותאם לך' },
-  { icon: Star, text: 'ליווי אישי לאורך כל הדרך' },
-];
-
-const AcademyCTA: React.FC = () => {
+const AcademyCTA = () => {
   return (
-    <section className="relative py-32 bg-black overflow-hidden" dir="rtl">
-      {/* Background Pattern */}
+    <section className="relative py-24 md:py-32 bg-black text-offwhite overflow-hidden">
+      {/* Luxury Background Pattern */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-gradient-radial from-gold/5 via-transparent to-transparent" />
       </div>
 
-      <div className="relative max-w-6xl mx-auto px-6 md:px-12 text-center">
+      <div className="relative max-w-7xl mx-auto px-6 md:px-12">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
+          className="text-center"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1 }}
         >
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-thin text-offwhite mb-6">
-            הצטרפו למשפחת
-            <span className="text-gold"> The Fader</span>
-          </h2>
-
-          <p className="text-xl md:text-2xl text-lightgrey mb-12 max-w-3xl mx-auto">
-            קחו את הצעד הראשון לקראת קריירה מצליחה בעולם הספרות המקצועית
-          </p>
-
-          {/* Benefits Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-            {benefits.map((benefit, index) => {
-              const Icon = benefit.icon;
-              return (
-                <motion.div
-                  key={benefit.text}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  className="flex items-center gap-4 justify-center md:justify-start"
-                >
-                  <div className="w-12 h-12 border border-gold/30 flex items-center justify-center flex-shrink-0">
-                    <Icon className="w-5 h-5 text-gold" />
-                  </div>
-                  <p className="text-sm text-offwhite/80 text-right">{benefit.text}</p>
-                </motion.div>
-              );
-            })}
-          </div>
-
-          {/* CTA Buttons */}
-          <motion.div
+          {/* Luxury Header */}
+          <motion.p
+            className="text-xs tracking-[0.5em] text-gold mb-8"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="flex flex-col sm:flex-row gap-6 justify-center"
+            transition={{ duration: 0.6 }}
           >
-            <LuxuryButton variant="primary" size="large" href="/apply">
-              הרשמה לקורס הבא
-            </LuxuryButton>
-            <LuxuryButton variant="outline" size="large" href="/contact">
-              קבעו פגישת ייעוץ
-            </LuxuryButton>
-          </motion.div>
+            BEGIN YOUR JOURNEY
+          </motion.p>
 
-          {/* Next Course Info */}
+          {/* Main Headline - Fashion Editorial */}
+          <motion.h2
+            className="text-4xl md:text-6xl lg:text-7xl font-thin mb-6 leading-tight"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.1 }}
+          >
+            הצטרף לאליטה
+            <br />
+            <span className="text-gold">של הספרות</span>
+          </motion.h2>
+
+          {/* Subheading */}
+          <motion.p
+            className="text-lg md:text-xl font-light text-lightgrey/80 mb-16 max-w-2xl mx-auto"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            {academyInfo.stats.graduates}+ בוגרים שהפכו את האמנות שלהם למורשת
+          </motion.p>
+
+          {/* Luxury Stats - Minimalist Grid */}
           <motion.div
+            className="grid grid-cols-3 gap-px bg-gold/10 max-w-4xl mx-auto mb-20"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="mt-12 pt-12 border-t border-gold/10"
+            transition={{ duration: 0.8, delay: 0.3 }}
           >
-            <p className="text-sm uppercase tracking-wider text-gold mb-2">המחזור הבא מתחיל ב-</p>
-            <p className="text-2xl font-light text-offwhite">1 בינואר 2025</p>
+            {[
+              { value: `${academyInfo.stats.placementRate}%`, label: 'PLACEMENT' },
+              { value: `${academyInfo.stats.industryAwards}`, label: 'AWARDS' },
+              { value: `${academyInfo.stats.averageSalaryIncrease}%+`, label: 'GROWTH' },
+            ].map((stat, index) => (
+              <motion.div
+                key={index}
+                className="bg-black p-8 md:p-12 text-center"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.4 + index * 0.1 }}
+              >
+                <div className="text-3xl md:text-5xl font-thin text-gold mb-3">{stat.value}</div>
+                <div className="text-xs tracking-[0.3em] text-lightgrey/60">{stat.label}</div>
+              </motion.div>
+            ))}
+          </motion.div>
+
+          {/* CTA Buttons - Luxury Style */}
+          <motion.div
+            className="flex flex-col md:flex-row gap-6 justify-center items-center"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.5 }}
+          >
+            <Link
+              href="/courses"
+              className="group relative overflow-hidden bg-gold text-black px-12 py-5 text-sm tracking-[0.2em] uppercase transition-all duration-500 hover:text-gold"
+            >
+              <span className="relative z-10 font-light">EXPLORE COURSES</span>
+              <div className="absolute inset-0 bg-offwhite transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
+            </Link>
+
+            <Link
+              href="/contact"
+              className="group relative px-12 py-5 text-sm tracking-[0.2em] uppercase border border-gold/30 hover:border-gold transition-all duration-500"
+            >
+              <span className="font-light text-offwhite">PRIVATE CONSULTATION</span>
+            </Link>
+          </motion.div>
+
+          {/* Luxury Divider */}
+          <motion.div
+            className="my-20 flex items-center justify-center"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1, delay: 0.6 }}
+          >
+            <div className="h-px bg-gold/20 flex-1 max-w-xs" />
+            <div className="mx-8 text-gold/40 text-sm">✦</div>
+            <div className="h-px bg-gold/20 flex-1 max-w-xs" />
+          </motion.div>
+
+          {/* Contact - Minimalist Luxury */}
+          <motion.div
+            className="space-y-4"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.7 }}
+          >
+            <p className="text-xs tracking-[0.3em] text-gold/60 uppercase">For Inquiries</p>
+            <a
+              href={`tel:${academyInfo.phone}`}
+              className="block text-2xl md:text-3xl font-thin text-offwhite hover:text-gold transition-colors duration-300"
+            >
+              {academyInfo.phone}
+            </a>
+            <p className="text-sm text-lightgrey/60 font-light">{academyInfo.address}</p>
+          </motion.div>
+
+          {/* Trust Badges - Subtle */}
+          <motion.div
+            className="mt-20 pt-20 border-t border-gold/10"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.8 }}
+          >
+            <p className="text-xs tracking-[0.5em] text-gold/40 mb-8 uppercase">
+              In Partnership With
+            </p>
+            <div className="flex flex-wrap justify-center gap-12">
+              {academyInfo.partners.map((partner, index) => (
+                <motion.span
+                  key={index}
+                  className="text-xs tracking-[0.2em] text-lightgrey/40 uppercase font-light"
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: 0.9 + index * 0.1 }}
+                >
+                  {partner}
+                </motion.span>
+              ))}
+            </div>
           </motion.div>
         </motion.div>
       </div>

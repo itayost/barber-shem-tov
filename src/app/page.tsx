@@ -1,42 +1,41 @@
-// src/app/page.tsx - Updated
-import Hero from '@/components/common/Hero';
-import ThreePathways from '@/components/home/ThreePathways';
-import Testimonials from '@/components/home/Testimonials';
+// src/app/page.tsx
+import { Hero, ThreePathways, Testimonials, GalleryPreview, FinalCTA } from '@/components/home';
 
-// Option 3: Enhanced home page with special features
 export default function Home() {
   return (
     <div className="relative">
       <Hero
-        title="צור את העתיד שלך כאמן ספרות מוביל"
-        subtitle="The Fader Academy"
+        title={
+          <>
+            צור את העתיד שלך
+            <br />
+            <span className="text-gold">כאמן ספרות מוביל</span>
+          </>
+        }
+        subtitle="The Fader Academy - המקום שבו קריירות נולדות"
         backgroundImages={[
-          "/images/hero/homeHero1.jpg",
-          "/images/hero/homeHero2.jpg", 
-          "/images/hero/homeHero3.jpg"
+          '/images/hero/luxury-hero-1.jpg',
+          '/images/hero/luxury-hero-2.jpg',
+          '/images/hero/luxury-hero-3.jpg',
         ]}
         ctaText="הרשמה לקורס"
         ctaHref="/apply"
-        verticalText="7 YEARS OF EXCELLENCE"
+        secondaryCtaText="קביעת פגישה"
+        secondaryCtaHref="/contact"
+        verticalText="EST. 2018 • EXCELLENCE IN BARBERING"
+        overlay="medium"
+        height="full"
+        showScrollIndicator={true}
+        autoPlayInterval={5000}
       />
-      
-      {/* Add a transition element between hero and content */}
-      <div className="relative z-20 -mt-20">
-        <div className="h-20 bg-gradient-to-b from-transparent to-black" />
-      </div>
-      
-      {/* Scrolling Content Container */}
-      <div className="relative z-10">
-        {/* First section with background to cover hero */}
-        <section className="relative bg-black">
-          <ThreePathways />
-        </section>
-        
-        {/* Subsequent sections */}
-        <section className="relative bg-charcoal">
-          <Testimonials />
-        </section>
-      </div>
+
+      <ThreePathways />
+
+      <Testimonials />
+
+      <GalleryPreview />
+
+      <FinalCTA />
     </div>
   );
 }

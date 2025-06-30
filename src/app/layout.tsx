@@ -1,56 +1,51 @@
 // src/app/layout.tsx
 import { Heebo } from 'next/font/google';
 import './globals.css';
-import { Navbar } from '@/components/navigation';
-import Footer from '@/components/common/Footer';
-import WhatsAppFloat from '@/components/common/WhatsAppFloat'; // Add this import
+import LuxuryNavbar from '@/components/luxury/LuxuryNavbar';
+import LuxuryFooter from '@/components/luxury/LuxuryFooter';
+import WhatsAppFloat from '@/components/common/WhatsAppFloat';
 
-// Hebrew font setup
+// Hebrew font setup - using lighter weights for luxury feel
 const heebo = Heebo({
   subsets: ['hebrew'],
-  weight: ['300', '400', '500', '700'],
+  weight: ['100', '300', '400'], // Only thin and light weights
   variable: '--font-heebo',
   display: 'swap',
 });
 
 export const metadata = {
-  title: 'The Fader | ספר מודרני ויוקרתי בטירת הכרמל',
-  description: 'חווית הספרות המובילה של הצפון, שבה אומנות מסורתית פוגשת סגנון עכשווי. הזמינו תור עוד היום.',
+  title: 'The Fader | אקדמיה לספרות יוקרתית',
+  description:
+    'חווית הלמידה המובילה בתחום הספרות המקצועית. הצטרפו לאקדמיה שמעצבת את אמני הספרות של המחר.',
   metadataBase: new URL('https://barber-shem-tov.vercel.app'),
-  
-  // Enhanced Open Graph metadata
+
   openGraph: {
-    title: 'The Fader | ספר מודרני ויוקרתי בטירת הכרמל',
-    description: 'חווית הספרות המובילה של הצפון, שבה אומנות מסורתית פוגשת סגנון עכשווי.',
+    title: 'The Fader | אקדמיה לספרות יוקרתית',
+    description: 'חווית הלמידה המובילה בתחום הספרות המקצועית',
     url: 'https://barber-shem-tov.vercel.app',
-    siteName: 'The Fader Barbershop',
+    siteName: 'The Fader Academy',
     locale: 'he_IL',
     type: 'website',
     images: [
       {
-        url: '/images/logos/og.png',
+        url: '/images/og/luxury-og.jpg',
         width: 1200,
         height: 630,
-        alt: 'The Fader - מספרה בטירת הכרמל',
+        alt: 'The Fader Academy - Luxury Barbering Education',
       },
     ],
   },
-  
-  // Enhanced Twitter Card metadata
+
   twitter: {
     card: 'summary_large_image',
-    title: 'The Fader | ספר מודרני ויוקרתי בטירת הכרמל',
-    description: 'חווית הספרות המובילה של הצפון. הזמינו תור עוד היום.',
-    images: ['/images/logos/og.png'],
-    creator: '@TheFaderBarber',
-    site: '@TheFaderBarber',
+    title: 'The Fader | אקדמיה לספרות יוקרתית',
+    description: 'חווית הלמידה המובילה בתחום הספרות המקצועית',
+    images: ['/images/og/luxury-og.jpg'],
   },
-  
-  // Enhanced robots metadata
+
   robots: {
     index: true,
     follow: true,
-    nocache: false,
     googleBot: {
       index: true,
       follow: true,
@@ -59,64 +54,78 @@ export const metadata = {
       'max-video-preview': -1,
     },
   },
-  
-  // Alternate and canonical URLs
+
   alternates: {
     canonical: 'https://barber-shem-tov.vercel.app',
     languages: {
       'he-IL': 'https://barber-shem-tov.vercel.app',
     },
   },
-  
-  // App icons
-  icons: {
-    icon: '/favicon.ico',
-    apple: '/apple-icon.png',
-    shortcut: '/shortcut-icon.png'
-  },
-  
-  // Web app manifest
-  manifest: '/site.webmanifest',
 };
 
-// Moving themeColor to viewport as per Next.js recommendation
 export const viewport = {
-  themeColor: '#1A1A1A', // Using deep charcoal color from the style guide
+  themeColor: '#000000', // Pure black for luxury
   width: 'device-width',
   initialScale: 1,
   maximumScale: 1,
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="he" dir="rtl" className={`${heebo.variable}`}>
       <head>
-        {/* Preconnect to third-party domains for performance */}
+        {/* Preconnect for performance */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+
+        {/* Luxury favicon set */}
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
         <meta name="apple-mobile-web-app-title" content="The Fader" />
+        <meta name="application-name" content="The Fader Academy" />
       </head>
-      
-      <body className="bg-charcoal text-offwhite font-heebo">
-        {/* Skip to content link for accessibility */}
-        <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-0 focus:right-0 focus:z-50 focus:p-4 focus:bg-charcoal focus:text-gold">
-          דלג לתוכן העיקרי
+
+      <body className="bg-black text-offwhite font-heebo font-light antialiased">
+        {/* Skip to content for accessibility */}
+        <a
+          href="#main-content"
+          className="
+            sr-only focus:not-sr-only focus:absolute
+            focus:top-4 focus:right-4 focus:z-50
+            focus:px-6 focus:py-3
+            focus:bg-gold focus:text-black
+            focus:text-sm focus:uppercase focus:tracking-wider
+          "
+        >
+          דלג לתוכן הראשי
         </a>
-        
-        <Navbar />
-        
-        <main id="main-content" className="min-h-screen">
+
+        {/* Luxury Navigation */}
+        <LuxuryNavbar />
+
+        {/* Main Content with proper spacing for fixed nav */}
+        <main id="main-content" className="min-h-screen pt-20 md:pt-24">
           {children}
         </main>
-        
-        <Footer />
-        
-        {/* Add the Smart FAB here */}
+
+        {/* Luxury Footer */}
+        <LuxuryFooter />
+
+        {/* WhatsApp Float - Update this component's styling separately */}
         <WhatsAppFloat />
+
+        {/* Global Loading Indicator (optional) */}
+        <div
+          id="global-loading"
+          className="
+            fixed top-0 left-0 right-0 h-1 bg-black z-[60]
+            opacity-0 pointer-events-none transition-opacity duration-300
+          "
+        >
+          <div className="h-full bg-gold animate-pulse" />
+        </div>
       </body>
     </html>
   );

@@ -75,9 +75,9 @@ const AcademyOurStory = () => {
             {/* Featured Stats */}
             <div className="grid grid-cols-2 gap-4 col-span-2">
               {[
-                { number: `${academyInfo.stats.successRate}%`, label: 'הצלחה בבחינות' },
-                { number: `${academyInfo.stats.certificatesIssued}+`, label: 'תעודות' },
-                { number: `${academyInfo.stats.partnerships}`, label: 'שותפויות' },
+                { number: `${academyInfo.stats.placementRate}%`, label: 'שיעור השמה' },
+                { number: `${academyInfo.stats.industryAwards}`, label: 'פרסים' },
+                { number: `${academyInfo.stats.programCount}`, label: 'תוכניות' },
                 { number: `${academyInfo.stats.graduates}+`, label: 'בוגרים' },
               ].map((stat, index) => (
                 <motion.div

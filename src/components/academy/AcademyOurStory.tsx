@@ -6,13 +6,6 @@ import { motion } from 'framer-motion';
 import { academyInfo } from '@/lib/data';
 
 const AcademyOurStory = () => {
-  const fadeInUp = {
-    initial: { opacity: 0, y: 30 },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true },
-    transition: { duration: 0.8 },
-  };
-
   return (
     <section className="py-16 md:py-24 lg:py-32 bg-charcoal text-offwhite">
       <div className="container mx-auto px-6 md:px-12">
@@ -69,41 +62,27 @@ const AcademyOurStory = () => {
               כיום, עם מעל {academyInfo.stats.graduates} בוגרים ו-{academyInfo.stats.placementRate}%
               שיעור השמה, אנחנו גאים להיות האקדמיה המובילה בצפון.
             </p>
-
-            {/* Mission Quote */}
-            <motion.div
-              className="border-r-4 border-gold pr-6 py-4 my-8"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-            >
-              <p className="text-xl md:text-2xl font-light italic text-gold">
-                "אנחנו לא מכשירים ספרים,
-                <br />
-                אנחנו מפסלים אמנים"
-              </p>
-            </motion.div>
           </motion.div>
 
-          {/* Stats - Mobile: Grid, Desktop: Sidebar */}
+          {/* Stats Grid */}
           <motion.div
-            className="lg:col-span-3"
+            className="lg:col-span-3 grid grid-cols-2 gap-4 mt-8 lg:mt-0"
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 1 }}
+            transition={{ duration: 0.8 }}
           >
-            <div className="grid grid-cols-2 lg:grid-cols-1 gap-6">
+            {/* Featured Stats */}
+            <div className="grid grid-cols-2 gap-4 col-span-2">
               {[
-                { number: academyInfo.stats.graduates + '+', label: 'בוגרים' },
-                { number: academyInfo.stats.placementRate + '%', label: 'השמה' },
-                { number: academyInfo.stats.programCount, label: 'תוכניות' },
-                { number: academyInfo.stats.industryAwards, label: 'פרסים' },
+                { number: `${academyInfo.stats.successRate}%`, label: 'הצלחה בבחינות' },
+                { number: `${academyInfo.stats.certificatesIssued}+`, label: 'תעודות' },
+                { number: `${academyInfo.stats.partnerships}`, label: 'שותפויות' },
+                { number: `${academyInfo.stats.graduates}+`, label: 'בוגרים' },
               ].map((stat, index) => (
                 <motion.div
                   key={stat.label}
-                  className="text-center lg:text-right"
+                  className="text-center p-4 bg-charcoal-dark/50 border border-gold/10"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}

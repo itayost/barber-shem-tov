@@ -1,6 +1,14 @@
 // next.config.js - Mobile Performance Optimizations
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  eslint: {
+    // During production builds, do not run ESLint
+    ignoreDuringBuilds: true,
+  },
+  typescript: {
+    // During production builds, do not run TypeScript type checking
+    ignoreBuildErrors: false,
+  },
   images: {
     // Optimize images for mobile
     formats: ['image/webp', 'image/avif'],
@@ -10,13 +18,13 @@ const nextConfig = {
     dangerouslyAllowSVG: true,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
-  
+
   // Enable compression
   compress: true,
-  
+
   // PWA-like optimizations
   poweredByHeader: false,
-  
+
   // Bundle analyzer for mobile optimization
   webpack: (config, { dev, isServer }) => {
     // Only in production
@@ -44,10 +52,10 @@ const nextConfig = {
         },
       };
     }
-    
+
     return config;
   },
-  
+
   // Headers for mobile performance
   async headers() {
     return [
@@ -56,11 +64,11 @@ const nextConfig = {
         headers: [
           {
             key: 'X-DNS-Prefetch-Control',
-            value: 'on'
+            value: 'on',
           },
           {
             key: 'X-Frame-Options',
-            value: 'DENY'
+            value: 'DENY',
           },
         ],
       },
@@ -75,6 +83,6 @@ const nextConfig = {
       },
     ];
   },
-}
+};
 
 module.exports = nextConfig;

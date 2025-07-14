@@ -113,13 +113,13 @@ const AcademyOurStaff = () => {
                       <div className="flex gap-8">
                         <div>
                           <div className="text-3xl font-thin text-gold">
-                            {currentStaff.id === 'bar' ? '15+' : '12+'}
+                            {currentStaff.id === 'bar' ? '10+' : '8+'}
                           </div>
                           <div className="text-xs tracking-[0.2em] opacity-80 uppercase">Years</div>
                         </div>
                         <div>
                           <div className="text-3xl font-thin text-gold">
-                            {currentStaff.id === 'bar' ? '500+' : '200+'}
+                            {currentStaff.id === 'bar' ? '100+' : '100+'}
                           </div>
                           <div className="text-xs tracking-[0.2em] opacity-80 uppercase">
                             Students

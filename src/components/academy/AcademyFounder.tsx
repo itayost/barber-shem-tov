@@ -133,51 +133,6 @@ const AcademyFounderSection = () => {
             </motion.div>
           </motion.div>
         </div>
-
-        {/* Bottom Section - Timeline */}
-        <motion.div
-          className="mt-24 md:mt-32"
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-        >
-          <div className="relative">
-            {/* Timeline Line */}
-            <div className="absolute top-1/2 left-0 right-0 h-px bg-gold/20" />
-
-            {/* Timeline Points */}
-            <div className="relative grid grid-cols-3 md:grid-cols-5 gap-4">
-              {[
-                { year: '2010', title: 'תחילת הדרך' },
-                { year: '2018', title: 'הקמת האקדמיה' },
-                { year: '2020', title: 'הסמכה בינלאומית' },
-                { year: '2024', title: '500+ בוגרים' },
-                { year: '2025', title: 'חזון לעתיד' },
-              ].map((milestone, index) => (
-                <motion.div
-                  key={index}
-                  className="text-center"
-                  initial={{ opacity: 0, scale: 0 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                >
-                  <div className="relative inline-block">
-                    <div className="w-3 h-3 bg-gold rounded-full" />
-                    <div className="absolute inset-0 bg-gold/30 rounded-full blur-lg" />
-                  </div>
-                  <div className="mt-4">
-                    <div className="text-sm font-light text-gold">{milestone.year}</div>
-                    <div className="text-xs tracking-wider text-lightgrey/60 mt-1">
-                      {milestone.title}
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </motion.div>
       </div>
     </section>
   );

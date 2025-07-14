@@ -13,6 +13,13 @@ import MobileMenuNav from './mobile/MobileMenuNav';
 import MobileMenuActions from './mobile/MobileMenuActions';
 import MobileMenuFooter from './mobile/MobileMenuFooter';
 
+// Extend Navigator interface for deviceMemory
+declare global {
+  interface Navigator {
+    deviceMemory?: number;
+  }
+}
+
 interface MobileMenuProps {
   isOpen: boolean;
   onClose: () => void;
@@ -43,7 +50,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
     const checkDevice = () => {
       const isLowEnd =
         navigator.hardwareConcurrency <= 2 || // Few CPU cores
-        navigator.deviceMemory <= 4 || // Low RAM (if available)
+        (navigator.deviceMemory !== undefined && navigator.deviceMemory <= 4) || // Low RAM (if available)
         window.matchMedia('(max-width: 375px)').matches; // Small screen
 
       setIsLowEndDevice(isLowEnd);
@@ -163,8 +170,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
       y: '100%',
       transition: {
         type: 'tween',
-        duration: prefersReducedMotion || isLowEndDevice ? 0.15 : 0.25,
-        ease: 'easeIn',
+        duration: prefersReducedMotion || isLowEndDevice ? 0.2 : 0.25,
       },
     },
   };
@@ -173,73 +179,72 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
     <AnimatePresence>
       {isOpen && (
         <>
-          {/* Backdrop - Mobile optimized */}
+          {/* Mobile-optimized backdrop */}
           <motion.div
-            className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm md:hidden touch-none"
+            className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50"
             variants={backdropVariants}
             initial="hidden"
             animate="visible"
             exit="exit"
             onClick={onClose}
-            style={{ WebkitTapHighlightColor: 'transparent' }}
+            style={{ touchAction: 'none' }}
+            id={`${id}-backdrop`}
           />
 
-          {/* Bottom Sheet - Mobile-first design */}
+          {/* Mobile-first menu with bottom sheet behavior */}
           <motion.div
-            id={id}
-            className="fixed inset-x-0 bottom-0 z-[101] bg-black border-t border-gold/20 shadow-2xl max-h-[90vh] overflow-hidden md:hidden"
+            className={`
+              fixed bottom-0 left-0 right-0 z-50
+              bg-charcoal rounded-t-3xl shadow-2xl
+              ${navigationConfig.mobileMenu.bottomSheetMaxHeight}
+              touch-manipulation
+            `}
             variants={menuVariants}
             initial="hidden"
             animate="visible"
             exit="exit"
-            drag={!prefersReducedMotion && !isLowEndDevice ? 'y' : false}
+            drag={navigationConfig.mobileMenu.enableDragToClose ? 'y' : false}
             dragConstraints={{ top: 0, bottom: 0 }}
             dragElastic={0.2}
-            onDragStart={() => setIsDragging(true)}
-            onDrag={(_, info) => setDragY(info.offset.y)}
+            onDrag={(_, info) => {
+              setIsDragging(true);
+              setDragY(info.offset.y);
+            }}
             onDragEnd={handleDragEnd}
-            role="dialog"
-            aria-modal="true"
-            aria-label="תפריט ניווט"
-            dir="rtl"
             style={{
               y: dragY,
-              touchAction: isDragging ? 'none' : 'pan-y',
-              WebkitTapHighlightColor: 'transparent',
-              borderTopLeftRadius: '24px',
-              borderTopRightRadius: '24px',
+              maxHeight: navigationConfig.mobileMenu.bottomSheetMaxHeight,
             }}
+            id={id}
           >
-            {/* Drag Handle - Touch optimized */}
-            <div className="py-3 pb-2 touch-none">
-              <div className="w-12 h-1 bg-gold/30 rounded-full mx-auto transition-all duration-200 hover:bg-gold/50" />
+            {/* Drag indicator - Touch friendly */}
+            <div className="absolute top-0 left-0 right-0 flex justify-center py-3 cursor-grab active:cursor-grabbing">
+              <div className="w-12 h-1 bg-lightgrey/30 rounded-full" />
             </div>
 
-            {/* Scrollable Content - Mobile optimized */}
-            <div className="overflow-y-auto max-h-[calc(90vh-2.5rem)] pb-safe overscroll-contain">
-              {/* Header - Mobile-first spacing */}
-              <MobileMenuHeader
-                logo={{
-                  src: '/images/logos/logo.png',
-                  alt: academyInfo.shortName,
-                }}
-                businessName={academyInfo.name}
-                todayStatus={todayStatus}
-                isCompact={isCompact}
-                onClose={onClose}
-              />
+            {/* Menu content - Mobile optimized */}
+            <div className="h-full overflow-hidden flex flex-col">
+              <div className="flex-1 overflow-y-auto overscroll-contain px-4 sm:px-6 pb-safe">
+                {/* Header - Mobile optimized */}
+                <motion.div
+                  initial={prefersReducedMotion ? {} : { opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.05, duration: 0.2 }}
+                >
+                  <MobileMenuHeader
+                    businessName={academyInfo.shortName}
+                    todayStatus={todayStatus}
+                    onClose={onClose}
+                    isCompact={isCompact}
+                  />
+                </motion.div>
 
-              {/* Content - Mobile-first spacing */}
-              <div className="px-4 sm:px-6 py-4 sm:py-6 space-y-4 sm:space-y-6">
                 {/* Navigation - Mobile optimized */}
                 <motion.div
                   initial={prefersReducedMotion ? {} : { opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.1, duration: 0.2 }}
                 >
-                  <h3 className="text-xs sm:text-sm font-medium text-gold mb-2 sm:mb-3 tracking-wider uppercase">
-                    ניווט
-                  </h3>
                   <MobileMenuNav
                     items={navItems}
                     activeIndex={activeNavIndex}
@@ -250,7 +255,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
                   />
                 </motion.div>
 
-                {/* CTA Actions - Touch friendly */}
+                {/* Quick Actions - Mobile optimized */}
                 <motion.div
                   initial={prefersReducedMotion ? {} : { opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}

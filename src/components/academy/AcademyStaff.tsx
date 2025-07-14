@@ -66,7 +66,9 @@ const AcademyOurStaff = () => {
               {instructors.map((staff, index) => (
                 <button
                   key={staff.id}
-                  ref={el => (tabRefs.current[index] = el)}
+                  ref={el => {
+                    if (el) tabRefs.current[index] = el;
+                  }}
                   onClick={() => setSelectedStaff(index)}
                   className={`
                     relative flex-shrink-0 px-6 sm:px-8 py-3 sm:py-4

@@ -232,6 +232,10 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
                   transition={{ delay: 0.05, duration: 0.2 }}
                 >
                   <MobileMenuHeader
+                    logo={{
+                      src: '/images/logos/logo.png',
+                      alt: academyInfo.shortName,
+                    }}
                     businessName={academyInfo.shortName}
                     todayStatus={todayStatus}
                     onClose={onClose}

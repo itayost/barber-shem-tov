@@ -6,6 +6,9 @@ import { motion } from 'framer-motion';
 import { academyInfo } from '@/lib/data';
 
 const AcademyOurStory = () => {
+  // Split the story content into paragraphs
+  const storyParagraphs = academyInfo.story.content.split('\n').filter(p => p.trim());
+
   return (
     <section className="py-16 md:py-24 lg:py-32 bg-charcoal text-offwhite">
       <div className="container mx-auto px-6 md:px-12">
@@ -18,7 +21,7 @@ const AcademyOurStory = () => {
           transition={{ duration: 0.8 }}
         >
           <span className="text-gold text-sm uppercase tracking-[0.2em] block mb-4">
-            הסיפור שלנו
+            {academyInfo.story.title}
           </span>
           <h2 className="text-3xl md:text-5xl lg:text-6xl font-light">
             מסע של
@@ -47,21 +50,21 @@ const AcademyOurStory = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <p className="text-xl md:text-2xl font-light leading-relaxed">
-              <span className="text-gold text-4xl float-right mr-2">ה</span>אקדמיה שלנו נולדה מתוך
-              חזון פשוט אך עוצמתי - להעלות את סטנדרט הספרות בישראל לרמה בינלאומית.
-            </p>
-
-            <p className="text-base md:text-lg text-lightgrey leading-relaxed">
-              מה שהתחיל כמספרה בוטיק קטנה בטירת הכרמל ב-{academyInfo.established}, הפך במהרה למרכז
-              הכשרה מוביל. בר שם טוב, המייסד שלנו, זיהה את הצורך בחינוך מקצועי איכותי שמשלב טכניקות
-              מסורתיות עם חדשנות עכשווית.
-            </p>
-
-            <p className="text-base md:text-lg text-lightgrey leading-relaxed">
-              כיום, עם מעל {academyInfo.stats.graduates} בוגרים ו-{academyInfo.stats.placementRate}%
-              שיעור השמה, אנחנו גאים להיות האקדמיה המובילה בצפון.
-            </p>
+            {storyParagraphs.map((paragraph, index) => (
+              <p
+                key={index}
+                className={`${
+                  index === 0
+                    ? 'text-xl md:text-2xl font-light leading-relaxed'
+                    : 'text-base md:text-lg text-lightgrey leading-relaxed'
+                }`}
+              >
+                {index === 0 && (
+                  <span className="text-gold text-4xl float-right mr-2">{paragraph.charAt(0)}</span>
+                )}
+                {index === 0 ? paragraph.substring(1) : paragraph}
+              </p>
+            ))}
           </motion.div>
 
           {/* Stats Grid */}
@@ -118,13 +121,13 @@ const AcademyOurStory = () => {
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-4">
               {[
                 { year: 2018, title: 'ההתחלה', description: 'פתיחת המספרה והאקדמיה' },
-                { year: 2019, title: 'הרחבה', description: 'השקת תוכנית ההכשרה' },
+                { year: 2020, title: 'הרחבה', description: 'מעבר למספרה הנוכחית' },
                 {
-                  year: 2021,
-                  title: 'הכרה בינלאומית',
-                  description: 'שיתוף פעולה עם International Barber Association',
+                  year: 2023,
+                  title: 'הפצת הבשורה',
+                  description: 'פתיחת מחזור ראשון של האקדמיה',
                 },
-                { year: 2023, title: 'מצוינות', description: '500 בוגרים' },
+                { year: 2025, title: 'מצוינות', description: '100+ בוגרים וחזון חדש' },
               ].map((milestone, index) => (
                 <motion.div
                   key={milestone.year}

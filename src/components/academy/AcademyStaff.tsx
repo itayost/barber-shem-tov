@@ -156,19 +156,6 @@ const AcademyOurStaff = () => {
                       ))}
                     </div>
                   </div>
-
-                  {/* Achievements - Luxury Style */}
-                  <div>
-                    <p className="text-xs tracking-[0.3em] text-gold mb-4">ACHIEVEMENTS</p>
-                    <ul className="space-y-3">
-                      {currentStaff.certifications.map((cert, i) => (
-                        <li key={i} className="flex items-start gap-3">
-                          <span className="text-gold/40 mt-1">—</span>
-                          <span className="text-sm font-light text-lightgrey/80">{cert}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
                 </motion.div>
               </motion.div>
             </AnimatePresence>

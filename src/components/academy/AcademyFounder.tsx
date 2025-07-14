@@ -4,10 +4,12 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { instructors } from '@/lib/data';
+import { instructors, academyInfo } from '@/lib/data';
 
 const AcademyFounderSection = () => {
-  const founder = instructors[0]; // Bar Shem-Tov
+  const founder = instructors.find(i => i.id === 'bar'); // Bar Shem-Tov
+
+  if (!founder) return null;
 
   return (
     <section className="py-20 md:py-32 bg-charcoal text-offwhite">
@@ -78,7 +80,9 @@ const AcademyFounderSection = () => {
             {/* Luxury Divider */}
             <div className="flex items-center gap-8">
               <div className="h-px bg-gold/30 flex-1" />
-              <span className="text-xs tracking-[0.5em] text-gold/60">EST. 2018</span>
+              <span className="text-xs tracking-[0.5em] text-gold/60">
+                EST. {academyInfo.established}
+              </span>
               <div className="h-px bg-gold/30 flex-1" />
             </div>
 
@@ -90,9 +94,9 @@ const AcademyFounderSection = () => {
             {/* Achievements - Minimalist Luxury */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-8">
               {[
-                { number: '15+', label: 'שנות ניסיון' },
-                { number: '500+', label: 'בוגרים מצליחים' },
-                { number: '12', label: 'פרסים בינלאומיים' },
+                { number: '10+', label: 'שנות ניסיון' },
+                { number: `${academyInfo.stats.graduates}+`, label: 'בוגרים מצליחים' },
+                { number: `${academyInfo.stats.placementRate}%`, label: 'שיעור השמה' },
               ].map((stat, index) => (
                 <motion.div
                   key={index}
@@ -120,8 +124,8 @@ const AcademyFounderSection = () => {
             >
               <div className="absolute top-0 left-0 text-6xl text-gold/20 font-serif">"</div>
               <blockquote className="text-2xl md:text-3xl font-thin italic text-offwhite/90 pr-12">
-                אמנות היא לא מה שאתה עושה,
-                <span className="text-gold"> אלא איך אתה גורם למישהו להרגיש</span>
+                אני לא מלמד רק טכניקה -
+                <span className="text-gold"> אני בונה דור של אמנים שיובילו את המחר</span>
               </blockquote>
               <div className="absolute bottom-0 right-0 text-6xl text-gold/20 font-serif transform rotate-180">
                 "
@@ -145,10 +149,10 @@ const AcademyFounderSection = () => {
             {/* Timeline Points */}
             <div className="relative grid grid-cols-3 md:grid-cols-5 gap-4">
               {[
+                { year: '2010', title: 'תחילת הדרך' },
                 { year: '2018', title: 'הקמת האקדמיה' },
                 { year: '2020', title: 'הסמכה בינלאומית' },
-                { year: '2021', title: 'פרס מצוינות' },
-                { year: '2023', title: '500 בוגרים' },
+                { year: '2024', title: '500+ בוגרים' },
                 { year: '2025', title: 'חזון לעתיד' },
               ].map((milestone, index) => (
                 <motion.div

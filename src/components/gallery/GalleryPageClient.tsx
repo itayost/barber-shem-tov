@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useMemo, useCallback, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import {
   X,
   ChevronLeft,
@@ -13,8 +13,9 @@ import {
   Play,
   ZoomIn,
 } from 'lucide-react';
+import Image from 'next/image';
 
-// Types (matching your existing system)
+// Types
 interface GalleryImage {
   id: string;
   category: string;
@@ -38,7 +39,7 @@ interface GalleryPageClientProps {
   images: GalleryImage[];
 }
 
-// Button Props Interface
+// Mobile-First Luxury Button Component
 interface LuxuryButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary' | 'ghost';
   size?: 'small' | 'default' | 'large';
@@ -46,15 +47,6 @@ interface LuxuryButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement
   active?: boolean;
 }
 
-// Section Props Interface
-interface LuxurySectionProps {
-  children: React.ReactNode;
-  className?: string;
-  size?: 'small' | 'default' | 'large' | 'hero';
-  bgColor?: 'black' | 'charcoal' | 'charcoal-dark';
-}
-
-// Reusable Luxury Components
 const LuxuryButton: React.FC<LuxuryButtonProps> = ({
   variant = 'primary',
   size = 'default',
@@ -64,18 +56,19 @@ const LuxuryButton: React.FC<LuxuryButtonProps> = ({
   ...props
 }) => {
   const baseClasses =
-    'group relative overflow-hidden font-light uppercase transition-all duration-500';
+    'group relative overflow-hidden font-light uppercase transition-all duration-300 touch-manipulation';
 
   const variants = {
-    primary: 'bg-gold text-black hover:text-gold',
-    secondary: `border ${active ? 'border-gold text-gold' : 'border-gold/30 text-offwhite hover:border-gold hover:text-gold'}`,
-    ghost: `${active ? 'text-gold' : 'text-offwhite hover:text-gold'}`,
+    primary: 'bg-gold text-black hover:text-gold active:bg-gold-light',
+    secondary: `border ${active ? 'border-gold text-gold' : 'border-gold/30 text-offwhite hover:border-gold hover:text-gold active:border-gold/50'}`,
+    ghost: `${active ? 'text-gold' : 'text-offwhite hover:text-gold active:text-gold/80'}`,
   };
 
+  // Mobile-first sizing
   const sizes = {
-    small: 'px-4 py-2 text-xs tracking-[0.2em]',
-    default: 'px-6 py-3 text-sm tracking-[0.2em]',
-    large: 'px-10 py-4 text-base tracking-[0.3em]',
+    small: 'px-3 py-2 text-xs sm:px-4 sm:py-2 tracking-wider sm:tracking-[0.2em]',
+    default: 'px-4 py-2.5 text-sm sm:px-6 sm:py-3 tracking-wider sm:tracking-[0.2em]',
+    large: 'px-6 py-3 text-base sm:px-10 sm:py-4 tracking-wider sm:tracking-[0.3em]',
   };
 
   return (
@@ -85,24 +78,32 @@ const LuxuryButton: React.FC<LuxuryButtonProps> = ({
     >
       <span className="relative z-10">{children}</span>
       {variant === 'primary' && (
-        <div className="absolute inset-0 bg-offwhite transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-right" />
+        <div className="absolute inset-0 bg-offwhite transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-right" />
       )}
     </button>
   );
 };
 
-// Luxury Section Component
+// Mobile-First Luxury Section Component
+interface LuxurySectionProps {
+  children: React.ReactNode;
+  className?: string;
+  size?: 'small' | 'default' | 'large' | 'hero';
+  bgColor?: 'black' | 'charcoal' | 'charcoal-dark';
+}
+
 const LuxurySection: React.FC<LuxurySectionProps> = ({
   children,
   className = '',
   size = 'default',
   bgColor = 'black',
 }) => {
+  // Mobile-first padding
   const paddingSizes = {
-    small: 'py-12 md:py-16',
-    default: 'py-16 md:py-24',
-    large: 'py-20 md:py-32',
-    hero: 'py-24 md:py-40',
+    small: 'py-8 sm:py-12 md:py-16',
+    default: 'py-12 sm:py-16 md:py-24',
+    large: 'py-16 sm:py-20 md:py-32',
+    hero: 'py-20 sm:py-24 md:py-40',
   };
 
   const bgColors = {
@@ -118,38 +119,70 @@ const LuxurySection: React.FC<LuxurySectionProps> = ({
   );
 };
 
-// Main Gallery Component
+// Main Gallery Component - Mobile First
 const GalleryPageClient: React.FC<GalleryPageClientProps> = ({ images = [] }) => {
-  // Import categories from your data
-  const categories: GalleryCategory[] = [
-    {
-      id: 'experience',
-      label: 'חוויות',
-      description: 'רגעים בלתי נשכחים מתוך ההכשרה והעשייה',
-      order: 1,
-    },
-    {
-      id: 'space',
-      label: 'המרחב',
-      description: 'הסביבה המודרנית שלנו שמעצימה למידה ויצירה',
-      order: 2,
-    },
-    { id: 'work', label: 'עבודות', description: 'תוצרים יצירתיים ומקצועיים של המשתתפים', order: 3 },
-  ];
-
+  // State
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null);
   const [viewMode, setViewMode] = useState('grid');
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+  const prefersReducedMotion = useReducedMotion();
 
-  // Get all categories including "All"
+  // Categories
+  const categories: GalleryCategory[] = [
+    { id: 'experience', label: 'חוויות', description: 'רגעים בלתי נשכחים', order: 1 },
+    { id: 'space', label: 'המרחב', description: 'הסביבה המודרנית שלנו', order: 2 },
+    { id: 'work', label: 'עבודות', description: 'תוצרים יצירתיים', order: 3 },
+  ];
+
+  // Detect mobile
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Mobile-first animation variants
+  const itemVariants = {
+    hidden: {
+      opacity: 0,
+      scale: isMobile ? 0.98 : 0.95,
+      y: isMobile ? 10 : 20
+    },
+    visible: (index: number) => ({
+      opacity: 1,
+      scale: 1,
+      y: 0,
+      transition: {
+        duration: isMobile ? 0.3 : 0.5,
+        delay: isMobile ? index * 0.02 : index * 0.05,
+        ease: "easeOut"
+      }
+    })
+  };
+
+  const heroVariants = {
+    hidden: { opacity: 0, y: isMobile ? 20 : 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: isMobile ? 0.5 : 0.8,
+        ease: [0.25, 0.1, 0.25, 1]
+      }
+    }
+  };
+
+  // All categories including "All"
   const allCategories = useMemo(
     () => [{ id: 'all', label: 'הכל', description: 'כל העבודות שלנו', order: 0 }, ...categories],
     []
   );
 
-  // Filter images based on selected category
+  // Filter images
   const filteredImages = useMemo(() => {
     if (!selectedCategory || selectedCategory === 'all') {
       return images;
@@ -166,7 +199,7 @@ const GalleryPageClient: React.FC<GalleryPageClientProps> = ({ images = [] }) =>
     return counts;
   }, [images]);
 
-  // Lightbox navigation
+  // Lightbox functions
   const openLightbox = useCallback(
     (image: GalleryImage) => {
       const index = filteredImages.findIndex(img => img.id === image.id);
@@ -195,19 +228,21 @@ const GalleryPageClient: React.FC<GalleryPageClientProps> = ({ images = [] }) =>
     setIsPlaying(false);
   }, []);
 
-  // Slideshow functionality
+  // Slideshow
   useEffect(() => {
     if (!isPlaying || !selectedImage) return;
 
     const timer = setTimeout(() => {
       navigate('next');
-    }, 3000);
+    }, isMobile ? 4000 : 3000); // Slower on mobile
 
     return () => clearTimeout(timer);
-  }, [isPlaying, selectedImage, navigate]);
+  }, [isPlaying, selectedImage, navigate, isMobile]);
 
-  // Keyboard navigation
+  // Keyboard navigation (desktop only)
   useEffect(() => {
+    if (isMobile) return;
+
     const handleKeyDown = (e: KeyboardEvent) => {
       if (!selectedImage) return;
 
@@ -230,43 +265,44 @@ const GalleryPageClient: React.FC<GalleryPageClientProps> = ({ images = [] }) =>
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [selectedImage, navigate, closeLightbox]);
+  }, [selectedImage, navigate, closeLightbox, isMobile]);
 
   return (
     <>
-      {/* Hero Section */}
+      {/* Hero Section - Mobile First */}
       <LuxurySection size="hero" bgColor="black">
-        <div className="max-w-7xl mx-auto px-6 md:px-12 text-center">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 text-center">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            variants={prefersReducedMotion ? {} : heroVariants}
+            initial={prefersReducedMotion ? {} : "hidden"}
+            animate={prefersReducedMotion ? {} : "visible"}
           >
-            <p className="text-xs uppercase tracking-[0.3em] md:tracking-[0.5em] text-gold mb-6">
+            <p className="text-[10px] sm:text-xs uppercase tracking-[0.2em] sm:tracking-[0.3em] md:tracking-[0.5em] text-gold mb-4 sm:mb-6">
               גלריית העבודות
             </p>
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-thin text-offwhite mb-6">
+            <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-thin text-offwhite mb-4 sm:mb-6">
               אמנות הספרות
               <span className="text-gold"> בפעולה</span>
             </h1>
-            <p className="text-lg md:text-xl text-lightgrey max-w-3xl mx-auto">
+            <p className="text-base sm:text-lg md:text-xl text-lightgrey max-w-3xl mx-auto">
               כל לקוח הוא בד ציור חי
             </p>
           </motion.div>
         </div>
       </LuxurySection>
 
-      {/* Filters Section */}
+      {/* Filters Section - Mobile Optimized */}
       <LuxurySection size="small" bgColor="charcoal-dark">
-        <div className="max-w-7xl mx-auto px-6 md:px-12">
-          {/* Category Filters */}
-          <div className="flex flex-wrap justify-center gap-3 md:gap-4 mb-8 md:mb-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12">
+          {/* Category Filters - Mobile scroll */}
+          <div className="flex flex-wrap justify-center gap-2 sm:gap-3 md:gap-4 mb-6 sm:mb-8 md:mb-12">
             {allCategories.map((category, index) => (
               <motion.div
                 key={category.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.05 }}
+                custom={index}
+                variants={prefersReducedMotion ? {} : itemVariants}
+                initial={prefersReducedMotion ? {} : "hidden"}
+                animate={prefersReducedMotion ? {} : "visible"}
               >
                 <LuxuryButton
                   variant="secondary"
@@ -275,187 +311,176 @@ const GalleryPageClient: React.FC<GalleryPageClientProps> = ({ images = [] }) =>
                   onClick={() => setSelectedCategory(category.id)}
                 >
                   {category.label}
-                  <span className="ms-2 text-gold/70">({imageCounts[category.id] || 0})</span>
+                  <span className="ms-1 sm:ms-2 text-gold/70 text-[10px] sm:text-xs">
+                    ({imageCounts[category.id] || 0})
+                  </span>
                 </LuxuryButton>
               </motion.div>
             ))}
           </div>
 
-          {/* View Mode Toggle */}
-          <div className="flex justify-center gap-2">
-            <button
-              onClick={() => setViewMode('grid')}
-              className={`p-2 md:p-3 border transition-all duration-300 ${
-                viewMode === 'grid'
-                  ? 'border-gold text-gold'
-                  : 'border-gold/30 text-offwhite hover:border-gold hover:text-gold'
-              }`}
-              aria-label="תצוגת רשת"
-            >
-              <Grid3X3 className="w-4 h-4 md:w-5 md:h-5" />
-            </button>
-            <button
-              onClick={() => setViewMode('masonry')}
-              className={`p-2 md:p-3 border transition-all duration-300 ${
-                viewMode === 'masonry'
-                  ? 'border-gold text-gold'
-                  : 'border-gold/30 text-offwhite hover:border-gold hover:text-gold'
-              }`}
-              aria-label="תצוגת בנייה"
-            >
-              <LayoutGrid className="w-4 h-4 md:w-5 md:h-5" />
-            </button>
-            <button
-              onClick={() => setViewMode('minimal')}
-              className={`p-2 md:p-3 border transition-all duration-300 ${
-                viewMode === 'minimal'
-                  ? 'border-gold text-gold'
-                  : 'border-gold/30 text-offwhite hover:border-gold hover:text-gold'
-              }`}
-              aria-label="תצוגה מינימלית"
-            >
-              <Square className="w-4 h-4 md:w-5 md:h-5" />
-            </button>
+          {/* View Mode Toggle - Touch optimized */}
+          <div className="flex justify-center gap-1 sm:gap-2">
+            {[
+              { mode: 'grid', icon: Grid3X3, label: 'תצוגת רשת' },
+              { mode: 'masonry', icon: LayoutGrid, label: 'תצוגת בנייה' },
+              { mode: 'minimal', icon: Square, label: 'תצוגה מינימלית' },
+            ].map(({ mode, icon: Icon, label }) => (
+              <button
+                key={mode}
+                onClick={() => setViewMode(mode)}
+                className={`p-3 sm:p-3 md:p-3 min-w-[44px] min-h-[44px] border transition-all duration-300 touch-manipulation ${viewMode === mode ? 'border-gold text-gold' : 'border-gold/30 text-offwhite hover:border-gold hover:text-gold active:border-gold/50'}`}
+                aria-label={label}
+              >
+                <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
+              </button>
+            ))}
           </div>
         </div>
       </LuxurySection>
 
-      {/* Gallery Grid */}
+      {/* Gallery Grid - Mobile First */}
       <LuxurySection size="large" bgColor="black">
-        <div className="max-w-7xl mx-auto px-6 md:px-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12">
           {filteredImages.length > 0 ? (
             <div
-              className={`
-                grid gap-px md:gap-0.5
-                ${
-                  viewMode === 'grid'
-                    ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
-                    : viewMode === 'masonry'
-                      ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3 auto-rows-auto'
-                      : 'grid-cols-1 md:grid-cols-4 lg:grid-cols-6'
-                }
-              `}
+              className={`grid gap-0.5 sm:gap-px md:gap-0.5 ${viewMode === 'grid'
+                  ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'
+                  : viewMode === 'masonry'
+                    ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 auto-rows-auto'
+                    : 'grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6'
+                }`}
             >
               {filteredImages.map((image, index) => (
                 <motion.div
                   key={image.id}
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.5, delay: index * 0.05 }}
-                  className={`
-                    relative overflow-hidden cursor-pointer group
-                    ${viewMode === 'grid' ? 'aspect-[3/4]' : ''}
-                    ${viewMode === 'minimal' ? 'aspect-square' : ''}
-                  `}
+                  custom={index}
+                  variants={prefersReducedMotion ? {} : itemVariants}
+                  initial={prefersReducedMotion ? {} : "hidden"}
+                  animate={prefersReducedMotion ? {} : "visible"}
+                  className={`relative overflow-hidden cursor-pointer group touch-manipulation ${viewMode === 'grid' ? 'aspect-[3/4]' : ''} ${viewMode === 'minimal' ? 'aspect-square' : ''}`}
                   onClick={() => openLightbox(image)}
                 >
-                  {/* Image */}
-                  <img
+                  {/* Mobile-optimized image */}
+                  <Image
                     src={image.src}
                     alt={image.title}
-                    className="w-full h-full object-cover transition-all duration-700 group-hover:scale-105"
+                    width={viewMode === 'minimal' ? 300 : 600}
+                    height={viewMode === 'minimal' ? 300 : 800}
+                    className="w-full h-full object-cover transition-transform duration-500 sm:duration-700 group-hover:scale-105"
+                    quality={isMobile ? 60 : 75}
+                    loading="lazy"
                   />
 
-                  {/* Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                    <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6" dir="rtl">
-                      <p className="text-xs uppercase tracking-[0.2em] text-gold mb-2">
+                  {/* Mobile-friendly overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300 sm:duration-500">
+                    <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 md:p-6" dir="rtl">
+                      <p className="text-[10px] sm:text-xs uppercase tracking-wider sm:tracking-[0.2em] text-gold mb-1 sm:mb-2">
                         {categories.find(cat => cat.id === image.category)?.label || image.category}
                       </p>
-                      <h3 className="text-lg md:text-xl font-light text-offwhite">{image.title}</h3>
+                      <h3 className="text-sm sm:text-base md:text-xl font-light text-offwhite">
+                        {image.title}
+                      </h3>
                     </div>
                   </div>
 
-                  {/* Hover Icon */}
-                  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                    <ZoomIn className="w-8 h-8 text-offwhite" />
-                  </div>
+                  {/* Hover Icon - Desktop only */}
+                  {!isMobile && (
+                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                      <ZoomIn className="w-8 h-8 text-offwhite" />
+                    </div>
+                  )}
 
                   {/* Border Effect */}
-                  <div className="absolute inset-0 border border-gold/0 group-hover:border-gold/30 transition-all duration-500" />
+                  <div className="absolute inset-0 border border-gold/0 group-hover:border-gold/30 transition-all duration-300 sm:duration-500" />
                 </motion.div>
               ))}
             </div>
           ) : (
-            <div className="text-center py-20">
-              <p className="text-xl text-lightgrey">לא נמצאו תמונות בקטגוריה זו</p>
+            <div className="text-center py-16 sm:py-20">
+              <p className="text-lg sm:text-xl text-lightgrey">לא נמצאו תמונות בקטגוריה זו</p>
             </div>
           )}
         </div>
       </LuxurySection>
 
-      {/* Lightbox */}
+      {/* Lightbox - Mobile Optimized */}
       <AnimatePresence>
         {selectedImage && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
             className="fixed inset-0 bg-black/95 backdrop-blur-md z-50 flex items-center justify-center"
             onClick={closeLightbox}
           >
-            <div className="relative w-full h-full flex items-center justify-center p-4 md:p-8">
-              {/* Close Button */}
+            <div className="relative w-full h-full flex items-center justify-center p-2 sm:p-4 md:p-8">
+              {/* Close Button - Touch friendly */}
               <button
-                className="absolute top-4 right-4 md:top-8 md:right-8 w-10 h-10 md:w-12 md:h-12 border border-gold/30 flex items-center justify-center hover:border-gold transition-all duration-300 z-50"
+                className="absolute top-2 right-2 sm:top-4 sm:right-4 md:top-8 md:right-8 w-12 h-12 sm:w-12 sm:h-12 min-w-[44px] min-h-[44px] border border-gold/30 flex items-center justify-center hover:border-gold active:border-gold-light transition-all duration-300 z-50 touch-manipulation"
                 onClick={closeLightbox}
                 aria-label="סגור"
               >
-                <X className="w-5 h-5 md:w-6 md:h-6 text-offwhite" />
+                <X className="w-5 h-5 sm:w-6 sm:h-6 text-offwhite" />
               </button>
 
               {/* Main Content */}
               <motion.div
-                initial={{ scale: 0.9, opacity: 0 }}
+                initial={{ scale: isMobile ? 0.95 : 0.9, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0.9, opacity: 0 }}
+                exit={{ scale: isMobile ? 0.95 : 0.9, opacity: 0 }}
                 transition={{ duration: 0.3 }}
                 className="relative max-w-7xl mx-auto w-full h-full flex items-center justify-center"
                 onClick={e => e.stopPropagation()}
               >
                 {/* Image Container */}
-                <div className="relative w-full h-full max-h-[80vh] flex items-center justify-center">
-                  <img
+                <div className="relative w-full h-full max-h-[70vh] sm:max-h-[80vh] flex items-center justify-center">
+                  <Image
                     src={selectedImage.src}
                     alt={selectedImage.title}
+                    width={1200}
+                    height={800}
                     className="max-w-full max-h-full object-contain"
+                    quality={isMobile ? 70 : 85}
+                    priority
                   />
 
-                  {/* Navigation Buttons */}
+                  {/* Navigation Buttons - Touch optimized */}
                   <button
-                    className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 border border-gold/30 flex items-center justify-center hover:border-gold transition-all duration-300"
+                    className="absolute right-2 sm:right-4 md:right-8 top-1/2 -translate-y-1/2 w-12 h-12 sm:w-12 sm:h-12 min-w-[44px] min-h-[44px] border border-gold/30 flex items-center justify-center hover:border-gold active:border-gold-light transition-all duration-300 touch-manipulation"
                     onClick={e => {
                       e.stopPropagation();
                       navigate('prev');
                     }}
                     aria-label="הקודם"
                   >
-                    <ChevronRight className="w-5 h-5 md:w-6 md:h-6 text-offwhite" />
+                    <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 text-offwhite" />
                   </button>
 
                   <button
-                    className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 border border-gold/30 flex items-center justify-center hover:border-gold transition-all duration-300"
+                    className="absolute left-2 sm:left-4 md:left-8 top-1/2 -translate-y-1/2 w-12 h-12 sm:w-12 sm:h-12 min-w-[44px] min-h-[44px] border border-gold/30 flex items-center justify-center hover:border-gold active:border-gold-light transition-all duration-300 touch-manipulation"
                     onClick={e => {
                       e.stopPropagation();
                       navigate('next');
                     }}
                     aria-label="הבא"
                   >
-                    <ChevronLeft className="w-5 h-5 md:w-6 md:h-6 text-offwhite" />
+                    <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 text-offwhite" />
                   </button>
                 </div>
 
-                {/* Info Panel */}
+                {/* Info Panel - Mobile optimized */}
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2 }}
-                  className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/80 to-transparent p-6 md:p-8"
+                  className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/80 to-transparent p-4 sm:p-6 md:p-8"
                   dir="rtl"
                 >
                   <div className="max-w-3xl">
                     {/* Category & Date */}
-                    <p className="text-xs uppercase tracking-[0.3em] text-gold mb-3">
+                    <p className="text-[10px] sm:text-xs uppercase tracking-wider sm:tracking-[0.3em] text-gold mb-2 sm:mb-3">
                       {categories.find(cat => cat.id === selectedImage.category)?.label ||
                         selectedImage.category}
                       {selectedImage.date && (
@@ -467,24 +492,24 @@ const GalleryPageClient: React.FC<GalleryPageClientProps> = ({ images = [] }) =>
                     </p>
 
                     {/* Title */}
-                    <h3 className="text-2xl md:text-3xl font-light text-offwhite mb-2">
+                    <h3 className="text-xl sm:text-2xl md:text-3xl font-thin text-offwhite mb-2">
                       {selectedImage.title}
                     </h3>
 
-                    {/* Description */}
+                    {/* Description - Hide on small mobile */}
                     {selectedImage.description && (
-                      <p className="text-base md:text-lg text-lightgrey mb-4">
+                      <p className="hidden sm:block text-sm sm:text-base md:text-lg text-lightgrey mb-4">
                         {selectedImage.description}
                       </p>
                     )}
 
-                    {/* Tags */}
+                    {/* Tags - Mobile scroll */}
                     {selectedImage.tags && selectedImage.tags.length > 0 && (
-                      <div className="flex flex-wrap gap-2">
+                      <div className="flex flex-wrap gap-1 sm:gap-2">
                         {selectedImage.tags.map((tag, idx) => (
                           <span
                             key={idx}
-                            className="text-xs border border-gold/30 px-3 py-1 text-gold hover:border-gold transition-colors duration-300"
+                            className="text-[10px] sm:text-xs border border-gold/30 px-2 py-1 sm:px-3 text-gold hover:border-gold transition-colors duration-300"
                           >
                             #{tag}
                           </span>
@@ -493,16 +518,16 @@ const GalleryPageClient: React.FC<GalleryPageClientProps> = ({ images = [] }) =>
                     )}
                   </div>
 
-                  {/* Controls */}
-                  <div className="absolute top-4 left-4 flex items-center gap-4">
+                  {/* Controls - Mobile friendly */}
+                  <div className="absolute top-2 left-2 sm:top-4 sm:left-4 flex items-center gap-2 sm:gap-4">
                     {/* Image Counter */}
-                    <span className="text-xs text-lightgrey">
+                    <span className="text-[10px] sm:text-xs text-lightgrey">
                       {currentImageIndex + 1} / {filteredImages.length}
                     </span>
 
                     {/* Slideshow Button */}
                     <button
-                      className="w-8 h-8 border border-gold/30 flex items-center justify-center hover:border-gold transition-all duration-300"
+                      className="w-8 h-8 sm:w-8 sm:h-8 min-w-[32px] min-h-[32px] border border-gold/30 flex items-center justify-center hover:border-gold active:border-gold-light transition-all duration-300 touch-manipulation"
                       onClick={e => {
                         e.stopPropagation();
                         setIsPlaying(!isPlaying);
@@ -510,9 +535,9 @@ const GalleryPageClient: React.FC<GalleryPageClientProps> = ({ images = [] }) =>
                       aria-label={isPlaying ? 'עצור מצגת' : 'הפעל מצגת'}
                     >
                       {isPlaying ? (
-                        <Pause className="w-4 h-4 text-offwhite" />
+                        <Pause className="w-3 h-3 sm:w-4 sm:h-4 text-offwhite" />
                       ) : (
-                        <Play className="w-4 h-4 text-offwhite" />
+                        <Play className="w-3 h-3 sm:w-4 sm:h-4 text-offwhite" />
                       )}
                     </button>
                   </div>
@@ -525,7 +550,7 @@ const GalleryPageClient: React.FC<GalleryPageClientProps> = ({ images = [] }) =>
 
       {/* Custom CSS for Masonry Layout */}
       <style jsx>{`
-        @media (min-width: 768px) {
+        @media (min-width: 640px) {
           .grid > *:nth-child(3n-2) {
             ${viewMode === 'masonry' ? 'grid-row: span 2;' : ''}
           }

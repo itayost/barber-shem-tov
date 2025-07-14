@@ -26,10 +26,10 @@ const Button = ({
   disabled = false,
   ariaLabel,
 }: ButtonProps) => {
-  // Use predefined button classes from components.css
+  // Use predefined button classes from CSS
   const baseClass = 'btn';
   const variantClass = `btn-${variant}`;
-  const sizeClass = size !== 'medium' ? `btn-${size === 'small' ? 'sm' : 'lg'}` : '';
+  const sizeClass = size === 'small' ? 'btn-sm' : size === 'large' ? 'btn-lg' : '';
   const fullWidthClass = fullWidth ? 'btn-full' : '';
   const disabledClass = disabled ? 'opacity-50 cursor-not-allowed pointer-events-none' : '';
 
@@ -37,10 +37,8 @@ const Button = ({
   const buttonClasses =
     `${baseClass} ${variantClass} ${sizeClass} ${fullWidthClass} ${disabledClass} ${className}`.trim();
 
-  // Content wrapper for proper z-index layering
-  const content = (
-    <span className="relative z-20 flex items-center justify-center">{children}</span>
-  );
+  // Content wrapper - simplified
+  const content = children;
 
   // Render as link if href is provided
   if (href && !disabled) {

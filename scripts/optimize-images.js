@@ -70,12 +70,7 @@ async function optimizeImages(dir) {
 async function run() {
   console.log('🖼️  Starting image optimization...\n');
 
-  const dirs = [
-    './public/images',
-    './public/hero-images',
-    './public/gallery',
-    // הוסף עוד תיקיות אם יש
-  ];
+  const dirs = ['./public/images'];
 
   let totalOptimized = 0;
 

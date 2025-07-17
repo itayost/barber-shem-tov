@@ -1,4 +1,4 @@
-// src/app/layout.tsx
+// src/app/layout.tsx - Fixed with Explicit Meta Tags
 import { Heebo } from 'next/font/google';
 import { Suspense } from 'react';
 import './globals.css';
@@ -30,13 +30,13 @@ const heeboSecondary = Heebo({
 export const metadata = {
   title: 'The Fader | ספר מודרני ויוקרתי בטירת הכרמל',
   description: 'חווית הספרות המובילה של הצפון, שבה אומנות מסורתית פוגשת סגנון עכשווי. הזמינו תור עוד היום.',
-  metadataBase: new URL('https://barber-shem-tov.vercel.app'),
+  metadataBase: new URL('https://thefader.co.il'),
   
   // Enhanced Open Graph metadata
   openGraph: {
     title: 'The Fader | ספר מודרני ויוקרתי בטירת הכרמל',
     description: 'חווית הספרות המובילה של הצפון, שבה אומנות מסורתית פוגשת סגנון עכשווי.',
-    url: 'https://barber-shem-tov.vercel.app',
+    url: 'https://thefader.co.il',
     siteName: 'The Fader Barbershop',
     locale: 'he_IL',
     type: 'website',
@@ -76,9 +76,9 @@ export const metadata = {
   
   // Alternate and canonical URLs
   alternates: {
-    canonical: 'https://barber-shem-tov.vercel.app',
+    canonical: 'https://thefader.co.il',
     languages: {
-      'he-IL': 'https://barber-shem-tov.vercel.app',
+      'he-IL': 'https://thefader.co.il',
     },
   },
   
@@ -177,6 +177,41 @@ export default function RootLayout({
   return (
     <html lang="he" dir="rtl" className={`${heebo.variable} ${heeboSecondary.variable}`}>
       <head>
+        {/* EXPLICIT META TAGS FOR BETTER COMPATIBILITY */}
+        
+        {/* Basic SEO Meta Tags */}
+        <title>The Fader | ספר מודרני ויוקרתי בטירת הכרמל</title>
+        <meta name="description" content="חווית הספרות המובילה של הצפון, שבה אומנות מסורתית פוגשת סגנון עכשווי. הזמינו תור עוד היום." />
+        <meta name="keywords" content="ספר, מספרה, טירת הכרמל, תספורת, ברבר, אקדמיה לספרות, קורסי ספרות" />
+        <meta name="author" content="The Fader Barbershop" />
+        <link rel="canonical" href="https://thefader.co.il" />
+        
+        {/* Open Graph Meta Tags */}
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="The Fader Barbershop" />
+        <meta property="og:title" content="The Fader | ספר מודרני ויוקרתי בטירת הכרמל" />
+        <meta property="og:description" content="חווית הספרות המובילה של הצפון, שבה אומנות מסורתית פוגשת סגנון עכשווי." />
+        <meta property="og:url" content="https://thefader.co.il" />
+        <meta property="og:image" content="https://thefader.co.il/images/logos/og.png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:alt" content="The Fader - מספרה בטירת הכרמל" />
+        <meta property="og:locale" content="he_IL" />
+        
+        {/* Twitter Card Meta Tags */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:site" content="@TheFaderBarber" />
+        <meta name="twitter:creator" content="@TheFaderBarber" />
+        <meta name="twitter:title" content="The Fader | ספר מודרני ויוקרתי בטירת הכרמל" />
+        <meta name="twitter:description" content="חווית הספרות המובילה של הצפון. הזמינו תור עוד היום." />
+        <meta name="twitter:image" content="https://thefader.co.il/images/logos/og.png" />
+        
+        {/* Additional Meta Tags */}
+        <meta name="robots" content="index, follow" />
+        <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="theme-color" content="#1A1A1A" />
+        
         {/* Critical font preloading - only thin and light for LCP */}
         <link 
           rel="preload" 
@@ -194,15 +229,22 @@ export default function RootLayout({
         />
 
         {/* Preload critical hero images */}
-        <link rel="preload" as="image" href="/images/hero/home-hero.webp" />
+        <link rel="preload" as="image" href="/images/hero/homeHero1.jpg" />
         
         {/* DNS prefetch for external resources */}
         <link rel="dns-prefetch" href="//fonts.googleapis.com" />
         <link rel="dns-prefetch" href="//fonts.gstatic.com" />
         
-        {/* Remove Google Fonts preconnect since we're using local fonts */}
-        
+        {/* Apple-specific meta tags */}
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="apple-mobile-web-app-title" content="The Fader" />
+        
+        {/* Favicon and Icons */}
+        <link rel="icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" href="/apple-icon.png" />
+        <link rel="shortcut icon" href="/shortcut-icon.png" />
+        <link rel="manifest" href="/site.webmanifest" />
         
         {/* Resource hints for better performance */}
         <link rel="prefetch" href="/images/gallery/gallery-1.webp" />

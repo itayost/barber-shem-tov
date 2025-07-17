@@ -182,13 +182,13 @@ export default function RootLayout({
         {/* Basic SEO Meta Tags */}
         <title>The Fader | ספר מודרני ויוקרתי בטירת הכרמל</title>
         <meta name="description" content="חווית הספרות המובילה של הצפון, שבה אומנות מסורתית פוגשת סגנון עכשווי. הזמינו תור עוד היום." />
-        <meta name="keywords" content="ספר, מספרה, טירת הכרמל, תספורת, ברבר, אקדמיה לספרות, קורסי ספרות" />
-        <meta name="author" content="The Fader Barbershop" />
+        <meta name="keywords" content="ספר, מספרה, טירת הכרמל, תספורת, ברבר, אקדמיה לספרות, קורסי ספרות, The Fader" />
+        <meta name="author" content="The Fader Barbershop & Academy" />
         <link rel="canonical" href="https://thefader.co.il" />
         
         {/* Open Graph Meta Tags */}
         <meta property="og:type" content="website" />
-        <meta property="og:site_name" content="The Fader Barbershop" />
+        <meta property="og:site_name" content="The Fader - Barbershop & Academy" />
         <meta property="og:title" content="The Fader | ספר מודרני ויוקרתי בטירת הכרמל" />
         <meta property="og:description" content="חווית הספרות המובילה של הצפון, שבה אומנות מסורתית פוגשת סגנון עכשווי." />
         <meta property="og:url" content="https://thefader.co.il" />

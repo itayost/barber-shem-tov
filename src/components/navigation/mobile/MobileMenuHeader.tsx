@@ -1,4 +1,4 @@
-// src/components/navigation/mobile/MobileMenuHeader.tsx - Enhanced Version
+// src/components/navigation/mobile/MobileMenuHeader.tsx - Without Open/Close Status
 'use client';
 
 import React from 'react';
@@ -11,25 +11,20 @@ interface MobileMenuHeaderProps {
     alt: string;
   };
   businessName: string;
-  todayStatus: {
-    isOpen: boolean;
-    hours: string;
-  };
   isCompact: boolean;
   onClose: () => void;
 }
 
 const MobileMenuHeader: React.FC<MobileMenuHeaderProps> = ({ 
   logo,
-  todayStatus,
   isCompact,
   onClose
 }) => {
   return (
     <div className="px-6 pb-4 border-b border-lightgrey/10">
       <div className="flex items-center justify-between">
-        {/* Logo and Status */}
-        <div className="flex items-center gap-3">
+        {/* Logo Only */}
+        <div className="flex items-center">
           <motion.div 
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
@@ -43,19 +38,6 @@ const MobileMenuHeader: React.FC<MobileMenuHeaderProps> = ({
               className={`${isCompact ? 'h-7' : 'h-8'} w-auto object-contain`}
               priority
             />
-          </motion.div>
-          
-          {/* Live Status Indicator */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
-            className="flex items-center gap-2"
-          >
-            <div className={`w-2 h-2 rounded-full ${todayStatus.isOpen ? 'bg-green-400' : 'bg-red-400'} animate-pulse`} />
-            <span className={`text-xs ${todayStatus.isOpen ? 'text-green-400' : 'text-red-400'}`}>
-              {todayStatus.isOpen ? 'פתוח' : 'סגור'}
-            </span>
           </motion.div>
         </div>
 
@@ -73,18 +55,6 @@ const MobileMenuHeader: React.FC<MobileMenuHeaderProps> = ({
           </svg>
         </motion.button>
       </div>
-      
-      {/* Today's hours - shown when not compact */}
-      {!isCompact && todayStatus && (
-        <motion.div
-          initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: 1, height: 'auto' }}
-          transition={{ delay: 0.3 }}
-          className="mt-2 text-xs text-lightgrey/70"
-        >
-          שעות פעילות היום: <span className="hebrew-nums">{todayStatus.hours}</span>
-        </motion.div>
-      )}
     </div>
   );
 };

@@ -1,30 +1,21 @@
-// src/components/navigation/MobileMenu.tsx - Mobile-First Luxury Edition
+// src/components/navigation/MobileMenu.tsx - Without Open/Close Status
 'use client';
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { usePathname } from 'next/navigation';
-import { useViewportSize } from '@/hooks/useViewportSize';
-import { AcademyInfo } from '@/types';
-import { NavItem, navigationConfig } from '@/config/navigation';
-
 import MobileMenuHeader from './mobile/MobileMenuHeader';
 import MobileMenuNav from './mobile/MobileMenuNav';
 import MobileMenuActions from './mobile/MobileMenuActions';
 import MobileMenuFooter from './mobile/MobileMenuFooter';
-
-// Extend Navigator interface for deviceMemory
-declare global {
-  interface Navigator {
-    deviceMemory?: number;
-  }
-}
+import { NavItem, navigationConfig } from '@/config/navigation';
+import { academyInfo } from '@/lib/data';
 
 interface MobileMenuProps {
   isOpen: boolean;
   onClose: () => void;
-  academyInfo: AcademyInfo;
-  navItems?: NavItem[];
+  academyInfo: typeof academyInfo;
+  navItems: NavItem[];
   id?: string;
 }
 
@@ -32,200 +23,96 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
   isOpen,
   onClose,
   academyInfo,
-  navItems = [],
-  id,
+  navItems,
+  id = 'mobile-menu'
 }) => {
   const [activeNavIndex, setActiveNavIndex] = useState<number | null>(null);
-  const [isDragging, setIsDragging] = useState(false);
-  const [dragY, setDragY] = useState(0);
+  const [isCompact, setIsCompact] = useState(false);
   const pathname = usePathname();
-  const { isCompact } = useViewportSize(navigationConfig.mobileMenu.compactModeBreakpoint);
   const prefersReducedMotion = useReducedMotion();
 
-  // Device detection for optimized animations
-  const [isLowEndDevice, setIsLowEndDevice] = useState(false);
-
+  // Detect screen size for compact mode
   useEffect(() => {
-    // Check for low-end device indicators
-    const checkDevice = () => {
-      const isLowEnd =
-        navigator.hardwareConcurrency <= 2 || // Few CPU cores
-        (navigator.deviceMemory !== undefined && navigator.deviceMemory <= 4) || // Low RAM (if available)
-        window.matchMedia('(max-width: 375px)').matches; // Small screen
-
-      setIsLowEndDevice(isLowEnd);
+    const checkCompact = () => {
+      setIsCompact(window.innerHeight < 700);
     };
-
-    checkDevice();
+    
+    checkCompact();
+    window.addEventListener('resize', checkCompact);
+    return () => window.removeEventListener('resize', checkCompact);
   }, []);
 
-  // Today's status
-  const today = new Date().getDay();
-  const todayHours = academyInfo.getHoursForDay(today);
-  const todayStatus = {
-    isOpen: todayHours.isOpen,
-    hours: todayHours.isOpen ? `${todayHours.open} - ${todayHours.close}` : 'סגור',
-  };
-
-  // Enhanced body scroll lock with touch prevention
-  useEffect(() => {
-    if (isOpen) {
-      const scrollY = window.scrollY;
-      document.body.style.position = 'fixed';
-      document.body.style.top = `-${scrollY}px`;
-      document.body.style.width = '100%';
-      document.body.style.overflow = 'hidden';
-      document.body.style.touchAction = 'none';
-
-      // Prevent iOS bounce
-      document.addEventListener('touchmove', preventScroll, { passive: false });
-    } else {
-      const scrollY = document.body.style.top;
-      document.body.style.position = '';
-      document.body.style.top = '';
-      document.body.style.width = '';
-      document.body.style.overflow = '';
-      document.body.style.touchAction = '';
-
-      if (scrollY) {
-        window.scrollTo(0, parseInt(scrollY || '0') * -1);
-      }
-
-      document.removeEventListener('touchmove', preventScroll);
-    }
-
-    return () => {
-      document.body.style.position = '';
-      document.body.style.top = '';
-      document.body.style.width = '';
-      document.body.style.overflow = '';
-      document.body.style.touchAction = '';
-      document.removeEventListener('touchmove', preventScroll);
-    };
-  }, [isOpen]);
-
-  const preventScroll = (e: TouchEvent) => {
-    if (!e.target || !(e.target as HTMLElement).closest('.overflow-y-auto')) {
-      e.preventDefault();
-    }
-  };
-
-  // Handle navigation with haptic feedback
-  const handleNavItemClick = (index: number, e: React.MouseEvent) => {
-    e.preventDefault();
-    const item = navItems[index];
-
-    // Haptic feedback if available
-    if ('vibrate' in navigator) {
-      navigator.vibrate(10);
-    }
-
-    if (item) {
+  // Handle navigation item click
+  const handleNavItemClick = (index: number, event: React.MouseEvent) => {
+    // Allow default navigation behavior
+    setActiveNavIndex(index);
+    
+    // Close menu after navigation
+    setTimeout(() => {
       onClose();
-      setTimeout(() => {
-        window.location.href = item.path;
-      }, 150); // Faster for mobile
-    }
+    }, 150);
   };
 
-  // Touch-friendly drag to close
-  const handleDragEnd = (_: any, info: any) => {
-    if (info.offset.y > 100 || info.velocity.y > 500) {
-      onClose();
-    }
-    setIsDragging(false);
-    setDragY(0);
-  };
-
-  // Mobile-optimized animation variants
+  // Animation variants
   const backdropVariants = {
     hidden: { opacity: 0 },
-    visible: {
+    visible: { 
       opacity: 1,
-      transition: {
-        duration: prefersReducedMotion || isLowEndDevice ? 0.1 : 0.2,
-        ease: 'easeOut',
-      },
-    },
-    exit: {
-      opacity: 0,
-      transition: {
-        duration: prefersReducedMotion || isLowEndDevice ? 0.1 : 0.15,
-      },
-    },
+      transition: { duration: 0.3, ease: "easeOut" }
+    }
   };
 
   const menuVariants = {
-    hidden: { y: '100%' },
-    visible: {
-      y: 0,
-      transition: {
-        type: prefersReducedMotion ? 'tween' : 'spring',
-        damping: 30,
-        stiffness: 300,
-        duration: prefersReducedMotion || isLowEndDevice ? 0.2 : 0.3,
-      },
+    hidden: { 
+      x: '100%',
+      transition: { 
+        duration: 0.3, 
+        ease: "easeIn",
+        when: "afterChildren"
+      }
     },
-    exit: {
-      y: '100%',
-      transition: {
-        type: 'tween',
-        duration: prefersReducedMotion || isLowEndDevice ? 0.2 : 0.25,
-      },
-    },
+    visible: { 
+      x: 0,
+      transition: { 
+        duration: 0.4, 
+        ease: "easeOut",
+        when: "beforeChildren"
+      }
+    }
   };
 
   return (
-    <AnimatePresence>
+    <AnimatePresence mode="wait">
       {isOpen && (
         <>
-          {/* Mobile-optimized backdrop */}
+          {/* Backdrop */}
           <motion.div
-            className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50"
-            variants={backdropVariants}
-            initial="hidden"
+            className="fixed inset-0 bg-black/70 backdrop-blur-sm z-40"
+            variants={prefersReducedMotion ? {} : backdropVariants}
+            initial={prefersReducedMotion ? {} : "hidden"}
             animate="visible"
-            exit="exit"
+            exit="hidden"
             onClick={onClose}
-            style={{ touchAction: 'none' }}
-            id={`${id}-backdrop`}
+            style={{ WebkitBackdropFilter: 'blur(8px)' }}
           />
 
-          {/* Mobile-first menu with bottom sheet behavior */}
+          {/* Menu Panel */}
           <motion.div
-            className={`
-              fixed bottom-0 left-0 right-0 z-50
-              bg-charcoal rounded-t-3xl shadow-2xl
-              ${navigationConfig.mobileMenu.bottomSheetMaxHeight}
-              touch-manipulation
-            `}
-            variants={menuVariants}
-            initial="hidden"
-            animate="visible"
-            exit="exit"
-            drag={navigationConfig.mobileMenu.enableDragToClose ? 'y' : false}
-            dragConstraints={{ top: 0, bottom: 0 }}
-            dragElastic={0.2}
-            onDrag={(_, info) => {
-              setIsDragging(true);
-              setDragY(info.offset.y);
-            }}
-            onDragEnd={handleDragEnd}
-            style={{
-              y: dragY,
-              maxHeight: navigationConfig.mobileMenu.bottomSheetMaxHeight,
-            }}
             id={id}
+            className="fixed top-0 right-0 h-full w-full max-w-sm bg-black/95 backdrop-blur-xl border-l border-gold/20 z-50 flex flex-col"
+            variants={prefersReducedMotion ? {} : menuVariants}
+            initial={prefersReducedMotion ? {} : "hidden"}
+            animate="visible"
+            exit="hidden"
+            style={{ 
+              WebkitBackdropFilter: 'blur(20px)',
+              backdropFilter: 'blur(20px)'
+            }}
           >
-            {/* Drag indicator - Touch friendly */}
-            <div className="absolute top-0 left-0 right-0 flex justify-center py-3 cursor-grab active:cursor-grabbing">
-              <div className="w-12 h-1 bg-lightgrey/30 rounded-full" />
-            </div>
-
-            {/* Menu content - Mobile optimized */}
-            <div className="h-full overflow-hidden flex flex-col">
-              <div className="flex-1 overflow-y-auto overscroll-contain px-4 sm:px-6 pb-safe">
-                {/* Header - Mobile optimized */}
+            {/* Scrollable Content */}
+            <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gold/20">
+              <div className={`flex flex-col min-h-full ${isCompact ? 'gap-6' : 'gap-8'} py-6`}>
+                {/* Header - No Status */}
                 <motion.div
                   initial={prefersReducedMotion ? {} : { opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -237,7 +124,6 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
                       alt: academyInfo.shortName,
                     }}
                     businessName={academyInfo.shortName}
-                    todayStatus={todayStatus}
                     onClose={onClose}
                     isCompact={isCompact}
                   />

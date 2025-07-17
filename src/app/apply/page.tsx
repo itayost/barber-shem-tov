@@ -9,7 +9,7 @@ import { academyInfo } from '@/lib/data';
 import { enrollmentTracker } from '@/utils/enrollmentTracking';
 
 const GOOGLE_SCRIPT_URL =
-  'https://script.google.com/macros/s/AKfycbyZfL6qbeIs9WITb_hEG3Aa9MqUZsaa1F5rAI_SUYLB_nk8WGySCYVk2YWP_RJjVcucPQ/exec';
+  'https://script.google.com/macros/s/AKfycbx6GUzBwsdLtrK5trraOH27iD2_h3K7Mj4Jj3ImZCrzi93mjjvtW-h-JounKMkDDqlLqw/exec';
 
 // Input component following your design system
 const FormInput: React.FC<{

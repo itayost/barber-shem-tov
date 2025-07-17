@@ -57,7 +57,7 @@ export default function OptimizedImage({
 
   // Use WebP/AVIF if available
   useEffect(() => {
-    const webpSrc = src.replace(/\.(jpg|jpeg|png)$/i, '.webp');
+    const webpSrc = src.replace(/\.(jpg|jpeg|png)$/i, '.jpg');
     const avifSrc = src.replace(/\.(jpg|jpeg|png)$/i, '.avif');
 
     // Check AVIF support
@@ -95,7 +95,7 @@ export default function OptimizedImage({
         placeholder="blur"
         blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(width, height))}`}
         className={`${isLoading ? 'scale-105 blur-lg' : 'scale-100 blur-0'} transition-all duration-700`}
-        onLoadingComplete={() => setIsLoading(false)}
+        onLoad={() => setIsLoading(false)}
         loading={priority ? 'eager' : 'lazy'}
       />
     </div>

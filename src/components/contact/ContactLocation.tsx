@@ -1,4 +1,4 @@
-// src/components/contact/ContactLocation.tsx - Styled Version
+// src/components/contact/ContactLocation.tsx - With Working Map
 'use client';
 
 import React from 'react';
@@ -8,7 +8,7 @@ import Button from '@/components/common/Button';
 interface ContactLocationProps {
   address: string;
   googleMapsUrl?: string;
-  embedUrl: string;
+  embedUrl?: string;
 }
 
 const ContactLocation: React.FC<ContactLocationProps> = ({ 
@@ -16,6 +16,12 @@ const ContactLocation: React.FC<ContactLocationProps> = ({
   googleMapsUrl = "https://www.google.com/maps/search/?api=1&query=העצמאות+4+טירת+הכרמל",
   embedUrl
 }) => {
+  // Generate working embed URL if not provided
+  const workingEmbedUrl = embedUrl || `https://www.google.com/maps/embed/v1/place?key=YOUR_API_KEY&q=${encodeURIComponent(address)}&zoom=16&maptype=roadmap&language=he`;
+  
+  // Fallback: Simple iframe with search query (works without API key)
+  const fallbackEmbedUrl = `https://maps.google.com/maps?q=${encodeURIComponent(address)}&t=&z=16&ie=UTF8&iwloc=&output=embed`;
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -49,8 +55,9 @@ const ContactLocation: React.FC<ContactLocationProps> = ({
 
         {/* Map */}
         <div className="relative h-[400px] bg-charcoal">
+          {/* Try the fallback URL first - this usually works without API key */}
           <iframe
-            src={embedUrl}
+            src={fallbackEmbedUrl}
             width="100%"
             height="100%"
             style={{ border: 0 }}

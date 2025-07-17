@@ -1,9 +1,12 @@
 // src/app/layout.tsx
 import { Heebo } from 'next/font/google';
+import { Suspense } from 'react';
 import './globals.css';
 import { Navbar } from '@/components/navigation';
 import Footer from '@/components/common/Footer';
-import WhatsAppFloat from '@/components/common/WhatsAppFloat'; // Add this import
+import WhatsAppFloat from '@/components/common/WhatsAppFloat';
+import NavigationLoadingProvider from '@/components/providers/NavigationLoadingProvider';
+import LoadingLogo from '@/components/common/LoadingLogo';
 
 // Hebrew font setup
 const heebo = Heebo({
@@ -87,6 +90,15 @@ export const viewport = {
   maximumScale: 1,
 };
 
+// Loading fallback component
+function LoadingFallback() {
+  return (
+    <div className="min-h-screen bg-charcoal flex items-center justify-center">
+      <LoadingLogo size="large" showText={true} />
+    </div>
+  );
+}
+
 export default function RootLayout({
   children,
 }: {
@@ -107,16 +119,20 @@ export default function RootLayout({
           דלג לתוכן העיקרי
         </a>
         
-        <Navbar />
-        
-        <main id="main-content" className="min-h-screen">
-          {children}
-        </main>
-        
-        <Footer />
-        
-        {/* Add the Smart FAB here */}
-        <WhatsAppFloat />
+        <Suspense fallback={<LoadingFallback />}>
+          <NavigationLoadingProvider>
+            <Navbar />
+            
+            <main id="main-content" className="min-h-screen">
+              {children}
+            </main>
+            
+            <Footer />
+            
+            {/* Add the Smart FAB here */}
+            <WhatsAppFloat />
+          </NavigationLoadingProvider>
+        </Suspense>
       </body>
     </html>
   );

@@ -104,57 +104,59 @@ export const viewport = {
 // Critical CSS for hero section to improve LCP
 function CriticalHeroStyles() {
   return (
-    <style jsx global>{`
-      .hero-heading-critical {
-        font-family: var(--font-heebo), system-ui, sans-serif;
-        font-weight: 100;
-        color: #f5f5f5;
-        line-height: 1.25;
-        margin-bottom: 1.5rem;
-        font-size: clamp(1.875rem, 8vw, 4.5rem);
-        letter-spacing: -0.025em;
-        text-align: center;
-      }
-      
-      .hero-section-critical {
-        min-height: 100svh;
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: relative;
-        overflow: hidden;
-        width: 100%;
-      }
-      
-      .hero-content-critical {
-        position: relative;
-        z-index: 10;
-        text-align: center;
-        padding: 1rem;
-        max-width: 64rem;
-        margin: 0 auto;
-        width: 100%;
-      }
+    <style dangerouslySetInnerHTML={{
+      __html: `
+        .hero-heading-critical {
+          font-family: var(--font-heebo), system-ui, sans-serif;
+          font-weight: 100;
+          color: #f5f5f5;
+          line-height: 1.25;
+          margin-bottom: 1.5rem;
+          font-size: clamp(1.875rem, 8vw, 4.5rem);
+          letter-spacing: -0.025em;
+          text-align: center;
+        }
+        
+        .hero-section-critical {
+          min-height: 100svh;
+          min-height: 100vh;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          position: relative;
+          overflow: hidden;
+          width: 100%;
+        }
+        
+        .hero-content-critical {
+          position: relative;
+          z-index: 10;
+          text-align: center;
+          padding: 1rem;
+          max-width: 64rem;
+          margin: 0 auto;
+          width: 100%;
+        }
 
-      .hero-bg-critical {
-        position: absolute;
-        inset: 0;
-        z-index: 0;
-      }
+        .hero-bg-critical {
+          position: absolute;
+          inset: 0;
+          z-index: 0;
+        }
 
-      .hero-bg-critical img {
-        object-fit: cover;
-        width: 100%;
-        height: 100%;
-      }
+        .hero-bg-critical img {
+          object-fit: cover;
+          width: 100%;
+          height: 100%;
+        }
 
-      .hero-overlay-critical {
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0.7) 100%);
-      }
-    `}</style>
+        .hero-overlay-critical {
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0.7) 100%);
+        }
+      `
+    }} />
   );
 }
 

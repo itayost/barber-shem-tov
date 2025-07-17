@@ -1,4 +1,4 @@
-// src/components/common/Footer.tsx - Updated with Icon System
+// src/components/common/Footer.tsx - With Clickable Address
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -8,6 +8,9 @@ import { LocationIcon, PhoneIcon, EmailIcon } from '@/components/icons';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+
+  // Google Maps URL for the address
+  const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(academyInfo.address)}`;
 
   return (
     <footer
@@ -88,14 +91,23 @@ const Footer = () => {
           <div>
             <h3 className="font-heebo text-h4 mb-4 text-gold">צור קשר</h3>
             <ul className="space-y-3">
+              {/* Clickable Address */}
               <li className="flex items-start group">
                 <span className="text-gold ml-2 flex-shrink-0">
                   <LocationIcon size={20} className="mt-0.5" />
                 </span>
-                <span className="text-lightgrey group-hover:text-gold transition-colors">
+                <a
+                  href={googleMapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-lightgrey hover:text-gold transition-colors duration-200 cursor-pointer"
+                  aria-label="פתח כתובת במפות גוגל"
+                >
                   {academyInfo.address}
-                </span>
+                </a>
               </li>
+              
+              {/* Phone */}
               <li className="flex items-start group">
                 <span className="text-gold ml-2 flex-shrink-0">
                   <PhoneIcon size={20} className="mt-0.5" />
@@ -107,6 +119,8 @@ const Footer = () => {
                   {academyInfo.phone}
                 </a>
               </li>
+              
+              {/* Email */}
               <li className="flex items-start group">
                 <span className="text-gold ml-2 flex-shrink-0">
                   <EmailIcon size={20} className="mt-0.5" />
@@ -141,33 +155,25 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Middle section with CTA */}
-        <div className="border-t border-b border-lightgrey border-opacity-10 py-8 mb-8">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+        {/* Bottom section */}
+        <div className="border-t border-lightgrey border-opacity-20 pt-8">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="text-center md:text-right">
-              <h3 className="font-heebo text-h4 text-gold mb-2">מוכן להתחיל את המסע שלך?</h3>
-              <p className="text-lightgrey">
-                הכשרה מקצועית, אפשרויות קריירה מגוונות, והזדמנות ייחודית לעסוק באמנות הספרות
+              <p className="text-lightgrey text-small">
+                © {currentYear} {academyInfo.name}. כל הזכויות שמורות.
               </p>
             </div>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Link href="/apply" className="btn-primary text-center px-6 py-3 inline-block">
-                הרשמה לקורסים
+            <div className="flex flex-wrap gap-6 text-small">
+              <Link href="/privacy" className="text-lightgrey hover:text-gold transition-colors">
+                מדיניות פרטיות
               </Link>
-              <Link href="/courses" className="btn-secondary text-center px-6 py-3 inline-block">
-                הקורסים שלנו
+              <Link href="/terms" className="text-lightgrey hover:text-gold transition-colors">
+                תנאי שימוש
+              </Link>
+              <Link href="/contact" className="text-lightgrey hover:text-gold transition-colors">
+                יצירת קשר
               </Link>
             </div>
-          </div>
-        </div>
-
-        {/* Bottom section with accreditations and copyright */}
-        <div className="flex flex-col-reverse md:flex-row justify-between items-center">
-          {/* Copyright */}
-          <div className="text-small text-lightgrey text-opacity-70 mt-8 md:mt-0">
-            <p>
-              &copy; {currentYear} {academyInfo.name}. כל הזכויות שמורות.
-            </p>
           </div>
         </div>
       </div>

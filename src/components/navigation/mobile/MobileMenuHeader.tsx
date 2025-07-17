@@ -41,17 +41,17 @@ const MobileMenuHeader: React.FC<MobileMenuHeaderProps> = ({
           </motion.div>
         </div>
 
-        {/* Close Button */}
+        {/* Close Button - Improved Touch Target */}
         <motion.button 
-          className="p-2 -mr-2 hover:bg-gold/10 rounded-full transition-colors"
+          className="p-4 -mr-2 hover:bg-gold/10 rounded-full transition-colors min-w-[48px] min-h-[48px] flex items-center justify-center"
           onClick={onClose}
           aria-label="סגור תפריט"
-          whileHover={{ rotate: 90 }}
+          whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.9 }}
           transition={{ duration: 0.2 }}
         >
-          <svg className="w-6 h-6 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          <svg className="w-7 h-7 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
           </svg>
         </motion.button>
       </div>

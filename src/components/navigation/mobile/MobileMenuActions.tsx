@@ -1,4 +1,4 @@
-// src/components/navigation/mobile/MobileMenuActions.tsx - Fixed with Button Component
+// src/components/navigation/mobile/MobileMenuActions.tsx - Fixed Menu Closing
 'use client';
 
 import React from 'react';
@@ -46,46 +46,73 @@ const MobileMenuActions: React.FC<MobileMenuActionsProps> = ({
     }
   };
 
-  // Handle navigation with menu close
-  const handleClick = (href: string) => {
-    // Close the menu first
+  // Handle navigation with proper menu closing
+  const handlePrimaryClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    // Close the menu immediately
     onActionClick();
     
-    // Small delay to allow menu animation to start
+    // Navigate after a short delay to allow menu animation
     setTimeout(() => {
-      router.push(href);
-    }, 100);
+      router.push(primaryAction.href);
+    }, 150);
+  };
+
+  const handleSecondaryClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    // Close the menu immediately
+    onActionClick();
+    
+    // Navigate after a short delay to allow menu animation
+    setTimeout(() => {
+      router.push(secondaryAction.href);
+    }, 150);
   };
 
   return (
     <motion.div 
-      className={`space-y-3 ${isCompact ? 'space-y-2' : ''}`}
+      className={`space-y-3 px-6 ${isCompact ? 'space-y-2' : ''}`}
       variants={containerVariants}
       initial="hidden"
       animate="visible"
     >
       {/* Primary CTA */}
       <motion.div variants={itemVariants}>
-        <Button 
-          href={primaryAction.href}
-          variant="primary"
-          className={`w-full min-h-[48px] ${isCompact ? 'py-3' : 'py-4'} font-bold touch-manipulation`}
-          onClick={() => handleClick(primaryAction.href)}
+        <button
+          onClick={handlePrimaryClick}
+          className={`
+            w-full min-h-[48px] ${isCompact ? 'py-3' : 'py-4'} 
+            px-8 font-bold touch-manipulation
+            bg-gold text-black hover:bg-offwhite 
+            border border-gold hover:border-offwhite 
+            transition-all duration-300 text-center 
+            relative overflow-hidden select-none
+            uppercase tracking-wider
+          `}
         >
           {primaryAction.text}
-        </Button>
+        </button>
       </motion.div>
       
       {/* Secondary CTA */}
       <motion.div variants={itemVariants}>
-        <Button 
-          href={secondaryAction.href}
-          variant="secondary"
-          className={`w-full min-h-[48px] ${isCompact ? 'py-3' : 'py-4'} font-medium touch-manipulation`}
-          onClick={() => handleClick(secondaryAction.href)}
+        <button
+          onClick={handleSecondaryClick}
+          className={`
+            w-full min-h-[48px] ${isCompact ? 'py-3' : 'py-4'} 
+            px-8 font-medium touch-manipulation
+            bg-transparent text-offwhite border border-gold/30 
+            hover:border-gold hover:text-gold
+            transition-all duration-300 text-center
+            uppercase tracking-wider
+          `}
         >
           {secondaryAction.text}
-        </Button>
+        </button>
       </motion.div>
     </motion.div>
   );

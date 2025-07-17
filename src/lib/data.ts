@@ -250,7 +250,7 @@ export const academyInfo = {
   shortName: 'The Fader',
   address: 'העצמאות 4, טירת הכרמל',
   phone: '052-8691415',
-  email: 'academy@modernbarber.com',
+  email: 'academythefader@gmail.com',
   established: 2018,
 
   // Our Story

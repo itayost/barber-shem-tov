@@ -160,19 +160,8 @@ const Footer = () => {
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="text-center md:text-right">
               <p className="text-lightgrey text-small">
-                © {currentYear} {academyInfo.name}. כל הזכויות שמורות.
+                © ItayOst כל הזכויות שמורות.
               </p>
-            </div>
-            <div className="flex flex-wrap gap-6 text-small">
-              <Link href="/privacy" className="text-lightgrey hover:text-gold transition-colors">
-                מדיניות פרטיות
-              </Link>
-              <Link href="/terms" className="text-lightgrey hover:text-gold transition-colors">
-                תנאי שימוש
-              </Link>
-              <Link href="/contact" className="text-lightgrey hover:text-gold transition-colors">
-                יצירת קשר
-              </Link>
             </div>
           </div>
         </div>

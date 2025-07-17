@@ -24,7 +24,6 @@ const nextConfig = {
   },
 
   experimental: {
-    optimizeCss: true,
     // Vercel-specific optimizations
     serverActions: {
       bodySizeLimit: '2mb',

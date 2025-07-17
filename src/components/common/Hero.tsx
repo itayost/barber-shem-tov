@@ -4,7 +4,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import { motion, useReducedMotion } from 'framer-motion';
-import { Button } from '@/components/common/Button';
+import  Button  from '@/components/common/Button';
 
 interface HeroProps {
   title: React.ReactNode;

@@ -10,7 +10,7 @@ export default function Home() {
       <Hero
         title="צור את העתיד שלך כאמן ספרות מוביל"
         subtitle="The Fader Academy"
-        backgroundImages={[
+        backgroundImage={[
           '/images/hero/homeHero1.jpg',
           '/images/hero/homeHero2.jpg',
           '/images/hero/homeHero3.jpg',

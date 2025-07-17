@@ -1,4 +1,4 @@
-// src/components/navigation/MobileMenu.tsx - Without Open/Close Status
+// src/components/navigation/MobileMenu.tsx - Bottom Sheet Design
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -44,7 +44,6 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
 
   // Handle navigation item click
   const handleNavItemClick = (index: number, event: React.MouseEvent) => {
-    // Allow default navigation behavior
     setActiveNavIndex(index);
     
     // Close menu after navigation
@@ -53,7 +52,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
     }, 150);
   };
 
-  // Animation variants
+  // Bottom sheet animation variants
   const backdropVariants = {
     hidden: { opacity: 0 },
     visible: { 
@@ -62,9 +61,9 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
     }
   };
 
-  const menuVariants = {
+  const bottomSheetVariants = {
     hidden: { 
-      x: '100%',
+      y: '100%',
       transition: { 
         duration: 0.3, 
         ease: "easeIn",
@@ -72,10 +71,10 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
       }
     },
     visible: { 
-      x: 0,
+      y: 0,
       transition: { 
         duration: 0.4, 
-        ease: "easeOut",
+        ease: [0.32, 0.72, 0, 1], // iOS-like spring
         when: "beforeChildren"
       }
     }
@@ -96,23 +95,32 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
             style={{ WebkitBackdropFilter: 'blur(8px)' }}
           />
 
-          {/* Menu Panel */}
+          {/* Bottom Sheet */}
           <motion.div
             id={id}
-            className="fixed top-0 right-0 h-full w-full max-w-sm bg-black/95 backdrop-blur-xl border-l border-gold/20 z-50 flex flex-col"
-            variants={prefersReducedMotion ? {} : menuVariants}
+            className="fixed bottom-0 left-0 right-0 z-50 bg-black/95 backdrop-blur-xl border-t border-gold/20"
+            variants={prefersReducedMotion ? {} : bottomSheetVariants}
             initial={prefersReducedMotion ? {} : "hidden"}
             animate="visible"
             exit="hidden"
             style={{ 
               WebkitBackdropFilter: 'blur(20px)',
-              backdropFilter: 'blur(20px)'
+              backdropFilter: 'blur(20px)',
+              maxHeight: '85vh',
+              borderTopLeftRadius: '20px',
+              borderTopRightRadius: '20px'
             }}
           >
+            {/* Handle bar for iOS-like bottom sheet */}
+            <div className="flex justify-center pt-3 pb-2">
+              <div className="w-12 h-1 bg-gold/30 rounded-full"></div>
+            </div>
+
             {/* Scrollable Content */}
-            <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gold/20">
-              <div className={`flex flex-col min-h-full ${isCompact ? 'gap-6' : 'gap-8'} py-6`}>
-                {/* Header - No Status */}
+            <div className="overflow-y-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gold/20" style={{ maxHeight: 'calc(85vh - 20px)' }}>
+              <div className={`flex flex-col ${isCompact ? 'gap-4 pb-4' : 'gap-6 pb-6'}`}>
+                
+                {/* Header - Without Status */}
                 <motion.div
                   initial={prefersReducedMotion ? {} : { opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -129,7 +137,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
                   />
                 </motion.div>
 
-                {/* Navigation - Mobile optimized */}
+                {/* Navigation */}
                 <motion.div
                   initial={prefersReducedMotion ? {} : { opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -145,7 +153,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
                   />
                 </motion.div>
 
-                {/* Quick Actions - Mobile optimized */}
+                {/* Quick Actions */}
                 <motion.div
                   initial={prefersReducedMotion ? {} : { opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -159,7 +167,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
                   />
                 </motion.div>
 
-                {/* Footer - Mobile optimized */}
+                {/* Footer */}
                 <motion.div
                   initial={prefersReducedMotion ? {} : { opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -177,11 +185,11 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
                     isCompact={isCompact}
                   />
                 </motion.div>
+
+                {/* Safe area for iOS */}
+                <div className="h-safe"></div>
               </div>
             </div>
-
-            {/* Safe area gradient for iPhones */}
-            <div className="absolute bottom-0 left-0 right-0 h-safe bg-gradient-to-t from-black to-transparent pointer-events-none" />
           </motion.div>
         </>
       )}

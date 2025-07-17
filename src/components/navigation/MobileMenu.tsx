@@ -28,6 +28,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
 }) => {
   const [activeNavIndex, setActiveNavIndex] = useState<number | null>(null);
   const [isCompact, setIsCompact] = useState(false);
+  const [dragY, setDragY] = useState(0);
   const pathname = usePathname();
   const prefersReducedMotion = useReducedMotion();
 
@@ -86,7 +87,17 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
     }, 150);
   };
 
-  // Bottom sheet animation variants
+  // Drag handlers for swipe down to close
+  const handleDragEnd = (event: any, info: any) => {
+    const { offset, velocity } = info;
+    
+    // If dragged down more than 100px or fast downward velocity, close menu
+    if (offset.y > 100 || velocity.y > 500) {
+      onClose();
+    }
+  };
+
+  // Bottom sheet animation variants with drag support
   const backdropVariants = {
     hidden: { opacity: 0 },
     visible: { 
@@ -129,7 +140,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
             style={{ WebkitBackdropFilter: 'blur(8px)' }}
           />
 
-          {/* Bottom Sheet */}
+          {/* Bottom Sheet with Drag Support */}
           <motion.div
             id={id}
             className="fixed bottom-0 left-0 right-0 z-50 bg-black/95 backdrop-blur-xl border-t border-gold/20"
@@ -137,17 +148,29 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
             initial={prefersReducedMotion ? {} : "hidden"}
             animate="visible"
             exit="hidden"
+            drag="y"
+            dragConstraints={{ top: 0, bottom: 0 }}
+            dragElastic={{ top: 0, bottom: 0.2 }}
+            onDragEnd={handleDragEnd}
             style={{ 
               WebkitBackdropFilter: 'blur(20px)',
               backdropFilter: 'blur(20px)',
               maxHeight: '85vh',
               borderTopLeftRadius: '20px',
-              borderTopRightRadius: '20px'
+              borderTopRightRadius: '20px',
+              y: dragY
             }}
           >
-            {/* Handle bar for iOS-like bottom sheet */}
-            <div className="flex justify-center pt-3 pb-2">
-              <div className="w-12 h-1 bg-gold/30 rounded-full"></div>
+            {/* Draggable Handle bar for iOS-like bottom sheet */}
+            <div 
+              className="flex justify-center pt-3 pb-2 cursor-grab active:cursor-grabbing"
+              style={{ touchAction: 'none' }} // Prevent default touch behaviors
+            >
+              <motion.div 
+                className="w-12 h-1 bg-gold/30 rounded-full"
+                whileHover={{ backgroundColor: 'rgba(201, 166, 107, 0.5)' }}
+                transition={{ duration: 0.2 }}
+              />
             </div>
 
             {/* Scrollable Content */}

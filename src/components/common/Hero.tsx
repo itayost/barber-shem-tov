@@ -3,7 +3,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import OptimizedImage from './OptimizedImage';
+import Image from 'next/image';
 import Button from '@/components/common/Button';
 
 interface HeroProps {
@@ -129,15 +129,15 @@ const Hero: React.FC<HeroProps> = ({
             animate={prefersReducedMotion ? {} : 'center'}
             exit={prefersReducedMotion ? {} : 'exit'}
           >
-            <OptimizedImage
+            <Image
               src={images[currentImageIndex]}
               alt=""
-              width={1920}
-              height={1080}
+              fill
+              className="object-cover"
               priority={currentImageIndex === 0}
               quality={isMobile ? 60 : 75}
-              sizes="100vw"
-              className="absolute inset-0 w-full h-full object-cover"
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 100vw, 100vw"
+              loading={currentImageIndex === 0 ? 'eager' : 'lazy'}
             />
           </motion.div>
         </AnimatePresence>

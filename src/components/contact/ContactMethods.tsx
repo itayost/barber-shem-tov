@@ -45,8 +45,18 @@ const ContactMethods: React.FC<ContactMethodsProps> = ({
       icon: <WhatsAppIcon size={32} />,
       title: 'WhatsApp',
       value: 'שלח הודעה',
-      action: () => window.open(`https://wa.me/972${phone.substring(1)}?text=${encodeURIComponent(whatsappMessage)}`, '_blank'),
-      colorClass: 'text-green-400'
+      action: () => {
+        // Remove all non-digit characters (hyphens, spaces, etc.)
+        const cleanPhone = phone.replace(/\D/g, '');
+        
+        // Remove leading 0 if present and add 972
+        const whatsappNumber = cleanPhone.startsWith('0') 
+          ? '972' + cleanPhone.substring(1) 
+          : '972' + cleanPhone;
+        
+        window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`, '_blank');
+      },
+  colorClass: 'text-green-400'
     },
     {
       icon: <EmailIcon size={32} />,

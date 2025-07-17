@@ -1,56 +1,75 @@
-// next.config.js - Optimized for Vercel Deployment
+<<<<<<< HEAD
+<<<<<<< HEAD
+// next.config.js - Performance-Optimized Static Export
 const path = require('path');
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Remove 'output: export' to leverage Vercel's dynamic capabilities
-  // This allows ISR, API routes, and edge functions
+  output: 'export',
 
   images: {
-    // Vercel's Image Optimization API works great with these settings
+    unoptimized: true,
     formats: ['image/webp', 'image/avif'],
-    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+    deviceSizes: [375, 640, 750, 828, 1080, 1200, 1920],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+  },
+
+  experimental: {
+    optimizeCss: true, // Enable CSS optimization
+  },
+
+=======
+// next.config.js - Mobile Performance Optimizations
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+>>>>>>> parent of 29827e6 (optimizations)
+=======
+// next.config.js - Mobile Performance Optimizations
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+>>>>>>> parent of 29827e6 (optimizations)
+  eslint: {
+    // During production builds, do not run ESLint
+    ignoreDuringBuilds: true,
+  },
+  typescript: {
+    // During production builds, do not run TypeScript type checking
+    ignoreBuildErrors: false,
+  },
+  images: {
+    // Optimize images for mobile
+    formats: ['image/webp', 'image/avif'],
+    deviceSizes: [640, 750, 828, 1080, 1200],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     minimumCacheTTL: 60,
     dangerouslyAllowSVG: true,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
-    // Enable Vercel's Image Optimization
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: '**',
-      },
-    ],
   },
 
-  experimental: {
-    optimizeCss: true,
-    // Vercel-specific optimizations
-    serverActions: {
-      bodySizeLimit: '2mb',
-    },
-  },
-
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
-
-  typescript: {
-    ignoreBuildErrors: false,
-  },
-
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+  // Enable compression
+>>>>>>> parent of 29827e6 (optimizations)
+=======
+  // Enable compression
+>>>>>>> parent of 29827e6 (optimizations)
   compress: true,
+
+  // PWA-like optimizations
   poweredByHeader: false,
 
-  // Leverage Vercel's automatic build ID generation
+<<<<<<< HEAD
+<<<<<<< HEAD
+  // Generate build ID based on timestamp for cache busting
   generateBuildId: async () => {
-    // Use Vercel's deployment ID if available
-    return process.env.VERCEL_GIT_COMMIT_SHA || `build-${Date.now()}`;
+    return `build-${Date.now()}`;
   },
 
   webpack: (config, { dev, isServer }) => {
     // Production client-side optimizations
     if (!dev && !isServer) {
+      // Better code splitting for static export
       config.optimization = {
         ...config.optimization,
         runtimeChunk: 'single',
@@ -63,10 +82,10 @@ const nextConfig = {
             default: false,
             vendors: false,
 
-            // Framework core
+            // Framework core - highest priority
             framework: {
               name: 'framework',
-              test: /[\\/]node_modules[\\/](react|react-dom|scheduler|next)[\\/]/,
+              test: /[\\/]node_modules[\\/](react|react-dom|scheduler)[\\/]/,
               priority: 40,
               chunks: 'all',
               enforce: true,
@@ -81,15 +100,17 @@ const nextConfig = {
               minChunks: 1,
             },
 
-            // Mobile-optimized components
-            mobile: {
-              name: 'mobile',
-              test: /[\\/]components[\\/](home|common|navigation)[\\/]/,
+            // Async components
+            async: {
+              name: 'async',
+              test: /[\\/]components[\\/]/,
+              chunks: 'async',
               priority: 30,
-              chunks: 'all',
+              minChunks: 2,
+              reuseExistingChunk: true,
             },
 
-            // Framer Motion - lazy load for better mobile performance
+            // Framer Motion - separate bundle
             framerMotion: {
               name: 'framer-motion',
               test: /[\\/]node_modules[\\/]framer-motion[\\/]/,
@@ -116,12 +137,43 @@ const nextConfig = {
               reuseExistingChunk: true,
               enforce: true,
             },
+=======
+  // Bundle analyzer for mobile optimization
+  webpack: (config, { dev, isServer }) => {
+    // Only in production
+    if (!dev && !isServer) {
+=======
+  // Bundle analyzer for mobile optimization
+  webpack: (config, { dev, isServer }) => {
+    // Only in production
+    if (!dev && !isServer) {
+>>>>>>> parent of 29827e6 (optimizations)
+      // Optimize for mobile
+      config.optimization.splitChunks = {
+        chunks: 'all',
+        cacheGroups: {
+          default: false,
+          vendors: false,
+          // Separate chunk for mobile-specific code
+          mobile: {
+            name: 'mobile',
+            test: /[\\/]components[\\/](home|common|navigation)[\\/]/,
+            chunks: 'all',
+            priority: 10,
+          },
+          // Framer Motion in separate chunk (it's heavy)
+          framerMotion: {
+            name: 'framer-motion',
+            test: /[\\/]node_modules[\\/]framer-motion[\\/]/,
+            chunks: 'all',
+            priority: 15,
+>>>>>>> parent of 29827e6 (optimizations)
           },
         },
       };
 
-      // CSS optimization
-      config.optimization.minimizer = config.optimization.minimizer?.map(minimizer => {
+      // Minimize CSS
+      config.optimization.minimizer = config.optimization.minimizer.map(minimizer => {
         if (minimizer.constructor.name === 'CssMinimizerPlugin') {
           minimizer.options.minimizerOptions = {
             preset: [
@@ -139,8 +191,22 @@ const nextConfig = {
         }
         return minimizer;
       });
+
+      // Add webpack plugins for better optimization
+      const CompressionPlugin = require('compression-webpack-plugin');
+      config.plugins.push(
+        new CompressionPlugin({
+          filename: '[path][base].gz',
+          algorithm: 'gzip',
+          test: /\.(js|css|html|svg)$/,
+          threshold: 8192,
+          minRatio: 0.8,
+        })
+      );
     }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
     // Alias for cleaner imports
     config.resolve.alias = {
       ...config.resolve.alias,
@@ -150,7 +216,20 @@ const nextConfig = {
     return config;
   },
 
-  // Headers optimized for Vercel Edge Network
+  // Environment variables for build time
+  env: {
+    BUILD_TIME: new Date().toISOString(),
+    BUILD_ID: `build-${Date.now()}`,
+=======
+    return config;
+  },
+
+=======
+    return config;
+  },
+
+>>>>>>> parent of 29827e6 (optimizations)
+  // Headers for mobile performance
   async headers() {
     return [
       {
@@ -164,18 +243,9 @@ const nextConfig = {
             key: 'X-Frame-Options',
             value: 'DENY',
           },
-          {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff',
-          },
-          {
-            key: 'Referrer-Policy',
-            value: 'origin-when-cross-origin',
-          },
         ],
       },
       {
-        // Aggressive caching for static assets
         source: '/images/:path*',
         headers: [
           {
@@ -184,23 +254,11 @@ const nextConfig = {
           },
         ],
       },
-      {
-        // Font caching
-        source: '/fonts/:path*',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          },
-        ],
-      },
     ];
-  },
-
-  // Environment variables for build time
-  env: {
-    BUILD_TIME: new Date().toISOString(),
-    NEXT_PUBLIC_VERCEL_URL: process.env.VERCEL_URL,
+<<<<<<< HEAD
+>>>>>>> parent of 29827e6 (optimizations)
+=======
+>>>>>>> parent of 29827e6 (optimizations)
   },
 };
 

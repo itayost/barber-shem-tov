@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 // next.config.js - Performance-Optimized Static Export
 const path = require('path');
 
@@ -17,6 +18,11 @@ const nextConfig = {
     optimizeCss: true, // Enable CSS optimization
   },
 
+=======
+// next.config.js - Mobile Performance Optimizations
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+>>>>>>> parent of 29827e6 (optimizations)
 =======
 // next.config.js - Mobile Performance Optimizations
 /** @type {import('next').NextConfig} */
@@ -41,6 +47,10 @@ const nextConfig = {
   },
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+  // Enable compression
+>>>>>>> parent of 29827e6 (optimizations)
 =======
   // Enable compression
 >>>>>>> parent of 29827e6 (optimizations)
@@ -49,6 +59,7 @@ const nextConfig = {
   // PWA-like optimizations
   poweredByHeader: false,
 
+<<<<<<< HEAD
 <<<<<<< HEAD
   // Generate build ID based on timestamp for cache busting
   generateBuildId: async () => {
@@ -131,6 +142,12 @@ const nextConfig = {
   webpack: (config, { dev, isServer }) => {
     // Only in production
     if (!dev && !isServer) {
+=======
+  // Bundle analyzer for mobile optimization
+  webpack: (config, { dev, isServer }) => {
+    // Only in production
+    if (!dev && !isServer) {
+>>>>>>> parent of 29827e6 (optimizations)
       // Optimize for mobile
       config.optimization.splitChunks = {
         chunks: 'all',
@@ -189,6 +206,7 @@ const nextConfig = {
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     // Alias for cleaner imports
     config.resolve.alias = {
       ...config.resolve.alias,
@@ -206,6 +224,11 @@ const nextConfig = {
     return config;
   },
 
+=======
+    return config;
+  },
+
+>>>>>>> parent of 29827e6 (optimizations)
   // Headers for mobile performance
   async headers() {
     return [
@@ -232,6 +255,9 @@ const nextConfig = {
         ],
       },
     ];
+<<<<<<< HEAD
+>>>>>>> parent of 29827e6 (optimizations)
+=======
 >>>>>>> parent of 29827e6 (optimizations)
   },
 };

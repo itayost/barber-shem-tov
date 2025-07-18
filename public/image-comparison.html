@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Format Comparison</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .comparison { display: flex; gap: 20px; margin-bottom: 30px; }
+        .image-box { flex: 1; text-align: center; }
+        img { max-width: 100%; height: auto; }
+        .stats { background: #f0f0f0; padding: 10px; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Image Format Comparison</h1>
+    <p>Compare original JPG vs WebP formats. Check network tab for size differences.</p>
+    
+    <div class="comparison">
+        <div class="image-box">
+            <h3>Original JPG</h3>
+            <img src="/images/hero/academy-hero.jpg" alt="JPG version">
+            <div class="stats">Check Network tab for size</div>
+        </div>
+        <div class="image-box">
+            <h3>WebP Format</h3>
+            <img src="/images/hero/academy-hero.webp" alt="WebP version">
+            <div class="stats">Check Network tab for size</div>
+        </div>
+    </div>
+</body>
+</html>

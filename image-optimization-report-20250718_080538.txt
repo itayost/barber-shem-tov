@@ -1,0 +1,13 @@
+Image Optimization Report
+Generated: Fri Jul 18 08:05:38 IDT 2025
+========================
+
+Summary:
+- Total images: 63
+- Original size: 243MB
+- Optimized size: 19MB
+- WebP size: 9MB
+- JPG savings: 91%
+- WebP savings: 96%
+
+Backup location: ./public/images/backup_20250718_080427

@@ -1,37 +1,43 @@
 {
-  "name": "barber-shem-tov",
-  "version": "0.1.0",
+  "name": "thefader",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "clean": "rm -rf .next node_modules package-lock.json && npm install",
-    "predeploy": "npm run lint && npm run build",
-    "deploy:vercel": "vercel",
-    "deploy:production": "vercel --prod"
+    "analyze": "ANALYZE=true next build",
+    "check-bundle": "next-bundle-analyzer"
   },
   "dependencies": {
-    "@heroicons/react": "^2.1.5",
-    "clsx": "^2.1.1",
-    "framer-motion": "^11.2.0",
+    "@heroicons/react": "^2.2.0",
+    "clsx": "^2.1.2",
+    "framer-motion": "^11.19.0",
     "keen-slider": "^6.8.6",
-    "lucide-react": "^0.417.0",
+    "lucide-react": "^0.486.0",
     "next": "15.3.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "tailwind-merge": "^2.4.0"
+    "sharp": "^0.34.1",
+    "tailwind-merge": "^2.7.0"
   },
   "devDependencies": {
-    "@types/node": "^20.14.12",
-    "@types/react": "^18.3.3",
-    "@types/react-dom": "^18.3.0",
-    "autoprefixer": "^10.4.19",
-    "eslint": "^8.57.0",
+    "@next/bundle-analyzer": "^14.2.3",
+    "@types/node": "^20.19.0",
+    "@types/react": "^18.3.23",
+    "@types/react-dom": "^18.3.7",
+    "@typescript-eslint/eslint-plugin": "^8.34.0",
+    "@typescript-eslint/parser": "^8.34.0",
+    "autoprefixer": "^10.4.21",
+    "eslint": "^8.57.1",
     "eslint-config-next": "15.3.0",
-    "postcss": "^8.4.39",
-    "tailwindcss": "^3.4.6",
-    "typescript": "^5.5.4"
+    "postcss": "^8.4.51",
+    "tailwindcss": "^3.4.19",
+    "typescript": "^5.7.3"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
   }
 }

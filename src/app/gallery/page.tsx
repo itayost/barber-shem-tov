@@ -1,18 +1,10 @@
 // src/app/gallery/page.tsx
 import { loadGalleryImages } from '@/utils/galleryUtils';
 import GalleryPageClient from '@/components/gallery/GalleryPageClient';
-import { Metadata } from 'next';
+import { metadata as pageMetadata } from './metadata';
 
-// Generate metadata for the page
-export const metadata: Metadata = {
-  title: 'גלריה | The Fader - אקדמיה לספרות',
-  description: 'צפו בכיתות הלימוד המודרניות, עבודות הסטודנטים המרשימות, וסיפורי ההצלחה של הבוגרים שלנו',
-  openGraph: {
-    title: 'גלריה | The Fader - אקדמיה לספרות',
-    description: 'צפו בכיתות הלימוד המודרניות, עבודות הסטודנטים המרשימות, וסיפורי ההצלחה של הבוגרים שלנו',
-    images: [{ url: '/images/og/gallery-og.jpg' }],
-  },
-};
+// Export metadata properly for Next.js
+export const metadata = pageMetadata;
 
 export default function GalleryPage() {
   // Load images on the server

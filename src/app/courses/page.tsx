@@ -1,34 +1,12 @@
 // src/app/courses/page.tsx
-'use client';
+import React from 'react';
+import { metadata as pageMetadata } from './metadata';
+import CoursesPageClient from './CoursesPageClient';
 
-import React, { useState } from 'react';
-import Hero from '@/components/common/Hero';
-import CoursesGrid from '@/components/courses/CoursesGrid';
-import CoursesFAQ from '@/components/courses/CoursesFAQ';
-import CoursesCTA from '@/components/courses/CoursesCTA';
+// Export metadata for Next.js (this must be in a Server Component)
+export const metadata = pageMetadata;
 
-
-const CoursesPage = () => {
-  const [activeFilter] = useState<'all' | 'beginner' | 'advanced'>('all');
-
-  return (
-    <main className="bg-charcoal">
-      <Hero
-        title={<>הקורסים <span className="text-gold">שלנו</span></>}
-        subtitle="לכל גיל, לכל רמה"
-        backgroundImage="/images/hero/courses-hero.jpg"
-      />
-      
-      {/* Course cards grid */}
-      <CoursesGrid activeFilter={activeFilter} />
-      
-      {/* FAQ section */}
-      <CoursesFAQ />
-      
-      {/* Bottom CTA */}
-      <CoursesCTA />
-    </main>
-  );
-};
-
-export default CoursesPage;
+// Server Component wrapper
+export default function CoursesPage() {
+  return <CoursesPageClient />;
+}

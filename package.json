@@ -4,10 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build || true",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "clean": "rm -rf .next node_modules package-lock.json && npm install"
+    "clean": "rm -rf .next node_modules package-lock.json && npm install",
+    "predeploy": "chmod +x cleanup-deploy.sh && ./cleanup-deploy.sh"
   },
   "dependencies": {
     "@heroicons/react": "^2.1.5",

@@ -1,19 +1,13 @@
 // src/app/academy/page.tsx
 import React from 'react';
 import Hero from '@/components/common/Hero';
-import { generateMetadata } from '@/utils/openGraphUtils';
-
-// Import components directly without dynamic imports for now
 import AcademyOurStory from '@/components/academy/AcademyOurStory';
 import AcademyFounderSection from '@/components/academy/AcademyFounder';
 import AcademyOurStaff from '@/components/academy/AcademyStaff';
+import { metadata as pageMetadata } from './metadata';
 
-// Metadata
-export const metadata = generateMetadata(
-  'academy',
-  'האקדמיה | The Fader - מוסד להכשרת ספרים מקצועיים',
-  'הכירו את האקדמיה המובילה לספרות בצפון. למדו על החזון, הצוות המקצועי וההישגים שהופכים אותנו למוסד המוביל בתחום.'
-);
+// Export metadata from the metadata.ts file
+export const metadata = pageMetadata;
 
 export default function AcademyPage() {
   return (

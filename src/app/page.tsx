@@ -2,6 +2,10 @@
 import Hero from '@/components/common/Hero';
 import ThreePathways from '@/components/home/ThreePathways';
 import Testimonials from '@/components/home/Testimonials';
+import { metadata as pageMetadata } from './metadata';
+
+// Export metadata properly for Next.js
+export const metadata = pageMetadata;
 
 // Option 3: Enhanced home page with special features
 export default function Home() {

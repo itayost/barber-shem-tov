@@ -1,4 +1,4 @@
-// next.config.js - Optimized for LCP Performance + No Legacy JS
+// next.config.js - Fixed for Next.js 15.3.0
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   eslint: {
@@ -18,38 +18,23 @@ const nextConfig = {
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
 
-  // Enable compression and modern minification
+  // Enable compression
   compress: true,
   poweredByHeader: false,
-  swcMinify: true, // ✨ NEW: Use SWC for modern minification
 
-  // ✨ NEW: Compiler optimizations
+  // Compiler optimizations
   compiler: {
-    // Remove console.log in production
     removeConsole: process.env.NODE_ENV === 'production' ? {
       exclude: ['error', 'warn'],
     } : false,
-    
-    // Remove React data-testid attributes in production
-    reactRemoveProperties: process.env.NODE_ENV === 'production' ? {
-      properties: ['^data-testid$'],
-    } : false,
   },
 
-  // ✨ NEW: Experimental features for modern JS
+  // Experimental features (only valid ones for 15.3.0)
   experimental: {
-    // Don't transpile for legacy browsers
-    legacyBrowsers: false,
-    
-    // Use browserslist for SWC
-    browsersListForSwc: true,
-    
-    // Optimize package imports
     optimizePackageImports: [
       'framer-motion',
       'lucide-react',
       '@heroicons/react',
-      'keen-slider',
     ],
   },
 
@@ -57,11 +42,10 @@ const nextConfig = {
   webpack: (config, { dev, isServer }) => {
     // Production optimizations only
     if (!dev && !isServer) {
-      // ✨ NEW: Configure modern output
+      // Configure modern output
       config.output = {
         ...config.output,
         environment: {
-          // Only use features supported by modern browsers
           arrowFunction: true,
           bigIntLiteral: true,
           const: true,
@@ -71,28 +55,12 @@ const nextConfig = {
           module: true,
           optionalChaining: true,
           templateLiteral: true,
-          asyncFunction: true,
-          // Disable legacy features
-          globalThis: false,
         },
       };
 
-      // ✨ NEW: Remove legacy polyfills
-      config.resolve.alias = {
-        ...config.resolve.alias,
-        'core-js': false,
-        'regenerator-runtime': false,
-        '@babel/runtime': false,
-      };
-
-      // Enhanced bundle splitting for LCP optimization
+      // Enhanced bundle splitting
       config.optimization.splitChunks = {
         chunks: 'all',
-        minSize: 20000,
-        minRemainingSize: 0,
-        minChunks: 1,
-        maxAsyncRequests: 30,
-        maxInitialRequests: 30,
         cacheGroups: {
           default: false,
           vendors: false,
@@ -105,21 +73,13 @@ const nextConfig = {
             reuseExistingChunk: true,
           },
           
-          // Critical UI chunk (loads first)
+          // Critical UI chunk
           critical: {
             name: 'critical',
-            test: /[\\/]components[\\/](common\/(Hero|Button|Navbar))[\\/]/,
+            test: /[\\/]components[\\/](common|ui)[\\/]/,
             chunks: 'all',
             priority: 30,
             enforce: true,
-          },
-          
-          // Common components chunk
-          commons: {
-            name: 'commons',
-            test: /[\\/]components[\\/]/,
-            minChunks: 2,
-            priority: 20,
           },
           
           // Defer heavy libraries
@@ -138,24 +98,28 @@ const nextConfig = {
             priority: 5,
           },
           
-          // Other vendors
+          // Other vendors - with null safety
           vendor: {
             test: /[\\/]node_modules[\\/]/,
             name(module) {
-              const packageName = module.context.match(
+              // Null safety check
+              if (!module.context) return 'vendor';
+              
+              const match = module.context.match(
                 /[\\/]node_modules[\\/](.*?)([\\/]|$)/
-              )[1];
+              );
+              
+              if (!match || !match[1]) {
+                return 'vendor';
+              }
+              
+              const packageName = match[1];
               return `vendor-${packageName.replace('@', '')}`;
             },
             priority: 1,
             reuseExistingChunk: true,
           },
         },
-      };
-
-      // ✨ NEW: Optimize runtime chunk
-      config.optimization.runtimeChunk = {
-        name: 'runtime',
       };
     }
 
@@ -176,25 +140,10 @@ const nextConfig = {
             key: 'X-Frame-Options',
             value: 'DENY',
           },
-          // ✨ NEW: Modern browser hints
-          {
-            key: 'X-UA-Compatible',
-            value: 'IE=edge',
-          },
         ],
       },
       {
         source: '/images/:path*',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          },
-        ],
-      },
-      // ✨ NEW: Cache JavaScript files
-      {
-        source: '/_next/static/:path*',
         headers: [
           {
             key: 'Cache-Control',

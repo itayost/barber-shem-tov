@@ -18,6 +18,9 @@ interface HeroProps {
   intervalDuration?: number;
 }
 
+// Smooth cubic-bezier easing for better transitions
+const smoothEasing = 'cubic-bezier(0.4, 0, 0.2, 1)';
+
 export default function Hero({
   title,
   subtitle,
@@ -26,8 +29,8 @@ export default function Hero({
   ctaHref,
   className = '',
   autoPlay = true,
-  crossfadeDuration = 2000, // 2 seconds crossfade
-  intervalDuration = 5000, // 5 seconds between changes
+  crossfadeDuration = 2500, // 2.5 seconds for smoother crossfade
+  intervalDuration = 6000, // 6 seconds between changes
 }: HeroProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [nextImageIndex, setNextImageIndex] = useState(1);
@@ -52,9 +55,9 @@ export default function Hero({
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // Preload next image
-  const preloadImage = useCallback((index: number) => {
-    if (images[index] && !imagesLoaded[index]) {
+  // Preload all images on mount for smoother transitions
+  useEffect(() => {
+    images.forEach((src, index) => {
       const img = new window.Image();
       img.onload = () => {
         setImagesLoaded(prev => {
@@ -63,29 +66,28 @@ export default function Hero({
           return newLoaded;
         });
       };
-      img.src = images[index];
-    }
-  }, [images, imagesLoaded]);
+      img.src = src;
+    });
+  }, [images]);
 
   // Smooth crossfade transition function
   const transitionToNext = useCallback(() => {
-    if (isTransitioning || !hasMultipleImages) return;
+    if (isTransitioning || !hasMultipleImages || !imagesLoaded[currentImageIndex]) return;
     
-    setIsTransitioning(true);
     const nextIndex = (currentImageIndex + 1) % images.length;
     
-    // Preload next image before transition
-    preloadImage(nextIndex);
-    
-    setNextImageIndex(nextIndex);
-    
-    // Complete transition after crossfade duration
-    setTimeout(() => {
-      setCurrentImageIndex(nextIndex);
-      setIsTransitioning(false);
-    }, crossfadeDuration);
-    
-  }, [currentImageIndex, images.length, hasMultipleImages, isTransitioning, crossfadeDuration, preloadImage]);
+    // Only transition if next image is loaded
+    if (imagesLoaded[nextIndex]) {
+      setIsTransitioning(true);
+      setNextImageIndex(nextIndex);
+      
+      // Complete transition after crossfade duration
+      setTimeout(() => {
+        setCurrentImageIndex(nextIndex);
+        setIsTransitioning(false);
+      }, crossfadeDuration);
+    }
+  }, [currentImageIndex, images.length, hasMultipleImages, isTransitioning, crossfadeDuration, imagesLoaded]);
 
   // Auto-advance with smooth crossfade
   useEffect(() => {
@@ -97,17 +99,16 @@ export default function Hero({
 
   // Manual navigation
   const goToImage = useCallback((index: number) => {
-    if (index === currentImageIndex || isTransitioning) return;
+    if (index === currentImageIndex || isTransitioning || !imagesLoaded[index]) return;
     
     setIsTransitioning(true);
-    preloadImage(index);
     setNextImageIndex(index);
     
     setTimeout(() => {
       setCurrentImageIndex(index);
       setIsTransitioning(false);
     }, crossfadeDuration);
-  }, [currentImageIndex, isTransitioning, crossfadeDuration, preloadImage]);
+  }, [currentImageIndex, isTransitioning, crossfadeDuration, imagesLoaded]);
 
   const handleScrollDown = useCallback(() => {
     const nextSection = document.querySelector('#hero-section')?.nextElementSibling;
@@ -165,12 +166,15 @@ export default function Hero({
         </div>
 
         {/* Crossfading Next Image */}
-        {hasMultipleImages && isTransitioning && (
+        {hasMultipleImages && (
           <div 
-            className="absolute inset-0"
+            className="absolute inset-0 transition-opacity"
             style={{
-              opacity: 0,
-              animation: `crossfadeIn ${crossfadeDuration}ms ease-in-out forwards`,
+              opacity: isTransitioning ? 1 : 0,
+              transitionDuration: `${crossfadeDuration}ms`,
+              transitionTimingFunction: smoothEasing,
+              willChange: 'opacity',
+              transform: 'translateZ(0)', // Force GPU acceleration
             }}
           >
             <Image
@@ -302,20 +306,13 @@ export default function Hero({
         </motion.div>
       </motion.button>
 
-      {/* CSS for smooth crossfade animation */}
+      {/* CSS for performance optimization */}
       <style jsx>{`
-        @keyframes crossfadeIn {
-          from {
-            opacity: 0;
-          }
-          to {
-            opacity: 1;
-          }
-        }
-        
-        /* Optimize for performance */
-        [data-crossfade] {
-          will-change: opacity;
+        /* Ensure smooth rendering */
+        .transition-opacity {
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          -webkit-transform: translateZ(0);
           transform: translateZ(0);
         }
       `}</style>

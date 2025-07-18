@@ -21,6 +21,8 @@ export default function Home() {
         ]}
         ctaText="הרשמה לקורס"
         ctaHref="/apply"
+        crossfadeDuration={3000} // 3 seconds for ultra-smooth transitions
+        intervalDuration={7000}  // 7 seconds between slides
       />
 
       {/* Add a transition element between hero and content */}

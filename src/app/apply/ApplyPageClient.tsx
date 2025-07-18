@@ -120,29 +120,36 @@ function ApplyContent() {
     // Track enrollment
     enrollmentTracker.track('form', 'contact_page', courseName);
     
-    // Create message for backend or email service
-    const message = `
-🎯 פנייה חדשה מטופס הרשמה
-
-👤 שם: ${formData.name}
-📍 עיר: ${formData.city}
-🎂 גיל: ${formData.age}
-📱 טלפון: ${formData.phone}
-${courseName ? `📚 קורס: ${courseName}` : '📚 קורס: לא צוין'}
-
-📅 תאריך: ${new Date().toLocaleDateString('he-IL')}
-⏰ שעה: ${new Date().toLocaleTimeString('he-IL')}
-    `.trim();
-
     try {
-      // Here you would typically send to your backend
-      // For now, simulate form submission
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      // Send to API route
+      const response = await fetch('/api/submit-lead', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          city: formData.city,
+          age: formData.age,
+          phone: formData.phone,
+          course: courseName || 'לא צוין',
+          courseName: courseName || 'לא צוין', // Send both for compatibility
+          source: 'טופס הרשמה',
+        }),
+      });
+
+      const result = await response.json();
       
-      console.log('Form submitted:', { formData, courseName, message });
-      setIsSubmitted(true);
+      if (result.success) {
+        console.log('Form submitted successfully:', result);
+        setIsSubmitted(true);
+      } else {
+        console.error('Form submission failed:', result);
+        alert('אירעה שגיאה בשליחת הטופס. אנא נסה שוב.');
+      }
     } catch (error) {
       console.error('Form submission error:', error);
+      alert('אירעה שגיאה בשליחת הטופס. אנא נסה שוב.');
     } finally {
       setIsSubmitting(false);
     }

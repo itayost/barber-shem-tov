@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "next lint",
     "clean": "rm -rf .next node_modules package-lock.json && npm install",
-    "predeploy": "chmod +x cleanup-deploy.sh && ./cleanup-deploy.sh"
+    "predeploy": "npm run lint && npm run build",
+    "deploy:vercel": "vercel",
+    "deploy:production": "vercel --prod"
   },
   "dependencies": {
     "@heroicons/react": "^2.1.5",

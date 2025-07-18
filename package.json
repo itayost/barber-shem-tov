@@ -3,41 +3,56 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --turbo",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "analyze": "ANALYZE=true next build",
-    "check-bundle": "next-bundle-analyzer"
+    "check-types": "tsc --noEmit",
+    "clean": "rm -rf .next node_modules/.cache"
   },
   "dependencies": {
-    "@heroicons/react": "^2.2.0",
-    "clsx": "^2.1.2",
-    "framer-motion": "^11.19.0",
+    "@heroicons/react": "^2.1.5",
+    "clsx": "^2.1.1",
+    "framer-motion": "^11.3.19",
     "keen-slider": "^6.8.6",
-    "lucide-react": "^0.486.0",
+    "lucide-react": "^0.436.0",
     "next": "15.3.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "sharp": "^0.34.1",
-    "tailwind-merge": "^2.7.0"
+    "sharp": "^0.33.5",
+    "tailwind-merge": "^2.5.2"
   },
   "devDependencies": {
-    "@next/bundle-analyzer": "^14.2.3",
-    "@types/node": "^20.19.0",
-    "@types/react": "^18.3.23",
-    "@types/react-dom": "^18.3.7",
-    "@typescript-eslint/eslint-plugin": "^8.34.0",
-    "@typescript-eslint/parser": "^8.34.0",
-    "autoprefixer": "^10.4.21",
-    "eslint": "^8.57.1",
-    "eslint-config-next": "15.3.0",
-    "postcss": "^8.4.51",
-    "tailwindcss": "^3.4.19",
-    "typescript": "^5.7.3"
+    "@next/bundle-analyzer": "^15.3.0",
+    "@types/node": "^20.14.10",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "autoprefixer": "^10.4.19",
+    "eslint": "^9.31.0",
+    "eslint-config-next": "^15.3.0",
+    "postcss": "^8.4.40",
+    "tailwindcss": "^3.4.7",
+    "typescript": "^5.5.4"
   },
   "engines": {
     "node": ">=18.0.0",
     "npm": ">=9.0.0"
+  },
+  "browserslist": {
+    "production": [
+      "chrome >= 90",
+      "edge >= 90",
+      "firefox >= 88",
+      "safari >= 14",
+      "ios >= 14",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }

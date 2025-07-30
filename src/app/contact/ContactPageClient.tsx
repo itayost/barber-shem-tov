@@ -17,7 +17,7 @@ export default function ContactPageClient() {
       <Hero
         title={<>דברו <span className="text-gold">איתנו</span></>}
         subtitle="כל הדרכים ליצור קשר"
-        backgroundImage="/images/hero/contact-hero.webp"
+        backgroundImage="/images/hero/contact-hero.jpg"
       />
       
       {/* Main Content */}

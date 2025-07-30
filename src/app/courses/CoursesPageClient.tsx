@@ -15,7 +15,7 @@ const CoursesPageClient = () => {
       <Hero
         title={<>הקורסים <span className="text-gold">שלנו</span></>}
         subtitle="לכל גיל, לכל רמה"
-        backgroundImage="/images/hero/courses-hero.webp"
+        backgroundImage="/images/hero/courses-hero.jpg"
       />
       
       {/* Course cards grid */}

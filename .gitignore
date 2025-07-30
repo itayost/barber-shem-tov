@@ -65,29 +65,3 @@ test-*
 .vscode/
 *.swp
 *.swo
-
-# Environment files
-.env.local
-.env.production.local
-
-# Backup directories
-backup_*
-*_backup/
-
-# Reports and logs
-*.log
-*-report-*.txt
-
-# OS files
-.DS_Store
-Thumbs.db
-
-# Test files
-test-*
-*.test.*
-
-# IDE files
-.idea/
-.vscode/
-*.swp
-*.swo

@@ -24,8 +24,8 @@ const CourseCard: React.FC<CourseCardProps> = ({
   const [imageError, setImageError] = useState(false);
   const router = useRouter();
   
-  const courseImage = `/images/courses/${course.id}.webp`;
-  const fallbackImage = `/images/courses/${course.category}-course.webp`;
+  const courseImage = `/images/courses/${course.id}.jpg`;
+  const fallbackImage = `/images/courses/${course.category}-course.jpg`;
 
   const handleEnroll = () => {
     const encodedCourseName = encodeURIComponent(course.name_he);

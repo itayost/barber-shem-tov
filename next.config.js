@@ -1,4 +1,4 @@
-// next.config.js - Optimized for LCP Performance
+// next.config.js - Fixed for Next.js 15.3.0
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   eslint: {
@@ -22,18 +22,58 @@ const nextConfig = {
   compress: true,
   poweredByHeader: false,
 
+  // Compiler optimizations
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production' ? {
+      exclude: ['error', 'warn'],
+    } : false,
+  },
+
+  // Experimental features (only valid ones for 15.3.0)
+  experimental: {
+    optimizePackageImports: [
+      'framer-motion',
+      'lucide-react',
+      '@heroicons/react',
+    ],
+  },
+
   // Advanced webpack optimization
   webpack: (config, { dev, isServer }) => {
     // Production optimizations only
     if (!dev && !isServer) {
-      // Enhanced bundle splitting for LCP optimization
+      // Configure modern output
+      config.output = {
+        ...config.output,
+        environment: {
+          arrowFunction: true,
+          bigIntLiteral: true,
+          const: true,
+          destructuring: true,
+          dynamicImport: true,
+          forOf: true,
+          module: true,
+          optionalChaining: true,
+          templateLiteral: true,
+        },
+      };
+
+      // Enhanced bundle splitting
       config.optimization.splitChunks = {
         chunks: 'all',
         cacheGroups: {
           default: false,
           vendors: false,
           
-          // Critical UI chunk (loads first)
+          // Framework chunk
+          framework: {
+            name: 'framework',
+            test: /[\\/]node_modules[\\/](react|react-dom|scheduler)[\\/]/,
+            priority: 40,
+            reuseExistingChunk: true,
+          },
+          
+          // Critical UI chunk
           critical: {
             name: 'critical',
             test: /[\\/]components[\\/](common|ui)[\\/]/,
@@ -56,6 +96,28 @@ const nextConfig = {
             test: /[\\/]node_modules[\\/](lucide-react|@heroicons)[\\/]/,
             chunks: 'async',
             priority: 5,
+          },
+          
+          // Other vendors - with null safety
+          vendor: {
+            test: /[\\/]node_modules[\\/]/,
+            name(module) {
+              // Null safety check
+              if (!module.context) return 'vendor';
+              
+              const match = module.context.match(
+                /[\\/]node_modules[\\/](.*?)([\\/]|$)/
+              );
+              
+              if (!match || !match[1]) {
+                return 'vendor';
+              }
+              
+              const packageName = match[1];
+              return `vendor-${packageName.replace('@', '')}`;
+            },
+            priority: 1,
+            reuseExistingChunk: true,
           },
         },
       };

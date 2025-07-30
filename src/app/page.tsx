@@ -15,20 +15,15 @@ export default function Home() {
         title="צור את העתיד שלך כאמן ספרות מוביל"
         subtitle="The Fader Academy"
         backgroundImage={[
-          '/images/hero/homeHero1.jpg',
-          '/images/hero/homeHero2.jpg',
-          '/images/hero/homeHero3.jpg',
+          '/images/hero/homeHero1.webp',
+          '/images/hero/homeHero2.webp',
+          '/images/hero/homeHero3.webp',
         ]}
         ctaText="הרשמה לקורס"
         ctaHref="/apply"
         crossfadeDuration={3000} // 3 seconds for ultra-smooth transitions
         intervalDuration={7000}  // 7 seconds between slides
       />
-
-      {/* Add a transition element between hero and content */}
-      <div className="relative z-20 -mt-20">
-        <div className="h-20 bg-gradient-to-b from-transparent to-black" />
-      </div>
 
       {/* Scrolling Content Container */}
       <div className="relative z-10">

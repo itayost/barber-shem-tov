@@ -37,7 +37,7 @@ const AcademyFounderSection = () => {
           >
             <div className="relative aspect-[3/4] max-w-md mx-auto lg:mx-0">
               <Image
-                src="/images/team/bar-editorial.jpg"
+                src="/images/team/bar-editorial.webp"
                 alt={founder.name}
                 fill
                 className="object-cover grayscale"

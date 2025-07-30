@@ -87,12 +87,47 @@ export const viewport = {
 };
 
 // Critical CSS for hero section
+// Critical CSS for hero section to improve LCP
 function CriticalHeroStyles() {
   return (
     <style dangerouslySetInnerHTML={{
       __html: `
+        /* Critical fonts */
+        @font-face {
+          font-family: 'Heebo';
+          font-weight: 100;
+          font-display: swap;
+          src: url('/_next/static/media/heebo-thin.woff2') format('woff2');
+        }
+        
+        @font-face {
+          font-family: 'Heebo';
+          font-weight: 300;
+          font-display: swap;
+          src: url('/_next/static/media/heebo-light.woff2') format('woff2');
+        }
+        
+        /* Critical layout */
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
+        
+        html {
+          direction: rtl;
+        }
+        
+        body {
+          background-color: #1a1a1a;
+          color: #f5f5f5;
+          font-family: 'Heebo', system-ui, sans-serif;
+          -webkit-font-smoothing: antialiased;
+        }
+        
+        /* Hero critical styles */
         .hero-heading-critical {
-          font-family: var(--font-heebo), system-ui, sans-serif;
+          font-family: 'Heebo', system-ui, sans-serif;
           font-weight: 100;
           color: #f5f5f5;
           line-height: 1.25;
@@ -103,7 +138,6 @@ function CriticalHeroStyles() {
         }
         
         .hero-section-critical {
-          min-height: 100svh;
           min-height: 100vh;
           display: flex;
           align-items: center;
@@ -134,14 +168,43 @@ function CriticalHeroStyles() {
           width: 100%;
           height: 100%;
         }
-
-        .hero-overlay-critical {
-          position: absolute;
-          inset: 0;
-          background: linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0.7) 100%);
+        
+        /* Button critical styles */
+        .btn {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          padding: 0.75rem 2rem;
+          font-weight: 500;
+          transition: all 0.3s ease;
+          text-decoration: none;
+          cursor: pointer;
+          border: 1px solid transparent;
         }
-      `
-    }} />
+        
+        .btn-primary {
+          background-color: #c9a66b;
+          color: #1a1a1a;
+          border-color: #c9a66b;
+        }
+        
+        .btn-primary:hover {
+          background-color: #d9bc8c;
+          border-color: #d9bc8c;
+        }
+        
+        /* Hide non-critical elements initially */
+        .lazy-load {
+          opacity: 0;
+          transition: opacity 0.3s ease;
+        }
+        
+        .lazy-load.loaded {
+          opacity: 1;
+        }
+      `,
+    }}
+    />
   );
 }
 
@@ -161,12 +224,24 @@ export default function RootLayout({
   return (
     <html lang="he" dir="rtl" className={`${heebo.variable} ${heeboSecondary.variable}`}>
       <head>
-        {/* רק תגיות שלא קשורות ל-SEO */}
-        
-        {/* Critical font preloading */}
+          {/* Preconnect to optimize font loading */}
+          <link rel="preconnect" href="https://fonts.googleapis.com" />
+          <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+          
+          {/* Preload critical resources */}
+          <link 
+            rel="preload" 
+            href="/images/hero/homeHero1.jpg" 
+            as="image"
+            type="image/jpeg"
+          />
+          
+          {/* Module preload for critical JS */}
+          <link 
+            rel="modulepreload" 
+            href="/_next/static/chunks/critical.js" 
+          />
 
-        {/* Preload critical hero images */}
-        <link rel="preload" as="image" href="/images/hero/homeHero1.jpg" />
         
         {/* DNS prefetch for external resources */}
         <link rel="dns-prefetch" href="//fonts.googleapis.com" />

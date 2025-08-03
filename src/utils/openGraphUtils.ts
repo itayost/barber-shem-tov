@@ -23,7 +23,7 @@ export function generateMetadata(
   description: string
 ): Metadata {
   const ogImage = getPageOgImage(pageName);
-  const baseUrl = 'https://barber-shem-tov.vercel.app';
+  const baseUrl = 'https://wwww.thefader.co.il';
   const pageUrl = pageName === 'home' ? baseUrl : `${baseUrl}/${pageName}`;
   
   return {

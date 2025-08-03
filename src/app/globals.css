@@ -1,0 +1,414 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================
+   BASE LAYER - Variables & Resets
+   ============================================ */
+@layer base {
+  :root {
+    /* Core Colors */
+    --color-charcoal: #1a1a1a;
+    --color-charcoal-light: #2a2a2a;
+    --color-charcoal-dark: #111111;
+    --color-brown: #704214;
+    --color-gold: #c9a66b;
+    --color-gold-light: #d9bc8c;
+    --color-gold-dark: #a6845c;
+    --color-offwhite: #f5f5f5;
+    --color-lightgrey: #e0e0e0;
+    --color-burgundy: #5c0511;
+
+    /* Spacing */
+    --space-section: 5rem;
+    --space-section-mobile: 3rem;
+
+    /* Transitions */
+    --transition-fast: 0.2s ease;
+    --transition-normal: 0.3s ease;
+    --transition-slow: 0.5s ease;
+
+    /* Shadows */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+    --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.15);
+    --shadow-2xl: 0 25px 50px rgba(0, 0, 0, 0.25);
+    --shadow-gold: 0 5px 15px rgba(201, 166, 107, 0.2);
+
+    /* Border Radius - Never use for luxury */
+    --radius-none: 0;
+
+    /* Z-index Scale */
+    --z-dropdown: 10;
+    --z-sticky: 20;
+    --z-overlay: 30;
+    --z-modal: 40;
+    --z-popover: 50;
+    --z-tooltip: 60;
+  }
+
+  html,
+  body,
+  #__next,
+  main {
+    overflow-x: clip !important;
+    max-width: 100% !important;
+  }
+
+  * {
+    max-width: 100vw !important;
+  }
+
+  /* Reset & Base Styles */
+  * {
+    @apply m-0 p-0 box-border;
+  }
+
+  html {
+    @apply scroll-smooth antialiased;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-black text-offwhite;
+    font-family: var(--font-heebo), system-ui, sans-serif;
+    line-height: 1.6;
+    letter-spacing: -0.01em;
+    direction: rtl;
+    min-height: 100vh;
+  }
+
+  /* ============================================
+     LUXURY TYPOGRAPHY SYSTEM
+     ============================================ */
+
+  /* Display Typography - For Heroes */
+  .display-1 {
+    @apply text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-thin leading-none tracking-tight text-offwhite;
+  }
+
+  .display-2 {
+    @apply text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-thin leading-none tracking-tight text-offwhite;
+  }
+
+  .display-3 {
+    @apply text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-thin leading-none tracking-tight text-offwhite;
+  }
+
+  /* Heading Typography - LUXURY WEIGHTS ONLY */
+  h1,
+  .text-h1 {
+    @apply text-4xl md:text-5xl lg:text-6xl font-thin leading-tight text-offwhite mb-6;
+  }
+
+  h2,
+  .text-h2 {
+    @apply text-3xl md:text-4xl lg:text-5xl font-thin leading-tight text-offwhite mb-4;
+  }
+
+  h3,
+  .text-h3 {
+    @apply text-2xl md:text-3xl lg:text-4xl font-thin leading-snug text-offwhite mb-3;
+  }
+
+  h4,
+  .text-h4 {
+    @apply text-xl md:text-2xl lg:text-3xl font-thin text-offwhite mb-2;
+  }
+
+  h5,
+  .text-h5 {
+    @apply text-lg md:text-xl lg:text-2xl font-thin text-offwhite mb-2;
+  }
+
+  h6,
+  .text-h6 {
+    @apply text-base md:text-lg lg:text-xl font-thin text-offwhite mb-2;
+  }
+
+  /* Body Typography - Light weight only */
+  p,
+  .text-body {
+    @apply text-base md:text-lg lg:text-xl font-light leading-relaxed text-lightgrey mb-4 last:mb-0;
+  }
+
+  /* Body size variations */
+  .text-body-xl {
+    @apply text-xl md:text-2xl lg:text-3xl font-light leading-relaxed text-lightgrey;
+  }
+
+  .text-body-lg {
+    @apply text-lg md:text-xl lg:text-2xl font-light leading-relaxed text-lightgrey;
+  }
+
+  .text-body-sm {
+    @apply text-sm md:text-base lg:text-lg font-light leading-relaxed text-lightgrey;
+  }
+
+  .text-body-xs {
+    @apply text-xs md:text-sm font-light text-lightgrey;
+  }
+
+  /* Label Typography - Uppercase with wide tracking */
+  .label,
+  .text-label {
+    @apply text-xs font-light uppercase tracking-[0.3em] text-gold;
+  }
+
+  .label-sm {
+    @apply text-xs font-light uppercase tracking-[0.2em] text-gold;
+  }
+
+  .label-lg {
+    @apply text-sm font-light uppercase tracking-[0.5em] text-gold;
+  }
+
+  /* Quote Typography */
+  .quote {
+    @apply text-xl md:text-2xl lg:text-3xl font-thin italic text-offwhite/90 leading-relaxed;
+  }
+
+  .quote-author {
+    @apply text-xs font-light uppercase tracking-[0.3em] text-lightgrey/60 mt-4;
+  }
+
+  /* Links - Luxury style */
+  a {
+    @apply text-inherit no-underline transition-all duration-300 hover:text-gold;
+  }
+
+  a.link-underline {
+    @apply border-b border-current/20 hover:border-gold/40;
+  }
+
+  /* Lists - Minimal luxury style */
+  ul,
+  ol {
+    @apply pr-6 space-y-2;
+  }
+
+  li {
+    @apply font-light text-lightgrey;
+  }
+
+  /* Luxury List Style */
+  ul.luxury-list li {
+    @apply relative pr-8;
+  }
+
+  ul.luxury-list li::before {
+    @apply content-['—'] absolute right-0 text-gold/60;
+  }
+
+  /* Forms & Inputs */
+  input,
+  textarea,
+  select {
+    @apply text-right font-light;
+    font-family: inherit;
+    direction: rtl;
+  }
+
+  /* Focus States */
+  :focus-visible {
+    @apply outline-none ring-1 ring-gold/30 ring-offset-2 ring-offset-black;
+  }
+
+  /* Selection */
+  ::selection {
+    @apply bg-gold/20 text-offwhite;
+  }
+
+  /* Placeholder */
+  ::placeholder {
+    @apply text-lightgrey/40 font-light;
+  }
+
+  /* Images */
+  img {
+    @apply max-w-full h-auto;
+  }
+}
+
+/* ============================================
+   COMPONENTS LAYER
+   ============================================ */
+@layer components {
+  /* Luxury Button System */
+  .btn {
+    @apply inline-flex items-center justify-center px-12 py-5 font-light uppercase tracking-[0.2em] transition-all duration-500 text-center relative overflow-hidden select-none touch-manipulation;
+  }
+
+  .btn-primary {
+    @apply bg-gold text-black hover:bg-offwhite border border-gold hover:border-offwhite relative overflow-hidden;
+  }
+
+  .btn-secondary {
+    @apply bg-transparent text-offwhite border border-gold/30 hover:border-gold hover:text-gold;
+  }
+
+  .btn-ghost {
+    @apply text-gold hover:text-offwhite relative p-0;
+  }
+
+  /* Button Sizes */
+  .btn-sm {
+    @apply px-8 py-3 text-xs tracking-wider;
+  }
+
+  .btn-lg {
+    @apply px-16 py-6 text-sm tracking-[0.3em];
+  }
+
+  .btn-full {
+    @apply w-full;
+  }
+
+  /* Luxury Section Patterns */
+  .section-hero {
+    @apply py-32 md:py-40 lg:py-48;
+  }
+
+  .section-luxury {
+    @apply py-24 md:py-32 lg:py-40;
+  }
+
+  .section-content {
+    @apply py-20 md:py-24 lg:py-32;
+  }
+
+  /* Hero Patterns */
+  .hero-title {
+    @apply display-1 mb-8 tracking-tight;
+  }
+
+  .hero-subtitle {
+    @apply text-xl md:text-2xl lg:text-3xl font-light text-lightgrey/90 leading-relaxed mb-12;
+  }
+
+  /* Section Patterns */
+  .section-label {
+    @apply label mb-6 block;
+  }
+
+  .section-title {
+    @apply text-h2 mb-8;
+  }
+
+  .section-description {
+    @apply text-body-lg max-w-3xl mx-auto text-center;
+  }
+
+  /* Card Patterns */
+  .card-luxury {
+    @apply bg-black border border-gold/20 p-8 md:p-12 transition-all duration-500 hover:border-gold/40;
+  }
+
+  .card-label {
+    @apply label-sm mb-4 block;
+  }
+
+  .card-title {
+    @apply text-2xl md:text-3xl font-thin text-offwhite mb-4;
+  }
+
+  .card-description {
+    @apply text-body-sm text-lightgrey/80;
+  }
+
+  /* Feature Patterns */
+  .feature-number {
+    @apply text-6xl md:text-7xl lg:text-8xl font-thin text-gold/20;
+  }
+
+  .feature-title {
+    @apply text-2xl md:text-3xl font-thin text-offwhite mb-3;
+  }
+
+  /* Navigation Components - Updated */
+  .navbar {
+    @apply fixed w-full top-0 z-40;
+    height: 80px;
+    transition: all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+
+  .nav-link {
+    @apply text-offwhite hover:text-gold font-light uppercase tracking-wider text-sm transition-colors duration-300 relative py-2;
+  }
+
+  .nav-link::after {
+    @apply absolute bottom-0 right-0 w-0 h-[1px] bg-gold transition-all duration-500 content-[''];
+  }
+
+  /* Mobile Menu - Luxury Style */
+  .mobile-menu-nav-item {
+    @apply block w-full text-center py-6 px-8 text-offwhite hover:text-gold font-light uppercase tracking-[0.2em] transition-all duration-300 touch-manipulation;
+  }
+
+  /* Keep your other component styles... */
+}
+
+/* ============================================
+   UTILITIES LAYER
+   ============================================ */
+@layer utilities {
+  /* Text Color Utilities */
+  .text-muted {
+    @apply text-lightgrey/80;
+  }
+
+  .text-accent {
+    @apply text-gold;
+  }
+
+  .text-white {
+    @apply text-offwhite;
+  }
+
+  /* Text Effects */
+  .text-gradient-gold {
+    @apply bg-gradient-to-r from-gold via-gold-light to-gold bg-clip-text text-transparent;
+  }
+
+  .text-outline {
+    -webkit-text-stroke: 1px currentColor;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .text-shadow-luxury {
+    text-shadow: 0 2px 10px rgba(201, 166, 107, 0.2);
+  }
+
+  /* Letter Spacing Utilities */
+  .tracking-luxury {
+    letter-spacing: 0.5em;
+  }
+
+  .tracking-luxury-wide {
+    letter-spacing: 0.8em;
+  }
+
+  /* Text Balance Utilities */
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .text-pretty {
+    text-wrap: pretty;
+  }
+
+  /* Hebrew-specific utilities */
+  .tracking-hebrew-tight {
+    letter-spacing: -0.02em;
+  }
+
+  .tracking-hebrew-normal {
+    letter-spacing: -0.01em;
+  }
+
+  /* Keep your other utilities... */
+}
+
+/* Keep your animations and other styles as they are... */

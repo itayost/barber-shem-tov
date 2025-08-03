@@ -29,43 +29,57 @@ const heeboSecondary = Heebo({
 // Base metadata that will be extended by pages
 export const metadata: Metadata = {
   metadataBase: new URL('https://thefader.co.il'),
+  
+  // Title template
   title: {
     default: 'The Fader - אקדמיה מקצועית לספרות | למד ספרות בטירת הכרמל',
     template: '%s | The Fader - אקדמיה לספרות'
   },
+  
+  // SEO Description
   description: 'האקדמיה המובילה לספרות בצפון. קורסים מקצועיים לספרים מתחילים ומתקדמים, הכשרה מעשית עם 20+ לקוחות, ציוד מקצועי וליווי לקריירה.',
-  keywords: 'אקדמיה לספרות, קורס ספרות, לימודי ספרות, קורס ברבר, טירת הכרמל',
+  
+  // Keywords
+  keywords: 'אקדמיה לספרות, קורס ספרות, לימודי ספרות, קורס ברבר, טירת הכרמל, בר שם טוב',
+  
+  // Authors and Creator
   authors: [{ name: 'The Fader Academy' }],
   creator: 'The Fader',
   publisher: 'The Fader',
-  formatDetection: {
-    email: false,
-    address: false,
-    telephone: false,
-  },
-  icons: {
-    icon: '/favicon.ico',
-    apple: '/apple-icon.png',
-    shortcut: '/shortcut-icon.png'
-  },
-  manifest: '/site.webmanifest',
+  
+  // Default Open Graph
   openGraph: {
     type: 'website',
     locale: 'he_IL',
     url: 'https://thefader.co.il',
     siteName: 'The Fader - אקדמיה לספרות',
     images: [{
-      url: '/images/logos/og.png',
+      url: 'https://thefader.co.il/images/og/default-og.jpg',
       width: 1200,
       height: 630,
-      alt: 'The Fader - אקדמיה לספרות'
+      alt: 'The Fader - אקדמיה מקצועית לספרות'
     }],
   },
+  
+  // Twitter Card
   twitter: {
     card: 'summary_large_image',
     site: '@TheFaderBarber',
     creator: '@TheFaderBarber',
   },
+  
+  // Verification (add your actual verification codes)
+  verification: {
+    google: 'your-google-verification-code',
+    // yandex: 'your-yandex-code',
+    // bing: 'your-bing-code',
+  },
+  
+  // Additional metadata
+  category: 'education',
+  classification: 'Business',
+  
+  // Robots
   robots: {
     index: true,
     follow: true,

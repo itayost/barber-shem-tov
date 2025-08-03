@@ -1,5 +1,3 @@
-// src/app/metadata.ts
-
 import { generatePageMetadata } from '@/components/SEO/generatePageMetadata'
 
 export const metadata = generatePageMetadata({
@@ -15,8 +13,21 @@ export const metadata = generatePageMetadata({
     'ספרות מקצועית',
     'טירת הכרמל',
     'בית ספר לספרות',
-    'The Fader'
+    'The Fader',
+    'בר שם טוב',
+    'קורס פייד',
+    'הכשרת ספרים'
   ],
   canonical: 'https://thefader.co.il',
   pageName: '',
+  openGraph: {
+    title: 'The Fader - האקדמיה המובילה לספרות בצפון',
+    description: 'הצטרפו לאקדמיה המקצועית ביותר לספרות. קורסים מקיפים עם התנסות על 20+ לקוחות, ציוד מתקדם וליווי אישי לקריירה מצליחה. מעל 100 בוגרים מצליחים!',
+    images: ['https://thefader.co.il/images/og/home-og.jpg']
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'The Fader - אקדמיה מקצועית לספרות',
+    description: 'למד ספרות מקצועית באקדמיה המובילה בצפון. קורסים מקיפים, התנסות מעשית וליווי לקריירה. הירשמו עכשיו!'
+  }
 })

@@ -25,11 +25,6 @@ export default function Home() {
         intervalDuration={7000}  // 7 seconds between slides
       />
 
-      {/* Add a transition element between hero and content */}
-      <div className="relative z-20 -mt-20">
-        <div className="h-20 bg-gradient-to-b from-transparent to-black" />
-      </div>
-
       {/* Scrolling Content Container */}
       <div className="relative z-10">
         {/* First section with background to cover hero */}

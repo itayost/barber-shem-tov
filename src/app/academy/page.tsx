@@ -22,7 +22,7 @@ export default function AcademyPage() {
           </>
         }
         subtitle="מאז 2018"
-        backgroundImage="/images/hero/academy-hero.jpg"
+        backgroundImage="/images/hero/academy-hero.webp"
         ctaText="לקורסים שלנו"
         ctaHref="/courses"
       />

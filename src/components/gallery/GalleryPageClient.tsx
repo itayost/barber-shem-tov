@@ -133,7 +133,6 @@ const GalleryPageClient: React.FC<GalleryPageClientProps> = ({ images = [] }) =>
   // Categories
   const categories: GalleryCategory[] = [
     { id: 'experience', label: 'חוויות', description: 'רגעים בלתי נשכחים', order: 1 },
-    { id: 'space', label: 'המרחב', description: 'הסביבה המודרנית שלנו', order: 2 },
     { id: 'work', label: 'עבודות', description: 'תוצרים יצירתיים', order: 3 },
   ];
 

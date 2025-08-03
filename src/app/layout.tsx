@@ -166,7 +166,7 @@ export default function RootLayout({
         {/* Critical font preloading */}
 
         {/* Preload critical hero images */}
-        <link rel="preload" as="image" href="/images/hero/homeHero1.jpg" />
+        <link rel="preload" as="image" href="/images/hero/homeHero1.webp" />
         
         {/* DNS prefetch for external resources */}
         <link rel="dns-prefetch" href="//fonts.googleapis.com" />

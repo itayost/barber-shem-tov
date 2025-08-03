@@ -23,6 +23,6 @@ export const metadata = generatePageMetadata({
   openGraph: {
     title: 'גלריית עבודות The Fader | תספורות ועבודות תלמידים',
     description: 'השראה לתספורת הבאה! צפו בעבודות המדהימות של הספרים והתלמידים שלנו - פיידים מושלמים, ציורי ראש יצירתיים ועיצובי זקן מקצועיים.',
-    images: ['/images/og/gallery-og.jpg'] // כדאי ליצור תמונת קולאז' מיוחדת לגלריה
+    images: ['/images/og/gallery-og.webp'] // כדאי ליצור תמונת קולאז' מיוחדת לגלריה
   }
 })

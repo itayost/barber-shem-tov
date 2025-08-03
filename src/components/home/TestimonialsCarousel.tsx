@@ -213,9 +213,14 @@ const TestimonialsCarousel: React.FC = () => {
         />
       </div>
 
-      {/* Ambient light */}
-      <div className="absolute inset-0">
-        <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-96 h-96 bg-gold/5 rounded-full blur-[150px]" />
+      {/* Ambient light effects */}
+      <div className="absolute inset-0 pointer-events-none">
+        {/* Primary gold glow */}
+        <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[500px] h-[500px] bg-gold/10 rounded-full blur-[120px]" />
+        {/* Secondary charcoal depth */}
+        <div className="absolute top-1/3 right-1/4 w-[400px] h-[400px] bg-charcoal-light/20 rounded-full blur-[100px]" />
+        {/* Subtle gold accent */}
+        <div className="absolute bottom-1/4 left-1/2 -translate-x-1/2 w-[300px] h-[300px] bg-gold/5 rounded-full blur-[80px]" />
       </div>
 
       <div className="relative z-10">

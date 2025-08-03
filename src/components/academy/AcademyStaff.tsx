@@ -124,7 +124,7 @@ const AcademyOurStaff = () => {
             >
               <div className="relative aspect-[4/5] sm:aspect-[3/4] max-w-md mx-auto lg:mx-0">
                 <Image
-                  src={currentStaff.image || `/images/team/${currentStaff.id}.jpg`}
+                  src={currentStaff.image || `/images/team/${currentStaff.id}.webp`}
                   alt={currentStaff.name}
                   fill
                   className="object-cover"

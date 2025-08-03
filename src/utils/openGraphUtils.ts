@@ -4,17 +4,15 @@ import { Metadata } from 'next';
 export function getPageOgImage(pageName: string): string {
   switch(pageName) {
     case 'home':
-      return '/images/og/home-og.jpg';
+      return '/images/og/home-og.webp';
     case 'services':
-      return '/images/og/services-og.jpg';
-    case 'about':
-      return '/images/og/about-og.jpg';
+      return '/images/og/services-og.webp';
     case 'gallery':
-      return '/images/og/gallery-og.jpg';
+      return '/images/og/gallery-og.webp';
     case 'contact':
-      return '/images/og/contact-og.jpg';
+      return '/images/og/contact-og.webp';
     default:
-      return '/images/og/home-og.jpg';
+      return '/images/og/home-og.webp';
   }
 }
 

@@ -89,7 +89,7 @@ export function loadGalleryImages(): GalleryImage[] {
     const metadata = loadImageMetadata(categoryPath);
     
     const files = fs.readdirSync(categoryPath)
-      .filter(file => /\.(jpg|jpeg|png)$/i.test(file)) // Exclude .webp files
+      .filter(file => /\.(jpg|jpeg|png|webp)$/i.test(file)) // Exclude .webp files
       .sort();
     
     files.forEach((file, index) => {

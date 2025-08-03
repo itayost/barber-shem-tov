@@ -82,6 +82,7 @@ const Navbar = () => {
               isScrolled={isScrolled}
               src="/images/logos/logo.png"
               alt={academyInfo.shortName}
+              href='/'
             />
           </motion.div>
 

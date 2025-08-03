@@ -12,7 +12,7 @@ export default function Home() {
   return (
     <div className="relative">
       <Hero
-        title="kkkkצור את העתיד שלך כאמן ספרות מוביל"
+        title="kkkצור את העתיד שלך כאמן ספרות מוביל"
         subtitle="The Fader Academy"
         backgroundImage={[
           '/images/hero/homeHero1.jpg',

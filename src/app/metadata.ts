@@ -23,7 +23,7 @@ export const metadata = generatePageMetadata({
   openGraph: {
     title: 'The Fader - האקדמיה המובילה לספרות בצפון',
     description: 'הצטרפו לאקדמיה המקצועית ביותר לספרות. קורסים מקיפים עם התנסות על 20+ לקוחות, ציוד מתקדם וליווי אישי לקריירה מצליחה. מעל 100 בוגרים מצליחים!',
-    images: ['https://thefader.co.il/images/og/home-og.jpg']
+    images: ['https://thefader.co.il/images/og/home-og.webp']
   },
   twitter: {
     card: 'summary_large_image',

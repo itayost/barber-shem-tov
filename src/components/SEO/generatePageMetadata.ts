@@ -36,7 +36,7 @@ export const generatePageMetadata = ({
   const fullTitle = title.includes('The Fader') ? title : `${title} | ${siteName}`
   
   // Default OG image path
-  const defaultOgImage = `${baseUrl}/images/og/${pageName || 'default'}-og.jpg`
+  const defaultOgImage = `${baseUrl}/images/og/${pageName || 'default'}-og.webp`
   
   return {
     // Basic metadata

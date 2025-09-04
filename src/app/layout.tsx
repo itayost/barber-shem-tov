@@ -6,6 +6,7 @@ import './globals.css';
 import { Navbar } from '@/components/navigation';
 import Footer from '@/components/common/Footer';
 import WhatsAppFloat from '@/components/common/WhatsAppFloat';
+import UserWayWidget from '@/components/common/UserWayWidget';
 import NavigationLoadingProvider from '@/components/providers/NavigationLoadingProvider';
 
 // Font setup
@@ -175,7 +176,6 @@ export default function RootLayout({
   return (
     <html lang="he" dir="rtl" className={`${heebo.variable} ${heeboSecondary.variable}`}>
       <head>
-      <script src="https://cdn.userway.org/widget.js" data-account="7ek953Xjr7"></script>
         {/* רק תגיות שלא קשורות ל-SEO */}
         
         {/* Critical font preloading */}
@@ -214,10 +214,12 @@ export default function RootLayout({
             <Footer />
             
             <WhatsAppFloat />
+            
+            {/* UserWay Widget - Loaded after hydration */}
+            <UserWayWidget />
           </NavigationLoadingProvider>
         </Suspense>
         
-
       </body>
     </html>
   );

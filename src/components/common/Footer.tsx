@@ -1,4 +1,4 @@
-// src/components/common/Footer.tsx - With Clickable Address
+// src/components/common/Footer.tsx - With Legal Links
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -157,11 +157,47 @@ const Footer = () => {
 
         {/* Bottom section */}
         <div className="border-t border-lightgrey border-opacity-20 pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+            {/* Copyright */}
             <div className="text-center md:text-right">
               <p className="text-lightgrey text-small">
-                © ItayOst כל הזכויות שמורות.
+                © {currentYear} The Fader - Barbershop & Academy. כל הזכויות שמורות.
               </p>
+              <p className="text-lightgrey text-small mt-1">
+                עוצב ופותח על ידי{' '}
+                <a
+                  href="https://itayost.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gold hover:text-white transition-colors duration-200"
+                >
+                  ItayOst
+                </a>
+              </p>
+            </div>
+
+            {/* Legal Links */}
+            <div className="flex flex-wrap justify-center md:justify-end gap-4 md:gap-6">
+              <Link
+                href="/privacy"
+                className="text-lightgrey hover:text-gold transition-colors duration-200 text-small"
+              >
+                מדיניות פרטיות
+              </Link>
+              <span className="text-lightgrey text-small">•</span>
+              <Link
+                href="/accessibility"
+                className="text-lightgrey hover:text-gold transition-colors duration-200 text-small"
+              >
+                הצהרת נגישות
+              </Link>
+              <span className="text-lightgrey text-small">•</span>
+              <Link
+                href="/contact"
+                className="text-lightgrey hover:text-gold transition-colors duration-200 text-small"
+              >
+                צור קשר
+              </Link>
             </div>
           </div>
         </div>

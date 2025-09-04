@@ -1,4 +1,4 @@
-// src/components/common/Footer.tsx - With Legal Links
+// src/components/common/Footer.tsx - With Legal Links and WhatsApp Spacer
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -14,7 +14,7 @@ const Footer = () => {
 
   return (
     <footer
-      className="bg-charcoal border-t border-lightgrey border-opacity-20 pt-16 pb-8 z-50"
+      className="bg-charcoal border-t border-lightgrey border-opacity-20 pt-16 z-50"
       dir="rtl"
     >
       <div className="container-custom">
@@ -155,51 +155,57 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Bottom section */}
+        {/* Bottom section - Centered Layout */}
         <div className="border-t border-lightgrey border-opacity-20 pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-            {/* Copyright */}
-            <div className="text-center md:text-right">
-              <p className="text-lightgrey text-small">
+          <div className="flex flex-col items-center gap-4 max-w-4xl mx-auto">
+            {/* Legal Links - Now at the top and centered */}
+            <div className="flex flex-wrap justify-center gap-4 md:gap-6">
+              <Link
+                href="/privacy"
+                className="text-lightgrey hover:text-gold transition-colors duration-200 text-small font-medium"
+              >
+                מדיניות פרטיות
+              </Link>
+              <span className="text-lightgrey text-small opacity-50">•</span>
+              <Link
+                href="/accessibility"
+                className="text-lightgrey hover:text-gold transition-colors duration-200 text-small font-medium"
+              >
+                הצהרת נגישות
+              </Link>
+              <span className="text-lightgrey text-small opacity-50">•</span>
+              <Link
+                href="/contact"
+                className="text-lightgrey hover:text-gold transition-colors duration-200 text-small font-medium"
+              >
+                צור קשר
+              </Link>
+            </div>
+
+            {/* Divider */}
+            <div className="w-20 h-px bg-gold/30"></div>
+
+            {/* Copyright - Centered */}
+            <div className="text-center">
+              <p className="text-lightgrey text-small mb-1">
                 © {currentYear} The Fader - Barbershop & Academy. כל הזכויות שמורות.
               </p>
-              <p className="text-lightgrey text-small mt-1">
+              <p className="text-lightgrey/70 text-small">
                 עוצב ופותח על ידי{' '}
                 <a
                   href="https://itayost.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-gold hover:text-white transition-colors duration-200"
+                  className="text-gold hover:text-white transition-colors duration-200 font-medium"
                 >
                   ItayOst
                 </a>
               </p>
             </div>
-
-            {/* Legal Links */}
-            <div className="flex flex-wrap justify-center md:justify-end gap-4 md:gap-6">
-              <Link
-                href="/privacy"
-                className="text-lightgrey hover:text-gold transition-colors duration-200 text-small"
-              >
-                מדיניות פרטיות
-              </Link>
-              <span className="text-lightgrey text-small">•</span>
-              <Link
-                href="/accessibility"
-                className="text-lightgrey hover:text-gold transition-colors duration-200 text-small"
-              >
-                הצהרת נגישות
-              </Link>
-              <span className="text-lightgrey text-small">•</span>
-              <Link
-                href="/contact"
-                className="text-lightgrey hover:text-gold transition-colors duration-200 text-small"
-              >
-                צור קשר
-              </Link>
-            </div>
           </div>
+          
+          {/* Extra large spacer to ensure footer content is never hidden behind WhatsApp button */}
+          <div className="h-32 md:h-40" aria-hidden="true"></div>
         </div>
       </div>
     </footer>

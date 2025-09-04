@@ -175,6 +175,7 @@ export default function RootLayout({
   return (
     <html lang="he" dir="rtl" className={`${heebo.variable} ${heeboSecondary.variable}`}>
       <head>
+      <script src="https://cdn.userway.org/widget.js" data-account="7ek953Xjr7"></script>
         {/* רק תגיות שלא קשורות ל-SEO */}
         
         {/* Critical font preloading */}

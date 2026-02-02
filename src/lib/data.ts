@@ -132,8 +132,8 @@ export const courses: Course[] = [
     description_he:
       'קורס עיצוב שיער טרנדי למקצוענים - מיועד לחיזוק יכולות ספציפיות וטכניקות עיצוב מתקדמות.',
     price: 1800,
-    duration: '2 days',
-    duration_he: 'יומיים',
+    duration: '4-8 days',
+    duration_he: '4-8 ימים',
     category: 'advanced',
     featured: true,
     instructor: 'bar',

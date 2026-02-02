@@ -132,8 +132,8 @@ export const courses: Course[] = [
     description_he:
       'קורס עיצוב שיער טרנדי למקצוענים - מיועד לחיזוק יכולות ספציפיות וטכניקות עיצוב מתקדמות.',
     price: 1800,
-    duration: '4-8 days',
-    duration_he: '4-8 ימים',
+    duration: '4-8 hours',
+    duration_he: '4-8 שעות',
     category: 'advanced',
     featured: true,
     instructor: 'bar',
@@ -187,6 +187,26 @@ export const academyTestimonials = [
     instructor: 'בר שם טוב',
     image: '/images/testimonials/sahar.jpg',
     year: 2023,
+  },
+  {
+    id: 6,
+    name: 'אריאל פיטוסי',
+    text: 'הקורס הבסיסי היה בדיוק מה שחיפשתי! למדתי טכניקות מקצועיות מאפס והמדריכים היו סבלניים ותומכים. ממליץ לכל מי שרוצה להתחיל קריירה בספרות.',
+    rating: 5,
+    course: 'קורס ספרות בסיסי',
+    instructor: 'בר שם טוב',
+    image: '/images/testimonials/ariel.webp',
+    year: 2024,
+  },
+  {
+    id: 7,
+    name: 'ינון משיטה',
+    text: 'חוויה מדהימה! הקורס נתן לי את הכלים והביטחון להתחיל לעבוד בתחום. האווירה באקדמיה מעולה והתמיכה של הצוות עזרה לי להתפתח.',
+    rating: 5,
+    course: 'קורס ספרות בסיסי',
+    instructor: 'בר שם טוב',
+    image: '/images/testimonials/yinon.webp',
+    year: 2024,
   },
 ];
 

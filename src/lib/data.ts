@@ -166,7 +166,7 @@ export const academyTestimonials = [
     course: 'קורס ספרות מתקדם',
     instructor: 'בר שם טוב',
     image: '/images/testimonials/itay.jpg',
-    year: 2023,
+    year: 2025,
   },
   {
     id: 4,
@@ -176,7 +176,7 @@ export const academyTestimonials = [
     course: 'קורס ספרות בסיסי',
     instructor: 'בר שם טוב',
     image: '/images/testimonials/meni.jpg',
-    year: 2022,
+    year: 2025,
   },
   {
     id: 5,
@@ -186,7 +186,7 @@ export const academyTestimonials = [
     course: 'קורס ספרות בסיסי',
     instructor: 'בר שם טוב',
     image: '/images/testimonials/sahar.jpg',
-    year: 2023,
+    year: 2025,
   },
   {
     id: 6,
@@ -196,7 +196,7 @@ export const academyTestimonials = [
     course: 'קורס ספרות בסיסי',
     instructor: 'בר שם טוב',
     image: '/images/testimonials/ariel.webp',
-    year: 2024,
+    year: 2026,
   },
   {
     id: 7,
@@ -206,7 +206,7 @@ export const academyTestimonials = [
     course: 'קורס ספרות בסיסי',
     instructor: 'בר שם טוב',
     image: '/images/testimonials/yinon.webp',
-    year: 2024,
+    year: 2026,
   },
 ];
 
